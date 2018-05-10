@@ -115,7 +115,8 @@
 <meta property="og:description" content="正则用的不好，处理HTML文档很累，有没有其他的方法？ 有！那就是XPath，我们可以先将 HTML文件 转换成 XML文档，然后用 XPath 查找 HTML 节点或元素。什么是XML XML 指可扩展标记语言（EXtensible Markup Language） XML 是一种标记语言，很类似 HTML XML 的设计宗旨是传输数据，而非显示数据 XML 的标签需要我们自行定义。 XML 被">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/2018/05/09/2018050922/1.jpg">
-<meta property="og:updated_time" content="2018-05-09T14:47:14.209Z">
+<meta property="og:image" content="http://yoursite.com/2018/05/09/2018050922/2.jpg">
+<meta property="og:updated_time" content="2018-05-10T11:17:10.691Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="XPath与lxnl类库">
 <meta name="twitter:description" content="正则用的不好，处理HTML文档很累，有没有其他的方法？ 有！那就是XPath，我们可以先将 HTML文件 转换成 XML文档，然后用 XPath 查找 HTML 节点或元素。什么是XML XML 指可扩展标记语言（EXtensible Markup Language） XML 是一种标记语言，很类似 HTML XML 的设计宗旨是传输数据，而非显示数据 XML 的标签需要我们自行定义。 XML 被">
@@ -456,10 +457,188 @@ W3School官方文档：http://www.w3school.com.cn/xpath/index.asp
 <li>Chrome插件 XPath Helper</li>
 <li>Firefox插件 XPath Checker<h2 id="选取节点"><a href="#选取节点" class="headerlink" title="选取节点"></a>选取节点</h2>XPath 使用路径表达式来选取 XML 文档中的节点或者节点集。这些路径表达式和我们在常规的电脑文件系统中看到的表达式非常相似。</li>
 </ol>
-<p>下面列出了最常用的路径表达式：<br>| 表达式        | 描述  |<br>| ——–   | —–:  |<br>|   nodename   | 选取此节点的所有子节点。 |<br>|     /   |  从根节点选取。    |<br>|     //    |    从匹配选择的当前节点选择文档中的节点，而不考虑它们的位置。    |<br>|    .    |    选取当前节点。        |<br>|    ..        |    选取当前节点的父节点。    |<br>|    @    |    选取属性。    |</p>
-<p>在下面的表格中，我们已列出了一些路径表达式以及表达式的结果：<br>| |    路径表达式 |    结果|<br>|——–|——-|<br>|bookstore |    选取 bookstore 元素的所有子节点。|<br>|/bookstore |    选取根元素 bookstore。注释：假如路径起始于正斜杠( / )，则此路径始终代表到某元素的绝对路径！|<br>|bookstore/book |    选取属于 bookstore 的子元素的所有 book 元素。|<br>|//book |    选取所有 book 子元素，而不管它们在文档中的位置。|<br>|bookstore//book |    选择属于 bookstore 元素的后代的所有 book 元素，而不管它们位于 bookstore 之下的什么位置。|<br>|//@lang |    选取名为 lang 的所有属性。|</p>
+<p>下面列出了最常用的路径表达式：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>路径表达式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bookstore</td>
+<td>选取 bookstore 元素的所有子节点。</td>
+</tr>
+<tr>
+<td>/bookstore</td>
+<td>选取根元素 bookstore。注释：假如路径起始于正斜杠( / )，则此路径始终代表到某元素的绝对路径！</td>
+</tr>
+<tr>
+<td>bookstore/book</td>
+<td>选取属于 bookstore 的子元素的所有 book 元素。</td>
+</tr>
+<tr>
+<td>//book</td>
+<td>选取所有 book 子元素，而不管它们在文档中的位置。</td>
+</tr>
+<tr>
+<td>bookstore//book</td>
+<td>选择属于 bookstore 元素的后代的所有 book 元素，而不管它们位于 bookstore 之下的什么位置。</td>
+</tr>
+<tr>
+<td>//@lang</td>
+<td>选取名为 lang 的所有属性。</td>
+</tr>
+</tbody>
+</table>
 <h2 id="谓语（Predicates）"><a href="#谓语（Predicates）" class="headerlink" title="谓语（Predicates）"></a>谓语（Predicates）</h2><p>谓语用来查找某个特定的节点或者包含某个指定的值的节点，被嵌在方括号中。</p>
-<p>在下面的表格中，我们列出了带有谓语的一些路径表达式，以及表达式的结果：<br>|路径表达式|     结果|<br>|——|——|<br>|/bookstore/book[1] |    选取属于 bookstore 子元素的第一个 book 元素。|<br>|/bookstore/book[last()]|     选取属于 bookstore 子元素的最后一个 book 元素。|<br>|/bookstore/book[last()-1]|     选取属于 bookstore 子元素的倒数第二个 book 元素。|<br>|/bookstore/book[position()&lt;3]|     选取最前面的两个属于 bookstore 元素的子元素的 book 元素。|<br>|//title[@lang] |    选取所有拥有名为 lang 的属性的 title 元素。|<br>|//title[@lang=’eng’]|     选取所有 title 元素，且这些元素拥有值为 eng 的 lang 属性。|<br>|/bookstore/book[price&gt;35.00] |    选取 bookstore 元素的所有 book 元素，且其中的 price 元素的值须大于 35.00。|<br>|/bookstore/book[price&gt;35.00]/title|     选取 bookstore 元素中的 book 元素的所有 title 元素，且其中的 price 元素的值须大于 35.00。|</p>
+<p>在下面的表格中，我们列出了带有谓语的一些路径表达式，以及表达式的结果：</p>
+<table>
+<thead>
+<tr>
+<th>路径表达式</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>/bookstore/book[1]</td>
+<td>选取属于 bookstore 子元素的第一个 book 元素。</td>
+</tr>
+<tr>
+<td>/bookstore/book[last()]</td>
+<td>选取属于 bookstore 子元素的最后一个 book 元素。</td>
+</tr>
+<tr>
+<td>/bookstore/book[last()-1]</td>
+<td>选取属于 bookstore 子元素的倒数第二个 book 元素。</td>
+</tr>
+<tr>
+<td>/bookstore/book[position()&lt;3]</td>
+<td>选取最前面的两个属于 bookstore 元素的子元素的 book 元素。</td>
+</tr>
+<tr>
+<td>//title[@lang]</td>
+<td>选取所有拥有名为 lang 的属性的 title 元素。</td>
+</tr>
+<tr>
+<td>//title[@lang=’eng’]</td>
+<td>选取所有 title 元素，且这些元素拥有值为 eng 的 lang 属性。</td>
+</tr>
+<tr>
+<td>/bookstore/book[price&gt;35.00]</td>
+<td>选取 bookstore 元素的所有 book 元素，且其中的 price 元素的值须大于 35.00。</td>
+</tr>
+<tr>
+<td>/bookstore/book[price&gt;35.00]/title</td>
+<td>选取 bookstore 元素中的 book 元素的所有 title 元素，且其中的 price 元素的值须大于 35.00。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="选取未知节点"><a href="#选取未知节点" class="headerlink" title="选取未知节点"></a>选取未知节点</h2><p>XPath 通配符可用来选取未知的 XML 元素。</p>
+<table>
+<thead>
+<tr>
+<th>通配符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>*</td>
+<td>匹配任何元素节点。</td>
+</tr>
+<tr>
+<td>@*</td>
+<td>匹配任何属性节点。</td>
+</tr>
+<tr>
+<td>node()</td>
+<td>匹配任何类型的节点。</td>
+</tr>
+</tbody>
+</table>
+<p>在下面的表格中，我们列出了一些路径表达式，以及这些表达式的结果：</p>
+<table>
+<thead>
+<tr>
+<th>路径表达式</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>/bookstore/*</td>
+<td>选取 bookstore 元素的所有子元素。</td>
+</tr>
+<tr>
+<td>//*</td>
+<td>选取文档中的所有元素。</td>
+</tr>
+<tr>
+<td>//title[@*]</td>
+<td>选取所有带有属性的 title 元素。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="选取若干路径"><a href="#选取若干路径" class="headerlink" title="选取若干路径"></a>选取若干路径</h2><p>通过在路径表达式中使用“|”运算符，您可以选取若干个路径。</p>
+<p>实例</p>
+<p>在下面的表格中，我们列出了一些路径表达式，以及这些表达式的结果：</p>
+<table>
+<thead>
+<tr>
+<th>路径表达式</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>//book/title  //book/price</td>
+<td>选取 book 元素的所有 title 和 price 元素。</td>
+</tr>
+<tr>
+<td>//title  //price</td>
+<td>选取文档中的所有 title 和 price 元素。</td>
+</tr>
+<tr>
+<td>/bookstore/book/title  //price</td>
+<td>选取属于 bookstore 元素的 book 元素的所有 title 元素，以及文档中所有的 price 元素。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="XPath的运算符"><a href="#XPath的运算符" class="headerlink" title="XPath的运算符"></a>XPath的运算符</h2><p>下面列出了可用在 XPath 表达式中的运算符：</p>
+<img src="/2018/05/09/2018050922/2.jpg">
+<p><strong>这些就是XPath的语法内容，在运用到Python抓取时要先转换为xml。</strong></p>
+<h1 id="lxml库"><a href="#lxml库" class="headerlink" title="lxml库"></a>lxml库</h1><pre><code>lxml 是 一个HTML/XML的解析器，主要的功能是如何解析和提取 HTML/XML 数据。
+
+lxml和正则一样，也是用 C 实现的，是一款高性能的 Python HTML/XML 解析器，我们可以利用之前学习的XPath语法，来快速的定位特定元素以及节点信息。
+
+lxml python 官方文档：http://lxml.de/index.html
+
+需要安装C语言库，可使用 pip 安装：pip install lxml （或通过wheel方式安装）
+</code></pre><h2 id="初步使用"><a href="#初步使用" class="headerlink" title="初步使用"></a>初步使用</h2><p>我们利用它来解析 HTML 代码，简单示例：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># lxml_test.py</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 lxml 的 etree 库</span></span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree </span><br><span class="line"></span><br><span class="line">text = <span class="string">'''</span></span><br><span class="line"><span class="string">&lt;div&gt;</span></span><br><span class="line"><span class="string">    &lt;ul&gt;</span></span><br><span class="line"><span class="string">         &lt;li class="item-0"&gt;&lt;a href="link1.html"&gt;first item&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="string">         &lt;li class="item-1"&gt;&lt;a href="link2.html"&gt;second item&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="string">         &lt;li class="item-inactive"&gt;&lt;a href="link3.html"&gt;third item&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="string">         &lt;li class="item-1"&gt;&lt;a href="link4.html"&gt;fourth item&lt;/a&gt;&lt;/li&gt;</span></span><br><span class="line"><span class="string">         &lt;li class="item-0"&gt;&lt;a href="link5.html"&gt;fifth item&lt;/a&gt; # 注意，此处缺少一个 &lt;/li&gt; 闭合标签</span></span><br><span class="line"><span class="string">     &lt;/ul&gt;</span></span><br><span class="line"><span class="string"> &lt;/div&gt;</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#利用etree.HTML，将字符串解析为HTML文档</span></span><br><span class="line">html = etree.HTML(text) </span><br><span class="line"></span><br><span class="line"><span class="comment"># 按字符串序列化HTML文档</span></span><br><span class="line">result = etree.tostring(html) </span><br><span class="line"></span><br><span class="line">print(result)</span><br></pre></td></tr></table></figure></p>
+<p>输出结果：<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;&lt;body&gt;</span><br><span class="line">&lt;div&gt;</span><br><span class="line">    &lt;ul&gt;</span><br><span class="line">         &lt;li class="item-0"&gt;&lt;a href="link1.html"&gt;first item&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">         &lt;li class="item-1"&gt;&lt;a href="link2.html"&gt;second item&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">         &lt;li class="item-inactive"&gt;&lt;a href="link3.html"&gt;third item&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">         &lt;li class="item-1"&gt;&lt;a href="link4.html"&gt;fourth item&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">         &lt;li class="item-0"&gt;&lt;a href="link5.html"&gt;fifth item&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">&lt;/ul&gt;</span><br><span class="line"> &lt;/div&gt;</span><br><span class="line">&lt;/body&gt;&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
+<p>lxml 可以自动修正 html 代码，例子里不仅补全了 li 标签，还添加了 body，html 标签。</p>
+<h2 id="文件读取："><a href="#文件读取：" class="headerlink" title="文件读取："></a>文件读取：</h2><p>除了直接读取字符串，lxml还支持从文件里读取内容。我们新建一个hello.html文件：<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- hello.html --&gt;</span><br><span class="line"></span><br><span class="line">&lt;div&gt;</span><br><span class="line">    &lt;ul&gt;</span><br><span class="line">         &lt;li class="item-0"&gt;&lt;a href="link1.html"&gt;first item&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">         &lt;li class="item-1"&gt;&lt;a href="link2.html"&gt;second item&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">         &lt;li class="item-inactive"&gt;&lt;a href="link3.html"&gt;&lt;span class="bold"&gt;third item&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">         &lt;li class="item-1"&gt;&lt;a href="link4.html"&gt;fourth item&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">         &lt;li class="item-0"&gt;&lt;a href="link5.html"&gt;fifth item&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">     &lt;/ul&gt;</span><br><span class="line"> &lt;/div&gt;</span><br></pre></td></tr></table></figure></p>
+<p>再利用 etree.parse() 方法来读取文件。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># lxml_parse.py</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line"><span class="comment"># 读取外部文件 hello.html</span></span><br><span class="line">html = etree.parse(<span class="string">'./hello.html'</span>)</span><br><span class="line">result = etree.tostring(html, pretty_print=<span class="keyword">True</span>)</span><br><span class="line"></span><br><span class="line">print(result)</span><br></pre></td></tr></table></figure></p>
+<p>输出结果与之前相同：<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;&lt;body&gt;</span><br><span class="line">&lt;div&gt;</span><br><span class="line">    &lt;ul&gt;</span><br><span class="line">         &lt;li class="item-0"&gt;&lt;a href="link1.html"&gt;first item&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">         &lt;li class="item-1"&gt;&lt;a href="link2.html"&gt;second item&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">         &lt;li class="item-inactive"&gt;&lt;a href="link3.html"&gt;third item&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">         &lt;li class="item-1"&gt;&lt;a href="link4.html"&gt;fourth item&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">         &lt;li class="item-0"&gt;&lt;a href="link5.html"&gt;fifth item&lt;/a&gt;&lt;/li&gt;</span><br><span class="line">&lt;/ul&gt;</span><br><span class="line"> &lt;/div&gt;</span><br><span class="line">&lt;/body&gt;&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
+<h2 id="XPath实例测试"><a href="#XPath实例测试" class="headerlink" title="XPath实例测试"></a>XPath实例测试</h2><p><strong>1. 获取所有的 <li> 标签</li></strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># xpath_li.py</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">html = etree.parse(<span class="string">'hello.html'</span>)</span><br><span class="line"><span class="keyword">print</span> type(html)  <span class="comment"># 显示etree.parse() 返回类型</span></span><br><span class="line"></span><br><span class="line">result = html.xpath(<span class="string">'//li'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> result  <span class="comment"># 打印&lt;li&gt;标签的元素集合</span></span><br><span class="line"><span class="keyword">print</span> len(result)</span><br><span class="line"><span class="keyword">print</span> type(result)</span><br><span class="line"><span class="keyword">print</span> type(result[<span class="number">0</span>])</span><br></pre></td></tr></table></figure></p>
+<p>输出结果：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;type <span class="string">'lxml.etree._ElementTree'</span>&gt;</span><br><span class="line">[&lt;Element li at <span class="number">0x1014e0e18</span>&gt;, &lt;Element li at <span class="number">0x1014e0ef0</span>&gt;, &lt;Element li at <span class="number">0x1014e0f38</span>&gt;, &lt;Element li at <span class="number">0x1014e0f80</span>&gt;, &lt;Element li at <span class="number">0x1014e0fc8</span>&gt;]</span><br><span class="line"><span class="number">5</span></span><br><span class="line">&lt;type <span class="string">'list'</span>&gt;</span><br><span class="line">&lt;type <span class="string">'lxml.etree._Element'</span>&gt;</span><br></pre></td></tr></table></figure></p>
+<p><strong>2. 继续获取<li> 标签的所有 class属性</li></strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># xpath_li.py</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">html = etree.parse(<span class="string">'hello.html'</span>)</span><br><span class="line">result = html.xpath(<span class="string">'//li/@class'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> result</span><br></pre></td></tr></table></figure></p>
+<p>运行结果<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">'item-0'</span>, <span class="string">'item-1'</span>, <span class="string">'item-inactive'</span>, <span class="string">'item-1'</span>, <span class="string">'item-0'</span>]</span><br></pre></td></tr></table></figure></p>
+<p><strong>3. 继续获取<li>标签下hre 为 link1.html 的 <a> 标签</a></li></strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># xpath_li.py</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">html = etree.parse(<span class="string">'hello.html'</span>)</span><br><span class="line">result = html.xpath(<span class="string">'//li/a[@href="link1.html"]'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> result</span><br></pre></td></tr></table></figure></p>
+<p>运行结果<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[&lt;Element a at <span class="number">0x10ffaae18</span>&gt;]</span><br></pre></td></tr></table></figure></p>
+<p><strong>4. 获取<li> 标签下的所有 <span> 标签</span></li></strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># xpath_li.py</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">html = etree.parse(<span class="string">'hello.html'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#result = html.xpath('//li/span')</span></span><br><span class="line"><span class="comment">#注意这么写是不对的：</span></span><br><span class="line"><span class="comment">#因为 / 是用来获取子元素的，而 &lt;span&gt; 并不是 &lt;li&gt; 的子元素，所以，要用双斜杠</span></span><br><span class="line"></span><br><span class="line">result = html.xpath(<span class="string">'//li//span'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> result</span><br></pre></td></tr></table></figure></p>
+<p>运行结果<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[&lt;Element span at <span class="number">0x10d698e18</span>&gt;]</span><br></pre></td></tr></table></figure></p>
+<p><strong>5. 获取 <li> 标签下的<a>标签里的所有 class</a></li></strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># xpath_li.py</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">html = etree.parse(<span class="string">'hello.html'</span>)</span><br><span class="line">result = html.xpath(<span class="string">'//li/a//@class'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> result</span><br></pre></td></tr></table></figure></p>
+<p>运行结果<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">'blod'</span>]</span><br></pre></td></tr></table></figure></p>
+<p><strong>6. 获取最后一个 <li> 的 <a> 的 href</a></li></strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># xpath_li.py</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">html = etree.parse(<span class="string">'hello.html'</span>)</span><br><span class="line"></span><br><span class="line">result = html.xpath(<span class="string">'//li[last()]/a/@href'</span>)</span><br><span class="line"><span class="comment"># 谓语 [last()] 可以找到最后一个元素</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> result</span><br></pre></td></tr></table></figure></p>
+<p>运行结果<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">'link5.html'</span>]</span><br></pre></td></tr></table></figure></p>
+<p><strong>7. 获取倒数第二个元素的内容</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># xpath_li.py</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">html = etree.parse(<span class="string">'hello.html'</span>)</span><br><span class="line">result = html.xpath(<span class="string">'//li[last()-1]/a'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># text 方法可以获取元素内容</span></span><br><span class="line"><span class="keyword">print</span> result[<span class="number">0</span>].text</span><br></pre></td></tr></table></figure></p>
+<p>运行结果<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fourth item</span><br></pre></td></tr></table></figure></p>
+<p><strong>8. 获取 class 值为 bold 的标签名</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># xpath_li.py</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">html = etree.parse(<span class="string">'hello.html'</span>)</span><br><span class="line"></span><br><span class="line">result = html.xpath(<span class="string">'//*[@class="bold"]'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># tag方法可以获取标签名</span></span><br><span class="line"><span class="keyword">print</span> result[<span class="number">0</span>].tag</span><br></pre></td></tr></table></figure></p>
+<p>运行结果<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">span</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -502,6 +681,10 @@ W3School官方文档：http://www.w3school.com.cn/xpath/index.asp
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/10/2018051019/" rel="prev" title="案例：使用XPath的爬虫">
+                案例：使用XPath的爬虫 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -579,7 +762,7 @@ W3School官方文档：http://www.w3school.com.cn/xpath/index.asp
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-count">13</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -649,7 +832,7 @@ W3School官方文档：http://www.w3school.com.cn/xpath/index.asp
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#有！那就是XPath，我们可以先将-HTML文件-转换成-XML文档，然后用-XPath-查找-HTML-节点或元素。"><span class="nav-number">1.</span> <span class="nav-text">有！那就是XPath，我们可以先将 HTML文件 转换成 XML文档，然后用 XPath 查找 HTML 节点或元素。</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是XML"><span class="nav-number"></span> <span class="nav-text">什么是XML</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#XML-和-HTML-的区别"><span class="nav-number">1.</span> <span class="nav-text">XML 和 HTML 的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#XML文档示例"><span class="nav-number">1.1.</span> <span class="nav-text">XML文档示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTML-DOM-模型示例"><span class="nav-number">1.2.</span> <span class="nav-text">HTML DOM 模型示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#XML的节点关系"><span class="nav-number">2.</span> <span class="nav-text">XML的节点关系</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是XPath？"><span class="nav-number"></span> <span class="nav-text">什么是XPath？</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#XPath-开发工具"><span class="nav-number">1.</span> <span class="nav-text">XPath 开发工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#选取节点"><span class="nav-number">2.</span> <span class="nav-text">选取节点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#谓语（Predicates）"><span class="nav-number">3.</span> <span class="nav-text">谓语（Predicates）</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#有！那就是XPath，我们可以先将-HTML文件-转换成-XML文档，然后用-XPath-查找-HTML-节点或元素。"><span class="nav-number">1.</span> <span class="nav-text">有！那就是XPath，我们可以先将 HTML文件 转换成 XML文档，然后用 XPath 查找 HTML 节点或元素。</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是XML"><span class="nav-number"></span> <span class="nav-text">什么是XML</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#XML-和-HTML-的区别"><span class="nav-number">1.</span> <span class="nav-text">XML 和 HTML 的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#XML文档示例"><span class="nav-number">1.1.</span> <span class="nav-text">XML文档示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTML-DOM-模型示例"><span class="nav-number">1.2.</span> <span class="nav-text">HTML DOM 模型示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#XML的节点关系"><span class="nav-number">2.</span> <span class="nav-text">XML的节点关系</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是XPath？"><span class="nav-number"></span> <span class="nav-text">什么是XPath？</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#XPath-开发工具"><span class="nav-number">1.</span> <span class="nav-text">XPath 开发工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#选取节点"><span class="nav-number">2.</span> <span class="nav-text">选取节点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#谓语（Predicates）"><span class="nav-number">3.</span> <span class="nav-text">谓语（Predicates）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#选取未知节点"><span class="nav-number">4.</span> <span class="nav-text">选取未知节点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#选取若干路径"><span class="nav-number">5.</span> <span class="nav-text">选取若干路径</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#XPath的运算符"><span class="nav-number">6.</span> <span class="nav-text">XPath的运算符</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#lxml库"><span class="nav-number"></span> <span class="nav-text">lxml库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#初步使用"><span class="nav-number">1.</span> <span class="nav-text">初步使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件读取："><span class="nav-number">2.</span> <span class="nav-text">文件读取：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#XPath实例测试"><span class="nav-number">3.</span> <span class="nav-text">XPath实例测试</span></a></li></ol></div>
             
 
           </div>
@@ -698,7 +881,7 @@ W3School官方文档：http://www.w3school.com.cn/xpath/index.asp
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共23.6k字</span>
+  <span class="post-count">博客全站共25.7k字</span>
 </div>
         
 
