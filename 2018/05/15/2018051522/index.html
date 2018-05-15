@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.6" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.0.6">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.0.6" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.0.6',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="处理给规范的文字你要处理的大多数文字都是比较干净、格式规范的。格式规范的文字通常可以满足一些需求,不过究竟什么是“格式混乱”,什么算“格式规范”,确实因人而异。 通常,格式规范的文字具有以下特点:  使用一个标准字体(不包含手写体、草书,或者十分“花哨的”字体) 虽然被复印或拍照,字体还是很清晰,没有多余的痕迹或污点 排列整齐,没有歪歪斜斜的字 没有超出图片范围,也没有残缺不全,或紧紧贴在图片的边">
+<meta name="keywords" content="动态HTML处理和机器图像识别">
+<meta property="og:type" content="article">
+<meta property="og:title" content="处理一些规范格式的文字">
+<meta property="og:url" content="http://yoursite.com/2018/05/15/2018051522/index.html">
+<meta property="og:site_name" content="Dynamic-Soul">
+<meta property="og:description" content="处理给规范的文字你要处理的大多数文字都是比较干净、格式规范的。格式规范的文字通常可以满足一些需求,不过究竟什么是“格式混乱”,什么算“格式规范”,确实因人而异。 通常,格式规范的文字具有以下特点:  使用一个标准字体(不包含手写体、草书,或者十分“花哨的”字体) 虽然被复印或拍照,字体还是很清晰,没有多余的痕迹或污点 排列整齐,没有歪歪斜斜的字 没有超出图片范围,也没有残缺不全,或紧紧贴在图片的边">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2018/05/15/2018051522/1.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/05/15/2018051522/2.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/05/15/2018051522/3.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/05/15/2018051522/4.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/05/15/2018051522/5.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/05/15/2018051522/6.jpg">
+<meta property="og:updated_time" content="2018-05-15T13:13:11.020Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="处理一些规范格式的文字">
+<meta name="twitter:description" content="处理给规范的文字你要处理的大多数文字都是比较干净、格式规范的。格式规范的文字通常可以满足一些需求,不过究竟什么是“格式混乱”,什么算“格式规范”,确实因人而异。 通常,格式规范的文字具有以下特点:  使用一个标准字体(不包含手写体、草书,或者十分“花哨的”字体) 虽然被复印或拍照,字体还是很清晰,没有多余的痕迹或污点 排列整齐,没有歪歪斜斜的字 没有超出图片范围,也没有残缺不全,或紧紧贴在图片的边">
+<meta name="twitter:image" content="http://yoursite.com/2018/05/15/2018051522/1.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/15/2018051522/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>处理一些规范格式的文字 | Dynamic-Soul</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <a href="https://github.com/dynamic-soul"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Dynamic-Soul</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+</li>
+
+      
+
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/15/2018051522/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Q">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dynamic-Soul">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">处理一些规范格式的文字</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-15T21:02:46+08:00">2018-05-15</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="处理给规范的文字"><a href="#处理给规范的文字" class="headerlink" title="处理给规范的文字"></a>处理给规范的文字</h1><p>你要处理的大多数文字都是比较干净、格式规范的。格式规范的文字通常可以满足一些需求,不过究竟什么是“格式混乱”,什么算“格式规范”,确实因人而异。 通常,格式规范的文字具有以下特点:</p>
+<ul>
+<li>使用一个标准字体(不包含手写体、草书,或者十分“花哨的”字体) 虽然被复印或拍照,字体还是很清晰,没有多余的痕迹或污点</li>
+<li>排列整齐,没有歪歪斜斜的字</li>
+<li>没有超出图片范围,也没有残缺不全,或紧紧贴在图片的边缘</li>
+</ul>
+<p>文字的一些格式问题在图片预处理时可以进行解决。例如,可以把图片转换成灰度图,调 整亮度和对比度,还可以根据需要进行裁剪和旋转（详情请关注图像与信号处理），但是,这些做法在进行更具扩展性的 训练时会遇到一些限制。</p>
+<h2 id="格式规范文字的理想示例"><a href="#格式规范文字的理想示例" class="headerlink" title="格式规范文字的理想示例"></a>格式规范文字的理想示例</h2><img src="/2018/05/15/2018051522/1.jpg">
+<p>通过下面的命令运行 Tesseract，读取文件并把结果写到一个文本文件中: `tesseract test.jpg text</p>
+<img src="/2018/05/15/2018051522/2.jpg">
+<p>cat text.txt 即可显示结果。</p>
+<p>识别结果很准确,不过符号^和*分别被表示成了双引号和单引号。大体上可以让你很舒服地阅读。</p>
+<h2 id="通过Python代码实现"><a href="#通过Python代码实现" class="headerlink" title="通过Python代码实现"></a>通过Python代码实现</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pytesseract</span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"></span><br><span class="line">image = Image.open(<span class="string">'test.jpg'</span>)</span><br><span class="line">text = pytesseract.image_to_string(image)</span><br><span class="line"><span class="keyword">print</span> text</span><br></pre></td></tr></table></figure>
+<p>运行结果：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">This <span class="keyword">is</span> some text, written <span class="keyword">in</span> Arial, that will be read by</span><br><span class="line">Tesseract. Here are some symbols: !@<span class="comment">#$%"&amp;*()</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="对图片进行阈值过滤和降噪处理"><a href="#对图片进行阈值过滤和降噪处理" class="headerlink" title="对图片进行阈值过滤和降噪处理"></a>对图片进行阈值过滤和降噪处理</h2><p>很多时候我们在网上会看到这样的图片：</p>
+<img src="/2018/05/15/2018051522/3.jpg">
+<p>Tesseract 不能完整处理这个图片,主要是因为图片背景色是渐变的,最终结果是这样:</p>
+<img src="/2018/05/15/2018051522/4.jpg">
+<p>随着背景色从左到右不断加深,文字变得越来越难以识别,Tesseract 识别出的 每一行的最后几个字符都是错的。</p>
+<p>遇到这类问题,可以先用 Python 脚本对图片进行清理。利用 Pillow 库,我们可以创建一个 阈值过滤器来去掉渐变的背景色,只把文字留下来,从而让图片更加清晰,便于 Tesseract 读取:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image </span><br><span class="line"><span class="keyword">import</span> subprocess</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cleanFile</span><span class="params">(filePath, newFilePath)</span>:</span> </span><br><span class="line">    image = Image.open(filePath)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 对图片进行阈值过滤,然后保存</span></span><br><span class="line">    image = image.point(<span class="keyword">lambda</span> x: <span class="number">0</span> <span class="keyword">if</span> x&lt;<span class="number">143</span> <span class="keyword">else</span> <span class="number">255</span>)     </span><br><span class="line">    image.save(newFilePath)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 调用系统的tesseract命令对图片进行OCR识别     </span></span><br><span class="line">    subprocess.call([<span class="string">"tesseract"</span>, newFilePath, <span class="string">"output"</span>])</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 打开文件读取结果</span></span><br><span class="line">    file = open(<span class="string">"output.txt"</span>, <span class="string">'r'</span>)     </span><br><span class="line">    print(file.read()) </span><br><span class="line">    file.close()</span><br><span class="line"></span><br><span class="line">cleanFile(<span class="string">"text2.jpg"</span>, <span class="string">"text2clean.png"</span>)</span><br></pre></td></tr></table></figure></p>
+<p>通过一个阈值对前面的“模糊”图片进行过滤的结果</p>
+<img src="/2018/05/15/2018051522/5.jpg">
+<p>除了一些标点符号不太清晰或丢失了,大部分文字都被读出来了。Tesseract 给出了最好的 结果:</p>
+<img src="/2018/05/15/2018051522/6.jpg">
+<h2 id="从网站图片中抓取文字"><a href="#从网站图片中抓取文字" class="headerlink" title="从网站图片中抓取文字"></a>从网站图片中抓取文字</h2><p>用 Tesseract 读取硬盘里图片上的文字,可能不怎么令人兴奋,但当我们把它和网络爬虫组合使用时,就能成为一个强大的工具。</p>
+<p>网站上的图片可能并不是故意把文字做得很花哨 (就像餐馆菜单的 JPG 图片上的艺术字),但它们上面的文字对网络爬虫来说就是隐藏起来 了，举个例子：</p>
+<ul>
+<li><p>虽然亚马逊的 robots.txt 文件允许抓取网站的产品页面,但是图书的预览页通常不让网络机 器人采集。</p>
+</li>
+<li><p>图书的预览页是通过用户触发 Ajax 脚本进行加载的,预览图片隐藏在 div 节点 下面;其实,普通的访问者会觉得它们看起来更像是一个 Flash 动画,而不是一个图片文 件。当然,即使我们能获得图片,要把它们读成文字也没那么简单。</p>
+</li>
+<li><p>下面的程序就解决了这个问题:首先导航到托尔斯泰的《战争与和平》的大字号印刷版 1, 打开阅读器,收集图片的 URL 链接,然后下载图片,识别图片,最后打印每个图片的文 字。因为这个程序很复杂,利用了前面几章的多个程序片段,所以我增加了一些注释以让 每段代码的目的更加清晰:</p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> urllib.request <span class="keyword">import</span> urlretrieve </span><br><span class="line"><span class="keyword">import</span> subprocess</span><br><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="comment">#创建新的Selenium driver</span></span><br><span class="line">driver = webdriver.PhantomJS()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 用Selenium试试Firefox浏览器:</span></span><br><span class="line"><span class="comment"># driver = webdriver.Firefox()</span></span><br><span class="line"></span><br><span class="line">driver.get(<span class="string">"http://www.amazon.com/War-Peace-Leo-Nikolayevich-Tolstoy/dp/1427030200"</span>)</span><br><span class="line"><span class="comment"># 单击图书预览按钮 driver.find_element_by_id("sitbLogoImg").click() imageList = set()</span></span><br><span class="line"><span class="comment"># 等待页面加载完成</span></span><br><span class="line">time.sleep(<span class="number">5</span>)</span><br><span class="line"><span class="comment"># 当向右箭头可以点击时,开始翻页</span></span><br><span class="line"><span class="keyword">while</span> <span class="string">"pointer"</span> <span class="keyword">in</span> driver.find_element_by_id(<span class="string">"sitbReaderRightPageTurner"</span>).get_attribute(<span class="string">"style"</span>):</span><br><span class="line">    driver.find_element_by_id(<span class="string">"sitbReaderRightPageTurner"</span>).click()</span><br><span class="line">    time.sleep(<span class="number">2</span>)</span><br><span class="line">    <span class="comment"># 获取已加载的新页面(一次可以加载多个页面,但是重复的页面不能加载到集合中) </span></span><br><span class="line">    pages = driver.find_elements_by_xpath(<span class="string">"//div[@class='pageImage']/div/img"</span>) </span><br><span class="line">    <span class="keyword">for</span> page <span class="keyword">in</span> pages:</span><br><span class="line">        image = page.get_attribute(<span class="string">"src"</span>)</span><br><span class="line">        imageList.add(image)</span><br><span class="line">driver.quit()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 用Tesseract处理我们收集的图片URL链接 </span></span><br><span class="line"><span class="keyword">for</span> image <span class="keyword">in</span> sorted(imageList):</span><br><span class="line">    <span class="comment"># 保存图片</span></span><br><span class="line">    urlretrieve(image, <span class="string">"page.jpg"</span>)</span><br><span class="line">    p = subprocess.Popen([<span class="string">"tesseract"</span>, <span class="string">"page.jpg"</span>, <span class="string">"page"</span>], stdout=subprocess.PIPE,stderr=subprocess.PIPE)</span><br><span class="line">    f = open(<span class="string">"page.txt"</span>, <span class="string">"r"</span>)</span><br><span class="line">    p.wait() print(f.read())</span><br></pre></td></tr></table></figure>
+<p>和我们前面使用 Tesseract 读取的效果一样,这个程序也会完美地打印书中很多长长的段 落,第六页的预览如下所示:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"A word of friendly advice, mon</span></span><br><span class="line"><span class="string">    cher. Be off as soon as you can,</span></span><br><span class="line"><span class="string">    that's all I have to tell you. Happy</span></span><br><span class="line"><span class="string">    he who has ears to hear. Good-by,</span></span><br><span class="line"><span class="string">    my dear fellow. Oh, by the by!"</span> he</span><br><span class="line">    shouted through the doorway after</span><br><span class="line">    Pierre, <span class="string">"is it true that the countess</span></span><br><span class="line"><span class="string">    has fallen into the clutches of the</span></span><br><span class="line"><span class="string">    holy fathers of the Society of je-</span></span><br><span class="line"><span class="string">    sus?"</span></span><br><span class="line"></span><br><span class="line">    Pierre did <span class="keyword">not</span> answer <span class="keyword">and</span> left Ros-</span><br><span class="line">    topchin<span class="string">'s room more sullen and an-</span></span><br><span class="line"><span class="string">    gry than he had ever before shown</span></span><br><span class="line"><span class="string">    himself.</span></span><br></pre></td></tr></table></figure>
+<p>但是,当文字出现在彩色封面上时,结果就不那么完美了:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">WEI<span class="string">' nrrd Peace</span></span><br><span class="line"><span class="string">   Len Nlkelayevldu Iolfluy</span></span><br><span class="line"><span class="string">   Readmg shmdd be ax</span></span><br><span class="line"><span class="string">   wlnvame asnossxble Wenfler</span></span><br><span class="line"><span class="string">   an mm m our cram: Llhvary</span></span><br><span class="line"><span class="string">    - Leo Tmsloy was a Russian rwovelwst</span></span><br><span class="line"><span class="string">    I and moval phflmopher med lur</span></span><br><span class="line"><span class="string">    A ms Ideas 01 nonviolenx reswslance m 5 We range     0, "and"</span></span><br></pre></td></tr></table></figure>
+<p>如果想把文字加工成普通人可以看懂的 效果,还需要花很多时间去处理。</p>
+<p>下一节将介绍另一种方法来解决文字混乱的问题,尤其是当你愿意花一点儿时间训练 Tesseract 的时候。</p>
+<p>通过给 Tesseract 提供大量已知的文字与图片映射集,经过训练 Tesseract 就可以“学会”识别同一种字体,而且可以达到极高的精确率和准确率,甚至可以忽略图 片中文字的背景色和相对位置等问题。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/动态HTML处理和机器图像识别/" rel="tag"># 动态HTML处理和机器图像识别</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/15/2018051521/" rel="next" title="机器视觉与Tesseract介绍">
+                <i class="fa fa-chevron-left"></i> 机器视觉与Tesseract介绍
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/15/2018051523/" rel="prev" title="案例：尝试对知乎网验证码进行处理">
+                案例：尝试对知乎网验证码进行处理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="Mr.Q" />
+            
+              <p class="site-author-name" itemprop="name">Mr.Q</p>
+              <p class="site-description motion-element" itemprop="description">我希望时间没有流走，世界还停在过去，昏黄的光还照在旧日的路上，我刚刚走过，恰与你们相识。</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">26</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#处理给规范的文字"><span class="nav-number">1.</span> <span class="nav-text">处理给规范的文字</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#格式规范文字的理想示例"><span class="nav-number">1.1.</span> <span class="nav-text">格式规范文字的理想示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通过Python代码实现"><span class="nav-number">1.2.</span> <span class="nav-text">通过Python代码实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对图片进行阈值过滤和降噪处理"><span class="nav-number">1.3.</span> <span class="nav-text">对图片进行阈值过滤和降噪处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#从网站图片中抓取文字"><span class="nav-number">1.4.</span> <span class="nav-text">从网站图片中抓取文字</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mr.Q</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Gemini</a> v6.0.6</div>
+
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共37.8k字</span>
+</div>
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.6"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.0.6"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.6"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.6"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.6"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+</body>
+</html>
