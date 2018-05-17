@@ -106,25 +106,25 @@
 
 
 
-  <meta name="description" content="案例一：网站模拟登录1234567891011121314151617181920212223242526# douban.pyfrom selenium import webdriverfrom selenium.webdriver.common.keys import Keysimport timedriver = webdriver.PhantomJS()driver.get(&quot;http:/">
-<meta name="keywords" content="动态HTML处理和机器图像识别">
+  <meta name="description" content="Item Pipeline当Item在Spider中被收集之后，它将会被传递到Item Pipeline，这些Item Pipeline组件按定义的顺序处理Item。 每个Item Pipeline都是实现了简单方法的Python类，比如决定此Item是丢弃而存储。以下是item pipeline的一些典型应用：  验证爬取的数据(检查item包含某些字段，比如说name字段) 查重(并丢弃) 将">
+<meta name="keywords" content="Scrapy框架">
 <meta property="og:type" content="article">
-<meta property="og:title" content="案例一：网站模拟登陆">
-<meta property="og:url" content="http://yoursite.com/2018/05/14/2018051421/index.html">
+<meta property="og:title" content="Item Pipeline">
+<meta property="og:url" content="http://yoursite.com/2018/05/17/2018051722/index.html">
 <meta property="og:site_name" content="Dynamic-Soul">
-<meta property="og:description" content="案例一：网站模拟登录1234567891011121314151617181920212223242526# douban.pyfrom selenium import webdriverfrom selenium.webdriver.common.keys import Keysimport timedriver = webdriver.PhantomJS()driver.get(&quot;http:/">
+<meta property="og:description" content="Item Pipeline当Item在Spider中被收集之后，它将会被传递到Item Pipeline，这些Item Pipeline组件按定义的顺序处理Item。 每个Item Pipeline都是实现了简单方法的Python类，比如决定此Item是丢弃而存储。以下是item pipeline的一些典型应用：  验证爬取的数据(检查item包含某些字段，比如说name字段) 查重(并丢弃) 将">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-05-14T13:11:12.739Z">
+<meta property="og:updated_time" content="2018-05-17T13:47:58.481Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="案例一：网站模拟登陆">
-<meta name="twitter:description" content="案例一：网站模拟登录1234567891011121314151617181920212223242526# douban.pyfrom selenium import webdriverfrom selenium.webdriver.common.keys import Keysimport timedriver = webdriver.PhantomJS()driver.get(&quot;http:/">
+<meta name="twitter:title" content="Item Pipeline">
+<meta name="twitter:description" content="Item Pipeline当Item在Spider中被收集之后，它将会被传递到Item Pipeline，这些Item Pipeline组件按定义的顺序处理Item。 每个Item Pipeline都是实现了简单方法的Python类，比如决定此Item是丢弃而存储。以下是item pipeline的一些典型应用：  验证爬取的数据(检查item包含某些字段，比如说name字段) 查重(并丢弃) 将">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/05/14/2018051421/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/05/17/2018051722/"/>
 
 
 
@@ -134,7 +134,7 @@
   };
 </script>
 
-  <title>案例一：网站模拟登陆 | Dynamic-Soul</title>
+  <title>Item Pipeline | Dynamic-Soul</title>
   
 
 
@@ -312,7 +312,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/14/2018051421/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/17/2018051722/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Mr.Q">
@@ -329,7 +329,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">案例一：网站模拟登陆</h1>
+          <h1 class="post-title" itemprop="name headline">Item Pipeline</h1>
         
 
         <div class="post-meta">
@@ -341,7 +341,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-14T21:08:06+08:00">2018-05-14</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-17T21:36:38+08:00">2018-05-17</time>
             
 
             
@@ -396,7 +396,23 @@
       
 
       
-        <h1 id="案例一：网站模拟登录"><a href="#案例一：网站模拟登录" class="headerlink" title="案例一：网站模拟登录"></a>案例一：网站模拟登录</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># douban.py</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.common.keys <span class="keyword">import</span> Keys</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">driver = webdriver.PhantomJS()</span><br><span class="line">driver.get(<span class="string">"http://www.douban.com"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输入账号密码</span></span><br><span class="line">driver.find_element_by_name(<span class="string">"form_email"</span>).send_keys(<span class="string">"xxxxx@xxxx.com"</span>)</span><br><span class="line">driver.find_element_by_name(<span class="string">"form_password"</span>).send_keys(<span class="string">"xxxxxxxx"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 模拟点击登录</span></span><br><span class="line">driver.find_element_by_xpath(<span class="string">"//input[@class='bn-submit']"</span>).click()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 等待3秒</span></span><br><span class="line">time.sleep(<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成登陆后快照</span></span><br><span class="line">driver.save_screenshot(<span class="string">"douban.png"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">"douban.html"</span>, <span class="string">"w"</span>) <span class="keyword">as</span> file:</span><br><span class="line">    file.write(driver.page_source)</span><br><span class="line"></span><br><span class="line">driver.quit()</span><br></pre></td></tr></table></figure>
+        <h1 id="Item-Pipeline"><a href="#Item-Pipeline" class="headerlink" title="Item Pipeline"></a>Item Pipeline</h1><p>当Item在Spider中被收集之后，它将会被传递到Item Pipeline，这些Item Pipeline组件按定义的顺序处理Item。</p>
+<p>每个Item Pipeline都是实现了简单方法的Python类，比如决定此Item是丢弃而存储。以下是item pipeline的一些典型应用：</p>
+<ul>
+<li>验证爬取的数据(检查item包含某些字段，比如说name字段)</li>
+<li>查重(并丢弃)</li>
+<li>将爬取结果保存到文件或者数据库中</li>
+</ul>
+<h2 id="编写item-pipeline"><a href="#编写item-pipeline" class="headerlink" title="编写item pipeline"></a>编写item pipeline</h2><p>编写item pipeline很简单，item pipiline组件是一个独立的Python类，其中process_item()方法必须实现:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> something</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SomethingPipeline</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span>    </span><br><span class="line">        <span class="comment"># 可选实现，做参数初始化等</span></span><br><span class="line">        <span class="comment"># doing something</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">process_item</span><span class="params">(self, item, spider)</span>:</span></span><br><span class="line">        <span class="comment"># item (Item 对象) – 被爬取的item</span></span><br><span class="line">        <span class="comment"># spider (Spider 对象) – 爬取该item的spider</span></span><br><span class="line">        <span class="comment"># 这个方法必须实现，每个item pipeline组件都需要调用该方法，</span></span><br><span class="line">        <span class="comment"># 这个方法必须返回一个 Item 对象，被丢弃的item将不会被之后的pipeline组件所处理。</span></span><br><span class="line">        <span class="keyword">return</span> item</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">open_spider</span><span class="params">(self, spider)</span>:</span></span><br><span class="line">        <span class="comment"># spider (Spider 对象) – 被开启的spider</span></span><br><span class="line">        <span class="comment"># 可选实现，当spider被开启时，这个方法被调用。</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">close_spider</span><span class="params">(self, spider)</span>:</span></span><br><span class="line">        <span class="comment"># spider (Spider 对象) – 被关闭的spider</span></span><br><span class="line">        <span class="comment"># 可选实现，当spider被关闭时，这个方法被调用</span></span><br></pre></td></tr></table></figure>
+<h2 id="完善之前的案例："><a href="#完善之前的案例：" class="headerlink" title="完善之前的案例："></a>完善之前的案例：</h2><p><strong>item写入JSON文件</strong><br>以下pipeline将所有(从所有’spider’中)爬取到的item，存储到一个独立地items.json 文件，每行包含一个序列化为’JSON’格式的’item’:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ItcastJsonPipeline</span><span class="params">(object)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.file = open(<span class="string">'teacher.json'</span>, <span class="string">'wb'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">process_item</span><span class="params">(self, item, spider)</span>:</span></span><br><span class="line">        content = json.dumps(dict(item), ensure_ascii=<span class="keyword">False</span>) + <span class="string">"\n"</span></span><br><span class="line">        self.file.write(content)</span><br><span class="line">        <span class="keyword">return</span> item</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">close_spider</span><span class="params">(self, spider)</span>:</span></span><br><span class="line">        self.file.close()</span><br></pre></td></tr></table></figure>
+<p><strong>启用一个Item Pipeline组件</strong><br>为了启用Item Pipeline组件，必须将它的类添加到 settings.py文件ITEM_PIPELINES 配置，就像下面这个例子:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Configure item pipelines</span></span><br><span class="line"><span class="comment"># See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html</span></span><br><span class="line">ITEM_PIPELINES = &#123;</span><br><span class="line">    <span class="comment">#'mySpider.pipelines.SomePipeline': 300,</span></span><br><span class="line">    <span class="string">"mySpider.pipelines.ItcastJsonPipeline"</span>:<span class="number">300</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>分配给每个类的整型值，确定了他们运行的顺序，item按数字从低到高的顺序，通过pipeline，通常将这些数字定义在0-1000范围内（0-1000随意设置，数值越低，组件的优先级越高）</p>
+<p><strong>重新启动爬虫</strong></p>
+<p>将parse()方法改为4.2中最后思考中的代码，然后执行下面的命令：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy crawl itcast</span><br></pre></td></tr></table></figure></p>
+<p>查看当前目录是否生成teacher.json</p>
+
       
     </div>
 
@@ -416,7 +432,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/动态HTML处理和机器图像识别/" rel="tag"># 动态HTML处理和机器图像识别</a>
+            <a href="/tags/Scrapy框架/" rel="tag"># Scrapy框架</a>
           
         </div>
       
@@ -429,8 +445,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/05/13/2018051322/" rel="next" title="Selenium与PhantomJS">
-                <i class="fa fa-chevron-left"></i> Selenium与PhantomJS
+              <a href="/2018/05/17/2018051721/" rel="next" title="Scrapy Shell">
+                <i class="fa fa-chevron-left"></i> Scrapy Shell
               </a>
             
           </div>
@@ -439,8 +455,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/05/14/2018051422/" rel="prev" title="案例二：动态页面模拟点击">
-                案例二：动态页面模拟点击 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/05/17/2018051723/" rel="prev" title="Spider">
+                Spider <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -591,7 +607,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#案例一：网站模拟登录"><span class="nav-number">1.</span> <span class="nav-text">案例一：网站模拟登录</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Item-Pipeline"><span class="nav-number">1.</span> <span class="nav-text">Item Pipeline</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#编写item-pipeline"><span class="nav-number">1.1.</span> <span class="nav-text">编写item pipeline</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#完善之前的案例："><span class="nav-number">1.2.</span> <span class="nav-text">完善之前的案例：</span></a></li></ol></li></ol></div>
             
 
           </div>

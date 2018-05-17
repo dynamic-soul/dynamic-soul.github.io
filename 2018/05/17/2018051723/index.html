@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.6" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.0.6">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.0.6" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.0.6',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="SpiderSpider类定义了如何爬取某个(或某些)网站。包括了爬取的动作(例如:是否跟进链接)以及如何从网页的内容中提取结构化数据(爬取item)。 换句话说，Spider就是您定义爬取的动作及分析某个网页(或者是有些网页)的地方。 class scrapy.Spider是最基本的类，所有编写的爬虫必须继承这个类。  主要用到的函数及调用顺序为：  __init__() : 初始化爬虫名字和s">
+<meta name="keywords" content="Scrapy框架">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spider">
+<meta property="og:url" content="http://yoursite.com/2018/05/17/2018051723/index.html">
+<meta property="og:site_name" content="Dynamic-Soul">
+<meta property="og:description" content="SpiderSpider类定义了如何爬取某个(或某些)网站。包括了爬取的动作(例如:是否跟进链接)以及如何从网页的内容中提取结构化数据(爬取item)。 换句话说，Spider就是您定义爬取的动作及分析某个网页(或者是有些网页)的地方。 class scrapy.Spider是最基本的类，所有编写的爬虫必须继承这个类。  主要用到的函数及调用顺序为：  __init__() : 初始化爬虫名字和s">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-05-17T14:00:11.434Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spider">
+<meta name="twitter:description" content="SpiderSpider类定义了如何爬取某个(或某些)网站。包括了爬取的动作(例如:是否跟进链接)以及如何从网页的内容中提取结构化数据(爬取item)。 换句话说，Spider就是您定义爬取的动作及分析某个网页(或者是有些网页)的地方。 class scrapy.Spider是最基本的类，所有编写的爬虫必须继承这个类。  主要用到的函数及调用顺序为：  __init__() : 初始化爬虫名字和s">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/17/2018051723/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Spider | Dynamic-Soul</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <a href="https://github.com/dynamic-soul"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Dynamic-Soul</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+</li>
+
+      
+
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/17/2018051723/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Q">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dynamic-Soul">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Spider</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-17T21:50:49+08:00">2018-05-17</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Spider"><a href="#Spider" class="headerlink" title="Spider"></a>Spider</h1><p>Spider类定义了如何爬取某个(或某些)网站。包括了爬取的动作(例如:是否跟进链接)以及如何从网页的内容中提取结构化数据(爬取item)。 换句话说，Spider就是您定义爬取的动作及分析某个网页(或者是有些网页)的地方。</p>
+<pre><code>class scrapy.Spider是最基本的类，所有编写的爬虫必须继承这个类。
+
+主要用到的函数及调用顺序为：
+
+__init__() : 初始化爬虫名字和start_urls列表
+
+start_requests() 调用make_requests_from url():生成Requests对象交给Scrapy下载并返回response
+
+parse() : 解析response，并返回Item或Requests（需指定回调函数）。Item传给Item pipline持久化 ， 而Requests交由Scrapy下载，并由指定的回调函数处理（默认parse())，一直进行循环，直到处理完所有的数据为止。
+</code></pre><p><strong>源码参考</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#所有爬虫的基类，用户定义的爬虫必须从这个类继承</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Spider</span><span class="params">(object_ref)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#定义spider名字的字符串(string)。spider的名字定义了Scrapy如何定位(并初始化)spider，所以其必须是唯一的。</span></span><br><span class="line">    <span class="comment">#name是spider最重要的属性，而且是必须的。</span></span><br><span class="line">    <span class="comment">#一般做法是以该网站(domain)(加或不加 后缀 )来命名spider。 例如，如果spider爬取 mywebsite.com ，该spider通常会被命名为 mywebsite</span></span><br><span class="line">    name = <span class="keyword">None</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#初始化，提取爬虫名字，start_ruls</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name=None, **kwargs)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> name <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">            self.name = name</span><br><span class="line">        <span class="comment"># 如果爬虫没有名字，中断后续操作则报错</span></span><br><span class="line">        <span class="keyword">elif</span> <span class="keyword">not</span> getattr(self, <span class="string">'name'</span>, <span class="keyword">None</span>):</span><br><span class="line">            <span class="keyword">raise</span> ValueError(<span class="string">"%s must have a name"</span> % type(self).__name__)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># python 对象或类型通过内置成员__dict__来存储成员信息</span></span><br><span class="line">        self.__dict__.update(kwargs)</span><br><span class="line"></span><br><span class="line">        <span class="comment">#URL列表。当没有指定的URL时，spider将从该列表中开始进行爬取。 因此，第一个被获取到的页面的URL将是该列表之一。 后续的URL将会从获取到的数据中提取。</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> hasattr(self, <span class="string">'start_urls'</span>):</span><br><span class="line">            self.start_urls = []</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 打印Scrapy执行后的log信息</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">log</span><span class="params">(self, message, level=log.DEBUG, **kw)</span>:</span></span><br><span class="line">        log.msg(message, spider=self, level=level, **kw)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 判断对象object的属性是否存在，不存在做断言处理</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">set_crawler</span><span class="params">(self, crawler)</span>:</span></span><br><span class="line">        <span class="keyword">assert</span> <span class="keyword">not</span> hasattr(self, <span class="string">'_crawler'</span>), <span class="string">"Spider already bounded to %s"</span> % crawler</span><br><span class="line">        self._crawler = crawler</span><br><span class="line"></span><br><span class="line"><span class="meta">    @property</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">crawler</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">assert</span> hasattr(self, <span class="string">'_crawler'</span>), <span class="string">"Spider not bounded to any crawler"</span></span><br><span class="line">        <span class="keyword">return</span> self._crawler</span><br><span class="line"></span><br><span class="line"><span class="meta">    @property</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">settings</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.crawler.settings</span><br><span class="line"></span><br><span class="line">    <span class="comment">#该方法将读取start_urls内的地址，并为每一个地址生成一个Request对象，交给Scrapy下载并返回Response</span></span><br><span class="line">    <span class="comment">#该方法仅调用一次</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">start_requests</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">for</span> url <span class="keyword">in</span> self.start_urls:</span><br><span class="line">            <span class="keyword">yield</span> self.make_requests_from_url(url)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#start_requests()中调用，实际生成Request的函数。</span></span><br><span class="line">    <span class="comment">#Request对象默认的回调函数为parse()，提交的方式为get</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">make_requests_from_url</span><span class="params">(self, url)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> Request(url, dont_filter=<span class="keyword">True</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#默认的Request对象回调函数，处理返回的response。</span></span><br><span class="line">    <span class="comment">#生成Item或者Request对象。用户必须实现这个类</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        <span class="keyword">raise</span> NotImplementedError</span><br><span class="line"></span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">handles_request</span><span class="params">(cls, request)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> url_is_from_spider(request.url, cls)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">"&lt;%s %r at 0x%0x&gt;"</span> % (type(self).__name__, self.name, id(self))</span><br><span class="line"></span><br><span class="line">    __repr__ = __str__</span><br></pre></td></tr></table></figure>
+<p><strong>主要属性和方法</strong></p>
+<ul>
+<li><p>name</p>
+<p>   定义spider名字的字符串。</p>
+<p>   例如，如果spider爬取 mywebsite.com ，该spider通常会被命名为 mywebsite</p>
+</li>
+<li><p>allowed_domains</p>
+<p>   包含了spider允许爬取的域名(domain)的列表，可选。</p>
+</li>
+<li><p>start_urls</p>
+<p>   初始URL元祖/列表。当没有制定特定的URL时，spider将从该列表中开始进行爬取。</p>
+</li>
+<li><p>start_requests(self)</p>
+<p>   该方法必须返回一个可迭代对象(iterable)。该对象包含了spider用于爬取（默认实现是使用 start_urls 的url）的第一个Request。</p>
+<p>   当spider启动爬取并且未指定start_urls时，该方法被调用。</p>
+</li>
+<li><p>parse(self, response)</p>
+<p>   当请求url返回网页没有指定回调函数时，默认的Request对象回调函数。用来处理网页返回的response，以及生成Item或者Request对象。</p>
+</li>
+<li><p>log(self, message[, level, component])</p>
+<p>   使用 scrapy.log.msg() 方法记录(log)message。 更多数据请参见 logging</p>
+</li>
+</ul>
+<p><strong>案例：腾讯招聘网自动翻页采集</strong></p>
+<ul>
+<li><p>创建一个新的爬虫：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy genspider tencent <span class="string">"tencent.com"</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编写items.py</p>
+</li>
+</ul>
+<p>获取职位名称、详细信息、<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TencentItem</span><span class="params">(scrapy.Item)</span>:</span></span><br><span class="line">    name = scrapy.Field()</span><br><span class="line">    detailLink = scrapy.Field()</span><br><span class="line">    positionInfo = scrapy.Field()</span><br><span class="line">    peopleNumber = scrapy.Field()</span><br><span class="line">    workLocation = scrapy.Field()</span><br><span class="line">    publishTime = scrapy.Field()</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><p>编写tencent.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># tencent.py</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> mySpider.items <span class="keyword">import</span> TencentItem</span><br><span class="line"><span class="keyword">import</span> scrapy</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TencentSpider</span><span class="params">(scrapy.Spider)</span>:</span></span><br><span class="line">    name = <span class="string">"tencent"</span></span><br><span class="line">    allowed_domains = [<span class="string">"hr.tencent.com"</span>]</span><br><span class="line">    start_urls = [</span><br><span class="line">        <span class="string">"http://hr.tencent.com/position.php?&amp;start=0#a"</span></span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        <span class="keyword">for</span> each <span class="keyword">in</span> response.xpath(<span class="string">'//*[@class="even"]'</span>):</span><br><span class="line"></span><br><span class="line">            item = TencentItem()</span><br><span class="line">            name = each.xpath(<span class="string">'./td[1]/a/text()'</span>).extract()[<span class="number">0</span>]</span><br><span class="line">            detailLink = each.xpath(<span class="string">'./td[1]/a/@href'</span>).extract()[<span class="number">0</span>]</span><br><span class="line">            positionInfo = each.xpath(<span class="string">'./td[2]/text()'</span>).extract()[<span class="number">0</span>]</span><br><span class="line">            peopleNumber = each.xpath(<span class="string">'./td[3]/text()'</span>).extract()[<span class="number">0</span>]</span><br><span class="line">            workLocation = each.xpath(<span class="string">'./td[4]/text()'</span>).extract()[<span class="number">0</span>]</span><br><span class="line">            publishTime = each.xpath(<span class="string">'./td[5]/text()'</span>).extract()[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">            <span class="comment">#print name, detailLink, catalog, peopleNumber, workLocation,publishTime</span></span><br><span class="line"></span><br><span class="line">            item[<span class="string">'name'</span>] = name.encode(<span class="string">'utf-8'</span>)</span><br><span class="line">            item[<span class="string">'detailLink'</span>] = detailLink.encode(<span class="string">'utf-8'</span>)</span><br><span class="line">            item[<span class="string">'positionInfo'</span>] = positionInfo.encode(<span class="string">'utf-8'</span>)</span><br><span class="line">            item[<span class="string">'peopleNumber'</span>] = peopleNumber.encode(<span class="string">'utf-8'</span>)</span><br><span class="line">            item[<span class="string">'workLocation'</span>] = workLocation.encode(<span class="string">'utf-8'</span>)</span><br><span class="line">            item[<span class="string">'publishTime'</span>] = publishTime.encode(<span class="string">'utf-8'</span>)</span><br><span class="line"></span><br><span class="line">            curpage = re.search(<span class="string">'(\d+)'</span>,response.url).group(<span class="number">1</span>)</span><br><span class="line">            page = int(curpage) + <span class="number">10</span></span><br><span class="line">            url = re.sub(<span class="string">'\d+'</span>, str(page), response.url)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># 发送新的url请求加入待爬队列，并调用回调函数 self.parse</span></span><br><span class="line">            <span class="keyword">yield</span> scrapy.Request(url, callback = self.parse)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># 将获取的数据交给pipeline</span></span><br><span class="line">            <span class="keyword">yield</span> item</span><br></pre></td></tr></table></figure>
+<ul>
+<li>编写pipeline.py文件</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="comment">#class ItcastJsonPipeline(object):</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TencentJsonPipeline</span><span class="params">(object)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="comment">#self.file = open('teacher.json', 'wb')</span></span><br><span class="line">        self.file = open(<span class="string">'tencent.json'</span>, <span class="string">'wb'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">process_item</span><span class="params">(self, item, spider)</span>:</span></span><br><span class="line">        content = json.dumps(dict(item), ensure_ascii=<span class="keyword">False</span>) + <span class="string">"\n"</span></span><br><span class="line">        self.file.write(content)</span><br><span class="line">        <span class="keyword">return</span> item</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">close_spider</span><span class="params">(self, spider)</span>:</span></span><br><span class="line">        self.file.close()</span><br></pre></td></tr></table></figure>
+<pre><code>- 在 setting.py 里设置ITEM_PIPELINES
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ITEM_PIPELINES = &#123;</span><br><span class="line">    <span class="comment">#'mySpider.pipelines.SomePipeline': 300,</span></span><br><span class="line">    <span class="comment">#"mySpider.pipelines.ItcastJsonPipeline":300</span></span><br><span class="line">    <span class="string">"mySpider.pipelines.TencentJsonPipeline"</span>:<span class="number">300</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code>- 执行爬虫：scrapy crawl tencent
+</code></pre><h2 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h2><p><strong>请思考 parse()方法的工作机制：</strong></p>
+<pre><code>1. 因为使用的yield，而不是return。parse函数将会被当做一个生成器使用。scrapy会逐一获取parse方法中生成的结果，并判断该结果是一个什么样的类型；
+2. 如果是request则加入爬取队列，如果是item类型则使用pipeline处理，其他类型则返回错误信息。
+3. scrapy取到第一部分的request不会立马就去发送这个request，只是把这个request放到队列里，然后接着从生成器里获取；
+4. 取尽第一部分的request，然后再获取第二部分的item，取到item了，就会放到对应的pipeline里处理；
+5. parse()方法作为回调函数(callback)赋值给了Request，指定parse()方法来处理这些请求 scrapy.Request(url, callback=self.parse)
+6. Request对象经过调度，执行生成 scrapy.http.response()的响应对象，并送回给parse()方法，直到调度器中没有Request（递归的思路）
+7. 取尽之后，parse()工作结束，引擎再根据队列和pipelines中的内容去执行相应的操作；
+8. 程序在取得各个页面的items前，会先处理完之前所有的request队列里的请求，然后再提取items。
+7. 这一切的一切，Scrapy引擎和调度器将负责到底。
+</code></pre>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Scrapy框架/" rel="tag"># Scrapy框架</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/17/2018051722/" rel="next" title="Item Pipeline">
+                <i class="fa fa-chevron-left"></i> Item Pipeline
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="Mr.Q" />
+            
+              <p class="site-author-name" itemprop="name">Mr.Q</p>
+              <p class="site-description motion-element" itemprop="description">我希望时间没有流走，世界还停在过去，昏黄的光还照在旧日的路上，我刚刚走过，恰与你们相识。</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">31</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Spider"><span class="nav-number">1.</span> <span class="nav-text">Spider</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#思考"><span class="nav-number">1.1.</span> <span class="nav-text">思考</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mr.Q</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Gemini</a> v6.0.6</div>
+
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共43.7k字</span>
+</div>
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.6"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.0.6"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.6"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.6"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.6"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+</body>
+</html>
