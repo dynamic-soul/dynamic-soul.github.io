@@ -311,6 +311,322 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/21/2018052121/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Q">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dynamic-Soul">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/21/2018052121/" itemprop="url">源码参考分析：Connecting</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-21T20:30:10+08:00">2018-05-21</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>官方站点：<a href="https://github.com/rolando/scrapy-redis" target="_blank" rel="noopener">https://github.com/rolando/scrapy-redis</a></p>
+<p>scrapy-redis的官方文档写的比较简洁，没有提及其运行原理，所以如果想全面的理解分布式爬虫的运行原理，还是得看scrapy-redis的源代码才行。</p>
+<p>scrapy-redis工程的主体还是是redis和scrapy两个库，工程本身实现的东西不是很多，这个工程就像胶水一样，把这两个插件粘结了起来。下面我们来看看，scrapy-redis的每一个源代码文件都实现了什么功能，最后如何实现分布式的爬虫系统：</p>
+<p>1.<a href="https://github.com/rmax/scrapy-redis/blob/master/src/scrapy_redis/connection.py" target="_blank" rel="noopener">connecting.py</a><br>负责根据setting中配置实例化redis连接。被dupefilter和scheduler调用，总之涉及到redis存取的都要使用到这个模块。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 这里引入了redis模块，这个是redis-python库的接口，用于通过python访问redis数据库，</span></span><br><span class="line"><span class="comment"># 这个文件主要是实现连接redis数据库的功能，这些连接接口在其他文件中经常被用到</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> redis</span><br><span class="line"><span class="keyword">import</span> six</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> scrapy.utils.misc <span class="keyword">import</span> load_object</span><br><span class="line"></span><br><span class="line">DEFAULT_REDIS_CLS = redis.StrictRedis</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可以在settings文件中配置套接字的超时时间、等待时间等</span></span><br><span class="line"><span class="comment"># Sane connection defaults.</span></span><br><span class="line">DEFAULT_PARAMS = &#123;</span><br><span class="line">    <span class="string">'socket_timeout'</span>: <span class="number">30</span>,</span><br><span class="line">    <span class="string">'socket_connect_timeout'</span>: <span class="number">30</span>,</span><br><span class="line">    <span class="string">'retry_on_timeout'</span>: <span class="keyword">True</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 要想连接到redis数据库，和其他数据库差不多，需要一个ip地址、端口号、用户名密码（可选）和一个整形的数据库编号</span></span><br><span class="line"><span class="comment"># Shortcut maps 'setting name' -&gt; 'parmater name'.</span></span><br><span class="line">SETTINGS_PARAMS_MAP = &#123;</span><br><span class="line">    <span class="string">'REDIS_URL'</span>: <span class="string">'url'</span>,</span><br><span class="line">    <span class="string">'REDIS_HOST'</span>: <span class="string">'host'</span>,</span><br><span class="line">    <span class="string">'REDIS_PORT'</span>: <span class="string">'port'</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_redis_from_settings</span><span class="params">(settings)</span>:</span></span><br><span class="line">    <span class="string">"""Returns a redis client instance from given Scrapy settings object.</span></span><br><span class="line"><span class="string">    This function uses ``get_client`` to instantiate the client and uses</span></span><br><span class="line"><span class="string">    ``DEFAULT_PARAMS`` global as defaults values for the parameters. You can</span></span><br><span class="line"><span class="string">    override them using the ``REDIS_PARAMS`` setting.</span></span><br><span class="line"><span class="string">    Parameters</span></span><br><span class="line"><span class="string">    ----------</span></span><br><span class="line"><span class="string">    settings : Settings</span></span><br><span class="line"><span class="string">        A scrapy settings object. See the supported settings below.</span></span><br><span class="line"><span class="string">    Returns</span></span><br><span class="line"><span class="string">    -------</span></span><br><span class="line"><span class="string">    server</span></span><br><span class="line"><span class="string">        Redis client instance.</span></span><br><span class="line"><span class="string">    Other Parameters</span></span><br><span class="line"><span class="string">    ----------------</span></span><br><span class="line"><span class="string">    REDIS_URL : str, optional</span></span><br><span class="line"><span class="string">        Server connection URL.</span></span><br><span class="line"><span class="string">    REDIS_HOST : str, optional</span></span><br><span class="line"><span class="string">        Server host.</span></span><br><span class="line"><span class="string">    REDIS_PORT : str, optional</span></span><br><span class="line"><span class="string">        Server port.</span></span><br><span class="line"><span class="string">    REDIS_PARAMS : dict, optional</span></span><br><span class="line"><span class="string">        Additional client parameters.</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    params = DEFAULT_PARAMS.copy()</span><br><span class="line">    params.update(settings.getdict(<span class="string">'REDIS_PARAMS'</span>))</span><br><span class="line">    <span class="comment"># <span class="doctag">XXX:</span> Deprecate REDIS_* settings.</span></span><br><span class="line">    <span class="keyword">for</span> source, dest <span class="keyword">in</span> SETTINGS_PARAMS_MAP.items():</span><br><span class="line">        val = settings.get(source)</span><br><span class="line">        <span class="keyword">if</span> val:</span><br><span class="line">            params[dest] = val</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Allow ``redis_cls`` to be a path to a class.</span></span><br><span class="line">    <span class="keyword">if</span> isinstance(params.get(<span class="string">'redis_cls'</span>), six.string_types):</span><br><span class="line">        params[<span class="string">'redis_cls'</span>] = load_object(params[<span class="string">'redis_cls'</span>])</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 返回的是redis库的Redis对象，可以直接用来进行数据操作的对象</span></span><br><span class="line">    <span class="keyword">return</span> get_redis(**params)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># Backwards compatible alias.</span></span><br><span class="line">from_settings = get_redis_from_settings</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_redis</span><span class="params">(**kwargs)</span>:</span></span><br><span class="line">    <span class="string">"""Returns a redis client instance.</span></span><br><span class="line"><span class="string">    Parameters</span></span><br><span class="line"><span class="string">    ----------</span></span><br><span class="line"><span class="string">    redis_cls : class, optional</span></span><br><span class="line"><span class="string">        Defaults to ``redis.StrictRedis``.</span></span><br><span class="line"><span class="string">    url : str, optional</span></span><br><span class="line"><span class="string">        If given, ``redis_cls.from_url`` is used to instantiate the class.</span></span><br><span class="line"><span class="string">    **kwargs</span></span><br><span class="line"><span class="string">        Extra parameters to be passed to the ``redis_cls`` class.</span></span><br><span class="line"><span class="string">    Returns</span></span><br><span class="line"><span class="string">    -------</span></span><br><span class="line"><span class="string">    server</span></span><br><span class="line"><span class="string">        Redis client instance.</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    redis_cls = kwargs.pop(<span class="string">'redis_cls'</span>, DEFAULT_REDIS_CLS)</span><br><span class="line">    url = kwargs.pop(<span class="string">'url'</span>, <span class="keyword">None</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> url:</span><br><span class="line">        <span class="keyword">return</span> redis_cls.from_url(url, **kwargs)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> redis_cls(**kwargs)</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/21/2018052120/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Q">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dynamic-Soul">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/21/2018052120/" itemprop="url">Scrapy 和 scrapy-redis的区别</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-21T20:24:36+08:00">2018-05-21</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Scrapy-和-scrapy-redis的区别"><a href="#Scrapy-和-scrapy-redis的区别" class="headerlink" title="Scrapy 和 scrapy-redis的区别"></a>Scrapy 和 scrapy-redis的区别</h1><p>Scrapy 是一个通用的爬虫框架，但是不支持分布式，Scrapy-redis是为了更方便地实现Scrapy分布式爬取，而提供了一些以redis为基础的组件(仅有组件)。</p>
+<pre><code>pip install scrapy-redis
+</code></pre><p>Scrapy-redis提供了下面四种组件（components）：(四种组件意味着这四个模块都要做相应的修改)</p>
+<ul>
+<li>Scheduler</li>
+<li>Duplication Filter</li>
+<li>Item Pipeline</li>
+<li>Base Spider</li>
+</ul>
+<h1 id="scrapy-redis架构"><a href="#scrapy-redis架构" class="headerlink" title="scrapy-redis架构"></a>scrapy-redis架构</h1><img src="/2018/05/21/2018052120/1.jpg">
+<p>如上图所⽰示，scrapy-redis在scrapy的架构上增加了redis，基于redis的特性拓展了如下组件：<br>Scheduler：</p>
+<p>Scrapy改造了python本来的collection.deque(双向队列)形成了自己的Scrapy queue(<a href="https://github.com/scrapy/queuelib/blob/master/queuelib/queue.py))，但是Scrapy多个spider不能共享待爬取队列Scrapy" target="_blank" rel="noopener">https://github.com/scrapy/queuelib/blob/master/queuelib/queue.py))，但是Scrapy多个spider不能共享待爬取队列Scrapy</a> queue， 即Scrapy本身不支持爬虫分布式，scrapy-redis 的解决是把这个Scrapy queue换成redis数据库（也是指redis队列），从同一个redis-server存放要爬取的request，便能让多个spider去同一个数据库里读取。</p>
+<p>Scrapy中跟“待爬队列”直接相关的就是调度器Scheduler，它负责对新的request进行入列操作（加入Scrapy queue），取出下一个要爬取的request（从Scrapy queue中取出）等操作。它把待爬队列按照优先级建立了一个字典结构，比如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">       优先级<span class="number">0</span> : 队列<span class="number">0</span></span><br><span class="line">       优先级<span class="number">1</span> : 队列<span class="number">1</span></span><br><span class="line">       优先级<span class="number">2</span> : 队列<span class="number">2</span></span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>然后根据request中的优先级，来决定该入哪个队列，出列时则按优先级较小的优先出列。为了管理这个比较高级的队列字典，Scheduler需要提供一系列的方法。但是原来的Scheduler已经无法使用，所以使用Scrapy-redis的scheduler组件。</p>
+<p><strong>Duplication Filter</strong></p>
+<p>Scrapy中用集合实现这个request去重功能，Scrapy中把已经发送的request指纹放入到一个集合中，把下一个request的指纹拿到集合中比对，如果该指纹存在于集合中，说明这个request发送过了，如果没有则继续操作。这个核心的判重功能是这样实现的：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">request_seen</span><span class="params">(self, request)</span>:</span></span><br><span class="line">       <span class="comment"># self.request_figerprints就是一个指纹集合  </span></span><br><span class="line">       fp = self.request_fingerprint(request)</span><br><span class="line"></span><br><span class="line">       <span class="comment"># 这就是判重的核心操作  </span></span><br><span class="line">       <span class="keyword">if</span> fp <span class="keyword">in</span> self.fingerprints:</span><br><span class="line">           <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">       self.fingerprints.add(fp)</span><br><span class="line">       <span class="keyword">if</span> self.file:</span><br><span class="line">           self.file.write(fp + os.linesep)</span><br></pre></td></tr></table></figure>
+<p>在scrapy-redis中去重是由Duplication Filter组件来实现的，它通过redis的set 不重复的特性，巧妙的实现了Duplication Filter去重。scrapy-redis调度器从引擎接受request，将request的指纹存⼊redis的set检查是否重复，并将不重复的request push写⼊redis的 request queue。</p>
+<p>引擎请求request(Spider发出的）时，调度器从redis的request queue队列⾥里根据优先级pop 出⼀个request 返回给引擎，引擎将此request发给spider处理。<br><strong>Item Pipeline：</strong></p>
+<p>引擎将(Spider返回的)爬取到的Item给Item Pipeline，scrapy-redis 的Item Pipeline将爬取到的 Item 存⼊redis的 items queue。</p>
+<p>修改过Item Pipeline可以很方便的根据 key 从 items queue 提取item，从⽽实现 items processes集群。<br><strong>Base Spider</strong></p>
+<p>不在使用scrapy原有的Spider类，重写的RedisSpider继承了Spider和RedisMixin这两个类，RedisMixin是用来从redis读取url的类。</p>
+<p>当我们生成一个Spider继承RedisSpider时，调用setup_redis函数，这个函数会去连接redis数据库，然后会设置signals(信号)：</p>
+<ul>
+<li><p>一个是当spider空闲时候的signal，会调用spider_idle函数，这个函数调用schedule_next_request函数，保证spider是一直活着的状态，并且抛出DontCloseSpider异常。</p>
+</li>
+<li><p>一个是当抓到一个item时的signal，会调用item_scraped函数，这个函数会调用schedule_next_request函数，获取下一个request。</p>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/20/2018052021/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1958,380 +2274,6 @@ mySpider/spiders/ ：存储爬虫代码目录
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/16/2018051621/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Mr.Q">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dynamic-Soul">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/16/2018051621/" itemprop="url">Scrapy框架</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-16T21:29:27+08:00">2018-05-16</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Scrapy-框架"><a href="#Scrapy-框架" class="headerlink" title="Scrapy 框架"></a>Scrapy 框架</h1><ul>
-<li><p>Scrapy是用纯Python实现一个为了爬取网站数据、提取结构性数据而编写的应用框架，用途非常广泛。</p>
-</li>
-<li><p>框架的力量，用户只需要定制开发几个模块就可以轻松的实现一个爬虫，用来抓取网页内容以及各种图片，非常之方便。</p>
-</li>
-<li><p>Scrapy 使用了 Twisted<a href="其主要对手是Tornado">‘twɪstɪd</a>异步网络框架来处理网络通讯，可以加快我们的下载速度，不用自己去实现异步框架，并且包含了各种中间件接口，可以灵活的完成各种需求。</p>
-</li>
-</ul>
-<h2 id="Scrapy架构图-绿线是数据流向-："><a href="#Scrapy架构图-绿线是数据流向-：" class="headerlink" title="Scrapy架构图(绿线是数据流向)："></a>Scrapy架构图(绿线是数据流向)：</h2><img src="/2018/05/16/2018051621/1.jpg">
-<ul>
-<li><p>Scrapy Engine(引擎): 负责Spider、ItemPipeline、Downloader、Scheduler中间的通讯，信号、数据传递等。</p>
-</li>
-<li><p>Scheduler(调度器): 它负责接受引擎发送过来的Request请求，并按照一定的方式进行整理排列，入队，当引擎需要时，交还给引擎。</p>
-</li>
-<li><p>Downloader（下载器）：负责下载Scrapy Engine(引擎)发送的所有Requests请求，并将其获取到的Responses交还给Scrapy Engine(引擎)，由引擎交给Spider来处理，</p>
-</li>
-<li><p>Spider（爬虫）：它负责处理所有Responses,从中分析提取数据，获取Item字段需要的数据，并将需要跟进的URL提交给引擎，再次进入Scheduler(调度器)，</p>
-</li>
-<li><p>Item Pipeline(管道)：它负责处理Spider中获取到的Item，并进行进行后期处理（详细分析、过滤、存储等）的地方.</p>
-</li>
-<li><p>Downloader Middlewares（下载中间件）：你可以当作是一个可以自定义扩展下载功能的组件。</p>
-</li>
-<li><p>Spider Middlewares（Spider中间件）：你可以理解为是一个可以自定扩展和操作引擎和Spider中间通信的功能组件（比如进入Spider的Responses;和从Spider出去的Requests）</p>
-</li>
-</ul>
-<h2 id="Scrapy的运作流程"><a href="#Scrapy的运作流程" class="headerlink" title="Scrapy的运作流程"></a>Scrapy的运作流程</h2><p>代码写好，程序开始运行…</p>
-<ol>
-<li><p>引擎：Hi！Spider, 你要处理哪一个网站？</p>
-</li>
-<li><p>Spider：老大要我处理xxxx.com。</p>
-</li>
-<li><p>引擎：你把第一个需要处理的URL给我吧。</p>
-</li>
-<li><p>Spider：给你，第一个URL是xxxxxxx.com。</p>
-</li>
-<li><p>引擎：Hi！调度器，我这有request请求你帮我排序入队一下。</p>
-</li>
-<li><p>调度器：好的，正在处理你等一下。</p>
-</li>
-<li><p>引擎：Hi！调度器，把你处理好的request请求给我。</p>
-</li>
-<li><p>调度器：给你，这是我处理好的request</p>
-</li>
-<li><p>引擎：Hi！下载器，你按照老大的下载中间件的设置帮我下载一下这个request请求</p>
-</li>
-<li><p>下载器：好的！给你，这是下载好的东西。（如果失败：sorry，这个request下载失败了。然后引擎告诉调度器，这个request下载失败了，你记录一下，我们待会儿再下载）</p>
-</li>
-<li><p>引擎：Hi！Spider，这是下载好的东西，并且已经按照老大的下载中间件处理过了，你自己处理一下（注意！这儿responses默认是交给def parse()这个函数处理的）</p>
-</li>
-<li><p>Spider：（处理完毕数据之后对于需要跟进的URL），Hi！引擎，我这里有两个结果，这个是我需要跟进的URL，还有这个是我获取到的Item数据。</p>
-</li>
-<li><p>引擎：Hi ！管道 我这儿有个item你帮我处理一下！调度器！这是需要跟进URL你帮我处理下。然后从第四步开始循环，直到获取完老大需要全部信息。</p>
-</li>
-<li><p>管道<code></code>调度器：好的，现在就做！</p>
-</li>
-</ol>
-<p><strong>注意！只有当调度器中不存在任何request了，整个程序才会停止，（也就是说，对于下载失败的URL，Scrapy也会重新下载。）</strong></p>
-<h3 id="制作-Scrapy-爬虫-一共需要4步："><a href="#制作-Scrapy-爬虫-一共需要4步：" class="headerlink" title="制作 Scrapy 爬虫 一共需要4步："></a>制作 Scrapy 爬虫 一共需要4步：</h3><ul>
-<li>新建项目 (scrapy startproject xxx)：新建一个新的爬虫项目</li>
-<li>明确目标 （编写items.py）：明确你想要抓取的目标</li>
-<li>制作爬虫 （spiders/xxspider.py）：制作爬虫开始爬取网页</li>
-<li>存储内容 （pipelines.py）：设计管道存储爬取内容</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/15/2018051524/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Mr.Q">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dynamic-Soul">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/15/2018051524/" itemprop="url">机器学习：训练Tesseract</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-15T21:16:14+08:00">2018-05-15</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="训练Tesseract"><a href="#训练Tesseract" class="headerlink" title="训练Tesseract"></a>训练Tesseract</h1><p>大多数其他的验证码都是比较简单的。例如，流行的 PHP 内容管理系统 Drupal 有一个著 名的验证码模块(<a href="https://www.drupal.org/project/captcha)，可以生成不同难度的验证码。" target="_blank" rel="noopener">https://www.drupal.org/project/captcha)，可以生成不同难度的验证码。</a></p>
-<img src="/2018/05/15/2018051524/1.jpg">
-<p>那么与其他验证码相比，究竟是什么让这个验证码更容易被人类和机器读懂呢?</p>
-<ul>
-<li>字母没有相互叠加在一起，在水平方向上也没有彼此交叉。也就是说，可以在每一个字 母外面画一个方框，而不会重叠在一起。</li>
-<li>图片没有背景色、线条或其他对 OCR 程序产生干扰的噪点。</li>
-<li>虽然不能因一个图片下定论，但是这个验证码用的字体种类很少，而且用的是 sans-serif 字体(像“4”和“M”)和一种手写形式的字体(像“m”“C”和“3”)。</li>
-<li>白色背景色与深色字母之间的对比度很高。</li>
-</ul>
-<p>这个验证码只做了一点点改变，就让 OCR 程序很难识别。</p>
-<ul>
-<li>字母和数据都使用了，这会增加待搜索字符的数量。</li>
-<li>字母随机的倾斜程度会迷惑 OCR 软件，但是人类还是很容易识别的。</li>
-<li>那个比较陌生的手写字体很有挑战性，在“C”和“3”里面还有额外的线条。另外这 个非常小的小写“m”，计算机需要进行额外的训练才能识别。 用下面的代码运行 Tesseract 识别图片:</li>
-</ul>
-<p>tesseract captchaExample.png output</p>
-<p>我们得到的结果 output.txt 是: 4N\，，，C&lt;3</p>
-<h1 id="训练Tesseract-1"><a href="#训练Tesseract-1" class="headerlink" title="训练Tesseract"></a>训练Tesseract</h1><p>要训练 Tesseract 识别一种文字，无论是晦涩难懂的字体还是验证码，你都需要向 Tesseract 提供每个字符不同形式的样本。</p>
-<p>做这个枯燥的工作可能要花好几个小时的时间，你可能更想用这点儿时间找个好看的视频 或电影看看。首先要把大量的验证码样本下载到一个文件夹里。</p>
-<p>下载的样本数量由验证码 的复杂程度决定;我在训练集里一共放了 100 个样本(一共 500 个字符，平均每个字符 8 个样本;a~z 大小写字母加 0~9 数字，一共 62 个字符)，应该足够训练的了。</p>
-<p>提示:建议使用验证码的真实结果给每个样本文件命名(即4MmC3.jpg)。 这样可以帮你 一次性对大量的文件进行快速检查——你可以先把图片调成缩略图模式，然后通过文件名 对比不同的图片。这样在后面的步骤中进行训练效果的检查也会很方便。</p>
-<p>第二步是准确地告诉 Tesseract 一张图片中的每个字符是什么，以及每个字符的具体位置。 这里需要创建一些矩形定位文件(box file)，一个验证码图片生成一个矩形定位文件。一 个图片的矩形定位文件如下所示:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">4</span> <span class="number">15</span> <span class="number">26</span> <span class="number">33</span> <span class="number">55</span> <span class="number">0</span></span><br><span class="line">M <span class="number">38</span> <span class="number">13</span> <span class="number">67</span> <span class="number">45</span> <span class="number">0</span></span><br><span class="line">m <span class="number">79</span> <span class="number">15</span> <span class="number">101</span> <span class="number">26</span> <span class="number">0</span></span><br><span class="line">C <span class="number">111</span> <span class="number">33</span> <span class="number">136</span> <span class="number">60</span> <span class="number">0</span></span><br><span class="line"><span class="number">3</span> <span class="number">147</span> <span class="number">17</span> <span class="number">176</span> <span class="number">45</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
-<p>第一列符号是图片中的每个字符，后面的 4 个数字分别是包围这个字符的最小矩形的坐标 (图片左下角是原点 (0，0)，4 个数字分别对应每个字符的左下角 x 坐标、左下角 y 坐标、右上角 x 坐标和右上角 y 坐标)，最后一个数字“0”表示图片样本的编号。</p>
-<p>显然，手工创建这些图片矩形定位文件很无聊，不过有一些工具可以帮你完成。我很喜欢 在线工具 Tesseract OCR Chopper(<a href="http://pp19dd.com/tesseract-ocr-chopper/)，因为它不需要" target="_blank" rel="noopener">http://pp19dd.com/tesseract-ocr-chopper/)，因为它不需要</a> 安装，也没有其他依赖，只要有浏览器就可以运行，而且用法很简单:上传图片，如果要 增加新矩形就单击“add”按钮，还可以根据需要调整矩形的尺寸，最后把新生成的矩形 定位文件复制到一个新文件里就可以了。</p>
-<p>矩形定位文件必须保存在一个 .box 后缀的文本文件中。和图片文件一样，文本文件也是用 验证码的实际结果命名(例如，4MmC3.box)。另外，这样便于检查 .box 文件的内容和文件的名称，而且按文件名对目录中的文件排序之后，就可以让 .box 文件与对应的图片文件 的实际结果进行对比。</p>
-<p>你还需要创建大约 100 个 .box 文件来保证你有足够的训练数据。因为 Tesseract 会忽略那 些不能读取的文件，所以建议你尽量多做一些矩形定位文件，以保证训练足够充分。如果 你觉得训练的 OCR 结果没有达到你的目标，或者 Tesseract 识别某些字符时总是出错，多 创建一些训练数据然后重新训练将是一个不错的改进方法。</p>
-<p>创建完满载 .box 文件和图片文件的数据文件夹之后，在做进一步分析之前最好备份一下这 个文件夹。虽然在数据上运行训练程序不太可能删除任何数据，但是创建 .box 文件用了你 好几个小时的时间，来之不易，稳妥一点儿总没错。此外，能够抓取一个满是编译数据的 混乱目录，然后再尝试一次，总是好的。</p>
-<p>前面的内容只是对 Tesseract 库强大的字体训练和识别能力的一个简略概述。如果你对 Tesseract 的其他训练方法感兴趣，甚至打算建立自己的验证码训练文件库，或者想和全世 界的 Tesseract 爱好者分享自己对一种新字体的识别成果，推荐阅读 Tesseract 的文档：<a href="https://github.com/tesseract-ocr/tesseract/wiki，加油！" target="_blank" rel="noopener">https://github.com/tesseract-ocr/tesseract/wiki，加油！</a> </p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2383,7 +2325,7 @@ mySpider/spiders/ ：存储爬虫代码目录
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">35</span>
+                    <span class="site-state-item-count">37</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2421,7 +2363,9 @@ mySpider/spiders/ ：存储爬虫代码目录
                     
                       
                     
-                    <span class="site-state-item-count">5</span>
+                      
+                    
+                    <span class="site-state-item-count">6</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -2490,7 +2434,7 @@ mySpider/spiders/ ：存储爬虫代码目录
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共50.0k字</span>
+  <span class="post-count">博客全站共51.6k字</span>
 </div>
         
 
