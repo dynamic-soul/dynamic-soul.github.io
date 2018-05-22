@@ -311,6 +311,420 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/17/2018051721/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Q">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dynamic-Soul">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/17/2018051721/" itemprop="url">Scrapy Shell</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-17T21:36:33+08:00">2018-05-17</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Scrapy-Shell"><a href="#Scrapy-Shell" class="headerlink" title="Scrapy Shell"></a>Scrapy Shell</h1><p>Scrapy终端是一个交互终端，我们可以在未启动spider的情况下尝试及调试代码，也可以用来测试XPath或CSS表达式，查看他们的工作方式，方便我们爬取的网页中提取的数据。</p>
+<p>如果安装了 IPython ，Scrapy终端将使用 IPython (替代标准Python终端)。 IPython 终端与其他相比更为强大，提供智能的自动补全，高亮输出，及其他特性。（推荐安装IPython）</p>
+<h2 id="启动Scrapy-Shell"><a href="#启动Scrapy-Shell" class="headerlink" title="启动Scrapy Shell"></a>启动Scrapy Shell</h2><p>进入项目的根目录，执行下列命令来启动shell:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy shell <span class="string">"xxxxxxx"</span></span><br></pre></td></tr></table></figure>
+<p>Scrapy Shell根据下载的页面会自动创建一些方便使用的对象，例如 Response 对象，以及 Selector 对象 (对HTML及XML内容)。</p>
+<ul>
+<li><p>当shell载入后，将得到一个包含response数据的本地 response 变量，输入 response.body将输出response的包体，输出 response.headers 可以看到response的包头。</p>
+</li>
+<li><p>输入 response.selector 时， 将获取到一个response 初始化的类 Selector 的对象，此时可以通过使用 response.selector.xpath()或response.selector.css() 来对 response 进行查询。</p>
+</li>
+<li><p>Scrapy也提供了一些快捷方式, 例如 response.xpath()或response.css()同样可以生效（如之前的案例）。</p>
+</li>
+</ul>
+<h2 id="Selectors选择器"><a href="#Selectors选择器" class="headerlink" title="Selectors选择器"></a>Selectors选择器</h2><p>Scrapy Selectors 内置 XPath 和 CSS Selector 表达式机制</p>
+<p>Selector有四个基本的方法，最常用的还是xpath:</p>
+<ul>
+<li>xpath(): 传入xpath表达式，返回该表达式所对应的所有节点的selector list列表</li>
+<li>extract(): 序列化该节点为Unicode字符串并返回list</li>
+<li>css(): 传入CSS表达式，返回该表达式所对应的所有节点的selector list列表，语法同 BeautifulSoup4</li>
+<li>re(): 根据传入的正则表达式对数据进行提取，返回Unicode字符串list列表</li>
+</ul>
+<h3 id="XPath表达式的例子及对应的含义"><a href="#XPath表达式的例子及对应的含义" class="headerlink" title="XPath表达式的例子及对应的含义:"></a>XPath表达式的例子及对应的含义:</h3><pre><code>/html/head/title: 选择&lt;HTML&gt;文档中 &lt;head&gt; 标签内的 &lt;title&gt; 元素
+/html/head/title/text(): 选择上面提到的 &lt;title&gt; 元素的文字
+//td: 选择所有的 &lt;td&gt; 元素
+//div[@class=&quot;mine&quot;]: 选择所有具有 class=&quot;mine&quot; 属性的 div 元素
+</code></pre><h3 id="尝试Selector"><a href="#尝试Selector" class="headerlink" title="尝试Selector"></a>尝试Selector</h3><p>我们用腾讯社招的网站<a href="http://hr.tencent.com/position.php?&amp;start=0#a举例：" target="_blank" rel="noopener">http://hr.tencent.com/position.php?&amp;start=0#a举例：</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启动</span></span><br><span class="line">scrapy shell <span class="string">"http://hr.tencent.com/position.php?&amp;start=0#a"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 返回 xpath选择器对象列表</span></span><br><span class="line">response.xpath(<span class="string">'//title'</span>)</span><br><span class="line">[&lt;Selector xpath=<span class="string">'//title'</span> data=<span class="string">u'&lt;title&gt;\u804c\u4f4d\u641c\u7d22 | \u793e\u4f1a\u62db\u8058 | Tencent \u817e\u8baf\u62db\u8058&lt;/title'</span>&gt;]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 extract()方法返回 Unicode字符串列表</span></span><br><span class="line">response.xpath(<span class="string">'//title'</span>).extract()</span><br><span class="line">[<span class="string">u'&lt;title&gt;\u804c\u4f4d\u641c\u7d22 | \u793e\u4f1a\u62db\u8058 | Tencent \u817e\u8baf\u62db\u8058&lt;/title&gt;'</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印列表第一个元素，终端编码格式显示</span></span><br><span class="line"><span class="keyword">print</span> response.xpath(<span class="string">'//title'</span>).extract()[<span class="number">0</span>]</span><br><span class="line">&lt;title&gt;职位搜索 | 社会招聘 | Tencent 腾讯招聘&lt;/title&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 返回 xpath选择器对象列表</span></span><br><span class="line">response.xpath(<span class="string">'//title/text()'</span>)</span><br><span class="line">&lt;Selector xpath=<span class="string">'//title/text()'</span> data=<span class="string">u'\u804c\u4f4d\u641c\u7d22 | \u793e\u4f1a\u62db\u8058 | Tencent \u817e\u8baf\u62db\u8058'</span>&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 返回列表第一个元素的Unicode字符串</span></span><br><span class="line">response.xpath(<span class="string">'//title/text()'</span>)[<span class="number">0</span>].extract()</span><br><span class="line"><span class="string">u'\u804c\u4f4d\u641c\u7d22 | \u793e\u4f1a\u62db\u8058 | Tencent \u817e\u8baf\u62db\u8058'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 按终端编码格式显示</span></span><br><span class="line"><span class="keyword">print</span> response.xpath(<span class="string">'//title/text()'</span>)[<span class="number">0</span>].extract()</span><br><span class="line">职位搜索 | 社会招聘 | Tencent 腾讯招聘</span><br><span class="line"></span><br><span class="line">response.xpath(<span class="string">'//*[@class="even"]'</span>)</span><br><span class="line">职位名称:</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> site[<span class="number">0</span>].xpath(<span class="string">'./td[1]/a/text()'</span>).extract()[<span class="number">0</span>]</span><br><span class="line">TEG15-运营开发工程师（深圳）</span><br><span class="line">职位名称详情页:</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> site[<span class="number">0</span>].xpath(<span class="string">'./td[1]/a/@href'</span>).extract()[<span class="number">0</span>]</span><br><span class="line">position_detail.php?id=20744&amp;keywords=&amp;tid=0&amp;lid=0</span><br><span class="line">职位类别:</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> site[<span class="number">0</span>].xpath(<span class="string">'./td[2]/text()'</span>).extract()[<span class="number">0</span>]</span><br><span class="line">技术类</span><br></pre></td></tr></table></figure>
+<p>以后做数据提取的时候，可以把现在Scrapy Shell中测试，测试通过后再应用到代码中。</p>
+<p>当然Scrapy Shell作用不仅仅如此，但是不属于我们课程重点，不做详细介绍。</p>
+<p>官方文档：<a href="http://scrapy-chs.readthedocs.io/zh_CN/latest/topics/shell.html" target="_blank" rel="noopener">http://scrapy-chs.readthedocs.io/zh_CN/latest/topics/shell.html</a> </p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/16/2018051622/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Q">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dynamic-Soul">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/16/2018051622/" itemprop="url">配置安装，入门案例</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-16T21:36:13+08:00">2018-05-16</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Scrapy的安装介绍"><a href="#Scrapy的安装介绍" class="headerlink" title="Scrapy的安装介绍"></a>Scrapy的安装介绍</h1><p>Scrapy框架官方网址：<a href="http://doc.scrapy.org/en/latest" target="_blank" rel="noopener">http://doc.scrapy.org/en/latest</a></p>
+<p>Scrapy中文维护站点：<a href="http://scrapy-chs.readthedocs.io/zh_CN/latest/index.html" target="_blank" rel="noopener">http://scrapy-chs.readthedocs.io/zh_CN/latest/index.html</a></p>
+<h2 id="Windows-安装方式"><a href="#Windows-安装方式" class="headerlink" title="Windows 安装方式"></a>Windows 安装方式</h2><ul>
+<li>Python 2 / 3</li>
+<li>升级pip版本：pip install –upgrade pip</li>
+<li>通过pip 安装 Scrapy 框架pip install Scrapy</li>
+</ul>
+<p>##Ubuntu 需要9.10或以上版本安装方式</p>
+<ul>
+<li>Python 2 / 3</li>
+<li>安装非Python的依赖 sudo apt-get install python-dev python-pip libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev</li>
+<li>通过pip 安装 Scrapy 框架 sudo pip install scrapy</li>
+</ul>
+<p>安装后，只要在命令终端输入 scrapy，提示类似以下结果，代表已经安装成功</p>
+<img src="/2018/05/16/2018051622/1.jpg">
+<p>具体Scrapy安装流程参考：<a href="http://doc.scrapy.org/en/latest/intro/install.html#intro-install-platform-notes" target="_blank" rel="noopener">http://doc.scrapy.org/en/latest/intro/install.html#intro-install-platform-notes</a> 里面有各个平台的安装方法</p>
+<h1 id="入门案例"><a href="#入门案例" class="headerlink" title="入门案例"></a>入门案例</h1><h2 id="学习目标"><a href="#学习目标" class="headerlink" title="学习目标"></a>学习目标</h2><ul>
+<li>创建一个Scrapy项目</li>
+<li>定义提取的结构化数据(Item)</li>
+<li>编写爬取网站的 Spider 并提取出结构化数据(Item)</li>
+<li>编写 Item Pipelines 来存储提取到的Item(即结构化数据)</li>
+</ul>
+<h2 id="一-新建项目-scrapy-startproject"><a href="#一-新建项目-scrapy-startproject" class="headerlink" title="一. 新建项目(scrapy startproject)"></a>一. 新建项目(scrapy startproject)</h2><ul>
+<li>在开始爬取之前，必须创建一个新的Scrapy项目。进入自定义的项目目录中，运行下列命令：</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy startproject mySpider</span><br></pre></td></tr></table></figure>
+<ul>
+<li>其中， mySpider 为项目名称，可以看到将会创建一个 mySpider 文件夹，目录结构大致如下：</li>
+</ul>
+<img src="/2018/05/16/2018051622/2.jpg">
+<p>下面来简单介绍一下各个主要文件的作用：</p>
+<pre><code>scrapy.cfg ：项目的配置文件
+
+mySpider/ ：项目的Python模块，将会从这里引用代码
+
+mySpider/items.py ：项目的目标文件
+
+mySpider/pipelines.py ：项目的管道文件
+
+mySpider/settings.py ：项目的设置文件
+
+mySpider/spiders/ ：存储爬虫代码目录
+</code></pre><h2 id="二、明确目标-mySpider-items-py"><a href="#二、明确目标-mySpider-items-py" class="headerlink" title="二、明确目标(mySpider/items.py)"></a>二、明确目标(mySpider/items.py)</h2><p>我们打算抓取：<a href="http://www.itcast.cn/channel/teacher.shtml" target="_blank" rel="noopener">http://www.itcast.cn/channel/teacher.shtml</a> 网站里的所有讲师的姓名、职称和个人信息。</p>
+<ol>
+<li><p>打开mySpider目录下的items.py</p>
+</li>
+<li><p>Item 定义结构化数据字段，用来保存爬取到的数据，有点像Python中的dict，但是提供了一些额外的保护减少错误。</p>
+</li>
+<li><p>可以通过创建一个 scrapy.Item 类， 并且定义类型为 scrapy.Field的类属性来定义一个Item（可以理解成类似于ORM的映射关系）。</p>
+</li>
+<li><p>接下来，创建一个ItcastItem 类，和构建item模型（model）。</p>
+</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scrapy</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ItcastItem</span><span class="params">(scrapy.Item)</span>:</span></span><br><span class="line">    name = scrapy.Field()</span><br><span class="line">    level = scrapy.Field()</span><br><span class="line">    info = scrapy.Field()</span><br></pre></td></tr></table></figure>
+<h2 id="三、制作爬虫-（spiders-itcastSpider-py）"><a href="#三、制作爬虫-（spiders-itcastSpider-py）" class="headerlink" title="三、制作爬虫 （spiders/itcastSpider.py）"></a>三、制作爬虫 （spiders/itcastSpider.py）</h2><p><strong>爬虫功能要分两步：</strong></p>
+<h3 id="1-爬数据"><a href="#1-爬数据" class="headerlink" title="1. 爬数据"></a>1. 爬数据</h3><ul>
+<li><p>在当前目录下输入命令，将在mySpider/spider目录下创建一个名为itcast的爬虫，并指定爬取域的范围：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy genspider itcast <span class="string">"itcast.cn"</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>打开 mySpider/spider目录里的 itcast.py，默认增加了下列代码:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scrapy</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ItcastSpider</span><span class="params">(scrapy.Spider)</span>:</span></span><br><span class="line">    name = <span class="string">"itcast"</span></span><br><span class="line">    allowed_domains = [<span class="string">"itcast.cn"</span>]</span><br><span class="line">    start_urls = (</span><br><span class="line">        <span class="string">'http://www.itcast.cn/'</span>,</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>其实也可以由我们自行创建itcast.py并编写上面的代码，只不过使用命令可以免去编写固定代码的麻烦</p>
+<p>要建立一个Spider， 你必须用scrapy.Spider类创建一个子类，并确定了三个强制的属性 和 一个方法。</p>
+<ul>
+<li><p>name = “” ：这个爬虫的识别名称，必须是唯一的，在不同的爬虫必须定义不同的名字。</p>
+</li>
+<li><p>allow_domains = [] 是搜索的域名范围，也就是爬虫的约束区域，规定爬虫只爬取这个域名下的网页，不存在的URL会被忽略。</p>
+</li>
+<li><p>start_urls = () ：爬取的URL元祖/列表。爬虫从这里开始抓取数据，所以，第一次下载的数据将会从这些urls开始。其他子URL将会从这些起始URL中继承性生成。</p>
+</li>
+<li><p>parse(self, response) ：解析的方法，每个初始URL完成下载后将被调用，调用的时候传入从每一个URL传回的Response对象来作为唯一参数，主要作用如下：</p>
+<ol>
+<li>负责解析返回的网页数据(response.body)，提取结构化数据(生成item)</li>
+<li>生成需要下一页的URL请求。</li>
+</ol>
+</li>
+</ul>
+<p><strong>将start_urls的值修改为需要爬取的第一个url</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">start_urls = (<span class="string">"http://www.itcast.cn/channel/teacher.shtml"</span>,)</span><br></pre></td></tr></table></figure></p>
+<p><strong>修改parse()方法</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self, response)</span>:</span></span><br><span class="line">    filename = <span class="string">"teacher.html"</span></span><br><span class="line">    open(filename, <span class="string">'w'</span>).write(response.body)</span><br></pre></td></tr></table></figure>
+<p>然后运行一下看看，在mySpider目录下执行：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy crawl itcast</span><br></pre></td></tr></table></figure></p>
+<p>是的，就是 itcast，看上面代码，它是 ItcastSpider 类的 name 属性，也就是使用 scrapy genspider命令的唯一爬虫名。</p>
+<p>运行之后，如果打印的日志出现 [scrapy] INFO: Spider closed (finished)，代表执行完成。 之后当前文件夹中就出现了一个 teacher.html 文件，里面就是我们刚刚要爬取的网页的全部源代码信息。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 注意，Python2.x默认编码环境是ASCII，当和取回的数据编码格式不一致时，可能会造成乱码；</span></span><br><span class="line"><span class="comment"># 我们可以指定保存内容的编码格式，一般情况下，我们可以在代码最上方添加：</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">import</span> sys</span><br><span class="line">    reload(sys)</span><br><span class="line">    sys.setdefaultencoding(<span class="string">"utf-8"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 这三行代码是Python2.x里解决中文编码的万能钥匙，经过这么多年的吐槽后Python3学乖了，默认编码是Unicode了...(祝大家早日拥抱Python3)</span></span><br></pre></td></tr></table></figure>
+<h3 id="2-取数据"><a href="#2-取数据" class="headerlink" title="2. 取数据"></a>2. 取数据</h3><ul>
+<li>爬取整个网页完毕，接下来的就是的取过程了<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class="li_txt"&gt;</span><br><span class="line">    &lt;h3&gt;  xxx  &lt;/h3&gt;</span><br><span class="line">    &lt;h4&gt; xxxxx &lt;/h4&gt;</span><br><span class="line">    &lt;p&gt; xxxxxxxx &lt;/p&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong>是不是一目了然？直接上XPath开始提取数据吧。</strong></p>
+<ul>
+<li><p>我们之前在mySpider/items.py 里定义了一个ItcastItem类。 这里引入进来</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> mySpider.items <span class="keyword">import</span> ItcastItem</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>然后将我们得到的数据封装到一个 ItcastItem 对象中，可以保存每个老师的属性：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> mySpider.items <span class="keyword">import</span> ItcastItem</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self, response)</span>:</span></span><br><span class="line">    <span class="comment">#open("teacher.html","wb").write(response.body).close()</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 存放老师信息的集合</span></span><br><span class="line">    items = []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> each <span class="keyword">in</span> response.xpath(<span class="string">"//div[@class='li_txt']"</span>):</span><br><span class="line">        <span class="comment"># 将我们得到的数据封装到一个 `ItcastItem` 对象</span></span><br><span class="line">        item = ItcastItem()</span><br><span class="line">        <span class="comment">#extract()方法返回的都是unicode字符串</span></span><br><span class="line">        name = each.xpath(<span class="string">"h3/text()"</span>).extract()</span><br><span class="line">        title = each.xpath(<span class="string">"h4/text()"</span>).extract()</span><br><span class="line">        info = each.xpath(<span class="string">"p/text()"</span>).extract()</span><br><span class="line"></span><br><span class="line">        <span class="comment">#xpath返回的是包含一个元素的列表</span></span><br><span class="line">        item[<span class="string">'name'</span>] = name[<span class="number">0</span>]</span><br><span class="line">        item[<span class="string">'title'</span>] = title[<span class="number">0</span>]</span><br><span class="line">        item[<span class="string">'info'</span>] = info[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">        items.append(item)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 直接返回最后数据</span></span><br><span class="line">    <span class="keyword">return</span> items</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>我们暂时先不处理管道，后面会详细介绍。</p>
+</li>
+</ul>
+<h2 id="保存数据"><a href="#保存数据" class="headerlink" title="保存数据"></a>保存数据</h2><p><strong>scrapy保存信息的最简单的方法主要有四种，-o 输出指定格式的文件，，命令如下：</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># json格式，默认为Unicode编码</span></span><br><span class="line">scrapy crawl itcast -o teachers.json</span><br><span class="line"></span><br><span class="line"><span class="comment"># json lines格式，默认为Unicode编码</span></span><br><span class="line">scrapy crawl itcast -o teachers.jsonl</span><br><span class="line"></span><br><span class="line"><span class="comment"># csv 逗号表达式，可用Excel打开</span></span><br><span class="line">scrapy crawl itcast -o teachers.csv</span><br><span class="line"></span><br><span class="line"><span class="comment"># xml格式</span></span><br><span class="line">scrapy crawl itcast -o teachers.xml</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/16/2018051621/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1594,380 +2008,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/13/2018051322/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Mr.Q">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dynamic-Soul">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/13/2018051322/" itemprop="url">Selenium与PhantomJS</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-13T21:41:31+08:00">2018-05-13</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Selenium"><a href="#Selenium" class="headerlink" title="Selenium"></a>Selenium</h1><p>Selenium是一个Web的自动化测试工具，最初是为网站自动化测试而开发的，类型像我们玩游戏用的按键精灵，可以按指定的命令自动操作，不同是Selenium 可以直接运行在浏览器上，它支持所有主流的浏览器（包括PhantomJS这些无界面的浏览器）。</p>
-<p>Selenium 可以根据我们的指令，让浏览器自动加载页面，获取需要的数据，甚至页面截屏，或者判断网站上某些动作是否发生。</p>
-<p>Selenium 自己不带浏览器，不支持浏览器的功能，它需要与第三方浏览器结合在一起才能使用。但是我们有时候需要让它内嵌在代码中运行，所以我们可以用一个叫 PhantomJS 的工具代替真实的浏览器</p>
-<pre><code>可以从 PyPI 网站下载 Selenium库https://pypi.python.org/simple/selenium ，也可以用 第三方管理器 pip用命令安装：pip install selenium
-
-Selenium 官方参考文档：http://selenium-python.readthedocs.io/index.html
-</code></pre><h1 id="PhantomJS"><a href="#PhantomJS" class="headerlink" title="PhantomJS"></a>PhantomJS</h1><p>PhantomJS 是一个基于Webkit的“无界面”(headless)浏览器，它会把网站加载到内存并执行页面上的 JavaScript，因为不会展示图形界面，所以运行起来比完整的浏览器要高效。</p>
-<p>如果我们把 Selenium 和 PhantomJS 结合在一起，就可以运行一个非常强大的网络爬虫了，这个爬虫可以处理 JavaScrip、Cookie、headers，以及任何我们真实用户需要做的事情。</p>
-<pre><code>注意：PhantomJS 只能从它的官方网站http://phantomjs.org/download.html) 下载。 因为 PhantomJS 是一个功能完善(虽然无界面)的浏览器而非一个 Python 库，所以它不需要像 Python 的其他库一样安装，但我们可以通过Selenium调用PhantomJS来直接使用。
-
-PhantomJS 官方参考文档：http://phantomjs.org/documentation
-</code></pre><h1 id="快速入门"><a href="#快速入门" class="headerlink" title="快速入门"></a>快速入门</h1><p>Selenium 库里有个叫 WebDriver 的 API。WebDriver 有点儿像可以加载网站的浏览器，但是它也可以像 BeautifulSoup 或者其他 Selector 对象一样用来查找页面元素，与页面上的元素进行交互 (发送文本、点击等)，以及执行其他动作来运行网络爬虫。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># IPython2 测试代码</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 导入 webdriver</span></span><br><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"></span><br><span class="line"><span class="comment"># 要想调用键盘按键操作需要引入keys包</span></span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.common.keys <span class="keyword">import</span> Keys</span><br><span class="line"></span><br><span class="line"><span class="comment"># 调用环境变量指定的PhantomJS浏览器创建浏览器对象</span></span><br><span class="line">driver = webdriver.PhantomJS()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果没有在环境变量指定PhantomJS位置</span></span><br><span class="line"><span class="comment"># driver = webdriver.PhantomJS(executable_path="./phantomjs"))</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># get方法会一直等到页面被完全加载，然后才会继续程序，通常测试会在这里选择 time.sleep(2)</span></span><br><span class="line">driver.get(<span class="string">"http://www.baidu.com/"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取页面名为 wrapper的id标签的文本内容</span></span><br><span class="line">data = driver.find_element_by_id(<span class="string">"wrapper"</span>).text</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印数据内容</span></span><br><span class="line"><span class="keyword">print</span> data</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印页面标题 "百度一下，你就知道"</span></span><br><span class="line"><span class="keyword">print</span> driver.title</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成当前页面快照并保存</span></span><br><span class="line">driver.save_screenshot(<span class="string">"baidu.png"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># id="kw"是百度搜索输入框，输入字符串"长城"</span></span><br><span class="line">driver.find_element_by_id(<span class="string">"kw"</span>).send_keys(<span class="string">u"长城"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># id="su"是百度搜索按钮，click() 是模拟点击</span></span><br><span class="line">driver.find_element_by_id(<span class="string">"su"</span>).click()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取新的页面快照</span></span><br><span class="line">driver.save_screenshot(<span class="string">"长城.png"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印网页渲染后的源代码</span></span><br><span class="line"><span class="keyword">print</span> driver.page_source</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取当前页面Cookie</span></span><br><span class="line"><span class="keyword">print</span> driver.get_cookies()</span><br><span class="line"></span><br><span class="line"><span class="comment"># ctrl+a 全选输入框内容</span></span><br><span class="line">driver.find_element_by_id(<span class="string">"kw"</span>).send_keys(Keys.CONTROL,<span class="string">'a'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># ctrl+x 剪切输入框内容</span></span><br><span class="line">driver.find_element_by_id(<span class="string">"kw"</span>).send_keys(Keys.CONTROL,<span class="string">'x'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输入框重新输入内容</span></span><br><span class="line">driver.find_element_by_id(<span class="string">"kw"</span>).send_keys(<span class="string">"itcast"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 模拟Enter回车键</span></span><br><span class="line">driver.find_element_by_id(<span class="string">"su"</span>).send_keys(Keys.RETURN)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 清除输入框内容</span></span><br><span class="line">driver.find_element_by_id(<span class="string">"kw"</span>).clear()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成新的页面快照</span></span><br><span class="line">driver.save_screenshot(<span class="string">"itcast.png"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取当前url</span></span><br><span class="line"><span class="keyword">print</span> driver.current_url</span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭当前页面，如果只有一个页面，会关闭浏览器</span></span><br><span class="line"><span class="comment"># driver.close()</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭浏览器</span></span><br><span class="line">driver.quit()</span><br></pre></td></tr></table></figure></p>
-<h1 id="页面操作"><a href="#页面操作" class="headerlink" title="页面操作"></a>页面操作</h1><p>Selenium 的 WebDriver提供了各种方法来寻找元素，假设下面有一个表单输入框：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=<span class="string">"text"</span> name=<span class="string">"user-name"</span> id=<span class="string">"passwd-id"</span> /&gt;</span><br></pre></td></tr></table></figure></p>
-<p>那么：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取id标签值</span></span><br><span class="line">element = driver.find_element_by_id(<span class="string">"passwd-id"</span>)</span><br><span class="line"><span class="comment"># 获取name标签值</span></span><br><span class="line">element = driver.find_element_by_name(<span class="string">"user-name"</span>)</span><br><span class="line"><span class="comment"># 获取标签名值</span></span><br><span class="line">element = driver.find_elements_by_tag_name(<span class="string">"input"</span>)</span><br><span class="line"><span class="comment"># 也可以通过XPath来匹配</span></span><br><span class="line">element = driver.find_element_by_xpath(<span class="string">"//input[@id='passwd-id']"</span>)</span><br></pre></td></tr></table></figure></p>
-<h2 id="定位UI元素-WebElements"><a href="#定位UI元素-WebElements" class="headerlink" title="定位UI元素 (WebElements)"></a>定位UI元素 (WebElements)</h2><p><strong>关于元素的选取，有如下的API 单个元素选取</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">find_element_by_id</span><br><span class="line">find_elements_by_name</span><br><span class="line">find_elements_by_xpath</span><br><span class="line">find_elements_by_link_text</span><br><span class="line">find_elements_by_partial_link_text</span><br><span class="line">find_elements_by_tag_name</span><br><span class="line">find_elements_by_class_name</span><br><span class="line">find_elements_by_css_selector</span><br></pre></td></tr></table></figure></p>
-<p>1.By ID<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id="coolestWidgetEvah"&gt;...&lt;/div&gt;</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li>实现<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">element = driver.find_element_by_id(<span class="string">"coolestWidgetEvah"</span>)</span><br><span class="line">------------------------ <span class="keyword">or</span> -------------------------</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.common.by <span class="keyword">import</span> By</span><br><span class="line">element = driver.find_element(by=By.ID, value=<span class="string">"coolestWidgetEvah"</span>)</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>2.By Class Name<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class="cheese"&gt;&lt;span&gt;Cheddar&lt;/span&gt;&lt;/div&gt;&lt;div class="cheese"&gt;&lt;span&gt;Gouda&lt;/span&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li>实现<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cheeses = driver.find_elements_by_class_name(<span class="string">"cheese"</span>)</span><br><span class="line">------------------------ <span class="keyword">or</span> -------------------------</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.common.by <span class="keyword">import</span> By</span><br><span class="line">cheeses = driver.find_elements(By.CLASS_NAME, <span class="string">"cheese"</span>)</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>3.By Tag Name<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;iframe src="..."&gt;&lt;/iframe&gt;</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li>实现<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">frame = driver.find_element_by_tag_name(<span class="string">"iframe"</span>)</span><br><span class="line">------------------------ <span class="keyword">or</span> -------------------------</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.common.by <span class="keyword">import</span> By</span><br><span class="line">frame = driver.find_element(By.TAG_NAME, <span class="string">"iframe"</span>)</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>4.By Name<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input name=<span class="string">"cheese"</span> type=<span class="string">"text"</span>/&gt;</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li>实现<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cheese = driver.find_element_by_name(<span class="string">"cheese"</span>)</span><br><span class="line">------------------------ <span class="keyword">or</span> -------------------------</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.common.by <span class="keyword">import</span> By</span><br><span class="line">cheese = driver.find_element(By.NAME, <span class="string">"cheese"</span>)</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>5.By Link Text<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href="http://www.google.com/search?q=cheese"&gt;cheese&lt;/a&gt;</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li>实现<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cheese = driver.find_element_by_link_text(<span class="string">"cheese"</span>)</span><br><span class="line">------------------------ <span class="keyword">or</span> -------------------------</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.common.by <span class="keyword">import</span> By</span><br><span class="line">cheese = driver.find_element(By.LINK_TEXT, <span class="string">"cheese"</span>)</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>6.By Partial Link Text<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href="http://www.google.com/search?q=cheese"&gt;search for cheese&lt;/a&gt;&gt;</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li>实现<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cheese = driver.find_element_by_partial_link_text(<span class="string">"cheese"</span>)</span><br><span class="line">------------------------ <span class="keyword">or</span> -------------------------</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.common.by <span class="keyword">import</span> By</span><br><span class="line">cheese = driver.find_element(By.PARTIAL_LINK_TEXT, <span class="string">"cheese"</span>)</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>7.By CSS<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id="food"&gt;&lt;span class="dairy"&gt;milk&lt;/span&gt;&lt;span class="dairy aged"&gt;cheese&lt;/span&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li>实现<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cheese = driver.find_element_by_css_selector(<span class="string">"#food span.dairy.aged"</span>)</span><br><span class="line">------------------------ <span class="keyword">or</span> -------------------------</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.common.by <span class="keyword">import</span> By</span><br><span class="line">cheese = driver.find_element(By.CSS_SELECTOR, <span class="string">"#food span.dairy.aged"</span>)</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>8.By XPath<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=<span class="string">"text"</span> name=<span class="string">"example"</span> /&gt;</span><br><span class="line">&lt;INPUT type=<span class="string">"text"</span> name=<span class="string">"other"</span> /&gt;</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li>实现<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">inputs = driver.find_elements_by_xpath(<span class="string">"//input"</span>)</span><br><span class="line">------------------------ <span class="keyword">or</span> -------------------------</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.common.by <span class="keyword">import</span> By</span><br><span class="line">inputs = driver.find_elements(By.XPATH, <span class="string">"//input"</span>)</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h1 id="鼠标动作链"><a href="#鼠标动作链" class="headerlink" title="鼠标动作链"></a>鼠标动作链</h1><p>有些时候，我们需要再页面上模拟一些鼠标操作，比如双击、右击、拖拽甚至按住不动等，我们可以通过导入 ActionChains 类来做到：</p>
-<p>示例：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#导入 ActionChains 类</span></span><br><span class="line"><span class="keyword">from</span> selenium.webdriver <span class="keyword">import</span> ActionChains</span><br><span class="line"></span><br><span class="line"><span class="comment"># 鼠标移动到 ac 位置</span></span><br><span class="line">ac = driver.find_element_by_xpath(<span class="string">'element'</span>)</span><br><span class="line">ActionChains(driver).move_to_element(ac).perform()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 在 ac 位置单击</span></span><br><span class="line">ac = driver.find_element_by_xpath(<span class="string">"elementA"</span>)</span><br><span class="line">ActionChains(driver).move_to_element(ac).click(ac).perform()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在 ac 位置双击</span></span><br><span class="line">ac = driver.find_element_by_xpath(<span class="string">"elementB"</span>)</span><br><span class="line">ActionChains(driver).move_to_element(ac).double_click(ac).perform()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在 ac 位置右击</span></span><br><span class="line">ac = driver.find_element_by_xpath(<span class="string">"elementC"</span>)</span><br><span class="line">ActionChains(driver).move_to_element(ac).context_click(ac).perform()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在 ac 位置左键单击hold住</span></span><br><span class="line">ac = driver.find_element_by_xpath(<span class="string">'elementF'</span>)</span><br><span class="line">ActionChains(driver).move_to_element(ac).click_and_hold(ac).perform()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将 ac1 拖拽到 ac2 位置</span></span><br><span class="line">ac1 = driver.find_element_by_xpath(<span class="string">'elementD'</span>)</span><br><span class="line">ac2 = driver.find_element_by_xpath(<span class="string">'elementE'</span>)</span><br><span class="line">ActionChains(driver).drag_and_drop(ac1, ac2).perform()</span><br></pre></td></tr></table></figure></p>
-<h1 id="填充表单"><a href="#填充表单" class="headerlink" title="填充表单"></a>填充表单</h1><p>我们已经知道了怎样向文本框中输入文字，但是有时候我们会碰到&lt;select> &lt;/select>标签的下拉框。直接点击下拉框中的选项不一定可行。<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;select id="status" class="form-control valid" onchange="" name="status"&gt;</span><br><span class="line">    &lt;option value=""&gt;&lt;/option&gt;</span><br><span class="line">    &lt;option value="0"&gt;未审核&lt;/option&gt;</span><br><span class="line">    &lt;option value="1"&gt;初审通过&lt;/option&gt;</span><br><span class="line">    &lt;option value="2"&gt;复审通过&lt;/option&gt;</span><br><span class="line">    &lt;option value="3"&gt;审核不通过&lt;/option&gt;</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure></p>
-<img src="/2018/05/13/2018051322/1.jpg">
-<p>Selenium专门提供了Select类来处理下拉框。 其实 WebDriver 中提供了一个叫 Select 的方法，可以帮助我们完成这些事情：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 导入 Select 类</span></span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.support.ui <span class="keyword">import</span> Select</span><br><span class="line"></span><br><span class="line"><span class="comment"># 找到 name 的选项卡</span></span><br><span class="line">select = Select(driver.find_element_by_name(<span class="string">'status'</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># </span></span><br><span class="line">select.select_by_index(<span class="number">1</span>)</span><br><span class="line">select.select_by_value(<span class="string">"0"</span>)</span><br><span class="line">select.select_by_visible_text(<span class="string">u"未审核"</span>)</span><br></pre></td></tr></table></figure></p>
-<p>以上是三种选择下拉框的方式，它可以根据索引来选择，可以根据值来选择，可以根据文字来选择。注意：</p>
-<ul>
-<li>index 索引从 0 开始</li>
-<li>value是option标签的一个属性值，并不是显示在下拉框中的值</li>
-<li>visible_text是在option标签文本的值，是显示在下拉框的值</li>
-</ul>
-<p>全部取消选择怎么办呢？很简单:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select.deselect_all()</span><br></pre></td></tr></table></figure></p>
-<h1 id="弹窗处理"><a href="#弹窗处理" class="headerlink" title="弹窗处理"></a>弹窗处理</h1><p>当你触发了某个事件之后，页面出现了弹窗提示，处理这个提示或者获取提示信息方法如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alert = driver.switch_to_alert()</span><br></pre></td></tr></table></figure></p>
-<h1 id="页面切换"><a href="#页面切换" class="headerlink" title="页面切换"></a>页面切换</h1><p>一个浏览器肯定会有很多窗口，所以我们肯定要有方法来实现窗口的切换。切换窗口的方法如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">driver.switch_to.window(<span class="string">"this is window name"</span>)</span><br></pre></td></tr></table></figure></p>
-<p>也可以使用 window_handles 方法来获取每个窗口的操作对象。例如：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> handle <span class="keyword">in</span> driver.window_handles:</span><br><span class="line">    driver.switch_to_window(handle)</span><br></pre></td></tr></table></figure></p>
-<h1 id="页面前进和后退"><a href="#页面前进和后退" class="headerlink" title="页面前进和后退"></a>页面前进和后退</h1><p>操作页面的前进和后退功能：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">driver.forward()     <span class="comment">#前进</span></span><br><span class="line">driver.back()        <span class="comment"># 后退</span></span><br></pre></td></tr></table></figure></p>
-<h1 id="Cookies"><a href="#Cookies" class="headerlink" title="Cookies"></a>Cookies</h1><p>获取页面每个Cookies值，用法如下<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> cookie <span class="keyword">in</span> driver.get_cookies():</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"%s -&gt; %s"</span> % (cookie[<span class="string">'name'</span>], cookie[<span class="string">'value'</span>])</span><br></pre></td></tr></table></figure></p>
-<p>删除Cookies，用法如下<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># By name</span></span><br><span class="line">driver.delete_cookie(<span class="string">"CookieName"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># all</span></span><br><span class="line">driver.delete_all_cookies()</span><br></pre></td></tr></table></figure></p>
-<h1 id="页面等待"><a href="#页面等待" class="headerlink" title="页面等待"></a>页面等待</h1><p>注意：这是非常重要的一部分！！</p>
-<p>现在的网页越来越多采用了 Ajax 技术，这样程序便不能确定何时某个元素完全加载出来了。如果实际页面等待时间过长导致某个dom元素还没出来，但是你的代码直接使用了这个WebElement，那么就会抛出NullPointer的异常。</p>
-<p>为了避免这种元素定位困难而且会提高产生 ElementNotVisibleException 的概率。所以 Selenium 提供了两种等待方式，一种是隐式等待，一种是显式等待。</p>
-<p>隐式等待是等待特定的时间，显式等待是指定某一条件直到这个条件成立时继续执行。</p>
-<h2 id="显式等待"><a href="#显式等待" class="headerlink" title="显式等待"></a>显式等待</h2><p>显式等待指定某个条件，然后设置最长等待时间。如果在这个时间还没有找到元素，那么便会抛出异常了。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.common.by <span class="keyword">import</span> By</span><br><span class="line"><span class="comment"># WebDriverWait 库，负责循环等待</span></span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.support.ui <span class="keyword">import</span> WebDriverWait</span><br><span class="line"><span class="comment"># expected_conditions 类，负责条件出发</span></span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.support <span class="keyword">import</span> expected_conditions <span class="keyword">as</span> EC</span><br><span class="line"></span><br><span class="line">driver = webdriver.Chrome()</span><br><span class="line">driver.get(<span class="string">"http://www.xxxxx.com/loading"</span>)</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="comment"># 页面一直循环，直到 id="myDynamicElement" 出现</span></span><br><span class="line">    element = WebDriverWait(driver, <span class="number">10</span>).until(</span><br><span class="line">        EC.presence_of_element_located((By.ID, <span class="string">"myDynamicElement"</span>))</span><br><span class="line">    )</span><br><span class="line"><span class="keyword">finally</span>:</span><br><span class="line">    driver.quit()</span><br></pre></td></tr></table></figure></p>
-<p>如果不写参数，程序默认会 0.5s 调用一次来查看元素是否已经生成，如果本来元素就是存在的，那么会立即返回。</p>
-<p>下面是一些内置的等待条件，你可以直接调用这些条件，而不用自己写某些等待条件了。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">title_is</span><br><span class="line">title_contains</span><br><span class="line">presence_of_element_located</span><br><span class="line">visibility_of_element_located</span><br><span class="line">visibility_of</span><br><span class="line">presence_of_all_elements_located</span><br><span class="line">text_to_be_present_in_element</span><br><span class="line">text_to_be_present_in_element_value</span><br><span class="line">frame_to_be_available_and_switch_to_it</span><br><span class="line">invisibility_of_element_located</span><br><span class="line">element_to_be_clickable – it <span class="keyword">is</span> Displayed <span class="keyword">and</span> Enabled.</span><br><span class="line">staleness_of</span><br><span class="line">element_to_be_selected</span><br><span class="line">element_located_to_be_selected</span><br><span class="line">element_selection_state_to_be</span><br><span class="line">element_located_selection_state_to_be</span><br><span class="line">alert_is_present</span><br></pre></td></tr></table></figure></p>
-<h2 id="隐式等待"><a href="#隐式等待" class="headerlink" title="隐式等待"></a>隐式等待</h2><p>隐式等待比较简单，就是简单地设置一个等待时间，单位为秒。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line">driver = webdriver.Chrome()</span><br><span class="line">driver.implicitly_wait(<span class="number">10</span>) <span class="comment"># seconds</span></span><br><span class="line">driver.get(<span class="string">"http://www.xxxxx.com/loading"</span>)</span><br><span class="line">myDynamicElement = driver.find_element_by_id(<span class="string">"myDynamicElement"</span>)</span><br></pre></td></tr></table></figure></p>
-<p>当然如果不设置，默认等待时间为0。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/13/2018051321/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Mr.Q">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dynamic-Soul">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/13/2018051321/" itemprop="url">动态HTML介绍</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-13T21:36:33+08:00">2018-05-13</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="JavaScript"><a href="#JavaScript" class="headerlink" title="JavaScript"></a>JavaScript</h1><p>JavaScript 是网络上最常用也是支持者最多的客户端脚本语言。它可以收集 用户的跟踪数据,不需要重载页面直接提交表单，在页面嵌入多媒体文件，甚至运行网页游戏。</p>
-<p>我们可以在网页源代码的<scripy>标签里看到，比如：<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type="text/javascript" src="https://statics.huxiu.com/w/mini/static_2015/js/sea.js?v=201601150944"&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure></scripy></p>
-<h1 id="jQuery"><a href="#jQuery" class="headerlink" title="jQuery"></a>jQuery</h1><p>jQuery 是一个十分常见的库,70% 最流行的网站(约 200 万)和约 30% 的其他网站(约 2 亿)都在使用。一个网站使用 jQuery 的特征,就是源代码里包含了 jQuery 入口,比如:<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type="text/javascript" src="https://statics.huxiu.com/w/mini/static_2015/js/jquery-1.11.1.min.js?v=201512181512"&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
-<p>如果在一个网站上看到了 jQuery，那么采集这个网站数据的时候要格外小心。jQuery 可 以动态地创建 HTML 内容,只有在 JavaScript 代码执行之后才会显示。如果你用传统的方 法采集页面内容,就只能获得 JavaScript 代码执行之前页面上的内容。</p>
-<h1 id="Ajax"><a href="#Ajax" class="headerlink" title="Ajax"></a>Ajax</h1><p>我们与网站服务器通信的唯一方式，就是发出 HTTP 请求获取新页面。如果提交表单之后，或从服务器获取信息之后，网站的页面不需要重新刷新，那么你访问的网站就在用Ajax 技术。</p>
-<p>Ajax 其实并不是一门语言,而是用来完成网络任务(可以认为 它与网络数据采集差不多)的一系列技术。Ajax 全称是 Asynchronous JavaScript and XML(异步 JavaScript 和 XML)，网站不需要使用单独的页面请求就可以和网络服务器进行交互 (收发信息)。</p>
-<h1 id="DHTML"><a href="#DHTML" class="headerlink" title="DHTML"></a>DHTML</h1><p>Ajax 一样，动态 HTML(Dynamic HTML, DHTML)也是一系列用于解决网络问题的 技术集合。DHTML 是用客户端语言改变页面的 HTML 元素(HTML、CSS，或者二者皆 被改变)。比如页面上的按钮只有当用户移动鼠标之后才出现,背景色可能每次点击都会改变，或者用一个 Ajax 请求触发页面加载一段新内容，网页是否属于DHTML，关键要看有没有用 JavaScript 控制 HTML 和 CSS 元素。</p>
-<h1 id="那么，如何搞定？"><a href="#那么，如何搞定？" class="headerlink" title="那么，如何搞定？"></a>那么，如何搞定？</h1><p>那些使用了 Ajax 或 DHTML 技术改变 / 加载内容的页面，可能有一些采集手段。但是用 Python 解决这个问题只有两种途径:</p>
-<pre><code>1.直接从 JavaScript 代码里采集内容（费时费力）
-2.用 Python 的 第三方库运行 JavaScript，直接采集你在浏览器里看到的页面（这个可以有）。
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2019,7 +2059,7 @@ PhantomJS 官方参考文档：http://phantomjs.org/documentation
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">37</span>
+                    <span class="site-state-item-count">39</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2057,9 +2097,7 @@ PhantomJS 官方参考文档：http://phantomjs.org/documentation
                     
                       
                     
-                      
-                    
-                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-count">5</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -2128,7 +2166,7 @@ PhantomJS 官方参考文档：http://phantomjs.org/documentation
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共51.6k字</span>
+  <span class="post-count">博客全站共52.9k字</span>
 </div>
         
 
