@@ -311,6 +311,152 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/26/2018052622/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Q">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dynamic-Soul">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/26/2018052622/" itemprop="url">手机App抓包爬虫</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-26T22:04:11+08:00">2018-05-26</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="手机App抓包爬虫"><a href="#手机App抓包爬虫" class="headerlink" title="手机App抓包爬虫"></a>手机App抓包爬虫</h1><h2 id="1-items-py"><a href="#1-items-py" class="headerlink" title="1. items.py"></a>1. items.py</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DouyuspiderItem</span><span class="params">(scrapy.Item)</span>:</span></span><br><span class="line">    name = scrapy.Field()<span class="comment"># 存储照片的名字</span></span><br><span class="line">    imagesUrls = scrapy.Field()<span class="comment"># 照片的url路径</span></span><br><span class="line">    imagesPath = scrapy.Field()<span class="comment"># 照片保存在本地的路径</span></span><br></pre></td></tr></table></figure>
+<h2 id="2-spiders-douyu-py"><a href="#2-spiders-douyu-py" class="headerlink" title="2. spiders/douyu.py"></a>2. spiders/douyu.py</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scrapy</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">from</span> douyuSpider.items <span class="keyword">import</span> DouyuspiderItem</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DouyuSpider</span><span class="params">(scrapy.Spider)</span>:</span></span><br><span class="line">    name = <span class="string">"douyu"</span></span><br><span class="line">    allowd_domains = [<span class="string">"http://capi.douyucdn.cn"</span>]</span><br><span class="line"></span><br><span class="line">    offset = <span class="number">0</span></span><br><span class="line">    url = <span class="string">"http://capi.douyucdn.cn/api/v1/getVerticalRoom?limit=20&amp;offset="</span></span><br><span class="line">    start_urls = [url + str(offset)]</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self, response)</span>:</span></span><br><span class="line">      <span class="comment"># 返回从json里获取 data段数据集合</span></span><br><span class="line">      data = json.loads(response.text)[<span class="string">"data"</span>]</span><br><span class="line"></span><br><span class="line">      <span class="keyword">for</span> each <span class="keyword">in</span> data:</span><br><span class="line">          item = DouyuspiderItem()</span><br><span class="line">          item[<span class="string">"name"</span>] = each[<span class="string">"nickname"</span>]</span><br><span class="line">          item[<span class="string">"imagesUrls"</span>] = each[<span class="string">"vertical_src"</span>]</span><br><span class="line"></span><br><span class="line">          <span class="keyword">yield</span> item</span><br><span class="line"></span><br><span class="line">      self.offset += <span class="number">20</span></span><br><span class="line">      <span class="keyword">yield</span> scrapy.Request(self.url + str(self.offset), callback = self.parse)</span><br></pre></td></tr></table></figure>
+<h2 id="3-设置setting-py"><a href="#3-设置setting-py" class="headerlink" title="3. 设置setting.py"></a>3. 设置setting.py</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ITEM_PIPELINES = &#123;<span class="string">'douyuSpider.pipelines.ImagesPipeline'</span>: <span class="number">1</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># Images 的存放位置，之后会在pipelines.py里调用</span></span><br><span class="line">IMAGES_STORE = <span class="string">"/Users/Power/lesson_python/douyuSpider/Images"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># user-agent</span></span><br><span class="line">USER_AGENT = <span class="string">'DYZB/2.290 (iPhone; iOS 9.3.4; Scale/2.00)'</span></span><br></pre></td></tr></table></figure>
+<h2 id="4-pipelines-py"><a href="#4-pipelines-py" class="headerlink" title="4. pipelines.py"></a>4. pipelines.py</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scrapy</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> scrapy.pipelines.images <span class="keyword">import</span> ImagesPipeline</span><br><span class="line"><span class="keyword">from</span> scrapy.utils.project <span class="keyword">import</span> get_project_settings</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ImagesPipeline</span><span class="params">(ImagesPipeline)</span>:</span></span><br><span class="line">    IMAGES_STORE = get_project_settings().get(<span class="string">"IMAGES_STORE"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_media_requests</span><span class="params">(self, item, info)</span>:</span></span><br><span class="line">        image_url = item[<span class="string">"imagesUrls"</span>]</span><br><span class="line">        <span class="keyword">yield</span> scrapy.Request(image_url)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">item_completed</span><span class="params">(self, results, item, info)</span>:</span></span><br><span class="line">        <span class="comment"># 固定写法，获取图片路径，同时判断这个路径是否正确，如果正确，就放到 image_path里，ImagesPipeline源码剖析可见</span></span><br><span class="line">        image_path = [x[<span class="string">"path"</span>] <span class="keyword">for</span> ok, x <span class="keyword">in</span> results <span class="keyword">if</span> ok]</span><br><span class="line"></span><br><span class="line">        os.rename(self.IMAGES_STORE + <span class="string">"/"</span> + image_path[<span class="number">0</span>], self.IMAGES_STORE + <span class="string">"/"</span> + item[<span class="string">"name"</span>] + <span class="string">".jpg"</span>)</span><br><span class="line">        item[<span class="string">"imagesPath"</span>] = self.IMAGES_STORE + <span class="string">"/"</span> + item[<span class="string">"name"</span>]</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> item</span><br><span class="line"></span><br><span class="line"><span class="comment">#get_media_requests的作用就是为每一个图片链接生成一个Request对象，这个方法的输出将作为item_completed的输入中的results，results是一个元组，每个元组包括(success, imageinfoorfailure)。如果success=true，imageinfoor_failure是一个字典，包括url/path/checksum三个key。</span></span><br></pre></td></tr></table></figure>
+<h2 id="在项目根目录下新建main-py文件-用于调试"><a href="#在项目根目录下新建main-py文件-用于调试" class="headerlink" title="在项目根目录下新建main.py文件,用于调试"></a>在项目根目录下新建main.py文件,用于调试</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scrapy <span class="keyword">import</span> cmdline</span><br><span class="line">cmdline.execute(<span class="string">'scrapy crawl douyu'</span>.split())</span><br></pre></td></tr></table></figure>
+<h2 id="执行程序"><a href="#执行程序" class="headerlink" title="执行程序"></a>执行程序</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">py2 main.py</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/25/2018052520/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1739,248 +1885,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/20/2018052020/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Mr.Q">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dynamic-Soul">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/20/2018052020/" itemprop="url">Downloader Middlewares</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-20T20:53:09+08:00">2018-05-20</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="反反爬虫相关机制"><a href="#反反爬虫相关机制" class="headerlink" title="反反爬虫相关机制"></a>反反爬虫相关机制</h1><p><strong>Some websites implement certain measures to prevent bots from crawling them, with varying degrees of sophistication. Getting around those measures can be difficult and tricky, and may sometimes require special infrastructure. Please consider contacting commercial support if in doubt.<br>(有些些网站使用特定的不同程度的复杂性规则防止爬虫访问，绕过这些规则是困难和复杂的，有时可能需要特殊的基础设施，如果有疑问，请联系商业支持。)</strong></p>
-<pre><code>来自于Scrapy官方文档描述：http://doc.scrapy.org/en/master/topics/practices.html#avoiding-getting-banned
-</code></pre><h2 id="通常防止爬虫被反主要有以下几个策略："><a href="#通常防止爬虫被反主要有以下几个策略：" class="headerlink" title="通常防止爬虫被反主要有以下几个策略："></a>通常防止爬虫被反主要有以下几个策略：</h2><ul>
-<li><p>动态设置User-Agent（随机切换User-Agent，模拟不同用户的浏览器信息）</p>
-</li>
-<li><p>禁用Cookies（也就是不启用cookies middleware，不向Server发送cookies，有些网站通过cookie的使用发现爬虫行为）</p>
-<ul>
-<li>可以通过COOKIES_ENABLED 控制 CookiesMiddleware 开启或关闭</li>
-</ul>
-</li>
-<li><p>设置延迟下载（防止访问过于频繁，设置为 2秒 或更高）</p>
-</li>
-<li><p>Google Cache 和 Baidu Cache：如果可能的话，使用谷歌/百度等搜索引擎服务器页面缓存获取页面数据。</p>
-</li>
-<li><p>使用IP地址池：VPN和代理IP，现在大部分网站都是根据IP来ban的。</p>
-</li>
-<li><p>使用 Crawlera（专用于爬虫的代理组件），正确配置和设置下载中间件后，项目所有的request都是通过crawlera发出。</p>
-</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">DOWNLOADER_MIDDLEWARES = &#123;</span><br><span class="line">      <span class="string">'scrapy_crawlera.CrawleraMiddleware'</span>: <span class="number">600</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  CRAWLERA_ENABLED = <span class="keyword">True</span></span><br><span class="line">  CRAWLERA_USER = <span class="string">'注册/购买的UserKey'</span></span><br><span class="line">  CRAWLERA_PASS = <span class="string">'注册/购买的Password'</span></span><br></pre></td></tr></table></figure>
-<h1 id="设置下载中间件（Downloader-Middlewares）"><a href="#设置下载中间件（Downloader-Middlewares）" class="headerlink" title="设置下载中间件（Downloader Middlewares）"></a>设置下载中间件（Downloader Middlewares）</h1><p>下载中间件是处于引擎(crawler.engine)和下载器(crawler.engine.download())之间的一层组件，可以有多个下载中间件被加载运行。</p>
-<ol>
-<li><p>当引擎传递请求给下载器的过程中，下载中间件可以对请求进行处理 （例如增加http header信息，增加proxy信息等）；</p>
-</li>
-<li><p>在下载器完成http请求，传递响应给引擎的过程中， 下载中间件可以对响应进行处理（例如进行gzip的解压等）</p>
-</li>
-</ol>
-<p>要激活下载器中间件组件，将其加入到 DOWNLOADER_MIDDLEWARES 设置中。 该设置是一个字典(dict)，键为中间件类的路径，值为其中间件的顺序(order)。</p>
-<p>这里是一个例子:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">DOWNLOADER_MIDDLEWARES = &#123;</span><br><span class="line">    <span class="string">'mySpider.middlewares.MyDownloaderMiddleware'</span>: <span class="number">543</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>编写下载器中间件十分简单。每个中间件组件是一个定义了以下一个或多个方法的Python类:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">scrapy</span>.<span class="title">contrib</span>.<span class="title">downloadermiddleware</span>.<span class="title">DownloaderMiddleware</span></span></span><br></pre></td></tr></table></figure>
-<h2 id="process-request-self-request-spider"><a href="#process-request-self-request-spider" class="headerlink" title="process_request(self, request, spider)"></a>process_request(self, request, spider)</h2><ul>
-<li><p>当每个request通过下载中间件时，该方法被调用。</p>
-</li>
-<li><p>process_request() 必须返回以下其中之一：一个 None 、一个 Response 对象、一个 Request 对象或 raise IgnoreRequest:</p>
-<ul>
-<li><p>如果其返回 None ，Scrapy将继续处理该request，执行其他的中间件的相应方法，直到合适的下载器处理函数(download handler)被调用， 该request被执行(其response被下载)。</p>
-</li>
-<li><p>如果其返回 Response 对象，Scrapy将不会调用 任何 其他的 process_request() 或 process_exception() 方法，或相应地下载函数； 其将返回该response。 已安装的中间件的 process_response() 方法则会在每个response返回时被调用。</p>
-</li>
-<li><p>如果其返回 Request 对象，Scrapy则停止调用 process_request方法并重新调度返回的request。当新返回的request被执行后， 相应地中间件链将会根据下载的response被调用。</p>
-</li>
-<li><p>如果其raise一个 IgnoreRequest 异常，则安装的下载中间件的 process_exception() 方法会被调用。如果没有任何一个方法处理该异常， 则request的errback(Request.errback)方法会被调用。如果没有代码处理抛出的异常， 则该异常被忽略且不记录(不同于其他异常那样)。</p>
-</li>
-</ul>
-</li>
-<li><p>参数:</p>
-<ul>
-<li>request (Request 对象) – 处理的request</li>
-<li>spider (Spider 对象) – 该request对应的spider</li>
-</ul>
-</li>
-</ul>
-<h2 id="process-response-self-request-response-spider"><a href="#process-response-self-request-response-spider" class="headerlink" title="process_response(self, request, response, spider)"></a>process_response(self, request, response, spider)</h2><p>当下载器完成http请求，传递响应给引擎的时候调用</p>
-<ul>
-<li><p>process_request() 必须返回以下其中之一: 返回一个 Response 对象、 返回一个 Request 对象或raise一个 IgnoreRequest 异常。</p>
-<ul>
-<li><p>如果其返回一个 Response (可以与传入的response相同，也可以是全新的对象)， 该response会被在链中的其他中间件的 process_response() 方法处理。</p>
-</li>
-<li><p>如果其返回一个 Request 对象，则中间件链停止， 返回的request会被重新调度下载。处理类似于 process_request() 返回request所做的那样。</p>
-</li>
-<li><p>如果其抛出一个 IgnoreRequest 异常，则调用request的errback(Request.errback)。 如果没有代码处理抛出的异常，则该异常被忽略且不记录(不同于其他异常那样)。</p>
-</li>
-</ul>
-</li>
-<li><p>参数:</p>
-<ul>
-<li>request (Request 对象) – response所对应的request</li>
-<li>response (Response 对象) – 被处理的response</li>
-<li>spider (Spider 对象) – response所对应的spider</li>
-</ul>
-</li>
-</ul>
-<h1 id="使用案例："><a href="#使用案例：" class="headerlink" title="使用案例："></a>使用案例：</h1><p><strong>1.创建middlewares.py文件。</strong></p>
-<p>Scrapy代理IP、Uesr-Agent的切换都是通过DOWNLOADER_MIDDLEWARES进行控制，我们在settings.py同级目录下创建middlewares.py文件，包装所有请求。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># middlewares.py</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> settings <span class="keyword">import</span> USER_AGENTS</span><br><span class="line"><span class="keyword">from</span> settings <span class="keyword">import</span> PROXIES</span><br><span class="line"></span><br><span class="line"><span class="comment"># 随机的User-Agent</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RandomUserAgent</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">process_request</span><span class="params">(self, request, spider)</span>:</span></span><br><span class="line">        useragent = random.choice(USER_AGENTS)</span><br><span class="line"></span><br><span class="line">        request.headers.setdefault(<span class="string">"User-Agent"</span>, useragent)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RandomProxy</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">process_request</span><span class="params">(self, request, spider)</span>:</span></span><br><span class="line">        proxy = random.choice(PROXIES)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> proxy[<span class="string">'user_passwd'</span>] <span class="keyword">is</span> <span class="keyword">None</span>:</span><br><span class="line">            <span class="comment"># 没有代理账户验证的代理使用方式</span></span><br><span class="line">            request.meta[<span class="string">'proxy'</span>] = <span class="string">"http://"</span> + proxy[<span class="string">'ip_port'</span>]</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="comment"># 对账户密码进行base64编码转换</span></span><br><span class="line">            base64_userpasswd = base64.b64encode(proxy[<span class="string">'user_passwd'</span>])</span><br><span class="line">            <span class="comment"># 对应到代理服务器的信令格式里</span></span><br><span class="line">            request.headers[<span class="string">'Proxy-Authorization'</span>] = <span class="string">'Basic '</span> + base64_userpasswd</span><br><span class="line">            request.meta[<span class="string">'proxy'</span>] = <span class="string">"http://"</span> + proxy[<span class="string">'ip_port'</span>]</span><br></pre></td></tr></table></figure>
-<pre><code>为什么HTTP代理要使用base64编码：
-
-HTTP代理的原理很简单，就是通过HTTP协议与代理服务器建立连接，协议信令中包含要连接到的远程主机的IP和端口号，如果有需要身份验证的话还需要加上授权信息，服务器收到信令后首先进行身份验证，通过后便与远程主机建立连接，连接成功之后会返回给客户端200，表示验证通过，就这么简单，下面是具体的信令格式：
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CONNECT <span class="number">59.64</span><span class="number">.128</span><span class="number">.198</span>:<span class="number">21</span> HTTP/<span class="number">1.1</span></span><br><span class="line">Host: <span class="number">59.64</span><span class="number">.128</span><span class="number">.198</span>:<span class="number">21</span></span><br><span class="line">Proxy-Authorization: Basic bGV2I1TU5OTIz</span><br><span class="line">User-Agent: OpenFetion</span><br></pre></td></tr></table></figure>
-<p>其中Proxy-Authorization是身份验证信息，Basic后面的字符串是用户名和密码组合后进行base64编码的结果，也就是对username:password进行base64编码。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HTTP/<span class="number">1.0</span> <span class="number">200</span> Connection established</span><br></pre></td></tr></table></figure>
-<p>OK，客户端收到收面的信令后表示成功建立连接，接下来要发送给远程主机的数据就可以发送给代理服务器了，代理服务器建立连接后会在根据IP地址和端口号对应的连接放入缓存，收到信令后再根据IP地址和端口号从缓存中找到对应的连接，将数据通过该连接转发出去。</p>
-<p><strong>2. 修改settings.py配置USER_AGENTS和PROXIES</strong></p>
-<ul>
-<li><p>添加USER_AGENTS：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">USER_AGENTS = [</span><br><span class="line">    <span class="string">"Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trident/5.0; .NET CLR 3.5.30729; .NET CLR 3.0.30729; .NET CLR 2.0.50727; Media Center PC 6.0)"</span>,</span><br><span class="line">    <span class="string">"Mozilla/5.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0; WOW64; Trident/4.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; .NET CLR 1.0.3705; .NET CLR 1.1.4322)"</span>,</span><br><span class="line">    <span class="string">"Mozilla/4.0 (compatible; MSIE 7.0b; Windows NT 5.2; .NET CLR 1.1.4322; .NET CLR 2.0.50727; InfoPath.2; .NET CLR 3.0.04506.30)"</span>,</span><br><span class="line">    <span class="string">"Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN) AppleWebKit/523.15 (KHTML, like Gecko, Safari/419.3) Arora/0.3 (Change: 287 c9dfb30)"</span>,</span><br><span class="line">    <span class="string">"Mozilla/5.0 (X11; U; Linux; en-US) AppleWebKit/527+ (KHTML, like Gecko, Safari/419.3) Arora/0.6"</span>,</span><br><span class="line">    <span class="string">"Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.2pre) Gecko/20070215 K-Ninja/2.1.1"</span>,</span><br><span class="line">    <span class="string">"Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9) Gecko/20080705 Firefox/3.0 Kapiko/3.0"</span>,</span><br><span class="line">    <span class="string">"Mozilla/5.0 (X11; Linux i686; U;) Gecko/20070322 Kazehakase/0.4.5"</span></span><br><span class="line">    ]</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>添加代理IP设置PROXIES：</p>
-<p>  免费代理IP可以网上搜索，或者付费购买一批可用的私密代理IP：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PROXIES = [</span><br><span class="line">    &#123;<span class="string">'ip_port'</span>: <span class="string">'111.8.60.9:8123'</span>, <span class="string">'user_passwd'</span>: <span class="string">'user1:pass1'</span>&#125;,</span><br><span class="line">    &#123;<span class="string">'ip_port'</span>: <span class="string">'101.71.27.120:80'</span>, <span class="string">'user_passwd'</span>: <span class="string">'user2:pass2'</span>&#125;,</span><br><span class="line">    &#123;<span class="string">'ip_port'</span>: <span class="string">'122.96.59.104:80'</span>, <span class="string">'user_passwd'</span>: <span class="string">'user3:pass3'</span>&#125;,</span><br><span class="line">    &#123;<span class="string">'ip_port'</span>: <span class="string">'122.224.249.122:8088'</span>, <span class="string">'user_passwd'</span>: <span class="string">'user4:pass4'</span>&#125;,</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>除非特殊需要，禁用cookies，防止某些网站根据Cookie来封锁爬虫。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">COOKIES_ENABLED = <span class="keyword">False</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>设置下载延迟</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DOWNLOAD_DELAY = <span class="number">3</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>最后设置setting.py里的DOWNLOADER_MIDDLEWARES，添加自己编写的下载中间件类。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">DOWNLOADER_MIDDLEWARES = &#123;</span><br><span class="line">    <span class="comment">#'mySpider.middlewares.MyCustomDownloaderMiddleware': 543,</span></span><br><span class="line">    <span class="string">'mySpider.middlewares.RandomUserAgent'</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="string">'mySpider.middlewares.ProxyMiddleware'</span>: <span class="number">100</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2032,7 +1936,7 @@ HTTP代理的原理很简单，就是通过HTTP协议与代理服务器建立连
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">43</span>
+                    <span class="site-state-item-count">44</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2072,7 +1976,9 @@ HTTP代理的原理很简单，就是通过HTTP协议与代理服务器建立连
                     
                       
                     
-                    <span class="site-state-item-count">6</span>
+                      
+                    
+                    <span class="site-state-item-count">7</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -2141,7 +2047,7 @@ HTTP代理的原理很简单，就是通过HTTP协议与代理服务器建立连
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共56.6k字</span>
+  <span class="post-count">博客全站共57.0k字</span>
 </div>
         
 
