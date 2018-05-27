@@ -311,6 +311,192 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/11/2018051121/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Q">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dynamic-Soul">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/11/2018051121/" itemprop="url">JSON模块与JsonPath</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-11T20:07:31+08:00">2018-05-11</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="数据提取之JSON与JsonPATH"><a href="#数据提取之JSON与JsonPATH" class="headerlink" title="数据提取之JSON与JsonPATH"></a>数据提取之JSON与JsonPATH</h1><p>JSON(JavaScript Object Notation) 是一种轻量级的数据交换格式，它使得人们很容易的进行阅读和编写。同时也方便了机器进行解析和生成。适用于进行数据交互的场景，比如网站前台与后台之间的数据交互。</p>
+<p>JSON和XML的比较可谓不相上下。</p>
+<p>Python 2.7中自带了JSON模块，直接import json就可以使用了。</p>
+<p>官方文档：<a href="http://docs.python.org/library/json.html" target="_blank" rel="noopener">http://docs.python.org/library/json.html</a></p>
+<p>Json在线解析网站：<a href="http://www.json.cn/#" target="_blank" rel="noopener">http://www.json.cn/#</a></p>
+<p>#JSON</p>
+<p>json简单说就是javascript中的对象和数组，所以这两种结构就是对象和数组两种结构，通过这两种结构可以表示各种复杂的结构</p>
+<pre><code>1. 对象：对象在js中表示为{ }括起来的内容，数据结构为 { key：value, key：value, ... }的键值对的结构，在面向对象的语言中，key为对象的属性，value为对应的属性值，所以很容易理解，取值方法为 对象.key 获取属性值，这个属性值的类型可以是数字、字符串、数组、对象这几种。
+
+2. 数组：数组在js中是中括号[ ]括起来的内容，数据结构为 [&quot;Python&quot;, &quot;javascript&quot;, &quot;C++&quot;, ...]，取值方式和所有语言中一样，使用索引获取，字段值的类型可以是 数字、字符串、数组、对象几种。
+</code></pre><h2 id="import-json"><a href="#import-json" class="headerlink" title="import json"></a>import json</h2><p>json模块提供了四个功能：dumps、dump、loads、load，用于字符串 和 python数据类型间进行转换。</p>
+<h3 id="1-json-loads"><a href="#1-json-loads" class="headerlink" title="1. json.loads()"></a>1. json.loads()</h3><p>把Json格式字符串解码转换成Python对象 从json到python的类型转化对照如下：</p>
+<img src="/2018/05/11/2018051121/1.jpg">
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># json_loads.py</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line">strList = <span class="string">'[1, 2, 3, 4]'</span></span><br><span class="line"></span><br><span class="line">strDict = <span class="string">'&#123;"city": "北京", "name": "大猫"&#125;'</span></span><br><span class="line"></span><br><span class="line">json.loads(strList) </span><br><span class="line"><span class="comment"># [1, 2, 3, 4]</span></span><br><span class="line"></span><br><span class="line">json.loads(strDict) <span class="comment"># json数据自动按Unicode存储</span></span><br><span class="line"><span class="comment"># &#123;u'city': u'\u5317\u4eac', u'name': u'\u5927\u732b'&#125;</span></span><br></pre></td></tr></table></figure>
+<h3 id="2-json-dumps"><a href="#2-json-dumps" class="headerlink" title="2. json.dumps()"></a>2. json.dumps()</h3><p>实现python类型转化为json字符串，返回一个str对象 把一个Python对象编码转换成Json字符串</p>
+<p>从python原始类型向json类型的转化对照如下：</p>
+<img src="/2018/05/11/2018051121/2.jpg">
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># json_dumps.py</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> chardet</span><br><span class="line"></span><br><span class="line">listStr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line">tupleStr = (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>)</span><br><span class="line">dictStr = &#123;<span class="string">"city"</span>: <span class="string">"北京"</span>, <span class="string">"name"</span>: <span class="string">"大猫"</span>&#125;</span><br><span class="line"></span><br><span class="line">json.dumps(listStr)</span><br><span class="line"><span class="comment"># '[1, 2, 3, 4]'</span></span><br><span class="line">json.dumps(tupleStr)</span><br><span class="line"><span class="comment"># '[1, 2, 3, 4]'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 注意：json.dumps() 序列化时默认使用的ascii编码</span></span><br><span class="line"><span class="comment"># 添加参数 ensure_ascii=False 禁用ascii编码，按utf-8编码</span></span><br><span class="line"><span class="comment"># chardet.detect()返回字典, 其中confidence是检测精确度</span></span><br><span class="line"></span><br><span class="line">json.dumps(dictStr) </span><br><span class="line"><span class="comment"># '&#123;"city": "\\u5317\\u4eac", "name": "\\u5927\\u5218"&#125;'</span></span><br><span class="line"></span><br><span class="line">chardet.detect(json.dumps(dictStr))</span><br><span class="line"><span class="comment"># &#123;'confidence': 1.0, 'encoding': 'ascii'&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> json.dumps(dictStr, ensure_ascii=<span class="keyword">False</span>) </span><br><span class="line"><span class="comment"># &#123;"city": "北京", "name": "大刘"&#125;</span></span><br><span class="line"></span><br><span class="line">chardet.detect(json.dumps(dictStr, ensure_ascii=<span class="keyword">False</span>))</span><br><span class="line"><span class="comment"># &#123;'confidence': 0.99, 'encoding': 'utf-8'&#125;</span></span><br></pre></td></tr></table></figure>
+<p><em>chardet是一个非常优秀的编码识别模块，可通过pip安装</em></p>
+<h3 id="3-json-dump"><a href="#3-json-dump" class="headerlink" title="3. json.dump()"></a>3. json.dump()</h3><p>将Python内置类型序列化为json对象后写入文件<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># json_dump.py</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line">listStr = [&#123;<span class="string">"city"</span>: <span class="string">"北京"</span>&#125;, &#123;<span class="string">"name"</span>: <span class="string">"大刘"</span>&#125;]</span><br><span class="line">json.dump(listStr, open(<span class="string">"listStr.json"</span>,<span class="string">"w"</span>), ensure_ascii=<span class="keyword">False</span>)</span><br><span class="line"></span><br><span class="line">dictStr = &#123;<span class="string">"city"</span>: <span class="string">"北京"</span>, <span class="string">"name"</span>: <span class="string">"大刘"</span>&#125;</span><br><span class="line">json.dump(dictStr, open(<span class="string">"dictStr.json"</span>,<span class="string">"w"</span>), ensure_ascii=<span class="keyword">False</span>)</span><br></pre></td></tr></table></figure></p>
+<h3 id="4-json-load"><a href="#4-json-load" class="headerlink" title="4. json.load()"></a>4. json.load()</h3><p>读取文件中json形式的字符串元素 转化成python类型<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># json_load.py</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line">strList = json.load(open(<span class="string">"listStr.json"</span>))</span><br><span class="line"><span class="keyword">print</span> strList</span><br><span class="line"></span><br><span class="line"><span class="comment"># [&#123;u'city': u'\u5317\u4eac'&#125;, &#123;u'name': u'\u5927\u5218'&#125;]</span></span><br><span class="line"></span><br><span class="line">strDict = json.load(open(<span class="string">"dictStr.json"</span>))</span><br><span class="line"><span class="keyword">print</span> strDict</span><br><span class="line"><span class="comment"># &#123;u'city': u'\u5317\u4eac', u'name': u'\u5927\u5218'&#125;</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="JsonPath"><a href="#JsonPath" class="headerlink" title="JsonPath"></a>JsonPath</h1><p>JsonPath 是一种信息抽取类库，是从JSON文档中抽取指定信息的工具，提供多种语言实现版本，包括：Javascript, Python， PHP 和 Java。</p>
+<p>JsonPath 对于 JSON 来说，相当于 XPATH 对于 XML。</p>
+<pre><code>下载地址：https://pypi.python.org/pypi/jsonpath
+
+安装方法：点击Download URL链接下载jsonpath，解压之后执行python setup.py install
+
+官方文档：http://goessner.net/articles/JsonPath
+</code></pre><h2 id="JsonPath与XPath语法对比："><a href="#JsonPath与XPath语法对比：" class="headerlink" title="JsonPath与XPath语法对比："></a>JsonPath与XPath语法对比：</h2><p>Json结构清晰，可读性高，复杂度低，非常容易匹配，下表中对应了XPath的用法。<br>|XPath|     JSONPath|     描述|<br>|—–|—–|—–|<br>|/ |    $ |    根节点|<br>|.|     @ |    现行节点|<br>|/ |    .or[] |    取子节点|<br>|..     |n/a |    取父节点，Jsonpath未支持|<br>|// |    ..     就是不管位置，选择所有符合条件的条件|<br>|<em> |    </em> |    匹配所有元素节点|<br>|@|     n/a |    根据属性访问，Json不支持，因为Json是个Key-value递归结构，不需要。|<br>|[] |    [] |    迭代器标示（可以在里边做简单的迭代操作，如数组下标，根据内容选值等）|<br>| |     |[,] |    支持迭代器中做多选。|<br>|[] |    ?() |    支持过滤操作.|<br>|n/a|     ()     |支持表达式计算|<br>|() |    n/a|     分组，JsonPath不支持|</p>
+<h2 id="示例："><a href="#示例：" class="headerlink" title="示例："></a>示例：</h2><p>我们以拉勾网城市JSON文件 <a href="http://www.lagou.com/lbs/getAllCitySearchLabels.json" target="_blank" rel="noopener">http://www.lagou.com/lbs/getAllCitySearchLabels.json</a> 为例，获取所有城市。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># jsonpath_lagou.py</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"><span class="keyword">import</span> jsonpath</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> chardet</span><br><span class="line"></span><br><span class="line">url = <span class="string">'http://www.lagou.com/lbs/getAllCitySearchLabels.json'</span></span><br><span class="line">request =urllib2.Request(url)</span><br><span class="line">response = urllib2.urlopen(request)</span><br><span class="line">html = response.read()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 把json格式字符串转换成python对象</span></span><br><span class="line">jsonobj = json.loads(html)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 从根节点开始，匹配name节点</span></span><br><span class="line">citylist = jsonpath.jsonpath(jsonobj,<span class="string">'$..name'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> citylist</span><br><span class="line"><span class="keyword">print</span> type(citylist)</span><br><span class="line">fp = open(<span class="string">'city.json'</span>,<span class="string">'w'</span>)</span><br><span class="line"></span><br><span class="line">content = json.dumps(citylist, ensure_ascii=<span class="keyword">False</span>)</span><br><span class="line"><span class="keyword">print</span> content</span><br><span class="line"></span><br><span class="line">fp.write(content.encode(<span class="string">'utf-8'</span>))</span><br><span class="line">fp.close()</span><br></pre></td></tr></table></figure>
+<h2 id="注意事项："><a href="#注意事项：" class="headerlink" title="注意事项："></a>注意事项：</h2><p>json.loads() 是把 Json格式字符串解码转换成Python对象，如果在json.loads的时候出错，要注意被解码的Json字符的编码。</p>
+<p>如果传入的字符串的编码不是UTF-8的话，需要指定字符编码的参数 encoding<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dataDict = json.loads(jsonStrGBK);</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><p>dataJsonStr是JSON字符串，假设其编码本身是非UTF-8的话而是GBK 的，那么上述代码会导致出错，改为对应的:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dataDict = json.loads(jsonStrGBK, encoding=<span class="string">"GBK"</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果 dataJsonStr通过encoding指定了合适的编码，但是其中又包含了其他编码的字符，则需要先去将dataJsonStr转换为Unicode，然后再指定编码格式调用json.loads() </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dataJsonStrUni = dataJsonStr.decode(<span class="string">"GB2312"</span>); dataDict = json.loads(dataJsonStrUni, encoding=<span class="string">"GB2312"</span>);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">##字符串编码转换</span></span><br><span class="line"></span><br><span class="line">这是中国程序员最苦逼的地方，什么乱码之类的几乎都是由汉字引起的。</span><br><span class="line">其实编码问题很好搞定，只要记住一点：</span><br><span class="line"></span><br><span class="line"><span class="comment">####任何平台的任何编码 都能和 Unicode 互相转换</span></span><br><span class="line"></span><br><span class="line">UTF<span class="number">-8</span> 与 GBK 互相转换，那就先把UTF<span class="number">-8</span>转换成Unicode，再从Unicode转换成GBK，反之同理。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">``` python </span><br><span class="line"><span class="comment"># 这是一个 UTF-8 编码的字符串</span></span><br><span class="line">utf8Str = <span class="string">"你好地球"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 1. 将 UTF-8 编码的字符串 转换成 Unicode 编码</span></span><br><span class="line">unicodeStr = utf8Str.decode(<span class="string">"UTF-8"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 再将 Unicode 编码格式字符串 转换成 GBK 编码</span></span><br><span class="line">gbkData = unicodeStr.encode(<span class="string">"GBK"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 1. 再将 GBK 编码格式字符串 转化成 Unicode</span></span><br><span class="line">unicodeStr = gbkData.decode(<span class="string">"gbk"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 再将 Unicode 编码格式字符串转换成 UTF-8</span></span><br><span class="line">utf8Str = unicodeStr.encode(<span class="string">"UTF-8"</span>)</span><br></pre></td></tr></table></figure>
+<p>decode的作用是将其他编码的字符串转换成 Unicode 编码</p>
+<p>encode的作用是将 Unicode 编码转换成其他编码的字符串</p>
+<p>一句话：UTF-8是对Unicode字符集进行编码的一种编码方式</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/11/2018051120/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2454,212 +2640,6 @@ HTTPCookieProcessor处理器：主要作用是处理这些cookie对象，并构�
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/03/2018050321/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Mr.Q">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dynamic-Soul">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/03/2018050321/" itemprop="url">urllib2：GET请求和POST请求</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-03T21:27:30+08:00">2018-05-03</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="urllib2默认只支持HTTP-HTTPS的GET和POST方法"><a href="#urllib2默认只支持HTTP-HTTPS的GET和POST方法" class="headerlink" title="urllib2默认只支持HTTP/HTTPS的GET和POST方法"></a>urllib2默认只支持HTTP/HTTPS的GET和POST方法</h1><h2 id="urllib-urlencode"><a href="#urllib-urlencode" class="headerlink" title="urllib.urlencode()"></a>urllib.urlencode()</h2><p><strong>urllib 和 urllib2 都是接受URL请求的相关模块，但是提供了不同的功能。两个最显著的不同如下：</strong></p>
-<blockquote>
-<p><em>urllib 仅可以接受URL，不能创建 设置了headers 的Request 类实例；
-</em>但是 urllib 提供 urlencode 方法用来GET查询字符串的产生，而 urllib2 则没有。（这是 urllib 和 urllib2 经常一起使用的主要原因）<br>*编码工作使用urllib的urlencode()函数，帮我们将key:value这样的键值对转换成”key=value”这样的字符串，解码工作可以使用urllib的unquote()函数。（注意，不是urllib2.urlencode() )<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># IPython2 中的测试结果</span></span><br><span class="line">In [<span class="number">1</span>]: <span class="keyword">import</span> urllib</span><br><span class="line"></span><br><span class="line">In [<span class="number">2</span>]: word = &#123;<span class="string">"wd"</span> : <span class="string">"炉石传说"</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 通过urllib.urlencode()方法，将字典键值对按URL编码转换，从而能被web服务器接受。</span></span><br><span class="line">In [<span class="number">3</span>]: urllib.urlencode(word)  </span><br><span class="line">Out[<span class="number">3</span>]: <span class="string">"wd=%e7%82%89%e7%9f%b3%e4%bc%a0%e8%af%b4"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 通过urllib.unquote()方法，把 URL编码字符串，转换回原先字符串。</span></span><br><span class="line">In [<span class="number">4</span>]: <span class="keyword">print</span> urllib.unquote(<span class="string">"wd=%e7%82%89%e7%9f%b3%e4%bc%a0%e8%af%b4"</span>)</span><br><span class="line">wd=炉石传说</span><br></pre></td></tr></table></figure></p>
-</blockquote>
-<p><strong>一般HTTP请求提交数据，需要编码成 URL编码格式，然后做为url的一部分，或者作为参数传到Request对象中。</strong></p>
-<h1 id="Get方式"><a href="#Get方式" class="headerlink" title="Get方式"></a>Get方式</h1><p>GET请求一般用于向服务器获取数据，比如说，用百度搜索炉石传说：<a href="https://www.baidu.com/s?ie=UTF-8&amp;wd=炉石传说" target="_blank" rel="noopener">https://www.baidu.com/s?ie=UTF-8&amp;wd=炉石传说</a><br>浏览器的url会跳转成:<a href="https://www.baidu.com/s?ie=UTF-8&amp;wd=%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4" target="_blank" rel="noopener">https://www.baidu.com/s?ie=UTF-8&amp;wd=%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4</a><br>在其中可以看到在请求部分里，<a href="http://www.baidu.com/s" target="_blank" rel="noopener">http://www.baidu.com/s</a>? 之后出现一个长长的字符串，其中就包含要查询的关键词炉石传说，于是可以尝试用默认的Get方式来发送请求。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># urllib2_get.py</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> urllib      <span class="comment">#负责url编码处理</span></span><br><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"></span><br><span class="line">url = <span class="string">"http://www.baidu.com/s"</span></span><br><span class="line">word = &#123;<span class="string">"wd"</span>:<span class="string">"炉石传说"</span>&#125;</span><br><span class="line">word = urllib.urlencode(word) <span class="comment">#转换成url编码格式（字符串）</span></span><br><span class="line">newurl = url + <span class="string">"?"</span> + word    <span class="comment"># url首个分隔符就是 ?</span></span><br><span class="line"></span><br><span class="line">headers=&#123; <span class="string">"User-Agent"</span>: <span class="string">"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36"</span>&#125;</span><br><span class="line"></span><br><span class="line">request = urllib2.Request(newurl, headers=headers)</span><br><span class="line"></span><br><span class="line">response = urllib2.urlopen(request)</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> response.read()</span><br></pre></td></tr></table></figure></p>
-<h1 id="批量爬取贴吧页面数据"><a href="#批量爬取贴吧页面数据" class="headerlink" title="批量爬取贴吧页面数据"></a>批量爬取贴吧页面数据</h1><p>首先创建一个python文件, tiebaSpider.py，要完成的是，输入一个百度贴吧的地址，比如：</p>
-<p>百度贴吧LOL吧第一页：<a href="http://tieba.baidu.com/f?kw=lol&amp;ie=utf-8&amp;pn=0" target="_blank" rel="noopener">http://tieba.baidu.com/f?kw=lol&amp;ie=utf-8&amp;pn=0</a></p>
-<p>第二页： <a href="http://tieba.baidu.com/f?kw=lol&amp;ie=utf-8&amp;pn=50" target="_blank" rel="noopener">http://tieba.baidu.com/f?kw=lol&amp;ie=utf-8&amp;pn=50</a></p>
-<p>第三页： <a href="http://tieba.baidu.com/f?kw=lol&amp;ie=utf-8&amp;pn=100" target="_blank" rel="noopener">http://tieba.baidu.com/f?kw=lol&amp;ie=utf-8&amp;pn=100</a></p>
-<p>发现规律了吧，贴吧中每个页面不同之处，就是url最后的pn的值，其余的都是一样的，就可以抓住这个规律。<br>简单写一个小爬虫程序，来爬取百度LOL吧的所有网页。</p>
-<ul>
-<li>先写一个main，提示用户输入要爬取的贴吧名，并用urllib.urlencode()进行转码，然后组合url，假设是lol吧，那么组合后的url就是：<a href="http://tieba.baidu.com/f?kw=lol" target="_blank" rel="noopener">http://tieba.baidu.com/f?kw=lol</a><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 模拟 main 函数</span></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line"></span><br><span class="line">    kw = raw_input(<span class="string">"请输入需要爬取的贴吧:"</span>)</span><br><span class="line">    <span class="comment"># 输入起始页和终止页，str转成int类型</span></span><br><span class="line">    beginPage = int(raw_input(<span class="string">"请输入起始页："</span>))</span><br><span class="line">    endPage = int(raw_input(<span class="string">"请输入终止页："</span>))</span><br><span class="line"></span><br><span class="line">    url = <span class="string">"http://tieba.baidu.com/f?"</span></span><br><span class="line">    key = urllib.urlencode(&#123;<span class="string">"kw"</span> : kw&#125;)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 组合后的url示例：http://tieba.baidu.com/f?kw=lol</span></span><br><span class="line">    url = url + key</span><br><span class="line">    tiebaSpider(url, beginPage, endPage)</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<ul>
-<li><p>接下来，写一个百度贴吧爬虫接口，需要传递3个参数给这个接口， 一个是main里组合的url地址，以及起始页码和终止页码，表示要爬取页码的范围。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">tiebaSpider</span><span class="params">(url, beginPage, endPage)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">        作用：负责处理url，分配每个url去发送请求</span></span><br><span class="line"><span class="string">        url：需要处理的第一个url</span></span><br><span class="line"><span class="string">        beginPage: 爬虫执行的起始页面</span></span><br><span class="line"><span class="string">        endPage: 爬虫执行的截止页面</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> page <span class="keyword">in</span> range(beginPage, endPage + <span class="number">1</span>):</span><br><span class="line">        pn = (page - <span class="number">1</span>) * <span class="number">50</span></span><br><span class="line"></span><br><span class="line">        filename = <span class="string">"第"</span> + str(page) + <span class="string">"页.html"</span></span><br><span class="line">        <span class="comment"># 组合为完整的 url，并且pn值每次增加50</span></span><br><span class="line">        fullurl = url + <span class="string">"&amp;pn="</span> + str(pn)</span><br><span class="line">        <span class="comment">#print fullurl</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 调用loadPage()发送请求获取HTML页面</span></span><br><span class="line">        html = loadPage(fullurl, filename)</span><br><span class="line">        <span class="comment"># 将获取到的HTML页面写入本地磁盘文件</span></span><br><span class="line">        writeFile(html, filename)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>之前已经写出一个爬取一个网页的代码。现在，我们可以将它封装成一个小函数loadPage，供我们使用。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">loadPage</span><span class="params">(url, filename)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">        作用：根据url发送请求，获取服务器响应文件</span></span><br><span class="line"><span class="string">        url：需要爬取的url地址</span></span><br><span class="line"><span class="string">        filename: 文件名</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    <span class="keyword">print</span> <span class="string">"正在下载"</span> + filename</span><br><span class="line"></span><br><span class="line">    headers = &#123;<span class="string">"User-Agent"</span>: <span class="string">"Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0;"</span>&#125;</span><br><span class="line"></span><br><span class="line">    request = urllib2.Request(url, headers = headers)</span><br><span class="line">    response = urllib2.urlopen(request)</span><br><span class="line">    <span class="keyword">return</span> response.read()</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>最后如果希望将爬取到了每页的信息存储在本地磁盘上，我们可以简单写一个存储文件的接口。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">writeFile</span><span class="params">(html, filename)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">        作用：保存服务器响应文件到本地磁盘文件里</span></span><br><span class="line"><span class="string">        html: 服务器响应文件</span></span><br><span class="line"><span class="string">        filename: 本地磁盘文件名</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="keyword">print</span> <span class="string">"正在存储"</span> + filename</span><br><span class="line">    <span class="keyword">with</span> open(filename, <span class="string">'w'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        f.write(html)</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"-"</span> * <span class="number">20</span></span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>其实很多网站都是这样的，同类网站下的html页面编号，分别对应网址后的网页序号，只要发现规律就可以批量爬取页面了。</p>
-<h1 id="POST方式："><a href="#POST方式：" class="headerlink" title="POST方式："></a>POST方式：</h1><p>上面我们说了Request请求对象的里有data参数，它就是用在POST里的，我们要传送的数据就是这个参数data，data是一个字典，里面要匹配键值对。</p>
-<h2 id="有道词典翻译网站："><a href="#有道词典翻译网站：" class="headerlink" title="有道词典翻译网站："></a>有道词典翻译网站：</h2><p>输入测试数据，再通过使用Fiddler观察，其中有一条是POST请求，而向服务器发送的请求数据并不是在url里，那么我们可以试着模拟这个POST请求。<br><img src="/2018/05/03/2018050321/youdaopost.jpg"><br>于是，我们可以尝试用POST方式发送请求。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"></span><br><span class="line"><span class="comment"># POST请求的目标URL</span></span><br><span class="line">url = <span class="string">"http://fanyi.youdao.com/translate?smartresult=dict&amp;smartresult=rule&amp;smartresult=ugc&amp;sessionFrom=null"</span></span><br><span class="line"></span><br><span class="line">headers=&#123;<span class="string">"User-Agent"</span>: <span class="string">"Mozilla...."</span>&#125;</span><br><span class="line"></span><br><span class="line">formdata = &#123;</span><br><span class="line">    <span class="string">"type"</span>:<span class="string">"AUTO"</span>,</span><br><span class="line">    <span class="string">"i"</span>:<span class="string">"i love python"</span>,</span><br><span class="line">    <span class="string">"doctype"</span>:<span class="string">"json"</span>,</span><br><span class="line">    <span class="string">"xmlVersion"</span>:<span class="string">"1.8"</span>,</span><br><span class="line">    <span class="string">"keyfrom"</span>:<span class="string">"fanyi.web"</span>,</span><br><span class="line">    <span class="string">"ue"</span>:<span class="string">"UTF-8"</span>,</span><br><span class="line">    <span class="string">"action"</span>:<span class="string">"FY_BY_ENTER"</span>,</span><br><span class="line">    <span class="string">"typoResult"</span>:<span class="string">"true"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">data = urllib.urlencode(formdata)</span><br><span class="line"></span><br><span class="line">request = urllib2.Request(url, data = data, headers = headers)</span><br><span class="line">response = urllib2.urlopen(request)</span><br><span class="line"><span class="keyword">print</span> response.read()</span><br></pre></td></tr></table></figure></p>
-<p><strong>发送POST请求时，需要特别注意headers的一些属性：</strong></p>
-<pre><code>Content-Length: 144： 是指发送的表单数据长度为144，也就是字符个数是144个。
-
-X-Requested-With: XMLHttpRequest ：表示Ajax异步请求。
-
-Content-Type: application/x-www-form-urlencoded ： 表示浏览器提交 Web 表单时使用，表单数据会按照 name1=value1&amp;name2=value2 键值对形式进行编码。
-</code></pre><h1 id="获取AJAX加载的内容"><a href="#获取AJAX加载的内容" class="headerlink" title="获取AJAX加载的内容"></a>获取AJAX加载的内容</h1><p>有些网页内容使用AJAX加载，只要记得，AJAX一般返回的是JSON,直接对AJAX地址进行post或get，就返回JSON数据了。</p>
-<p>“作为一名爬虫工程师，你最需要关注的，是数据的来源”<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"></span><br><span class="line"><span class="comment"># demo1</span></span><br><span class="line"></span><br><span class="line">url = <span class="string">"https://movie.douban.com/j/chart/top_list?type=11&amp;interval_id=100%3A90&amp;action"</span></span><br><span class="line"></span><br><span class="line">headers=&#123;<span class="string">"User-Agent"</span>: <span class="string">"Mozilla...."</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 变动的是这两个参数，从start开始往后显示limit个</span></span><br><span class="line">formdata = &#123;</span><br><span class="line">    <span class="string">'start'</span>:<span class="string">'0'</span>,</span><br><span class="line">    <span class="string">'limit'</span>:<span class="string">'10'</span></span><br><span class="line">&#125;</span><br><span class="line">data = urllib.urlencode(formdata)</span><br><span class="line"></span><br><span class="line">request = urllib2.Request(url, data = data, headers = headers)</span><br><span class="line">response = urllib2.urlopen(request)</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> response.read()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># demo2</span></span><br><span class="line"></span><br><span class="line">url = <span class="string">"https://movie.douban.com/j/chart/top_list?"</span></span><br><span class="line">headers=&#123;<span class="string">"User-Agent"</span>: <span class="string">"Mozilla...."</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 处理所有参数</span></span><br><span class="line">formdata = &#123;</span><br><span class="line">    <span class="string">'type'</span>:<span class="string">'11'</span>,</span><br><span class="line">    <span class="string">'interval_id'</span>:<span class="string">'100:90'</span>,</span><br><span class="line">    <span class="string">'action'</span>:<span class="string">''</span>,</span><br><span class="line">    <span class="string">'start'</span>:<span class="string">'0'</span>,</span><br><span class="line">    <span class="string">'limit'</span>:<span class="string">'10'</span></span><br><span class="line">&#125;</span><br><span class="line">data = urllib.urlencode(formdata)</span><br><span class="line"></span><br><span class="line">request = urllib2.Request(url, data = data, headers = headers)</span><br><span class="line">response = urllib2.urlopen(request)</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> response.read()</span><br></pre></td></tr></table></figure></p>
-<p><strong>问题：为什么有时候POST也能在URL内看到数据？</strong></p>
-<blockquote>
-<ul>
-<li>GET方式是直接以链接形式访问，链接中包含了所有的参数，服务器端用Request.QueryString获取变量的值。如果包含了密码的话是一种不安全的选择，不过你可以直观地看到自己提交了什么内容。</li>
-</ul>
-</blockquote>
-<blockquote>
-<ul>
-<li>POST则不会在网址上显示所有的参数，服务器端用Request.Form获取提交的数据，在Form提交的时候。但是HTML代码里如果不指定 method 属性，则默认为GET请求，Form中提交的数据将会附加在url之后，以?分开与url分开。</li>
-</ul>
-</blockquote>
-<blockquote>
-<ul>
-<li>表单数据可以作为 URL 字段（method=”get”）或者 HTTP POST （method=”post”）的方式来发送。比如在下面的HTML代码中，表单数据将因为 （method=”get”） 而附加到 URL 上：<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;form action=<span class="string">"form_action.asp"</span> method=<span class="string">"get"</span>&gt;</span><br><span class="line">    &lt;p&gt;First name: &lt;input type="text" name="fname" /&gt;&lt;/p&gt;</span><br><span class="line">    &lt;p&gt;Last name: &lt;input type="text" name="lname" /&gt;&lt;/p&gt;</span><br><span class="line">    &lt;input type=<span class="string">"submit"</span> value=<span class="string">"Submit"</span> /&gt;</span><br><span class="line">&lt;/form&gt;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</blockquote>
-<h2 id="处理HTTPS请求-SSL证书验证"><a href="#处理HTTPS请求-SSL证书验证" class="headerlink" title="处理HTTPS请求 SSL证书验证"></a>处理HTTPS请求 SSL证书验证</h2><p>现在随处可见 https 开头的网站，urllib2可以为 HTTPS 请求验证SSL证书，就像web浏览器一样，如果网站的SSL证书是经过CA认证的，则能够正常访问，如：<a href="https://www.baidu.com/等.." target="_blank" rel="noopener">https://www.baidu.com/等..</a>.</p>
-<p>如果SSL证书验证不通过，或者操作系统不信任服务器的安全证书，比如浏览器在访问12306网站如：<a href="https://www.12306.cn/mormhweb/的时候，会警告用户证书不受信任。（据说" target="_blank" rel="noopener">https://www.12306.cn/mormhweb/的时候，会警告用户证书不受信任。（据说</a> 12306 网站证书是自己做的，没有通过CA认证）<br>urllib2在访问的时候则会报出SSLError：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"></span><br><span class="line">url = <span class="string">"https://www.12306.cn/mormhweb/"</span></span><br><span class="line"></span><br><span class="line">headers = &#123;<span class="string">"User-Agent"</span>: <span class="string">"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36"</span>&#125;</span><br><span class="line"></span><br><span class="line">request = urllib2.Request(url, headers = headers)</span><br><span class="line"></span><br><span class="line">response = urllib2.urlopen(request)</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> response.read()</span><br></pre></td></tr></table></figure></p>
-<p>运行结果：<br>urllib2.URLError: <urlopen error="" [ssl:="" certificate_verify_failed]="" certificate="" verify="" failed="" (_ssl.c:590)=""></urlopen></p>
-<p>所以，如果以后遇到这种网站，需要单独处理SSL证书，让程序忽略SSL证书验证错误，即可正常访问。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"><span class="comment"># 1. 导入Python SSL处理模块</span></span><br><span class="line"><span class="keyword">import</span> ssl</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 表示忽略未经核实的SSL证书认证</span></span><br><span class="line">context = ssl._create_unverified_context()</span><br><span class="line"></span><br><span class="line">url = <span class="string">"https://www.12306.cn/mormhweb/"</span></span><br><span class="line"></span><br><span class="line">headers = &#123;<span class="string">"User-Agent"</span>: <span class="string">"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36"</span>&#125;</span><br><span class="line"></span><br><span class="line">request = urllib2.Request(url, headers = headers)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 在urlopen()方法里 指明添加 context 参数</span></span><br><span class="line">response = urllib2.urlopen(request, context = context)</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> response.read()</span><br></pre></td></tr></table></figure></p>
-<h2 id="关于CA"><a href="#关于CA" class="headerlink" title="关于CA"></a>关于CA</h2><p>CA(Certificate Authority)是数字证书认证中心的简称，是指发放、管理、废除数字证书的受信任的第三方机构，如北京数字认证股份有限公司、上海市数字证书认证中心有限公司等…</p>
-<p>CA的作用是检查证书持有者身份的合法性，并签发证书，以防证书被伪造或篡改，以及对证书和密钥进行管理。</p>
-<p>现实生活中可以用身份证来证明身份， 那么在网络世界里，数字证书就是身份证。和现实生活不同的是，并不是每个上网的用户都有数字证书的，往往只有当一个人需要证明自己的身份的时候才需要用到数字证书。</p>
-<p>普通用户一般是不需要，因为网站并不关心是谁访问了网站，现在的网站只关心流量。但是反过来，网站就需要证明自己的身份了。</p>
-<p>比如说现在钓鱼网站很多的，比如你想访问的是<a href="http://www.baidu.com，但其实你访问的是www.daibu.com”，所以在提交自己的隐私信息之前需要验证一下网站的身份，要求网站出示数字证书。" target="_blank" rel="noopener">www.baidu.com，但其实你访问的是www.daibu.com”，所以在提交自己的隐私信息之前需要验证一下网站的身份，要求网站出示数字证书。</a></p>
-<p>一般正常的网站都会主动出示自己的数字证书，来确保客户端和网站服务器之间的通信数据是加密安全的。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2711,7 +2691,7 @@ Content-Type: application/x-www-form-urlencoded ： 表示浏览器提交 Web �
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">44</span>
+                    <span class="site-state-item-count">45</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2822,7 +2802,7 @@ Content-Type: application/x-www-form-urlencoded ： 表示浏览器提交 Web �
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共57.0k字</span>
+  <span class="post-count">博客全站共58.0k字</span>
 </div>
         
 
