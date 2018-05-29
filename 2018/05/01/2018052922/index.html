@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.6" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.0.6">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.0.6" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.0.6',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="items.py123456class CoserItem(scrapy.Item):    url = scrapy.Field()    name = scrapy.Field()    info = scrapy.Field()    image_urls = scrapy.Field()    images = scrapy.Field() spiders/coser.py12345678">
+<meta name="keywords" content="Scrapy项目">
+<meta property="og:type" content="article">
+<meta property="og:title" content="图片下载器爬虫">
+<meta property="og:url" content="http://yoursite.com/2018/05/01/2018052922/index.html">
+<meta property="og:site_name" content="Dynamic-Soul">
+<meta property="og:description" content="items.py123456class CoserItem(scrapy.Item):    url = scrapy.Field()    name = scrapy.Field()    info = scrapy.Field()    image_urls = scrapy.Field()    images = scrapy.Field() spiders/coser.py12345678">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-05-29T14:05:42.390Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="图片下载器爬虫">
+<meta name="twitter:description" content="items.py123456class CoserItem(scrapy.Item):    url = scrapy.Field()    name = scrapy.Field()    info = scrapy.Field()    image_urls = scrapy.Field()    images = scrapy.Field() spiders/coser.py12345678">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/01/2018052922/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>图片下载器爬虫 | Dynamic-Soul</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <a href="https://github.com/dynamic-soul"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Dynamic-Soul</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+</li>
+
+      
+
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/01/2018052922/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Q">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dynamic-Soul">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">图片下载器爬虫</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-01T17:53:31+08:00">2018-05-01</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="items-py"><a href="#items-py" class="headerlink" title="items.py"></a>items.py</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CoserItem</span><span class="params">(scrapy.Item)</span>:</span></span><br><span class="line">    url = scrapy.Field()</span><br><span class="line">    name = scrapy.Field()</span><br><span class="line">    info = scrapy.Field()</span><br><span class="line">    image_urls = scrapy.Field()</span><br><span class="line">    images = scrapy.Field()</span><br></pre></td></tr></table></figure>
+<h2 id="spiders-coser-py"><a href="#spiders-coser-py" class="headerlink" title="spiders/coser.py"></a>spiders/coser.py</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> scrapy.selector <span class="keyword">import</span> Selector</span><br><span class="line"><span class="keyword">import</span> scrapy</span><br><span class="line"><span class="keyword">from</span> scrapy.contrib.loader <span class="keyword">import</span> ItemLoader</span><br><span class="line"><span class="keyword">from</span> Cosplay.items <span class="keyword">import</span> CoserItem</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CoserSpider</span><span class="params">(scrapy.Spider)</span>:</span></span><br><span class="line">    name = <span class="string">"coser"</span></span><br><span class="line">    allowed_domains = [<span class="string">"bcy.net"</span>]</span><br><span class="line">    start_urls = (</span><br><span class="line">        <span class="string">'http://bcy.net/cn125101'</span>,</span><br><span class="line">        <span class="string">'http://bcy.net/cn126487'</span>,</span><br><span class="line">        <span class="string">'http://bcy.net/cn126173'</span></span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        sel = Selector(response)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> link <span class="keyword">in</span> sel.xpath(<span class="string">"//ul[@class='js-articles l-works']/li[@class='l-work--big']/article[@class='work work--second-created']/h2[@class='work__title']/a/@href"</span>).extract():</span><br><span class="line">            link = <span class="string">'http://bcy.net%s'</span> % link</span><br><span class="line">            request = scrapy.Request(link, callback=self.parse_item)</span><br><span class="line">            <span class="keyword">yield</span> request</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse_item</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        l = ItemLoader(item=CoserItem(), response=response)</span><br><span class="line">        l.add_xpath(<span class="string">'name'</span>, <span class="string">"//h1[@class='js-post-title']/text()"</span>)</span><br><span class="line">        l.add_xpath(<span class="string">'info'</span>, <span class="string">"//div[@class='post__info']/div[@class='post__type post__info-group']/span/text()"</span>)</span><br><span class="line">        urls = l.get_xpath(<span class="string">'//img[@class="detail_std detail_clickable"]/@src'</span>)</span><br><span class="line">        urls = [url.replace(<span class="string">'/w650'</span>, <span class="string">''</span>) <span class="keyword">for</span> url <span class="keyword">in</span> urls]</span><br><span class="line">        l.add_value(<span class="string">'image_urls'</span>, urls)</span><br><span class="line">        l.add_value(<span class="string">'url'</span>, response.url)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> l.load_item()</span><br></pre></td></tr></table></figure>
+<h2 id="pipelines-py"><a href="#pipelines-py" class="headerlink" title="pipelines.py"></a>pipelines.py</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> Cosplay <span class="keyword">import</span> settings</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ImageDownloadPipeline</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">process_item</span><span class="params">(self, item, spider)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="string">'image_urls'</span> <span class="keyword">in</span> item:</span><br><span class="line">            images = []</span><br><span class="line">            dir_path = <span class="string">'%s/%s'</span> % (settings.IMAGES_STORE, spider.name)</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(dir_path):</span><br><span class="line">                os.makedirs(dir_path)</span><br><span class="line">            <span class="keyword">for</span> image_url <span class="keyword">in</span> item[<span class="string">'image_urls'</span>]:</span><br><span class="line">                us = image_url.split(<span class="string">'/'</span>)[<span class="number">3</span>:]</span><br><span class="line">                image_file_name = <span class="string">'_'</span>.join(us)</span><br><span class="line">                file_path = <span class="string">'%s/%s'</span> % (dir_path, image_file_name)</span><br><span class="line">                images.append(file_path)</span><br><span class="line">                <span class="keyword">if</span> os.path.exists(file_path):</span><br><span class="line">                    <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">                <span class="keyword">with</span> open(file_path, <span class="string">'wb'</span>) <span class="keyword">as</span> handle:</span><br><span class="line">                    response = requests.get(image_url, stream=<span class="keyword">True</span>)</span><br><span class="line">                    <span class="keyword">for</span> block <span class="keyword">in</span> response.iter_content(<span class="number">1024</span>):</span><br><span class="line">                        <span class="keyword">if</span> <span class="keyword">not</span> block:</span><br><span class="line">                            <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">                        handle.write(block)</span><br><span class="line"></span><br><span class="line">            item[<span class="string">'images'</span>] = images</span><br><span class="line">        <span class="keyword">return</span> item</span><br></pre></td></tr></table></figure>
+<h2 id="settings-py"><a href="#settings-py" class="headerlink" title="settings.py"></a>settings.py</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ITEM_PIPELINES = &#123;<span class="string">'Cosplay.pipelines.ImageDownloadPipeline'</span>: <span class="number">1</span>&#125;</span><br><span class="line"></span><br><span class="line">IMAGES_STORE = <span class="string">'../Images'</span></span><br><span class="line"></span><br><span class="line">DOWNLOAD_DELAY = <span class="number">0.25</span>    <span class="comment"># 250 ms of delay</span></span><br></pre></td></tr></table></figure>
+<h2 id="在项目根目录下新建main-py文件-用于调试"><a href="#在项目根目录下新建main-py文件-用于调试" class="headerlink" title="在项目根目录下新建main.py文件,用于调试"></a>在项目根目录下新建main.py文件,用于调试</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scrapy <span class="keyword">import</span> cmdline</span><br><span class="line">cmdline.execute(<span class="string">'scrapy crawl coser'</span>.split())</span><br></pre></td></tr></table></figure>
+<h2 id="执行程序"><a href="#执行程序" class="headerlink" title="执行程序"></a>执行程序</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">py2 main.py</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Scrapy项目/" rel="tag"># Scrapy项目</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/18/hello-world/" rel="next" title="爬虫基本内容">
+                <i class="fa fa-chevron-left"></i> 爬虫基本内容
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/01/20180501/" rel="prev" title="通用爬虫和聚焦爬虫">
+                通用爬虫和聚焦爬虫 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="Mr.Q" />
+            
+              <p class="site-author-name" itemprop="name">Mr.Q</p>
+              <p class="site-description motion-element" itemprop="description">我希望时间没有流走，世界还停在过去，昏黄的光还照在旧日的路上，我刚刚走过，恰与你们相识。</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">47</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#items-py"><span class="nav-number">1.</span> <span class="nav-text">items.py</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#spiders-coser-py"><span class="nav-number">2.</span> <span class="nav-text">spiders/coser.py</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pipelines-py"><span class="nav-number">3.</span> <span class="nav-text">pipelines.py</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#settings-py"><span class="nav-number">4.</span> <span class="nav-text">settings.py</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在项目根目录下新建main-py文件-用于调试"><span class="nav-number">5.</span> <span class="nav-text">在项目根目录下新建main.py文件,用于调试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#执行程序"><span class="nav-number">6.</span> <span class="nav-text">执行程序</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mr.Q</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Gemini</a> v6.0.6</div>
+
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共59.5k字</span>
+</div>
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.6"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.0.6"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.6"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.6"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.6"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+</body>
+</html>
