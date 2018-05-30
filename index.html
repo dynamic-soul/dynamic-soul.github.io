@@ -311,6 +311,152 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/30/2018053022/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Q">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dynamic-Soul">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/30/2018053022/" itemprop="url">将数据保存在MongoDB</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-30T22:25:49+08:00">2018-05-30</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="用Pymongo保存数据"><a href="#用Pymongo保存数据" class="headerlink" title="用Pymongo保存数据"></a>用Pymongo保存数据</h1><p>爬取豆瓣电影top250movie.douban.com/top250的电影数据，并保存在MongoDB中。</p>
+<h2 id="items-py"><a href="#items-py" class="headerlink" title="items.py"></a>items.py</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DoubanspiderItem</span><span class="params">(scrapy.Item)</span>:</span></span><br><span class="line">    <span class="comment"># 电影标题</span></span><br><span class="line">    title = scrapy.Field()</span><br><span class="line">    <span class="comment"># 电影评分</span></span><br><span class="line">    score = scrapy.Field()</span><br><span class="line">    <span class="comment"># 电影信息</span></span><br><span class="line">    content = scrapy.Field()</span><br><span class="line">    <span class="comment"># 简介</span></span><br><span class="line">    info = scrapy.Field()</span><br></pre></td></tr></table></figure>
+<h2 id="spiders-douban-py"><a href="#spiders-douban-py" class="headerlink" title="spiders/douban.py"></a>spiders/douban.py</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scrapy</span><br><span class="line"><span class="keyword">from</span> doubanSpider.items <span class="keyword">import</span> DoubanspiderItem</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DoubanSpider</span><span class="params">(scrapy.Spider)</span>:</span></span><br><span class="line">    name = <span class="string">"douban"</span></span><br><span class="line">    allowed_domains = [<span class="string">"movie.douban.com"</span>]</span><br><span class="line">    start = <span class="number">0</span></span><br><span class="line">    url = <span class="string">'https://movie.douban.com/top250?start='</span></span><br><span class="line">    end = <span class="string">'&amp;filter='</span></span><br><span class="line">    start_urls = [url + str(start) + end]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self, response)</span>:</span></span><br><span class="line"></span><br><span class="line">        item = DoubanspiderItem()</span><br><span class="line"></span><br><span class="line">        movies = response.xpath(<span class="string">"//div[@class=\'info\']"</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> each <span class="keyword">in</span> movies:</span><br><span class="line">            title = each.xpath(<span class="string">'div[@class="hd"]/a/span[@class="title"]/text()'</span>).extract()</span><br><span class="line">            content = each.xpath(<span class="string">'div[@class="bd"]/p/text()'</span>).extract()</span><br><span class="line">            score = each.xpath(<span class="string">'div[@class="bd"]/div[@class="star"]/span[@class="rating_num"]/text()'</span>).extract()</span><br><span class="line">            info = each.xpath(<span class="string">'div[@class="bd"]/p[@class="quote"]/span/text()'</span>).extract()</span><br><span class="line"></span><br><span class="line">            item[<span class="string">'title'</span>] = title[<span class="number">0</span>]</span><br><span class="line">            <span class="comment"># 以;作为分隔，将content列表里所有元素合并成一个新的字符串</span></span><br><span class="line">            item[<span class="string">'content'</span>] = <span class="string">';'</span>.join(content)</span><br><span class="line">            item[<span class="string">'score'</span>] = score[<span class="number">0</span>]</span><br><span class="line">            item[<span class="string">'info'</span>] = info[<span class="number">0</span>]</span><br><span class="line">            <span class="comment"># 提交item</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">yield</span> item</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> self.start &lt;= <span class="number">225</span>:</span><br><span class="line">            self.start += <span class="number">25</span></span><br><span class="line">            <span class="keyword">yield</span> scrapy.Request(self.url + str(self.start) + self.end, callback=self.parse)</span><br></pre></td></tr></table></figure>
+<h2 id="pipelines-py"><a href="#pipelines-py" class="headerlink" title="pipelines.py"></a>pipelines.py</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scrapy.conf <span class="keyword">import</span> settings</span><br><span class="line"><span class="keyword">import</span> pymongo</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DoubanspiderPipeline</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="comment"># 获取setting主机名、端口号和数据库名</span></span><br><span class="line">        host = settings[<span class="string">'MONGODB_HOST'</span>]</span><br><span class="line">        port = settings[<span class="string">'MONGODB_PORT'</span>]</span><br><span class="line">        dbname = settings[<span class="string">'MONGODB_DBNAME'</span>]</span><br><span class="line"></span><br><span class="line">        <span class="comment"># pymongo.MongoClient(host, port) 创建MongoDB链接</span></span><br><span class="line">        client = pymongo.MongoClient(host=host,port=port)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 指向指定的数据库</span></span><br><span class="line">        mdb = client[dbname]</span><br><span class="line">        <span class="comment"># 获取数据库里存放数据的表名</span></span><br><span class="line">        self.post = mdb[settings[<span class="string">'MONGODB_DOCNAME'</span>]]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">process_item</span><span class="params">(self, item, spider)</span>:</span></span><br><span class="line">        data = dict(item)</span><br><span class="line">        <span class="comment"># 向指定的表里添加数据</span></span><br><span class="line">        self.post.insert(data)</span><br><span class="line">        <span class="keyword">return</span> item</span><br></pre></td></tr></table></figure>
+<h2 id="settings-py"><a href="#settings-py" class="headerlink" title="settings.py"></a>settings.py</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">BOT_NAME = <span class="string">'doubanSpider'</span></span><br><span class="line"></span><br><span class="line">SPIDER_MODULES = [<span class="string">'doubanSpider.spiders'</span>]</span><br><span class="line">NEWSPIDER_MODULE = <span class="string">'doubanSpider.spiders'</span></span><br><span class="line"></span><br><span class="line">ITEM_PIPELINES = &#123;</span><br><span class="line">        <span class="string">'doubanSpider.pipelines.DoubanspiderPipeline'</span> : <span class="number">300</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># Crawl responsibly by identifying yourself (and your website) on the user-agent</span></span><br><span class="line">USER_AGENT = <span class="string">'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.116 Safari/537.36'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># MONGODB 主机环回地址127.0.0.1</span></span><br><span class="line">MONGODB_HOST = <span class="string">'127.0.0.1'</span></span><br><span class="line"><span class="comment"># 端口号，默认是27017</span></span><br><span class="line">MONGODB_PORT = <span class="number">27017</span></span><br><span class="line"><span class="comment"># 设置数据库名称</span></span><br><span class="line">MONGODB_DBNAME = <span class="string">'DouBan'</span></span><br><span class="line"><span class="comment"># 存放本次数据的表名称</span></span><br><span class="line">MONGODB_DOCNAME = <span class="string">'DouBanMovies'</span></span><br></pre></td></tr></table></figure>
+<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">启动MongoDB数据库需要两个命令：</span><br><span class="line"></span><br><span class="line">mongod：是mongoDB数据库进程本身</span><br><span class="line">mongo：是命令行shell客户端</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">sudo mongod <span class="comment"># 首先启动数据库服务，再执行Scrapy</span></span><br><span class="line">sudo mongo <span class="comment"># 启动数据库shell</span></span><br><span class="line"></span><br><span class="line">在mongo shell下使用命令:</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看当前数据库</span></span><br><span class="line">&gt; db</span><br><span class="line"></span><br><span class="line"><span class="comment"># 列出所有的数据库</span></span><br><span class="line">&gt; show dbs</span><br><span class="line"></span><br><span class="line"><span class="comment"># 连接DouBan数据库</span></span><br><span class="line">&gt; use DouBan</span><br><span class="line"></span><br><span class="line"><span class="comment"># 列出所有表</span></span><br><span class="line">&gt; show collections</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看表里的数据</span></span><br><span class="line">&gt; db.DouBanMoives.find()</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/28/2018052821/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1607,151 +1753,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/21/2018052121/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Mr.Q">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dynamic-Soul">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/21/2018052121/" itemprop="url">源码参考分析：Connecting</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-21T20:30:10+08:00">2018-05-21</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>官方站点：<a href="https://github.com/rolando/scrapy-redis" target="_blank" rel="noopener">https://github.com/rolando/scrapy-redis</a></p>
-<p>scrapy-redis的官方文档写的比较简洁，没有提及其运行原理，所以如果想全面的理解分布式爬虫的运行原理，还是得看scrapy-redis的源代码才行。</p>
-<p>scrapy-redis工程的主体还是是redis和scrapy两个库，工程本身实现的东西不是很多，这个工程就像胶水一样，把这两个插件粘结了起来。下面我们来看看，scrapy-redis的每一个源代码文件都实现了什么功能，最后如何实现分布式的爬虫系统：</p>
-<p>1.<a href="https://github.com/rmax/scrapy-redis/blob/master/src/scrapy_redis/connection.py" target="_blank" rel="noopener">connecting.py</a><br>负责根据setting中配置实例化redis连接。被dupefilter和scheduler调用，总之涉及到redis存取的都要使用到这个模块。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 这里引入了redis模块，这个是redis-python库的接口，用于通过python访问redis数据库，</span></span><br><span class="line"><span class="comment"># 这个文件主要是实现连接redis数据库的功能，这些连接接口在其他文件中经常被用到</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> redis</span><br><span class="line"><span class="keyword">import</span> six</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> scrapy.utils.misc <span class="keyword">import</span> load_object</span><br><span class="line"></span><br><span class="line">DEFAULT_REDIS_CLS = redis.StrictRedis</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可以在settings文件中配置套接字的超时时间、等待时间等</span></span><br><span class="line"><span class="comment"># Sane connection defaults.</span></span><br><span class="line">DEFAULT_PARAMS = &#123;</span><br><span class="line">    <span class="string">'socket_timeout'</span>: <span class="number">30</span>,</span><br><span class="line">    <span class="string">'socket_connect_timeout'</span>: <span class="number">30</span>,</span><br><span class="line">    <span class="string">'retry_on_timeout'</span>: <span class="keyword">True</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 要想连接到redis数据库，和其他数据库差不多，需要一个ip地址、端口号、用户名密码（可选）和一个整形的数据库编号</span></span><br><span class="line"><span class="comment"># Shortcut maps 'setting name' -&gt; 'parmater name'.</span></span><br><span class="line">SETTINGS_PARAMS_MAP = &#123;</span><br><span class="line">    <span class="string">'REDIS_URL'</span>: <span class="string">'url'</span>,</span><br><span class="line">    <span class="string">'REDIS_HOST'</span>: <span class="string">'host'</span>,</span><br><span class="line">    <span class="string">'REDIS_PORT'</span>: <span class="string">'port'</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_redis_from_settings</span><span class="params">(settings)</span>:</span></span><br><span class="line">    <span class="string">"""Returns a redis client instance from given Scrapy settings object.</span></span><br><span class="line"><span class="string">    This function uses ``get_client`` to instantiate the client and uses</span></span><br><span class="line"><span class="string">    ``DEFAULT_PARAMS`` global as defaults values for the parameters. You can</span></span><br><span class="line"><span class="string">    override them using the ``REDIS_PARAMS`` setting.</span></span><br><span class="line"><span class="string">    Parameters</span></span><br><span class="line"><span class="string">    ----------</span></span><br><span class="line"><span class="string">    settings : Settings</span></span><br><span class="line"><span class="string">        A scrapy settings object. See the supported settings below.</span></span><br><span class="line"><span class="string">    Returns</span></span><br><span class="line"><span class="string">    -------</span></span><br><span class="line"><span class="string">    server</span></span><br><span class="line"><span class="string">        Redis client instance.</span></span><br><span class="line"><span class="string">    Other Parameters</span></span><br><span class="line"><span class="string">    ----------------</span></span><br><span class="line"><span class="string">    REDIS_URL : str, optional</span></span><br><span class="line"><span class="string">        Server connection URL.</span></span><br><span class="line"><span class="string">    REDIS_HOST : str, optional</span></span><br><span class="line"><span class="string">        Server host.</span></span><br><span class="line"><span class="string">    REDIS_PORT : str, optional</span></span><br><span class="line"><span class="string">        Server port.</span></span><br><span class="line"><span class="string">    REDIS_PARAMS : dict, optional</span></span><br><span class="line"><span class="string">        Additional client parameters.</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    params = DEFAULT_PARAMS.copy()</span><br><span class="line">    params.update(settings.getdict(<span class="string">'REDIS_PARAMS'</span>))</span><br><span class="line">    <span class="comment"># <span class="doctag">XXX:</span> Deprecate REDIS_* settings.</span></span><br><span class="line">    <span class="keyword">for</span> source, dest <span class="keyword">in</span> SETTINGS_PARAMS_MAP.items():</span><br><span class="line">        val = settings.get(source)</span><br><span class="line">        <span class="keyword">if</span> val:</span><br><span class="line">            params[dest] = val</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Allow ``redis_cls`` to be a path to a class.</span></span><br><span class="line">    <span class="keyword">if</span> isinstance(params.get(<span class="string">'redis_cls'</span>), six.string_types):</span><br><span class="line">        params[<span class="string">'redis_cls'</span>] = load_object(params[<span class="string">'redis_cls'</span>])</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 返回的是redis库的Redis对象，可以直接用来进行数据操作的对象</span></span><br><span class="line">    <span class="keyword">return</span> get_redis(**params)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># Backwards compatible alias.</span></span><br><span class="line">from_settings = get_redis_from_settings</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_redis</span><span class="params">(**kwargs)</span>:</span></span><br><span class="line">    <span class="string">"""Returns a redis client instance.</span></span><br><span class="line"><span class="string">    Parameters</span></span><br><span class="line"><span class="string">    ----------</span></span><br><span class="line"><span class="string">    redis_cls : class, optional</span></span><br><span class="line"><span class="string">        Defaults to ``redis.StrictRedis``.</span></span><br><span class="line"><span class="string">    url : str, optional</span></span><br><span class="line"><span class="string">        If given, ``redis_cls.from_url`` is used to instantiate the class.</span></span><br><span class="line"><span class="string">    **kwargs</span></span><br><span class="line"><span class="string">        Extra parameters to be passed to the ``redis_cls`` class.</span></span><br><span class="line"><span class="string">    Returns</span></span><br><span class="line"><span class="string">    -------</span></span><br><span class="line"><span class="string">    server</span></span><br><span class="line"><span class="string">        Redis client instance.</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    redis_cls = kwargs.pop(<span class="string">'redis_cls'</span>, DEFAULT_REDIS_CLS)</span><br><span class="line">    url = kwargs.pop(<span class="string">'url'</span>, <span class="keyword">None</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> url:</span><br><span class="line">        <span class="keyword">return</span> redis_cls.from_url(url, **kwargs)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> redis_cls(**kwargs)</span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1803,7 +1804,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">47</span>
+                    <span class="site-state-item-count">48</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1914,7 +1915,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共59.5k字</span>
+  <span class="post-count">博客全站共60.1k字</span>
 </div>
         
 
