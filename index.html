@@ -311,6 +311,156 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/31/2018053121/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Q">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dynamic-Soul">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/31/2018053121/" itemprop="url">三种Scrapy模拟登陆策略</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-31T21:56:11+08:00">2018-05-31</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="注意：模拟登陆时，必须保证settings-py里的-COOKIES-ENABLED-Cookies中间件-处于开启状态"><a href="#注意：模拟登陆时，必须保证settings-py里的-COOKIES-ENABLED-Cookies中间件-处于开启状态" class="headerlink" title="注意：模拟登陆时，必须保证settings.py里的 COOKIES_ENABLED (Cookies中间件) 处于开启状态"></a>注意：模拟登陆时，必须保证settings.py里的 COOKIES_ENABLED (Cookies中间件) 处于开启状态</h1><pre><code>COOKIES_ENABLED = True 或 # COOKIES_ENABLED = False
+</code></pre><h2 id="策略一：直接POST数据（比如需要登陆的账户信息"><a href="#策略一：直接POST数据（比如需要登陆的账户信息" class="headerlink" title="策略一：直接POST数据（比如需要登陆的账户信息)"></a>策略一：直接POST数据（比如需要登陆的账户信息)</h2><p>只要是需要提供post数据的，就可以用这种方法。下面示例里post的数据是账户密码：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> scrapy</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Renren1Spider</span><span class="params">(scrapy.Spider)</span>:</span></span><br><span class="line">    name = <span class="string">"renren1"</span></span><br><span class="line">    allowed_domains = [<span class="string">"renren.com"</span>]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">start_requests</span><span class="params">(self)</span>:</span></span><br><span class="line">        url = <span class="string">'http://www.renren.com/PLogin.do'</span></span><br><span class="line">        <span class="comment"># FormRequest 是Scrapy发送POST请求的方法</span></span><br><span class="line">        <span class="keyword">yield</span> scrapy.FormRequest(</span><br><span class="line">                url = url,</span><br><span class="line">                formdata = &#123;<span class="string">"email"</span> : <span class="string">"mr_mao_hacker@163.com"</span>, <span class="string">"password"</span> : <span class="string">"axxxxxxxe"</span>&#125;,</span><br><span class="line">                callback = self.parse_page)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse_page</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        <span class="keyword">with</span> open(<span class="string">"mao2.html"</span>, <span class="string">"w"</span>) <span class="keyword">as</span> filename:</span><br><span class="line">            filename.write(response.body)</span><br></pre></td></tr></table></figure></p>
+<h2 id="策略二：标准的模拟登陆步骤"><a href="#策略二：标准的模拟登陆步骤" class="headerlink" title="策略二：标准的模拟登陆步骤"></a>策略二：标准的模拟登陆步骤</h2><pre><code>正统模拟登录方法：
+
+   1. 首先发送登录页面的get请求，获取到页面里的登录必须的参数（比如说zhihu登陆界面的 _xsrf）
+
+   2. 然后和账户密码一起post到服务器，登录成功
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> scrapy</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Renren2Spider</span><span class="params">(scrapy.Spider)</span>:</span></span><br><span class="line">    name = <span class="string">"renren2"</span></span><br><span class="line">    allowed_domains = [<span class="string">"renren.com"</span>]</span><br><span class="line">    start_urls = (</span><br><span class="line">        <span class="string">"http://www.renren.com/PLogin.do"</span>,</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 处理start_urls里的登录url的响应内容，提取登陆需要的参数（如果需要的话)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        <span class="comment"># 提取登陆需要的参数</span></span><br><span class="line">        <span class="comment">#_xsrf = response.xpath("//_xsrf").extract()[0]</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 发送请求参数，并调用指定回调函数处理</span></span><br><span class="line">        <span class="keyword">yield</span> scrapy.FormRequest.from_response(</span><br><span class="line">                response,</span><br><span class="line">                formdata = &#123;<span class="string">"email"</span> : <span class="string">"mr_mao_hacker@163.com"</span>, <span class="string">"password"</span> : <span class="string">"axxxxxxxe"</span>&#125;,<span class="comment">#, "_xsrf" = _xsrf&#125;,</span></span><br><span class="line">                callback = self.parse_page</span><br><span class="line">            )</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 获取登录成功状态，访问需要登录后才能访问的页面</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse_page</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        url = <span class="string">"http://www.renren.com/422167102/profile"</span></span><br><span class="line">        <span class="keyword">yield</span> scrapy.Request(url, callback = self.parse_newpage)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 处理响应内容</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse_newpage</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        <span class="keyword">with</span> open(<span class="string">"xiao.html"</span>, <span class="string">"w"</span>) <span class="keyword">as</span> filename:</span><br><span class="line">            filename.write(response.body)</span><br></pre></td></tr></table></figure>
+<h2 id="策略三：直接使用保存登陆状态的Cookie模拟登陆"><a href="#策略三：直接使用保存登陆状态的Cookie模拟登陆" class="headerlink" title="策略三：直接使用保存登陆状态的Cookie模拟登陆"></a>策略三：直接使用保存登陆状态的Cookie模拟登陆</h2><pre><code>如果实在没办法了，可以用这种方法模拟登录，虽然麻烦一点，但是成功率100%
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> scrapy</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RenrenSpider</span><span class="params">(scrapy.Spider)</span>:</span></span><br><span class="line">    name = <span class="string">"renren"</span></span><br><span class="line">    allowed_domains = [<span class="string">"renren.com"</span>]</span><br><span class="line">    start_urls = (</span><br><span class="line">        <span class="string">'http://www.renren.com/111111'</span>,</span><br><span class="line">        <span class="string">'http://www.renren.com/222222'</span>,</span><br><span class="line">        <span class="string">'http://www.renren.com/333333'</span>,</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    cookies = &#123;</span><br><span class="line">    <span class="string">"anonymid"</span> : <span class="string">"ixrna3fysufnwv"</span>,</span><br><span class="line">    <span class="string">"_r01_"</span> : <span class="string">"1"</span>,</span><br><span class="line">    <span class="string">"ap"</span> : <span class="string">"327550029"</span>,</span><br><span class="line">    <span class="string">"JSESSIONID"</span> : <span class="string">"abciwg61A_RvtaRS3GjOv"</span>,</span><br><span class="line">    <span class="string">"depovince"</span> : <span class="string">"GW"</span>,</span><br><span class="line">    <span class="string">"springskin"</span> : <span class="string">"set"</span>,</span><br><span class="line">    <span class="string">"jebe_key"</span> : <span class="string">"f6fb270b-d06d-42e6-8b53-e67c3156aa7e%7Cc13c37f53bca9e1e7132d4b58ce00fa3%7C1484060607478%7C1%7C1486198628950"</span>,</span><br><span class="line">    <span class="string">"t"</span> : <span class="string">"691808127750a83d33704a565d8340ae9"</span>,</span><br><span class="line">    <span class="string">"societyguester"</span> : <span class="string">"691808127750a83d33704a565d8340ae9"</span>,</span><br><span class="line">    <span class="string">"id"</span> : <span class="string">"327550029"</span>,</span><br><span class="line">    <span class="string">"xnsid"</span> : <span class="string">"f42b25cf"</span>,</span><br><span class="line">    <span class="string">"loginfrom"</span> : <span class="string">"syshome"</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 可以重写Spider类的start_requests方法，附带Cookie值，发送POST请求</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">start_requests</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">for</span> url <span class="keyword">in</span> self.start_urls:</span><br><span class="line">            <span class="keyword">yield</span> scrapy.FormRequest(url, cookies = self.cookies, callback = self.parse_page)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 处理响应内容</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse_page</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        <span class="keyword">print</span> <span class="string">"==========="</span> + response.url</span><br><span class="line">        <span class="keyword">with</span> open(<span class="string">"deng.html"</span>, <span class="string">"w"</span>) <span class="keyword">as</span> filename:</span><br><span class="line">            filename.write(response.body)</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/30/2018053022/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1477,152 +1627,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/22/2018052221/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Mr.Q">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dynamic-Soul">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/22/2018052221/" itemprop="url">源码分析参考：Dupefilter</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-22T21:05:16+08:00">2018-05-22</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="dupefilter-py"><a href="#dupefilter-py" class="headerlink" title="dupefilter.py"></a>dupefilter.py</h1><p>负责执行requst的去重，实现的很有技巧性，使用redis的set数据结构。但是注意scheduler并不使用其中用于在这个模块中实现的dupefilter键做request的调度，而是使用queue.py模块中实现的queue。</p>
-<p>当request不重复时，将其存入到queue中，调度时将其弹出。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> scrapy.dupefilters <span class="keyword">import</span> BaseDupeFilter</span><br><span class="line"><span class="keyword">from</span> scrapy.utils.request <span class="keyword">import</span> request_fingerprint</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> .connection <span class="keyword">import</span> get_redis_from_settings</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">DEFAULT_DUPEFILTER_KEY = <span class="string">"dupefilter:%(timestamp)s"</span></span><br><span class="line"></span><br><span class="line">logger = logging.getLogger(__name__)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># <span class="doctag">TODO:</span> Rename class to RedisDupeFilter.</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RFPDupeFilter</span><span class="params">(BaseDupeFilter)</span>:</span></span><br><span class="line">    <span class="string">"""Redis-based request duplicates filter.</span></span><br><span class="line"><span class="string">    This class can also be used with default Scrapy's scheduler.</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line"></span><br><span class="line">    logger = logger</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, server, key, debug=False)</span>:</span></span><br><span class="line">        <span class="string">"""Initialize the duplicates filter.</span></span><br><span class="line"><span class="string">        Parameters</span></span><br><span class="line"><span class="string">        ----------</span></span><br><span class="line"><span class="string">        server : redis.StrictRedis</span></span><br><span class="line"><span class="string">            The redis server instance.</span></span><br><span class="line"><span class="string">        key : str</span></span><br><span class="line"><span class="string">            Redis key Where to store fingerprints.</span></span><br><span class="line"><span class="string">        debug : bool, optional</span></span><br><span class="line"><span class="string">            Whether to log filtered requests.</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        self.server = server</span><br><span class="line">        self.key = key</span><br><span class="line">        self.debug = debug</span><br><span class="line">        self.logdupes = <span class="keyword">True</span></span><br><span class="line"></span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">from_settings</span><span class="params">(cls, settings)</span>:</span></span><br><span class="line">        <span class="string">"""Returns an instance from given settings.</span></span><br><span class="line"><span class="string">        This uses by default the key ``dupefilter:&lt;timestamp&gt;``. When using the</span></span><br><span class="line"><span class="string">        ``scrapy_redis.scheduler.Scheduler`` class, this method is not used as</span></span><br><span class="line"><span class="string">        it needs to pass the spider name in the key.</span></span><br><span class="line"><span class="string">        Parameters</span></span><br><span class="line"><span class="string">        ----------</span></span><br><span class="line"><span class="string">        settings : scrapy.settings.Settings</span></span><br><span class="line"><span class="string">        Returns</span></span><br><span class="line"><span class="string">        -------</span></span><br><span class="line"><span class="string">        RFPDupeFilter</span></span><br><span class="line"><span class="string">            A RFPDupeFilter instance.</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        server = get_redis_from_settings(settings)</span><br><span class="line">        <span class="comment"># <span class="doctag">XXX:</span> This creates one-time key. needed to support to use this</span></span><br><span class="line">        <span class="comment"># class as standalone dupefilter with scrapy's default scheduler</span></span><br><span class="line">        <span class="comment"># if scrapy passes spider on open() method this wouldn't be needed</span></span><br><span class="line">        <span class="comment"># <span class="doctag">TODO:</span> Use SCRAPY_JOB env as default and fallback to timestamp.</span></span><br><span class="line">        key = DEFAULT_DUPEFILTER_KEY % &#123;<span class="string">'timestamp'</span>: int(time.time())&#125;</span><br><span class="line">        debug = settings.getbool(<span class="string">'DUPEFILTER_DEBUG'</span>)</span><br><span class="line">        <span class="keyword">return</span> cls(server, key=key, debug=debug)</span><br><span class="line"></span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">from_crawler</span><span class="params">(cls, crawler)</span>:</span></span><br><span class="line">        <span class="string">"""Returns instance from crawler.</span></span><br><span class="line"><span class="string">        Parameters</span></span><br><span class="line"><span class="string">        ----------</span></span><br><span class="line"><span class="string">        crawler : scrapy.crawler.Crawler</span></span><br><span class="line"><span class="string">        Returns</span></span><br><span class="line"><span class="string">        -------</span></span><br><span class="line"><span class="string">        RFPDupeFilter</span></span><br><span class="line"><span class="string">            Instance of RFPDupeFilter.</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">return</span> cls.from_settings(crawler.settings)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">request_seen</span><span class="params">(self, request)</span>:</span></span><br><span class="line">        <span class="string">"""Returns True if request was already seen.</span></span><br><span class="line"><span class="string">        Parameters</span></span><br><span class="line"><span class="string">        ----------</span></span><br><span class="line"><span class="string">        request : scrapy.http.Request</span></span><br><span class="line"><span class="string">        Returns</span></span><br><span class="line"><span class="string">        -------</span></span><br><span class="line"><span class="string">        bool</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        fp = self.request_fingerprint(request)</span><br><span class="line">        <span class="comment"># This returns the number of values added, zero if already exists.</span></span><br><span class="line">        added = self.server.sadd(self.key, fp)</span><br><span class="line">        <span class="keyword">return</span> added == <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">request_fingerprint</span><span class="params">(self, request)</span>:</span></span><br><span class="line">        <span class="string">"""Returns a fingerprint for a given request.</span></span><br><span class="line"><span class="string">        Parameters</span></span><br><span class="line"><span class="string">        ----------</span></span><br><span class="line"><span class="string">        request : scrapy.http.Request</span></span><br><span class="line"><span class="string">        Returns</span></span><br><span class="line"><span class="string">        -------</span></span><br><span class="line"><span class="string">        str</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">return</span> request_fingerprint(request)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">close</span><span class="params">(self, reason=<span class="string">''</span>)</span>:</span></span><br><span class="line">        <span class="string">"""Delete data on close. Called by Scrapy's scheduler.</span></span><br><span class="line"><span class="string">        Parameters</span></span><br><span class="line"><span class="string">        ----------</span></span><br><span class="line"><span class="string">        reason : str, optional</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        self.clear()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">clear</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="string">"""Clears fingerprints data."""</span></span><br><span class="line">        self.server.delete(self.key)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">log</span><span class="params">(self, request, spider)</span>:</span></span><br><span class="line">        <span class="string">"""Logs given request.</span></span><br><span class="line"><span class="string">        Parameters</span></span><br><span class="line"><span class="string">        ----------</span></span><br><span class="line"><span class="string">        request : scrapy.http.Request</span></span><br><span class="line"><span class="string">        spider : scrapy.spiders.Spider</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> self.debug:</span><br><span class="line">            msg = <span class="string">"Filtered duplicate request: %(request)s"</span></span><br><span class="line">            self.logger.debug(msg, &#123;<span class="string">'request'</span>: request&#125;, extra=&#123;<span class="string">'spider'</span>: spider&#125;)</span><br><span class="line">        <span class="keyword">elif</span> self.logdupes:</span><br><span class="line">            msg = (<span class="string">"Filtered duplicate request %(request)s"</span></span><br><span class="line">                   <span class="string">" - no more duplicates will be shown"</span></span><br><span class="line">                   <span class="string">" (see DUPEFILTER_DEBUG to show all duplicates)"</span>)</span><br><span class="line">            msg = <span class="string">"Filtered duplicate request: %(request)s"</span></span><br><span class="line">            self.logger.debug(msg, &#123;<span class="string">'request'</span>: request&#125;, extra=&#123;<span class="string">'spider'</span>: spider&#125;)</span><br><span class="line">            self.logdupes = <span class="keyword">False</span></span><br></pre></td></tr></table></figure></p>
-<p>这个文件看起来比较复杂，重写了scrapy本身已经实现的request判重功能。因为本身scrapy单机跑的话，只需要读取内存中的request队列或者持久化的request队列（scrapy默认的持久化似乎是json格式的文件，不是数据库）就能判断这次要发出的request url是否已经请求过或者正在调度（本地读就行了）。而分布式跑的话，就需要各个主机上的scheduler都连接同一个数据库的同一个request池来判断这次的请求是否是重复的了。</p>
-<p>在这个文件中，通过继承BaseDupeFilter重写他的方法，实现了基于redis的判重。根据源代码来看，scrapy-redis使用了scrapy本身的一个fingerprint接request_fingerprint，这个接口很有趣，根据scrapy文档所说，他通过hash来判断两个url是否相同（相同的url会生成相同的hash结果），但是当两个url的地址相同，get型参数相同但是顺序不同时，也会生成相同的hash结果（这个真的比较神奇。。。）所以scrapy-redis依旧使用url的fingerprint来判断request请求是否已经出现过。</p>
-<p>这个类通过连接redis，使用一个key来向redis的一个set中插入fingerprint（这个key对于同一种spider是相同的，redis是一个key-value的数据库，如果key是相同的，访问到的值就是相同的，这里使用spider名字+DupeFilter的key就是为了在不同主机上的不同爬虫实例，只要属于同一种spider，就会访问到同一个set，而这个set就是他们的url判重池），如果返回值为0，说明该set中该fingerprint已经存在（因为集合是没有重复值的），则返回False，如果返回值为1，说明添加了一个fingerprint到set中，则说明这个request没有重复，于是返回True，还顺便把新fingerprint加入到数据库中了。 DupeFilter判重会在scheduler类中用到，每一个request在进入调度之前都要进行判重，如果重复就不需要参加调度，直接舍弃就好了，不然就是白白浪费资源。 </p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/22/2018052222/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1804,7 +1808,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">48</span>
+                    <span class="site-state-item-count">49</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1915,7 +1919,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共60.1k字</span>
+  <span class="post-count">博客全站共60.8k字</span>
 </div>
         
 
