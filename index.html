@@ -613,6 +613,200 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/31/2018060221/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Q">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dynamic-Soul">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/31/2018060221/" itemprop="url">源码自带项目说明</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-31T21:55:23+08:00">2018-05-31</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="源码自带项目说明："><a href="#源码自带项目说明：" class="headerlink" title="源码自带项目说明："></a>源码自带项目说明：</h1><h2 id="使用scrapy-redis的example来修改"><a href="#使用scrapy-redis的example来修改" class="headerlink" title="使用scrapy-redis的example来修改"></a>使用scrapy-redis的example来修改</h2><p>先从github上拿到scrapy-redis的示例，然后将里面的example-project目录移到指定的地址：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># clone github scrapy-redis源码文件</span></span><br><span class="line">git clone https://github.com/rolando/scrapy-redis.git</span><br><span class="line"></span><br><span class="line"><span class="comment"># 直接拿官方的项目范例，改名为自己的项目用（针对懒癌患者)</span></span><br><span class="line">mv scrapy-redis/example-project ~/scrapyredis-project</span><br></pre></td></tr></table></figure></p>
+<p>我们clone到的 scrapy-redis 源码中有自带一个example-project项目，这个项目包含3个spider，分别是dmoz, myspider_redis，mycrawler_redis。</p>
+<h2 id="一、dmoz-class-DmozSpider-CrawlSpider"><a href="#一、dmoz-class-DmozSpider-CrawlSpider" class="headerlink" title="一、dmoz (class DmozSpider(CrawlSpider))"></a>一、dmoz (class DmozSpider(CrawlSpider))</h2><p>这个爬虫继承的是CrawlSpider，它是用来说明Redis的持续性，当我们第一次运行dmoz爬虫，然后Ctrl + C停掉之后，再运行dmoz爬虫，之前的爬取记录是保留在Redis里的。</p>
+<p>分析起来，其实这就是一个 scrapy-redis 版 CrawlSpider 类，需要设置Rule规则，以及callback不能写parse()方法。<br><strong>执行方式：scrapy crawl dmoz</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scrapy.linkextractors <span class="keyword">import</span> LinkExtractor</span><br><span class="line"><span class="keyword">from</span> scrapy.spiders <span class="keyword">import</span> CrawlSpider, Rule</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DmozSpider</span><span class="params">(CrawlSpider)</span>:</span></span><br><span class="line">    <span class="string">"""Follow categories and extract links."""</span></span><br><span class="line">    name = <span class="string">'dmoz'</span></span><br><span class="line">    allowed_domains = [<span class="string">'dmoz.org'</span>]</span><br><span class="line">    start_urls = [<span class="string">'http://www.dmoz.org/'</span>]</span><br><span class="line"></span><br><span class="line">    rules = [</span><br><span class="line">        Rule(LinkExtractor(</span><br><span class="line">            restrict_css=(<span class="string">'.top-cat'</span>, <span class="string">'.sub-cat'</span>, <span class="string">'.cat-item'</span>)</span><br><span class="line">        ), callback=<span class="string">'parse_directory'</span>, follow=<span class="keyword">True</span>),</span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse_directory</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        <span class="keyword">for</span> div <span class="keyword">in</span> response.css(<span class="string">'.title-and-desc'</span>):</span><br><span class="line">            <span class="keyword">yield</span> &#123;</span><br><span class="line">                <span class="string">'name'</span>: div.css(<span class="string">'.site-title::text'</span>).extract_first(),</span><br><span class="line">                <span class="string">'description'</span>: div.css(<span class="string">'.site-descr::text'</span>).extract_first().strip(),</span><br><span class="line">                <span class="string">'link'</span>: div.css(<span class="string">'a::attr(href)'</span>).extract_first(),</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="二、myspider-redis-class-MySpider-RedisSpider"><a href="#二、myspider-redis-class-MySpider-RedisSpider" class="headerlink" title="二、myspider_redis (class MySpider(RedisSpider))"></a>二、myspider_redis (class MySpider(RedisSpider))</h2><p>这个爬虫继承了RedisSpider， 它能够支持分布式的抓取，采用的是basic spider，需要写parse函数。</p>
+<p>其次就是不再有start_urls了，取而代之的是redis_key，scrapy-redis将key从Redis里pop出来，成为请求的url地址。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scrapy_redis.spiders <span class="keyword">import</span> RedisSpider</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MySpider</span><span class="params">(RedisSpider)</span>:</span></span><br><span class="line">    <span class="string">"""Spider that reads urls from redis queue (myspider:start_urls)."""</span></span><br><span class="line">    name = <span class="string">'myspider_redis'</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 注意redis-key的格式：</span></span><br><span class="line">    redis_key = <span class="string">'myspider:start_urls'</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 可选：等效于allowd_domains()，__init__方法按规定格式写，使用时只需要修改super()里的类名参数即可</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, *args, **kwargs)</span>:</span></span><br><span class="line">        <span class="comment"># Dynamically define the allowed domains list.</span></span><br><span class="line">        domain = kwargs.pop(<span class="string">'domain'</span>, <span class="string">''</span>)</span><br><span class="line">        self.allowed_domains = filter(<span class="keyword">None</span>, domain.split(<span class="string">','</span>))</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 修改这里的类名为当前类名</span></span><br><span class="line">        super(MySpider, self).__init__(*args, **kwargs)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            <span class="string">'name'</span>: response.css(<span class="string">'title::text'</span>).extract_first(),</span><br><span class="line">            <span class="string">'url'</span>: response.url,</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>注意：</strong></p>
+<p>RedisSpider类 不需要写allowd_domains和start_urls：</p>
+<ol>
+<li><p>scrapy-redis将从在构造方法<strong>init</strong>()里动态定义爬虫爬取域范围，也可以选择直接写allowd_domains。</p>
+</li>
+<li><p>必须指定redis_key，即启动爬虫的命令，参考格式：redis_key = ‘myspider:start_urls’</p>
+</li>
+<li><p>根据指定的格式，start_urls将在 Master端的 redis-cli 里 lpush 到 Redis数据库里，RedisSpider 将在数据库里获取start_urls。</p>
+</li>
+</ol>
+<p><strong>执行方式：</strong></p>
+<ol>
+<li><p>通过runspider方法执行爬虫的py文件（也可以分次执行多条），爬虫（们）将处于等待准备状态：<br><strong>scrapy runspider myspider_redis.py</strong></p>
+</li>
+<li><p>在Master端的redis-cli输入push指令，参考格式：<br><strong>$redis &gt; lpush myspider:start_urls <a href="http://www.dmoz.org/" target="_blank" rel="noopener">http://www.dmoz.org/</a></strong></p>
+</li>
+<li><p>Slaver端爬虫获取到请求，开始爬取。</p>
+</li>
+</ol>
+<h2 id="三、mycrawler-redis-class-MyCrawler-RedisCrawlSpider"><a href="#三、mycrawler-redis-class-MyCrawler-RedisCrawlSpider" class="headerlink" title="三、mycrawler_redis (class MyCrawler(RedisCrawlSpider))"></a>三、mycrawler_redis (class MyCrawler(RedisCrawlSpider))</h2><p>这个RedisCrawlSpider类爬虫继承了RedisCrawlSpider，能够支持分布式的抓取。因为采用的是crawlSpider，所以需要遵守Rule规则，以及callback不能写parse()方法。</p>
+<p>同样也不再有start_urls了，取而代之的是redis_key，scrapy-redis将key从Redis里pop出来，成为请求的url地址。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scrapy.spiders <span class="keyword">import</span> Rule</span><br><span class="line"><span class="keyword">from</span> scrapy.linkextractors <span class="keyword">import</span> LinkExtractor</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> scrapy_redis.spiders <span class="keyword">import</span> RedisCrawlSpider</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyCrawler</span><span class="params">(RedisCrawlSpider)</span>:</span></span><br><span class="line">    <span class="string">"""Spider that reads urls from redis queue (myspider:start_urls)."""</span></span><br><span class="line">    name = <span class="string">'mycrawler_redis'</span></span><br><span class="line">    redis_key = <span class="string">'mycrawler:start_urls'</span></span><br><span class="line"></span><br><span class="line">    rules = (</span><br><span class="line">        <span class="comment"># follow all links</span></span><br><span class="line">        Rule(LinkExtractor(), callback=<span class="string">'parse_page'</span>, follow=<span class="keyword">True</span>),</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="comment"># __init__方法必须按规定写，使用时只需要修改super()里的类名参数即可</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, *args, **kwargs)</span>:</span></span><br><span class="line">        <span class="comment"># Dynamically define the allowed domains list.</span></span><br><span class="line">        domain = kwargs.pop(<span class="string">'domain'</span>, <span class="string">''</span>)</span><br><span class="line">        self.allowed_domains = filter(<span class="keyword">None</span>, domain.split(<span class="string">','</span>))</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 修改这里的类名为当前类名</span></span><br><span class="line">        super(MyCrawler, self).__init__(*args, **kwargs)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse_page</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            <span class="string">'name'</span>: response.css(<span class="string">'title::text'</span>).extract_first(),</span><br><span class="line">            <span class="string">'url'</span>: response.url,</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>注意：</strong></p>
+<p>同样的，RedisCrawlSpider类不需要写allowd_domains和start_urls：</p>
+<ol>
+<li><p>scrapy-redis将从在构造方法<strong>init</strong>()里动态定义爬虫爬取域范围，也可以选择直接写allowd_domains。</p>
+</li>
+<li><p>必须指定redis_key，即启动爬虫的命令，参考格式：redis_key = ‘myspider:start_urls’</p>
+</li>
+<li><p>根据指定的格式，start_urls将在 Master端的 redis-cli 里 lpush 到 Redis数据库里，RedisSpider 将在数据库里获取start_urls。</p>
+</li>
+</ol>
+<p><strong>执行方式：</strong></p>
+<pre><code>通过runspider方法执行爬虫的py文件（也可以分次执行多条），爬虫（们）将处于等待准备状态：
+**scrapy runspider mycrawler_redis.py**
+
+在Master端的redis-cli输入push指令，参考格式：
+**$redis &gt; lpush mycrawler:start_urls http://www.dmoz.org/**
+
+爬虫获取url，开始执行。
+</code></pre><h1 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h1><ol>
+<li><p>如果只是用到Redis的去重和保存功能，就选第一种；</p>
+</li>
+<li><p>如果要写分布式，则根据情况，选择第二种、第三种；</p>
+</li>
+<li><p>通常情况下，会选择用第三种方式编写深度聚焦爬虫。</p>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/30/2018053022/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1620,155 +1814,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/23/2018052321/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Mr.Q">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dynamic-Soul">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/23/2018052321/" itemprop="url">源码参考分析：Pipelines</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-23T21:41:51+08:00">2018-05-23</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="pipelines-py"><a href="#pipelines-py" class="headerlink" title="pipelines.py"></a>pipelines.py</h1><p>这是是用来实现分布式处理的作用。它将Item存储在redis中以实现分布式处理。由于在这里需要读取配置，所以就用到了from_crawler()函数。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scrapy.utils.misc <span class="keyword">import</span> load_object</span><br><span class="line"><span class="keyword">from</span> scrapy.utils.serialize <span class="keyword">import</span> ScrapyJSONEncoder</span><br><span class="line"><span class="keyword">from</span> twisted.internet.threads <span class="keyword">import</span> deferToThread</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> . <span class="keyword">import</span> connection</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">default_serialize = ScrapyJSONEncoder().encode</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RedisPipeline</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="string">"""Pushes serialized item into a redis list/queue"""</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, server,</span></span></span><br><span class="line"><span class="function"><span class="params">                 key=<span class="string">'%(spider)s:items'</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">                 serialize_func=default_serialize)</span>:</span></span><br><span class="line">        self.server = server</span><br><span class="line">        self.key = key</span><br><span class="line">        self.serialize = serialize_func</span><br><span class="line"></span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">from_settings</span><span class="params">(cls, settings)</span>:</span></span><br><span class="line">        params = &#123;</span><br><span class="line">            <span class="string">'server'</span>: connection.from_settings(settings),</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> settings.get(<span class="string">'REDIS_ITEMS_KEY'</span>):</span><br><span class="line">            params[<span class="string">'key'</span>] = settings[<span class="string">'REDIS_ITEMS_KEY'</span>]</span><br><span class="line">        <span class="keyword">if</span> settings.get(<span class="string">'REDIS_ITEMS_SERIALIZER'</span>):</span><br><span class="line">            params[<span class="string">'serialize_func'</span>] = load_object(</span><br><span class="line">                settings[<span class="string">'REDIS_ITEMS_SERIALIZER'</span>]</span><br><span class="line">            )</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> cls(**params)</span><br><span class="line"></span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">from_crawler</span><span class="params">(cls, crawler)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> cls.from_settings(crawler.settings)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">process_item</span><span class="params">(self, item, spider)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> deferToThread(self._process_item, item, spider)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_process_item</span><span class="params">(self, item, spider)</span>:</span></span><br><span class="line">        key = self.item_key(item, spider)</span><br><span class="line">        data = self.serialize(item)</span><br><span class="line">        self.server.rpush(key, data)</span><br><span class="line">        <span class="keyword">return</span> item</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">item_key</span><span class="params">(self, item, spider)</span>:</span></span><br><span class="line">        <span class="string">"""Returns redis key based on given spider.</span></span><br><span class="line"><span class="string">        Override this function to use a different key depending on the item</span></span><br><span class="line"><span class="string">        and/or spider.</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">return</span> self.key % &#123;<span class="string">'spider'</span>: spider.name&#125;</span><br></pre></td></tr></table></figure>
-<p>pipelines文件实现了一个item pipieline类，和scrapy的item pipeline是同一个对象，通过从settings中拿到我们配置的REDIS_ITEMS_KEY作为key，把item串行化之后存入redis数据库对应的value中（这个value可以看出出是个list，我们的每个item是这个list中的一个结点），这个pipeline把提取出的item存起来，主要是为了方便我们延后处理数据。 </p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1815,7 +1865,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">50</span>
+                    <span class="site-state-item-count">51</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1857,7 +1907,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">7</span>
+                      
+                    
+                    <span class="site-state-item-count">8</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1926,7 +1978,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共61.1k字</span>
+  <span class="post-count">博客全站共62.3k字</span>
 </div>
         
 
