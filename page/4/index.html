@@ -311,6 +311,189 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/15/2018051522/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Q">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dynamic-Soul">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/15/2018051522/" itemprop="url">处理一些规范格式的文字</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-15T21:02:46+08:00">2018-05-15</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="处理给规范的文字"><a href="#处理给规范的文字" class="headerlink" title="处理给规范的文字"></a>处理给规范的文字</h1><p>你要处理的大多数文字都是比较干净、格式规范的。格式规范的文字通常可以满足一些需求,不过究竟什么是“格式混乱”,什么算“格式规范”,确实因人而异。 通常,格式规范的文字具有以下特点:</p>
+<ul>
+<li>使用一个标准字体(不包含手写体、草书,或者十分“花哨的”字体) 虽然被复印或拍照,字体还是很清晰,没有多余的痕迹或污点</li>
+<li>排列整齐,没有歪歪斜斜的字</li>
+<li>没有超出图片范围,也没有残缺不全,或紧紧贴在图片的边缘</li>
+</ul>
+<p>文字的一些格式问题在图片预处理时可以进行解决。例如,可以把图片转换成灰度图,调 整亮度和对比度,还可以根据需要进行裁剪和旋转（详情请关注图像与信号处理），但是,这些做法在进行更具扩展性的 训练时会遇到一些限制。</p>
+<h2 id="格式规范文字的理想示例"><a href="#格式规范文字的理想示例" class="headerlink" title="格式规范文字的理想示例"></a>格式规范文字的理想示例</h2><img src="/2018/05/15/2018051522/1.jpg">
+<p>通过下面的命令运行 Tesseract，读取文件并把结果写到一个文本文件中: `tesseract test.jpg text</p>
+<img src="/2018/05/15/2018051522/2.jpg">
+<p>cat text.txt 即可显示结果。</p>
+<p>识别结果很准确,不过符号^和*分别被表示成了双引号和单引号。大体上可以让你很舒服地阅读。</p>
+<h2 id="通过Python代码实现"><a href="#通过Python代码实现" class="headerlink" title="通过Python代码实现"></a>通过Python代码实现</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pytesseract</span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"></span><br><span class="line">image = Image.open(<span class="string">'test.jpg'</span>)</span><br><span class="line">text = pytesseract.image_to_string(image)</span><br><span class="line"><span class="keyword">print</span> text</span><br></pre></td></tr></table></figure>
+<p>运行结果：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">This <span class="keyword">is</span> some text, written <span class="keyword">in</span> Arial, that will be read by</span><br><span class="line">Tesseract. Here are some symbols: !@<span class="comment">#$%"&amp;*()</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="对图片进行阈值过滤和降噪处理"><a href="#对图片进行阈值过滤和降噪处理" class="headerlink" title="对图片进行阈值过滤和降噪处理"></a>对图片进行阈值过滤和降噪处理</h2><p>很多时候我们在网上会看到这样的图片：</p>
+<img src="/2018/05/15/2018051522/3.jpg">
+<p>Tesseract 不能完整处理这个图片,主要是因为图片背景色是渐变的,最终结果是这样:</p>
+<img src="/2018/05/15/2018051522/4.jpg">
+<p>随着背景色从左到右不断加深,文字变得越来越难以识别,Tesseract 识别出的 每一行的最后几个字符都是错的。</p>
+<p>遇到这类问题,可以先用 Python 脚本对图片进行清理。利用 Pillow 库,我们可以创建一个 阈值过滤器来去掉渐变的背景色,只把文字留下来,从而让图片更加清晰,便于 Tesseract 读取:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image </span><br><span class="line"><span class="keyword">import</span> subprocess</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cleanFile</span><span class="params">(filePath, newFilePath)</span>:</span> </span><br><span class="line">    image = Image.open(filePath)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 对图片进行阈值过滤,然后保存</span></span><br><span class="line">    image = image.point(<span class="keyword">lambda</span> x: <span class="number">0</span> <span class="keyword">if</span> x&lt;<span class="number">143</span> <span class="keyword">else</span> <span class="number">255</span>)     </span><br><span class="line">    image.save(newFilePath)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 调用系统的tesseract命令对图片进行OCR识别     </span></span><br><span class="line">    subprocess.call([<span class="string">"tesseract"</span>, newFilePath, <span class="string">"output"</span>])</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 打开文件读取结果</span></span><br><span class="line">    file = open(<span class="string">"output.txt"</span>, <span class="string">'r'</span>)     </span><br><span class="line">    print(file.read()) </span><br><span class="line">    file.close()</span><br><span class="line"></span><br><span class="line">cleanFile(<span class="string">"text2.jpg"</span>, <span class="string">"text2clean.png"</span>)</span><br></pre></td></tr></table></figure></p>
+<p>通过一个阈值对前面的“模糊”图片进行过滤的结果</p>
+<img src="/2018/05/15/2018051522/5.jpg">
+<p>除了一些标点符号不太清晰或丢失了,大部分文字都被读出来了。Tesseract 给出了最好的 结果:</p>
+<img src="/2018/05/15/2018051522/6.jpg">
+<h2 id="从网站图片中抓取文字"><a href="#从网站图片中抓取文字" class="headerlink" title="从网站图片中抓取文字"></a>从网站图片中抓取文字</h2><p>用 Tesseract 读取硬盘里图片上的文字,可能不怎么令人兴奋,但当我们把它和网络爬虫组合使用时,就能成为一个强大的工具。</p>
+<p>网站上的图片可能并不是故意把文字做得很花哨 (就像餐馆菜单的 JPG 图片上的艺术字),但它们上面的文字对网络爬虫来说就是隐藏起来 了，举个例子：</p>
+<ul>
+<li><p>虽然亚马逊的 robots.txt 文件允许抓取网站的产品页面,但是图书的预览页通常不让网络机 器人采集。</p>
+</li>
+<li><p>图书的预览页是通过用户触发 Ajax 脚本进行加载的,预览图片隐藏在 div 节点 下面;其实,普通的访问者会觉得它们看起来更像是一个 Flash 动画,而不是一个图片文 件。当然,即使我们能获得图片,要把它们读成文字也没那么简单。</p>
+</li>
+<li><p>下面的程序就解决了这个问题:首先导航到托尔斯泰的《战争与和平》的大字号印刷版 1, 打开阅读器,收集图片的 URL 链接,然后下载图片,识别图片,最后打印每个图片的文 字。因为这个程序很复杂,利用了前面几章的多个程序片段,所以我增加了一些注释以让 每段代码的目的更加清晰:</p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> urllib.request <span class="keyword">import</span> urlretrieve </span><br><span class="line"><span class="keyword">import</span> subprocess</span><br><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="comment">#创建新的Selenium driver</span></span><br><span class="line">driver = webdriver.PhantomJS()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 用Selenium试试Firefox浏览器:</span></span><br><span class="line"><span class="comment"># driver = webdriver.Firefox()</span></span><br><span class="line"></span><br><span class="line">driver.get(<span class="string">"http://www.amazon.com/War-Peace-Leo-Nikolayevich-Tolstoy/dp/1427030200"</span>)</span><br><span class="line"><span class="comment"># 单击图书预览按钮 driver.find_element_by_id("sitbLogoImg").click() imageList = set()</span></span><br><span class="line"><span class="comment"># 等待页面加载完成</span></span><br><span class="line">time.sleep(<span class="number">5</span>)</span><br><span class="line"><span class="comment"># 当向右箭头可以点击时,开始翻页</span></span><br><span class="line"><span class="keyword">while</span> <span class="string">"pointer"</span> <span class="keyword">in</span> driver.find_element_by_id(<span class="string">"sitbReaderRightPageTurner"</span>).get_attribute(<span class="string">"style"</span>):</span><br><span class="line">    driver.find_element_by_id(<span class="string">"sitbReaderRightPageTurner"</span>).click()</span><br><span class="line">    time.sleep(<span class="number">2</span>)</span><br><span class="line">    <span class="comment"># 获取已加载的新页面(一次可以加载多个页面,但是重复的页面不能加载到集合中) </span></span><br><span class="line">    pages = driver.find_elements_by_xpath(<span class="string">"//div[@class='pageImage']/div/img"</span>) </span><br><span class="line">    <span class="keyword">for</span> page <span class="keyword">in</span> pages:</span><br><span class="line">        image = page.get_attribute(<span class="string">"src"</span>)</span><br><span class="line">        imageList.add(image)</span><br><span class="line">driver.quit()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 用Tesseract处理我们收集的图片URL链接 </span></span><br><span class="line"><span class="keyword">for</span> image <span class="keyword">in</span> sorted(imageList):</span><br><span class="line">    <span class="comment"># 保存图片</span></span><br><span class="line">    urlretrieve(image, <span class="string">"page.jpg"</span>)</span><br><span class="line">    p = subprocess.Popen([<span class="string">"tesseract"</span>, <span class="string">"page.jpg"</span>, <span class="string">"page"</span>], stdout=subprocess.PIPE,stderr=subprocess.PIPE)</span><br><span class="line">    f = open(<span class="string">"page.txt"</span>, <span class="string">"r"</span>)</span><br><span class="line">    p.wait() print(f.read())</span><br></pre></td></tr></table></figure>
+<p>和我们前面使用 Tesseract 读取的效果一样,这个程序也会完美地打印书中很多长长的段 落,第六页的预览如下所示:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"A word of friendly advice, mon</span></span><br><span class="line"><span class="string">    cher. Be off as soon as you can,</span></span><br><span class="line"><span class="string">    that's all I have to tell you. Happy</span></span><br><span class="line"><span class="string">    he who has ears to hear. Good-by,</span></span><br><span class="line"><span class="string">    my dear fellow. Oh, by the by!"</span> he</span><br><span class="line">    shouted through the doorway after</span><br><span class="line">    Pierre, <span class="string">"is it true that the countess</span></span><br><span class="line"><span class="string">    has fallen into the clutches of the</span></span><br><span class="line"><span class="string">    holy fathers of the Society of je-</span></span><br><span class="line"><span class="string">    sus?"</span></span><br><span class="line"></span><br><span class="line">    Pierre did <span class="keyword">not</span> answer <span class="keyword">and</span> left Ros-</span><br><span class="line">    topchin<span class="string">'s room more sullen and an-</span></span><br><span class="line"><span class="string">    gry than he had ever before shown</span></span><br><span class="line"><span class="string">    himself.</span></span><br></pre></td></tr></table></figure>
+<p>但是,当文字出现在彩色封面上时,结果就不那么完美了:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">WEI<span class="string">' nrrd Peace</span></span><br><span class="line"><span class="string">   Len Nlkelayevldu Iolfluy</span></span><br><span class="line"><span class="string">   Readmg shmdd be ax</span></span><br><span class="line"><span class="string">   wlnvame asnossxble Wenfler</span></span><br><span class="line"><span class="string">   an mm m our cram: Llhvary</span></span><br><span class="line"><span class="string">    - Leo Tmsloy was a Russian rwovelwst</span></span><br><span class="line"><span class="string">    I and moval phflmopher med lur</span></span><br><span class="line"><span class="string">    A ms Ideas 01 nonviolenx reswslance m 5 We range     0, "and"</span></span><br></pre></td></tr></table></figure>
+<p>如果想把文字加工成普通人可以看懂的 效果,还需要花很多时间去处理。</p>
+<p>下一节将介绍另一种方法来解决文字混乱的问题,尤其是当你愿意花一点儿时间训练 Tesseract 的时候。</p>
+<p>通过给 Tesseract 提供大量已知的文字与图片映射集,经过训练 Tesseract 就可以“学会”识别同一种字体,而且可以达到极高的精确率和准确率,甚至可以忽略图 片中文字的背景色和相对位置等问题。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/15/2018051521/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1777,151 +1960,6 @@ PhantomJS 官方参考文档：http://phantomjs.org/documentation
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/11/2018051120/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Mr.Q">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dynamic-Soul">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/11/2018051120/" itemprop="url">案例：使用BeautifuSoup4的爬虫</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-11T20:00:17+08:00">2018-05-11</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="案例：使用BeautifuSoup4的爬虫"><a href="#案例：使用BeautifuSoup4的爬虫" class="headerlink" title="案例：使用BeautifuSoup4的爬虫"></a>案例：使用BeautifuSoup4的爬虫</h1><p>我们以腾讯社招页面来做演示：<a href="http://hr.tencent.com/position.php?&amp;start=10#a" target="_blank" rel="noopener">http://hr.tencent.com/position.php?&amp;start=10#a</a></p>
-<img src="/2018/05/11/2018051120/1.jpg">
-<p>使用BeautifuSoup4解析器，将招聘网页上的职位名称、职位类别、招聘人数、工作地点、发布时间，以及每个职位详情的点击链接存储出来。</p>
-<img src="/2018/05/11/2018051120/2.jpg">
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># bs4_tencent.py</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line"><span class="keyword">import</span> json    <span class="comment"># 使用了json格式存储</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">tencent</span><span class="params">()</span>:</span></span><br><span class="line">    url = <span class="string">'http://hr.tencent.com/'</span></span><br><span class="line">    request = urllib2.Request(url + <span class="string">'position.php?&amp;start=10#a'</span>)</span><br><span class="line">    response =urllib2.urlopen(request)</span><br><span class="line">    resHtml = response.read()</span><br><span class="line"></span><br><span class="line">    output =open(<span class="string">'tencent.json'</span>,<span class="string">'w'</span>)</span><br><span class="line"></span><br><span class="line">    html = BeautifulSoup(resHtml,<span class="string">'lxml'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建CSS选择器</span></span><br><span class="line">    result = html.select(<span class="string">'tr[class="even"]'</span>)</span><br><span class="line">    result2 = html.select(<span class="string">'tr[class="odd"]'</span>)</span><br><span class="line">    result += result2</span><br><span class="line"></span><br><span class="line">    items = []</span><br><span class="line">    <span class="keyword">for</span> site <span class="keyword">in</span> result:</span><br><span class="line">        item = &#123;&#125;</span><br><span class="line"></span><br><span class="line">        name = site.select(<span class="string">'td a'</span>)[<span class="number">0</span>].get_text()</span><br><span class="line">        detailLink = site.select(<span class="string">'td a'</span>)[<span class="number">0</span>].attrs[<span class="string">'href'</span>]</span><br><span class="line">        catalog = site.select(<span class="string">'td'</span>)[<span class="number">1</span>].get_text()</span><br><span class="line">        recruitNumber = site.select(<span class="string">'td'</span>)[<span class="number">2</span>].get_text()</span><br><span class="line">        workLocation = site.select(<span class="string">'td'</span>)[<span class="number">3</span>].get_text()</span><br><span class="line">        publishTime = site.select(<span class="string">'td'</span>)[<span class="number">4</span>].get_text()</span><br><span class="line"></span><br><span class="line">        item[<span class="string">'name'</span>] = name</span><br><span class="line">        item[<span class="string">'detailLink'</span>] = url + detailLink</span><br><span class="line">        item[<span class="string">'catalog'</span>] = catalog</span><br><span class="line">        item[<span class="string">'recruitNumber'</span>] = recruitNumber</span><br><span class="line">        item[<span class="string">'publishTime'</span>] = publishTime</span><br><span class="line"></span><br><span class="line">        items.append(item)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 禁用ascii编码，按utf-8编码</span></span><br><span class="line">    line = json.dumps(items,ensure_ascii=<span class="keyword">False</span>)</span><br><span class="line"></span><br><span class="line">    output.write(line.encode(<span class="string">'utf-8'</span>))</span><br><span class="line">    output.close()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">   tencent()</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1973,7 +2011,7 @@ PhantomJS 官方参考文档：http://phantomjs.org/documentation
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">54</span>
+                    <span class="site-state-item-count">55</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2086,7 +2124,7 @@ PhantomJS 官方参考文档：http://phantomjs.org/documentation
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共64.9k字</span>
+  <span class="post-count">博客全站共67.2k字</span>
 </div>
         
 

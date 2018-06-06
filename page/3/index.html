@@ -311,6 +311,248 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/20/2018052020/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Q">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dynamic-Soul">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/20/2018052020/" itemprop="url">Downloader Middlewares</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-20T20:53:09+08:00">2018-05-20</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="反反爬虫相关机制"><a href="#反反爬虫相关机制" class="headerlink" title="反反爬虫相关机制"></a>反反爬虫相关机制</h1><p><strong>Some websites implement certain measures to prevent bots from crawling them, with varying degrees of sophistication. Getting around those measures can be difficult and tricky, and may sometimes require special infrastructure. Please consider contacting commercial support if in doubt.<br>(有些些网站使用特定的不同程度的复杂性规则防止爬虫访问，绕过这些规则是困难和复杂的，有时可能需要特殊的基础设施，如果有疑问，请联系商业支持。)</strong></p>
+<pre><code>来自于Scrapy官方文档描述：http://doc.scrapy.org/en/master/topics/practices.html#avoiding-getting-banned
+</code></pre><h2 id="通常防止爬虫被反主要有以下几个策略："><a href="#通常防止爬虫被反主要有以下几个策略：" class="headerlink" title="通常防止爬虫被反主要有以下几个策略："></a>通常防止爬虫被反主要有以下几个策略：</h2><ul>
+<li><p>动态设置User-Agent（随机切换User-Agent，模拟不同用户的浏览器信息）</p>
+</li>
+<li><p>禁用Cookies（也就是不启用cookies middleware，不向Server发送cookies，有些网站通过cookie的使用发现爬虫行为）</p>
+<ul>
+<li>可以通过COOKIES_ENABLED 控制 CookiesMiddleware 开启或关闭</li>
+</ul>
+</li>
+<li><p>设置延迟下载（防止访问过于频繁，设置为 2秒 或更高）</p>
+</li>
+<li><p>Google Cache 和 Baidu Cache：如果可能的话，使用谷歌/百度等搜索引擎服务器页面缓存获取页面数据。</p>
+</li>
+<li><p>使用IP地址池：VPN和代理IP，现在大部分网站都是根据IP来ban的。</p>
+</li>
+<li><p>使用 Crawlera（专用于爬虫的代理组件），正确配置和设置下载中间件后，项目所有的request都是通过crawlera发出。</p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">DOWNLOADER_MIDDLEWARES = &#123;</span><br><span class="line">      <span class="string">'scrapy_crawlera.CrawleraMiddleware'</span>: <span class="number">600</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  CRAWLERA_ENABLED = <span class="keyword">True</span></span><br><span class="line">  CRAWLERA_USER = <span class="string">'注册/购买的UserKey'</span></span><br><span class="line">  CRAWLERA_PASS = <span class="string">'注册/购买的Password'</span></span><br></pre></td></tr></table></figure>
+<h1 id="设置下载中间件（Downloader-Middlewares）"><a href="#设置下载中间件（Downloader-Middlewares）" class="headerlink" title="设置下载中间件（Downloader Middlewares）"></a>设置下载中间件（Downloader Middlewares）</h1><p>下载中间件是处于引擎(crawler.engine)和下载器(crawler.engine.download())之间的一层组件，可以有多个下载中间件被加载运行。</p>
+<ol>
+<li><p>当引擎传递请求给下载器的过程中，下载中间件可以对请求进行处理 （例如增加http header信息，增加proxy信息等）；</p>
+</li>
+<li><p>在下载器完成http请求，传递响应给引擎的过程中， 下载中间件可以对响应进行处理（例如进行gzip的解压等）</p>
+</li>
+</ol>
+<p>要激活下载器中间件组件，将其加入到 DOWNLOADER_MIDDLEWARES 设置中。 该设置是一个字典(dict)，键为中间件类的路径，值为其中间件的顺序(order)。</p>
+<p>这里是一个例子:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">DOWNLOADER_MIDDLEWARES = &#123;</span><br><span class="line">    <span class="string">'mySpider.middlewares.MyDownloaderMiddleware'</span>: <span class="number">543</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>编写下载器中间件十分简单。每个中间件组件是一个定义了以下一个或多个方法的Python类:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">scrapy</span>.<span class="title">contrib</span>.<span class="title">downloadermiddleware</span>.<span class="title">DownloaderMiddleware</span></span></span><br></pre></td></tr></table></figure>
+<h2 id="process-request-self-request-spider"><a href="#process-request-self-request-spider" class="headerlink" title="process_request(self, request, spider)"></a>process_request(self, request, spider)</h2><ul>
+<li><p>当每个request通过下载中间件时，该方法被调用。</p>
+</li>
+<li><p>process_request() 必须返回以下其中之一：一个 None 、一个 Response 对象、一个 Request 对象或 raise IgnoreRequest:</p>
+<ul>
+<li><p>如果其返回 None ，Scrapy将继续处理该request，执行其他的中间件的相应方法，直到合适的下载器处理函数(download handler)被调用， 该request被执行(其response被下载)。</p>
+</li>
+<li><p>如果其返回 Response 对象，Scrapy将不会调用 任何 其他的 process_request() 或 process_exception() 方法，或相应地下载函数； 其将返回该response。 已安装的中间件的 process_response() 方法则会在每个response返回时被调用。</p>
+</li>
+<li><p>如果其返回 Request 对象，Scrapy则停止调用 process_request方法并重新调度返回的request。当新返回的request被执行后， 相应地中间件链将会根据下载的response被调用。</p>
+</li>
+<li><p>如果其raise一个 IgnoreRequest 异常，则安装的下载中间件的 process_exception() 方法会被调用。如果没有任何一个方法处理该异常， 则request的errback(Request.errback)方法会被调用。如果没有代码处理抛出的异常， 则该异常被忽略且不记录(不同于其他异常那样)。</p>
+</li>
+</ul>
+</li>
+<li><p>参数:</p>
+<ul>
+<li>request (Request 对象) – 处理的request</li>
+<li>spider (Spider 对象) – 该request对应的spider</li>
+</ul>
+</li>
+</ul>
+<h2 id="process-response-self-request-response-spider"><a href="#process-response-self-request-response-spider" class="headerlink" title="process_response(self, request, response, spider)"></a>process_response(self, request, response, spider)</h2><p>当下载器完成http请求，传递响应给引擎的时候调用</p>
+<ul>
+<li><p>process_request() 必须返回以下其中之一: 返回一个 Response 对象、 返回一个 Request 对象或raise一个 IgnoreRequest 异常。</p>
+<ul>
+<li><p>如果其返回一个 Response (可以与传入的response相同，也可以是全新的对象)， 该response会被在链中的其他中间件的 process_response() 方法处理。</p>
+</li>
+<li><p>如果其返回一个 Request 对象，则中间件链停止， 返回的request会被重新调度下载。处理类似于 process_request() 返回request所做的那样。</p>
+</li>
+<li><p>如果其抛出一个 IgnoreRequest 异常，则调用request的errback(Request.errback)。 如果没有代码处理抛出的异常，则该异常被忽略且不记录(不同于其他异常那样)。</p>
+</li>
+</ul>
+</li>
+<li><p>参数:</p>
+<ul>
+<li>request (Request 对象) – response所对应的request</li>
+<li>response (Response 对象) – 被处理的response</li>
+<li>spider (Spider 对象) – response所对应的spider</li>
+</ul>
+</li>
+</ul>
+<h1 id="使用案例："><a href="#使用案例：" class="headerlink" title="使用案例："></a>使用案例：</h1><p><strong>1.创建middlewares.py文件。</strong></p>
+<p>Scrapy代理IP、Uesr-Agent的切换都是通过DOWNLOADER_MIDDLEWARES进行控制，我们在settings.py同级目录下创建middlewares.py文件，包装所有请求。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># middlewares.py</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> settings <span class="keyword">import</span> USER_AGENTS</span><br><span class="line"><span class="keyword">from</span> settings <span class="keyword">import</span> PROXIES</span><br><span class="line"></span><br><span class="line"><span class="comment"># 随机的User-Agent</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RandomUserAgent</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">process_request</span><span class="params">(self, request, spider)</span>:</span></span><br><span class="line">        useragent = random.choice(USER_AGENTS)</span><br><span class="line"></span><br><span class="line">        request.headers.setdefault(<span class="string">"User-Agent"</span>, useragent)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RandomProxy</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">process_request</span><span class="params">(self, request, spider)</span>:</span></span><br><span class="line">        proxy = random.choice(PROXIES)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> proxy[<span class="string">'user_passwd'</span>] <span class="keyword">is</span> <span class="keyword">None</span>:</span><br><span class="line">            <span class="comment"># 没有代理账户验证的代理使用方式</span></span><br><span class="line">            request.meta[<span class="string">'proxy'</span>] = <span class="string">"http://"</span> + proxy[<span class="string">'ip_port'</span>]</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="comment"># 对账户密码进行base64编码转换</span></span><br><span class="line">            base64_userpasswd = base64.b64encode(proxy[<span class="string">'user_passwd'</span>])</span><br><span class="line">            <span class="comment"># 对应到代理服务器的信令格式里</span></span><br><span class="line">            request.headers[<span class="string">'Proxy-Authorization'</span>] = <span class="string">'Basic '</span> + base64_userpasswd</span><br><span class="line">            request.meta[<span class="string">'proxy'</span>] = <span class="string">"http://"</span> + proxy[<span class="string">'ip_port'</span>]</span><br></pre></td></tr></table></figure>
+<pre><code>为什么HTTP代理要使用base64编码：
+
+HTTP代理的原理很简单，就是通过HTTP协议与代理服务器建立连接，协议信令中包含要连接到的远程主机的IP和端口号，如果有需要身份验证的话还需要加上授权信息，服务器收到信令后首先进行身份验证，通过后便与远程主机建立连接，连接成功之后会返回给客户端200，表示验证通过，就这么简单，下面是具体的信令格式：
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CONNECT <span class="number">59.64</span><span class="number">.128</span><span class="number">.198</span>:<span class="number">21</span> HTTP/<span class="number">1.1</span></span><br><span class="line">Host: <span class="number">59.64</span><span class="number">.128</span><span class="number">.198</span>:<span class="number">21</span></span><br><span class="line">Proxy-Authorization: Basic bGV2I1TU5OTIz</span><br><span class="line">User-Agent: OpenFetion</span><br></pre></td></tr></table></figure>
+<p>其中Proxy-Authorization是身份验证信息，Basic后面的字符串是用户名和密码组合后进行base64编码的结果，也就是对username:password进行base64编码。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HTTP/<span class="number">1.0</span> <span class="number">200</span> Connection established</span><br></pre></td></tr></table></figure>
+<p>OK，客户端收到收面的信令后表示成功建立连接，接下来要发送给远程主机的数据就可以发送给代理服务器了，代理服务器建立连接后会在根据IP地址和端口号对应的连接放入缓存，收到信令后再根据IP地址和端口号从缓存中找到对应的连接，将数据通过该连接转发出去。</p>
+<p><strong>2. 修改settings.py配置USER_AGENTS和PROXIES</strong></p>
+<ul>
+<li><p>添加USER_AGENTS：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">USER_AGENTS = [</span><br><span class="line">    <span class="string">"Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Win64; x64; Trident/5.0; .NET CLR 3.5.30729; .NET CLR 3.0.30729; .NET CLR 2.0.50727; Media Center PC 6.0)"</span>,</span><br><span class="line">    <span class="string">"Mozilla/5.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0; WOW64; Trident/4.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; .NET CLR 1.0.3705; .NET CLR 1.1.4322)"</span>,</span><br><span class="line">    <span class="string">"Mozilla/4.0 (compatible; MSIE 7.0b; Windows NT 5.2; .NET CLR 1.1.4322; .NET CLR 2.0.50727; InfoPath.2; .NET CLR 3.0.04506.30)"</span>,</span><br><span class="line">    <span class="string">"Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN) AppleWebKit/523.15 (KHTML, like Gecko, Safari/419.3) Arora/0.3 (Change: 287 c9dfb30)"</span>,</span><br><span class="line">    <span class="string">"Mozilla/5.0 (X11; U; Linux; en-US) AppleWebKit/527+ (KHTML, like Gecko, Safari/419.3) Arora/0.6"</span>,</span><br><span class="line">    <span class="string">"Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.2pre) Gecko/20070215 K-Ninja/2.1.1"</span>,</span><br><span class="line">    <span class="string">"Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9) Gecko/20080705 Firefox/3.0 Kapiko/3.0"</span>,</span><br><span class="line">    <span class="string">"Mozilla/5.0 (X11; Linux i686; U;) Gecko/20070322 Kazehakase/0.4.5"</span></span><br><span class="line">    ]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>添加代理IP设置PROXIES：</p>
+<p>  免费代理IP可以网上搜索，或者付费购买一批可用的私密代理IP：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PROXIES = [</span><br><span class="line">    &#123;<span class="string">'ip_port'</span>: <span class="string">'111.8.60.9:8123'</span>, <span class="string">'user_passwd'</span>: <span class="string">'user1:pass1'</span>&#125;,</span><br><span class="line">    &#123;<span class="string">'ip_port'</span>: <span class="string">'101.71.27.120:80'</span>, <span class="string">'user_passwd'</span>: <span class="string">'user2:pass2'</span>&#125;,</span><br><span class="line">    &#123;<span class="string">'ip_port'</span>: <span class="string">'122.96.59.104:80'</span>, <span class="string">'user_passwd'</span>: <span class="string">'user3:pass3'</span>&#125;,</span><br><span class="line">    &#123;<span class="string">'ip_port'</span>: <span class="string">'122.224.249.122:8088'</span>, <span class="string">'user_passwd'</span>: <span class="string">'user4:pass4'</span>&#125;,</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>除非特殊需要，禁用cookies，防止某些网站根据Cookie来封锁爬虫。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">COOKIES_ENABLED = <span class="keyword">False</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置下载延迟</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DOWNLOAD_DELAY = <span class="number">3</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>最后设置setting.py里的DOWNLOADER_MIDDLEWARES，添加自己编写的下载中间件类。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">DOWNLOADER_MIDDLEWARES = &#123;</span><br><span class="line">    <span class="comment">#'mySpider.middlewares.MyCustomDownloaderMiddleware': 543,</span></span><br><span class="line">    <span class="string">'mySpider.middlewares.RandomUserAgent'</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="string">'mySpider.middlewares.ProxyMiddleware'</span>: <span class="number">100</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/19/2018051920/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1985,189 +2227,6 @@ mySpider/spiders/ ：存储爬虫代码目录
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/15/2018051522/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Mr.Q">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dynamic-Soul">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/15/2018051522/" itemprop="url">处理一些规范格式的文字</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-15T21:02:46+08:00">2018-05-15</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="处理给规范的文字"><a href="#处理给规范的文字" class="headerlink" title="处理给规范的文字"></a>处理给规范的文字</h1><p>你要处理的大多数文字都是比较干净、格式规范的。格式规范的文字通常可以满足一些需求,不过究竟什么是“格式混乱”,什么算“格式规范”,确实因人而异。 通常,格式规范的文字具有以下特点:</p>
-<ul>
-<li>使用一个标准字体(不包含手写体、草书,或者十分“花哨的”字体) 虽然被复印或拍照,字体还是很清晰,没有多余的痕迹或污点</li>
-<li>排列整齐,没有歪歪斜斜的字</li>
-<li>没有超出图片范围,也没有残缺不全,或紧紧贴在图片的边缘</li>
-</ul>
-<p>文字的一些格式问题在图片预处理时可以进行解决。例如,可以把图片转换成灰度图,调 整亮度和对比度,还可以根据需要进行裁剪和旋转（详情请关注图像与信号处理），但是,这些做法在进行更具扩展性的 训练时会遇到一些限制。</p>
-<h2 id="格式规范文字的理想示例"><a href="#格式规范文字的理想示例" class="headerlink" title="格式规范文字的理想示例"></a>格式规范文字的理想示例</h2><img src="/2018/05/15/2018051522/1.jpg">
-<p>通过下面的命令运行 Tesseract，读取文件并把结果写到一个文本文件中: `tesseract test.jpg text</p>
-<img src="/2018/05/15/2018051522/2.jpg">
-<p>cat text.txt 即可显示结果。</p>
-<p>识别结果很准确,不过符号^和*分别被表示成了双引号和单引号。大体上可以让你很舒服地阅读。</p>
-<h2 id="通过Python代码实现"><a href="#通过Python代码实现" class="headerlink" title="通过Python代码实现"></a>通过Python代码实现</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pytesseract</span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"></span><br><span class="line">image = Image.open(<span class="string">'test.jpg'</span>)</span><br><span class="line">text = pytesseract.image_to_string(image)</span><br><span class="line"><span class="keyword">print</span> text</span><br></pre></td></tr></table></figure>
-<p>运行结果：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">This <span class="keyword">is</span> some text, written <span class="keyword">in</span> Arial, that will be read by</span><br><span class="line">Tesseract. Here are some symbols: !@<span class="comment">#$%"&amp;*()</span></span><br></pre></td></tr></table></figure></p>
-<h2 id="对图片进行阈值过滤和降噪处理"><a href="#对图片进行阈值过滤和降噪处理" class="headerlink" title="对图片进行阈值过滤和降噪处理"></a>对图片进行阈值过滤和降噪处理</h2><p>很多时候我们在网上会看到这样的图片：</p>
-<img src="/2018/05/15/2018051522/3.jpg">
-<p>Tesseract 不能完整处理这个图片,主要是因为图片背景色是渐变的,最终结果是这样:</p>
-<img src="/2018/05/15/2018051522/4.jpg">
-<p>随着背景色从左到右不断加深,文字变得越来越难以识别,Tesseract 识别出的 每一行的最后几个字符都是错的。</p>
-<p>遇到这类问题,可以先用 Python 脚本对图片进行清理。利用 Pillow 库,我们可以创建一个 阈值过滤器来去掉渐变的背景色,只把文字留下来,从而让图片更加清晰,便于 Tesseract 读取:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image </span><br><span class="line"><span class="keyword">import</span> subprocess</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cleanFile</span><span class="params">(filePath, newFilePath)</span>:</span> </span><br><span class="line">    image = Image.open(filePath)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 对图片进行阈值过滤,然后保存</span></span><br><span class="line">    image = image.point(<span class="keyword">lambda</span> x: <span class="number">0</span> <span class="keyword">if</span> x&lt;<span class="number">143</span> <span class="keyword">else</span> <span class="number">255</span>)     </span><br><span class="line">    image.save(newFilePath)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 调用系统的tesseract命令对图片进行OCR识别     </span></span><br><span class="line">    subprocess.call([<span class="string">"tesseract"</span>, newFilePath, <span class="string">"output"</span>])</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 打开文件读取结果</span></span><br><span class="line">    file = open(<span class="string">"output.txt"</span>, <span class="string">'r'</span>)     </span><br><span class="line">    print(file.read()) </span><br><span class="line">    file.close()</span><br><span class="line"></span><br><span class="line">cleanFile(<span class="string">"text2.jpg"</span>, <span class="string">"text2clean.png"</span>)</span><br></pre></td></tr></table></figure></p>
-<p>通过一个阈值对前面的“模糊”图片进行过滤的结果</p>
-<img src="/2018/05/15/2018051522/5.jpg">
-<p>除了一些标点符号不太清晰或丢失了,大部分文字都被读出来了。Tesseract 给出了最好的 结果:</p>
-<img src="/2018/05/15/2018051522/6.jpg">
-<h2 id="从网站图片中抓取文字"><a href="#从网站图片中抓取文字" class="headerlink" title="从网站图片中抓取文字"></a>从网站图片中抓取文字</h2><p>用 Tesseract 读取硬盘里图片上的文字,可能不怎么令人兴奋,但当我们把它和网络爬虫组合使用时,就能成为一个强大的工具。</p>
-<p>网站上的图片可能并不是故意把文字做得很花哨 (就像餐馆菜单的 JPG 图片上的艺术字),但它们上面的文字对网络爬虫来说就是隐藏起来 了，举个例子：</p>
-<ul>
-<li><p>虽然亚马逊的 robots.txt 文件允许抓取网站的产品页面,但是图书的预览页通常不让网络机 器人采集。</p>
-</li>
-<li><p>图书的预览页是通过用户触发 Ajax 脚本进行加载的,预览图片隐藏在 div 节点 下面;其实,普通的访问者会觉得它们看起来更像是一个 Flash 动画,而不是一个图片文 件。当然,即使我们能获得图片,要把它们读成文字也没那么简单。</p>
-</li>
-<li><p>下面的程序就解决了这个问题:首先导航到托尔斯泰的《战争与和平》的大字号印刷版 1, 打开阅读器,收集图片的 URL 链接,然后下载图片,识别图片,最后打印每个图片的文 字。因为这个程序很复杂,利用了前面几章的多个程序片段,所以我增加了一些注释以让 每段代码的目的更加清晰:</p>
-</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> urllib.request <span class="keyword">import</span> urlretrieve </span><br><span class="line"><span class="keyword">import</span> subprocess</span><br><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="comment">#创建新的Selenium driver</span></span><br><span class="line">driver = webdriver.PhantomJS()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 用Selenium试试Firefox浏览器:</span></span><br><span class="line"><span class="comment"># driver = webdriver.Firefox()</span></span><br><span class="line"></span><br><span class="line">driver.get(<span class="string">"http://www.amazon.com/War-Peace-Leo-Nikolayevich-Tolstoy/dp/1427030200"</span>)</span><br><span class="line"><span class="comment"># 单击图书预览按钮 driver.find_element_by_id("sitbLogoImg").click() imageList = set()</span></span><br><span class="line"><span class="comment"># 等待页面加载完成</span></span><br><span class="line">time.sleep(<span class="number">5</span>)</span><br><span class="line"><span class="comment"># 当向右箭头可以点击时,开始翻页</span></span><br><span class="line"><span class="keyword">while</span> <span class="string">"pointer"</span> <span class="keyword">in</span> driver.find_element_by_id(<span class="string">"sitbReaderRightPageTurner"</span>).get_attribute(<span class="string">"style"</span>):</span><br><span class="line">    driver.find_element_by_id(<span class="string">"sitbReaderRightPageTurner"</span>).click()</span><br><span class="line">    time.sleep(<span class="number">2</span>)</span><br><span class="line">    <span class="comment"># 获取已加载的新页面(一次可以加载多个页面,但是重复的页面不能加载到集合中) </span></span><br><span class="line">    pages = driver.find_elements_by_xpath(<span class="string">"//div[@class='pageImage']/div/img"</span>) </span><br><span class="line">    <span class="keyword">for</span> page <span class="keyword">in</span> pages:</span><br><span class="line">        image = page.get_attribute(<span class="string">"src"</span>)</span><br><span class="line">        imageList.add(image)</span><br><span class="line">driver.quit()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 用Tesseract处理我们收集的图片URL链接 </span></span><br><span class="line"><span class="keyword">for</span> image <span class="keyword">in</span> sorted(imageList):</span><br><span class="line">    <span class="comment"># 保存图片</span></span><br><span class="line">    urlretrieve(image, <span class="string">"page.jpg"</span>)</span><br><span class="line">    p = subprocess.Popen([<span class="string">"tesseract"</span>, <span class="string">"page.jpg"</span>, <span class="string">"page"</span>], stdout=subprocess.PIPE,stderr=subprocess.PIPE)</span><br><span class="line">    f = open(<span class="string">"page.txt"</span>, <span class="string">"r"</span>)</span><br><span class="line">    p.wait() print(f.read())</span><br></pre></td></tr></table></figure>
-<p>和我们前面使用 Tesseract 读取的效果一样,这个程序也会完美地打印书中很多长长的段 落,第六页的预览如下所示:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"A word of friendly advice, mon</span></span><br><span class="line"><span class="string">    cher. Be off as soon as you can,</span></span><br><span class="line"><span class="string">    that's all I have to tell you. Happy</span></span><br><span class="line"><span class="string">    he who has ears to hear. Good-by,</span></span><br><span class="line"><span class="string">    my dear fellow. Oh, by the by!"</span> he</span><br><span class="line">    shouted through the doorway after</span><br><span class="line">    Pierre, <span class="string">"is it true that the countess</span></span><br><span class="line"><span class="string">    has fallen into the clutches of the</span></span><br><span class="line"><span class="string">    holy fathers of the Society of je-</span></span><br><span class="line"><span class="string">    sus?"</span></span><br><span class="line"></span><br><span class="line">    Pierre did <span class="keyword">not</span> answer <span class="keyword">and</span> left Ros-</span><br><span class="line">    topchin<span class="string">'s room more sullen and an-</span></span><br><span class="line"><span class="string">    gry than he had ever before shown</span></span><br><span class="line"><span class="string">    himself.</span></span><br></pre></td></tr></table></figure>
-<p>但是,当文字出现在彩色封面上时,结果就不那么完美了:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">WEI<span class="string">' nrrd Peace</span></span><br><span class="line"><span class="string">   Len Nlkelayevldu Iolfluy</span></span><br><span class="line"><span class="string">   Readmg shmdd be ax</span></span><br><span class="line"><span class="string">   wlnvame asnossxble Wenfler</span></span><br><span class="line"><span class="string">   an mm m our cram: Llhvary</span></span><br><span class="line"><span class="string">    - Leo Tmsloy was a Russian rwovelwst</span></span><br><span class="line"><span class="string">    I and moval phflmopher med lur</span></span><br><span class="line"><span class="string">    A ms Ideas 01 nonviolenx reswslance m 5 We range     0, "and"</span></span><br></pre></td></tr></table></figure>
-<p>如果想把文字加工成普通人可以看懂的 效果,还需要花很多时间去处理。</p>
-<p>下一节将介绍另一种方法来解决文字混乱的问题,尤其是当你愿意花一点儿时间训练 Tesseract 的时候。</p>
-<p>通过给 Tesseract 提供大量已知的文字与图片映射集,经过训练 Tesseract 就可以“学会”识别同一种字体,而且可以达到极高的精确率和准确率,甚至可以忽略图 片中文字的背景色和相对位置等问题。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2219,7 +2278,7 @@ mySpider/spiders/ ：存储爬虫代码目录
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">54</span>
+                    <span class="site-state-item-count">55</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2332,7 +2391,7 @@ mySpider/spiders/ ：存储爬虫代码目录
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共64.9k字</span>
+  <span class="post-count">博客全站共67.2k字</span>
 </div>
         
 
