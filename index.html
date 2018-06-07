@@ -311,6 +311,187 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/07/2018060721/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Q">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dynamic-Soul">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/07/2018060721/" itemprop="url">爬虫与反爬</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-07T21:31:37+08:00">2018-06-07</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="反爬策略"><a href="#反爬策略" class="headerlink" title="反爬策略"></a>反爬策略</h1><h2 id="一：-User-Agent-Referer检测"><a href="#一：-User-Agent-Referer检测" class="headerlink" title="一： User-Agent +Referer检测"></a>一： User-Agent +Referer检测</h2><p>User-Agent 是HTTP协议的中的一个字段， 其作用是描述发出HTTP请求的终端的一些信息。<br>使得服务器能够识别客户使用的操作系统及版本、CPU 类型、浏览器及版本、浏览器渲染引擎、浏览器语言、浏览器插件等。<br>服务器通过这个字段就可以知道访问网站的是什么人。对于不是正常浏览器的用户进行屏蔽。</p>
+<p>解决方案: 伪装浏览器的User-Agent，因为每个浏览器的User-Agent不一样,并且所有<br>的用户都能使用浏览器。所有每次请求的时候条件浏览器的User-Agent，就能解决UA检测</p>
+<p>Referer是header的一部分，当浏览器向web服务器发送请求的时候，一般会带上Referer，</p>
+<p>告诉服务器我是从哪个页面链接过来的。例如有一些图片网站在你请求图片的时候，就会检测</p>
+<p>你的Referer值，如果Referer不符合，不会返回正常的图片。</p>
+<p>解决方案：在检测referer的请求中，携带符合的referer值。</p>
+<p>##　二： js混淆和渲染<br>所谓 JavaScript 混淆，基本就是:</p>
+<pre><code>1.去掉一些实际没有调用的函数。
+
+2.将零散的变量声明合并。
+
+3.逻辑函数的精简。
+
+4.变量名的简化。具体要看不同的压缩工具的考虑优劣。常见的有UglifyJS、JScrambler等工具。
+</code></pre><p>js渲染其实就是对HTML页面的修改。比如有一些网页本身没有返回数据，数据是经过js加载之后添加到HTML当中的。当遇到这种情况的时候，我们要知道爬虫是不会执行JavaScript操作。所以需要用其他的方法处理。</p>
+<p>解决方案：</p>
+<pre><code>1.通过阅读网站js源码，找到关键的代码，并用python实现。
+
+2.通过阅读网站js源码，找到关键的代码，用PyV8,execjs等库直接执行js代码。
+
+3.通过selenium库直接模拟浏览器环境
+</code></pre><h2 id="三：IP限制频次"><a href="#三：IP限制频次" class="headerlink" title="三：IP限制频次"></a>三：IP限制频次</h2><p>WEB系统都是走http协议跟WEB容器连通的，每次请求至少会产生一次客户端与服务器的tcp连接。</p>
+<p>对于服务端来说可以很清楚的查看到，一个ip地址在单位时间内发起的请求。</p>
+<p>当请求数超过一定的值之后，就可判断为非正常的用户请求。</p>
+<p>解决方案：</p>
+<pre><code>1.自行设计ip代理池，通过轮换的方式，每次请求携带不同的代理地址。
+
+2.ADSL动态拨号他有个独有的特点，每拨一次号，就获取一个新的IP。也就是它的IP是不固定的。
+</code></pre><h2 id="四：验证码"><a href="#四：验证码" class="headerlink" title="四：验证码"></a>四：验证码</h2><p>验证码（CAPTCHA）是“Completely Automated PublicTuring test to tell Computers and Humans Apart”（全自动区分计算机和人类的图灵测试）的缩写，是一种区分用户是计算机还是人的公共全自动程序。</p>
+<p>可以防止：恶意破解密码、刷票、论坛灌水，有效防止某个黑客对某一个特定注册用户用特定程序暴力破解方式进行不断的登陆尝试。</p>
+<p>这个问题可以由计算机生成并评判，但是必须只有人类才能解答。由于计算机无法解答</p>
+<p>CAPTCHA的问题，所以回答出问题的用户就可以被认为是人类。</p>
+<p>解决方案:</p>
+<pre><code>1.手动识别验证码
+
+2.pytesseract识别简单的验证码
+
+3.对接打码平台
+
+4.机器学习
+</code></pre>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/06/2018060622/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1671,155 +1852,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/27/2018052721/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Mr.Q">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dynamic-Soul">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/27/2018052721/" itemprop="url">阳光热线问政平台爬虫</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-27T21:13:57+08:00">2018-05-27</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="阳光热线问政平台"><a href="#阳光热线问政平台" class="headerlink" title="阳光热线问政平台"></a>阳光热线问政平台</h1><p><a href="http://wz.sun0769.com/index.php/question/questionType?type=4" target="_blank" rel="noopener">http://wz.sun0769.com/index.php/question/questionType?type=4</a></p>
-<p>爬取投诉帖子的编号、帖子的url、帖子的标题，和帖子里的内容。</p>
-<h2 id="items-py"><a href="#items-py" class="headerlink" title="items.py"></a>items.py</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scrapy</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DongguanItem</span><span class="params">(scrapy.Item)</span>:</span></span><br><span class="line">    <span class="comment"># 每个帖子的标题</span></span><br><span class="line">    title = scrapy.Field()</span><br><span class="line">    <span class="comment"># 每个帖子的编号</span></span><br><span class="line">    number = scrapy.Field()</span><br><span class="line">    <span class="comment"># 每个帖子的文字内容</span></span><br><span class="line">    content = scrapy.Field()</span><br><span class="line">    <span class="comment"># 每个帖子的url</span></span><br><span class="line">    url = scrapy.Field()</span><br></pre></td></tr></table></figure>
-<h2 id="spiders-sunwz-py"><a href="#spiders-sunwz-py" class="headerlink" title="spiders/sunwz.py"></a>spiders/sunwz.py</h2><p><strong>Spider 版本</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> scrapy</span><br><span class="line"><span class="keyword">from</span> dongguan.items <span class="keyword">import</span> DongguanItem</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SunSpider</span><span class="params">(CrawlSpider)</span>:</span></span><br><span class="line">    name = <span class="string">'sun'</span></span><br><span class="line">    allowed_domains = [<span class="string">'wz.sun0769.com'</span>]</span><br><span class="line">    url = <span class="string">'http://wz.sun0769.com/index.php/question/questionType?type=4&amp;page='</span></span><br><span class="line">    offset = <span class="number">0</span></span><br><span class="line">    start_urls = [url + str(offset)]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        <span class="comment"># 取出每个页面里帖子链接列表</span></span><br><span class="line">        links = response.xpath(<span class="string">"//div[@class='greyframe']/table//td/a[@class='news14']/@href"</span>).extract()</span><br><span class="line">        <span class="comment"># 迭代发送每个帖子的请求，调用parse_item方法处理</span></span><br><span class="line">        <span class="keyword">for</span> link <span class="keyword">in</span> links:</span><br><span class="line">            <span class="keyword">yield</span> scrapy.Request(link, callback = self.parse_item)</span><br><span class="line">        <span class="comment"># 设置页码终止条件，并且每次发送新的页面请求调用parse方法处理</span></span><br><span class="line">        <span class="keyword">if</span> self.offset &lt;= <span class="number">71130</span>:</span><br><span class="line">            self.offset += <span class="number">30</span></span><br><span class="line">            <span class="keyword">yield</span> scrapy.Request(self.url + str(self.offset), callback = self.parse)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 处理每个帖子里</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse_item</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        item = DongguanItem()</span><br><span class="line">        <span class="comment"># 标题</span></span><br><span class="line">        item[<span class="string">'title'</span>] = response.xpath(<span class="string">'//div[contains(@class, "pagecenter p3")]//strong/text()'</span>).extract()[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 编号</span></span><br><span class="line">        item[<span class="string">'number'</span>] = item[<span class="string">'title'</span>].split(<span class="string">' '</span>)[<span class="number">-1</span>].split(<span class="string">":"</span>)[<span class="number">-1</span>]</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 文字内容，默认先取出有图片情况下的文字内容列表</span></span><br><span class="line">        content = response.xpath(<span class="string">'//div[@class="contentext"]/text()'</span>).extract()</span><br><span class="line">        <span class="comment"># 如果没有内容，则取出没有图片情况下的文字内容列表</span></span><br><span class="line">        <span class="keyword">if</span> len(content) == <span class="number">0</span>:</span><br><span class="line">            content = response.xpath(<span class="string">'//div[@class="c1 text14_2"]/text()'</span>).extract()</span><br><span class="line">            <span class="comment"># content为列表，通过join方法拼接为字符串，并去除首尾空格</span></span><br><span class="line">            item[<span class="string">'content'</span>] = <span class="string">""</span>.join(content).strip()</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            item[<span class="string">'content'</span>] = <span class="string">""</span>.join(content).strip()</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 链接</span></span><br><span class="line">        item[<span class="string">'url'</span>] = response.url</span><br><span class="line"></span><br><span class="line">        <span class="keyword">yield</span> item</span><br></pre></td></tr></table></figure></p>
-<p><strong>CrawlSpider 版本</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> scrapy</span><br><span class="line"><span class="keyword">from</span> scrapy.linkextractors <span class="keyword">import</span> LinkExtractor</span><br><span class="line"><span class="keyword">from</span> scrapy.spiders <span class="keyword">import</span> CrawlSpider, Rule</span><br><span class="line"><span class="keyword">from</span> dongguan.items <span class="keyword">import</span> DongguanItem</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SunSpider</span><span class="params">(CrawlSpider)</span>:</span></span><br><span class="line">    name = <span class="string">'sun'</span></span><br><span class="line">    allowed_domains = [<span class="string">'wz.sun0769.com'</span>]</span><br><span class="line">    start_urls = [<span class="string">'http://wz.sun0769.com/index.php/question/questionType?type=4&amp;page='</span>]</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 每一页的匹配规则</span></span><br><span class="line">    pagelink = LinkExtractor(allow=(<span class="string">'type=4'</span>))</span><br><span class="line">    <span class="comment"># 每个帖子的匹配规则</span></span><br><span class="line">    contentlink = LinkExtractor(allow=<span class="string">r'/html/question/\d+/\d+.shtml'</span>)</span><br><span class="line"></span><br><span class="line">    rules = [</span><br><span class="line">        <span class="comment"># 本案例为特殊情况，需要调用deal_links方法处理每个页面里的链接</span></span><br><span class="line">        Rule(pagelink, process_links = <span class="string">"deal_links"</span>, follow = <span class="keyword">True</span>),</span><br><span class="line">        Rule(contentlink, callback = <span class="string">'parse_item'</span>)</span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 需要重新处理每个页面里的链接，将链接里的‘Type&amp;type=4?page=xxx’替换为‘Type?type=4&amp;page=xxx’（或者是Type&amp;page=xxx?type=4’替换为‘Type?page=xxx&amp;type=4’），否则无法发送这个链接</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">deal_links</span><span class="params">(self, links)</span>:</span></span><br><span class="line">        <span class="keyword">for</span> link <span class="keyword">in</span> links:</span><br><span class="line">            link.url = link.url.replace(<span class="string">"?"</span>,<span class="string">"&amp;"</span>).replace(<span class="string">"Type&amp;"</span>, <span class="string">"Type?"</span>)</span><br><span class="line">            <span class="keyword">print</span> link.url</span><br><span class="line">        <span class="keyword">return</span> links</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse_item</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        <span class="keyword">print</span> response.url</span><br><span class="line">        item = DongguanItem()</span><br><span class="line">        <span class="comment"># 标题</span></span><br><span class="line">        item[<span class="string">'title'</span>] = response.xpath(<span class="string">'//div[contains(@class, "pagecenter p3")]//strong/text()'</span>).extract()[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 编号</span></span><br><span class="line">        item[<span class="string">'number'</span>] = item[<span class="string">'title'</span>].split(<span class="string">' '</span>)[<span class="number">-1</span>].split(<span class="string">":"</span>)[<span class="number">-1</span>]</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 文字内容，默认先取出有图片情况下的文字内容列表</span></span><br><span class="line">        content = response.xpath(<span class="string">'//div[@class="contentext"]/text()'</span>).extract()</span><br><span class="line">        <span class="comment"># 如果没有内容，则取出没有图片情况下的文字内容列表</span></span><br><span class="line">        <span class="keyword">if</span> len(content) == <span class="number">0</span>:</span><br><span class="line">            content = response.xpath(<span class="string">'//div[@class="c1 text14_2"]/text()'</span>).extract()</span><br><span class="line">            <span class="comment"># content为列表，通过join方法拼接为字符串，并去除首尾空格</span></span><br><span class="line">            item[<span class="string">'content'</span>] = <span class="string">""</span>.join(content).strip()</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            item[<span class="string">'content'</span>] = <span class="string">""</span>.join(content).strip()</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 链接</span></span><br><span class="line">        item[<span class="string">'url'</span>] = response.url</span><br><span class="line"></span><br><span class="line">        <span class="keyword">yield</span> item</span><br></pre></td></tr></table></figure></p>
-<h2 id="pipelines-py"><a href="#pipelines-py" class="headerlink" title="pipelines.py"></a>pipelines.py</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 文件处理类库，可以指定编码格式</span></span><br><span class="line"><span class="keyword">import</span> codecs</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">JsonWriterPipeline</span><span class="params">(object)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="comment"># 创建一个只写文件，指定文本编码格式为utf-8</span></span><br><span class="line">        self.filename = codecs.open(<span class="string">'sunwz.json'</span>, <span class="string">'w'</span>, encoding=<span class="string">'utf-8'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">process_item</span><span class="params">(self, item, spider)</span>:</span></span><br><span class="line">        content = json.dumps(dict(item), ensure_ascii=<span class="keyword">False</span>) + <span class="string">"\n"</span></span><br><span class="line">        self.filename.write(content)</span><br><span class="line">        <span class="keyword">return</span> item</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">spider_closed</span><span class="params">(self, spider)</span>:</span></span><br><span class="line">        self.file.close()</span><br></pre></td></tr></table></figure>
-<h2 id="settings-py"><a href="#settings-py" class="headerlink" title="settings.py"></a>settings.py</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ITEM_PIPELINES = &#123;</span><br><span class="line">    <span class="string">'dongguan.pipelines.DongguanPipeline'</span>: <span class="number">300</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 日志文件名和处理等级</span></span><br><span class="line">LOG_FILE = <span class="string">"dg.log"</span></span><br><span class="line">LOG_LEVEL = <span class="string">"DEBUG"</span></span><br></pre></td></tr></table></figure>
-<h2 id="在项目根目录下新建main-py文件-用于调试"><a href="#在项目根目录下新建main-py文件-用于调试" class="headerlink" title="在项目根目录下新建main.py文件,用于调试"></a>在项目根目录下新建main.py文件,用于调试</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scrapy <span class="keyword">import</span> cmdline</span><br><span class="line">cmdline.execute(<span class="string">'scrapy crawl sunwz'</span>.split())</span><br></pre></td></tr></table></figure>
-<h2 id="执行程序"><a href="#执行程序" class="headerlink" title="执行程序"></a>执行程序</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">py2 main.py</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1871,7 +1903,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">55</span>
+                    <span class="site-state-item-count">56</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1915,7 +1947,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">8</span>
+                      
+                    
+                    <span class="site-state-item-count">9</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1984,7 +2018,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共67.2k字</span>
+  <span class="post-count">博客全站共68.1k字</span>
 </div>
         
 

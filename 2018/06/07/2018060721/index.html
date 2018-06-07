@@ -106,27 +106,25 @@
 
 
 
-  <meta name="description" content="糗事百科实例：爬取糗事百科段子，假设页面的URL是 http://www.qiushibaike.com/8hr/page/1 要求： 使用requests获取页面信息，用XPath / re 做数据提取  获取每个帖子里的用户头像链接、用户姓名、段子内容、点赞次数和评论次数  保存到 json 文件内   参考代码12345678910111213141516171819202122232425">
-<meta name="keywords" content="非结构化数据与结构化数据提取">
+  <meta name="description" content="反爬策略一： User-Agent +Referer检测User-Agent 是HTTP协议的中的一个字段， 其作用是描述发出HTTP请求的终端的一些信息。使得服务器能够识别客户使用的操作系统及版本、CPU 类型、浏览器及版本、浏览器渲染引擎、浏览器语言、浏览器插件等。服务器通过这个字段就可以知道访问网站的是什么人。对于不是正常浏览器的用户进行屏蔽。 解决方案: 伪装浏览器的User-Agent，">
+<meta name="keywords" content="爬虫进阶">
 <meta property="og:type" content="article">
-<meta property="og:title" content="糗事百科实例">
-<meta property="og:url" content="http://yoursite.com/2018/05/12/2018051221/index.html">
+<meta property="og:title" content="爬虫与反爬">
+<meta property="og:url" content="http://yoursite.com/2018/06/07/2018060721/index.html">
 <meta property="og:site_name" content="Dynamic-Soul">
-<meta property="og:description" content="糗事百科实例：爬取糗事百科段子，假设页面的URL是 http://www.qiushibaike.com/8hr/page/1 要求： 使用requests获取页面信息，用XPath / re 做数据提取  获取每个帖子里的用户头像链接、用户姓名、段子内容、点赞次数和评论次数  保存到 json 文件内   参考代码12345678910111213141516171819202122232425">
+<meta property="og:description" content="反爬策略一： User-Agent +Referer检测User-Agent 是HTTP协议的中的一个字段， 其作用是描述发出HTTP请求的终端的一些信息。使得服务器能够识别客户使用的操作系统及版本、CPU 类型、浏览器及版本、浏览器渲染引擎、浏览器语言、浏览器插件等。服务器通过这个字段就可以知道访问网站的是什么人。对于不是正常浏览器的用户进行屏蔽。 解决方案: 伪装浏览器的User-Agent，">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://yoursite.com/2018/05/12/2018051221/1.jpg">
-<meta property="og:updated_time" content="2018-05-12T13:37:04.578Z">
+<meta property="og:updated_time" content="2018-06-07T13:35:37.424Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="糗事百科实例">
-<meta name="twitter:description" content="糗事百科实例：爬取糗事百科段子，假设页面的URL是 http://www.qiushibaike.com/8hr/page/1 要求： 使用requests获取页面信息，用XPath / re 做数据提取  获取每个帖子里的用户头像链接、用户姓名、段子内容、点赞次数和评论次数  保存到 json 文件内   参考代码12345678910111213141516171819202122232425">
-<meta name="twitter:image" content="http://yoursite.com/2018/05/12/2018051221/1.jpg">
+<meta name="twitter:title" content="爬虫与反爬">
+<meta name="twitter:description" content="反爬策略一： User-Agent +Referer检测User-Agent 是HTTP协议的中的一个字段， 其作用是描述发出HTTP请求的终端的一些信息。使得服务器能够识别客户使用的操作系统及版本、CPU 类型、浏览器及版本、浏览器渲染引擎、浏览器语言、浏览器插件等。服务器通过这个字段就可以知道访问网站的是什么人。对于不是正常浏览器的用户进行屏蔽。 解决方案: 伪装浏览器的User-Agent，">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/05/12/2018051221/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/06/07/2018060721/"/>
 
 
 
@@ -136,7 +134,7 @@
   };
 </script>
 
-  <title>糗事百科实例 | Dynamic-Soul</title>
+  <title>爬虫与反爬 | Dynamic-Soul</title>
   
 
 
@@ -314,7 +312,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/12/2018051221/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/07/2018060721/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Mr.Q">
@@ -331,7 +329,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">糗事百科实例</h1>
+          <h1 class="post-title" itemprop="name headline">爬虫与反爬</h1>
         
 
         <div class="post-meta">
@@ -343,7 +341,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-12T21:33:51+08:00">2018-05-12</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-07T21:31:37+08:00">2018-06-07</time>
             
 
             
@@ -398,18 +396,47 @@
       
 
       
-        <h1 id="糗事百科实例："><a href="#糗事百科实例：" class="headerlink" title="糗事百科实例："></a>糗事百科实例：</h1><p>爬取糗事百科段子，假设页面的URL是 <a href="http://www.qiushibaike.com/8hr/page/1" target="_blank" rel="noopener">http://www.qiushibaike.com/8hr/page/1</a></p>
-<h2 id="要求："><a href="#要求：" class="headerlink" title="要求："></a>要求：</h2><ol>
-<li><p>使用requests获取页面信息，用XPath / re 做数据提取</p>
-</li>
-<li><p>获取每个帖子里的用户头像链接、用户姓名、段子内容、点赞次数和评论次数</p>
-</li>
-<li><p>保存到 json 文件内</p>
-</li>
-</ol>
-<h2 id="参考代码"><a href="#参考代码" class="headerlink" title="参考代码"></a>参考代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#qiushibaike.py</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#import urllib</span></span><br><span class="line"><span class="comment">#import re</span></span><br><span class="line"><span class="comment">#import chardet</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">page = <span class="number">1</span></span><br><span class="line">url = <span class="string">'http://www.qiushibaike.com/8hr/page/'</span> + str(page) </span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">'User-Agent'</span>: <span class="string">'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36'</span>,</span><br><span class="line">    <span class="string">'Accept-Language'</span>: <span class="string">'zh-CN,zh;q=0.8'</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    response = requests.get(url, headers=headers)</span><br><span class="line">    resHtml = response.text</span><br><span class="line"></span><br><span class="line">    html = etree.HTML(resHtml)</span><br><span class="line">    result = html.xpath(<span class="string">'//div[contains(@id,"qiushi_tag")]'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> site <span class="keyword">in</span> result:</span><br><span class="line">        item = &#123;&#125;</span><br><span class="line"></span><br><span class="line">        imgUrl = site.xpath(<span class="string">'./div/a/img/@src'</span>)[<span class="number">0</span>].encode(<span class="string">'utf-8'</span>)</span><br><span class="line">        username = site.xpath(<span class="string">'./div/a/@title'</span>)[<span class="number">0</span>].encode(<span class="string">'utf-8'</span>)</span><br><span class="line">        <span class="comment">#username = site.xpath('.//h2')[0].text</span></span><br><span class="line">        content = site.xpath(<span class="string">'.//div[@class="content"]/span'</span>)[<span class="number">0</span>].text.strip().encode(<span class="string">'utf-8'</span>)</span><br><span class="line">        <span class="comment"># 投票次数</span></span><br><span class="line">        vote = site.xpath(<span class="string">'.//i'</span>)[<span class="number">0</span>].text</span><br><span class="line">        <span class="comment">#print site.xpath('.//*[@class="number"]')[0].text</span></span><br><span class="line">        <span class="comment"># 评论信息</span></span><br><span class="line">        comments = site.xpath(<span class="string">'.//i'</span>)[<span class="number">1</span>].text</span><br><span class="line"></span><br><span class="line">        <span class="keyword">print</span> imgUrl, username, content, vote, comments</span><br><span class="line"></span><br><span class="line"><span class="keyword">except</span> Exception, e:</span><br><span class="line">    <span class="keyword">print</span> e</span><br></pre></td></tr></table></figure>
-<h2 id="演示效果"><a href="#演示效果" class="headerlink" title="演示效果"></a>演示效果</h2><img src="/2018/05/12/2018051221/1.jpg">
+        <h1 id="反爬策略"><a href="#反爬策略" class="headerlink" title="反爬策略"></a>反爬策略</h1><h2 id="一：-User-Agent-Referer检测"><a href="#一：-User-Agent-Referer检测" class="headerlink" title="一： User-Agent +Referer检测"></a>一： User-Agent +Referer检测</h2><p>User-Agent 是HTTP协议的中的一个字段， 其作用是描述发出HTTP请求的终端的一些信息。<br>使得服务器能够识别客户使用的操作系统及版本、CPU 类型、浏览器及版本、浏览器渲染引擎、浏览器语言、浏览器插件等。<br>服务器通过这个字段就可以知道访问网站的是什么人。对于不是正常浏览器的用户进行屏蔽。</p>
+<p>解决方案: 伪装浏览器的User-Agent，因为每个浏览器的User-Agent不一样,并且所有<br>的用户都能使用浏览器。所有每次请求的时候条件浏览器的User-Agent，就能解决UA检测</p>
+<p>Referer是header的一部分，当浏览器向web服务器发送请求的时候，一般会带上Referer，</p>
+<p>告诉服务器我是从哪个页面链接过来的。例如有一些图片网站在你请求图片的时候，就会检测</p>
+<p>你的Referer值，如果Referer不符合，不会返回正常的图片。</p>
+<p>解决方案：在检测referer的请求中，携带符合的referer值。</p>
+<p>##　二： js混淆和渲染<br>所谓 JavaScript 混淆，基本就是:</p>
+<pre><code>1.去掉一些实际没有调用的函数。
 
+2.将零散的变量声明合并。
+
+3.逻辑函数的精简。
+
+4.变量名的简化。具体要看不同的压缩工具的考虑优劣。常见的有UglifyJS、JScrambler等工具。
+</code></pre><p>js渲染其实就是对HTML页面的修改。比如有一些网页本身没有返回数据，数据是经过js加载之后添加到HTML当中的。当遇到这种情况的时候，我们要知道爬虫是不会执行JavaScript操作。所以需要用其他的方法处理。</p>
+<p>解决方案：</p>
+<pre><code>1.通过阅读网站js源码，找到关键的代码，并用python实现。
+
+2.通过阅读网站js源码，找到关键的代码，用PyV8,execjs等库直接执行js代码。
+
+3.通过selenium库直接模拟浏览器环境
+</code></pre><h2 id="三：IP限制频次"><a href="#三：IP限制频次" class="headerlink" title="三：IP限制频次"></a>三：IP限制频次</h2><p>WEB系统都是走http协议跟WEB容器连通的，每次请求至少会产生一次客户端与服务器的tcp连接。</p>
+<p>对于服务端来说可以很清楚的查看到，一个ip地址在单位时间内发起的请求。</p>
+<p>当请求数超过一定的值之后，就可判断为非正常的用户请求。</p>
+<p>解决方案：</p>
+<pre><code>1.自行设计ip代理池，通过轮换的方式，每次请求携带不同的代理地址。
+
+2.ADSL动态拨号他有个独有的特点，每拨一次号，就获取一个新的IP。也就是它的IP是不固定的。
+</code></pre><h2 id="四：验证码"><a href="#四：验证码" class="headerlink" title="四：验证码"></a>四：验证码</h2><p>验证码（CAPTCHA）是“Completely Automated PublicTuring test to tell Computers and Humans Apart”（全自动区分计算机和人类的图灵测试）的缩写，是一种区分用户是计算机还是人的公共全自动程序。</p>
+<p>可以防止：恶意破解密码、刷票、论坛灌水，有效防止某个黑客对某一个特定注册用户用特定程序暴力破解方式进行不断的登陆尝试。</p>
+<p>这个问题可以由计算机生成并评判，但是必须只有人类才能解答。由于计算机无法解答</p>
+<p>CAPTCHA的问题，所以回答出问题的用户就可以被认为是人类。</p>
+<p>解决方案:</p>
+<pre><code>1.手动识别验证码
+
+2.pytesseract识别简单的验证码
+
+3.对接打码平台
+
+4.机器学习
+</code></pre>
       
     </div>
 
@@ -429,7 +456,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/非结构化数据与结构化数据提取/" rel="tag"># 非结构化数据与结构化数据提取</a>
+            <a href="/tags/爬虫进阶/" rel="tag"># 爬虫进阶</a>
           
         </div>
       
@@ -442,8 +469,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/05/11/2018051121/" rel="next" title="JSON模块与JsonPath">
-                <i class="fa fa-chevron-left"></i> JSON模块与JsonPath
+              <a href="/2018/06/06/2018060622/" rel="next" title="IT桔子分布式2">
+                <i class="fa fa-chevron-left"></i> IT桔子分布式2
               </a>
             
           </div>
@@ -451,10 +478,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/05/12/2018051222/" rel="prev" title="多线程糗事百科案例">
-                多线程糗事百科案例 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -614,7 +637,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#糗事百科实例："><span class="nav-number">1.</span> <span class="nav-text">糗事百科实例：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#要求："><span class="nav-number">1.1.</span> <span class="nav-text">要求：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考代码"><span class="nav-number">1.2.</span> <span class="nav-text">参考代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#演示效果"><span class="nav-number">1.3.</span> <span class="nav-text">演示效果</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#反爬策略"><span class="nav-number">1.</span> <span class="nav-text">反爬策略</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一：-User-Agent-Referer检测"><span class="nav-number">1.1.</span> <span class="nav-text">一： User-Agent +Referer检测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三：IP限制频次"><span class="nav-number">1.2.</span> <span class="nav-text">三：IP限制频次</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四：验证码"><span class="nav-number">1.3.</span> <span class="nav-text">四：验证码</span></a></li></ol></li></ol></div>
             
 
           </div>
