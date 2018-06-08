@@ -311,6 +311,176 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/15/2018051524/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Q">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dynamic-Soul">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/15/2018051524/" itemprop="url">机器学习：训练Tesseract</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-15T21:16:14+08:00">2018-05-15</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="训练Tesseract"><a href="#训练Tesseract" class="headerlink" title="训练Tesseract"></a>训练Tesseract</h1><p>大多数其他的验证码都是比较简单的。例如，流行的 PHP 内容管理系统 Drupal 有一个著 名的验证码模块(<a href="https://www.drupal.org/project/captcha)，可以生成不同难度的验证码。" target="_blank" rel="noopener">https://www.drupal.org/project/captcha)，可以生成不同难度的验证码。</a></p>
+<img src="/2018/05/15/2018051524/1.jpg">
+<p>那么与其他验证码相比，究竟是什么让这个验证码更容易被人类和机器读懂呢?</p>
+<ul>
+<li>字母没有相互叠加在一起，在水平方向上也没有彼此交叉。也就是说，可以在每一个字 母外面画一个方框，而不会重叠在一起。</li>
+<li>图片没有背景色、线条或其他对 OCR 程序产生干扰的噪点。</li>
+<li>虽然不能因一个图片下定论，但是这个验证码用的字体种类很少，而且用的是 sans-serif 字体(像“4”和“M”)和一种手写形式的字体(像“m”“C”和“3”)。</li>
+<li>白色背景色与深色字母之间的对比度很高。</li>
+</ul>
+<p>这个验证码只做了一点点改变，就让 OCR 程序很难识别。</p>
+<ul>
+<li>字母和数据都使用了，这会增加待搜索字符的数量。</li>
+<li>字母随机的倾斜程度会迷惑 OCR 软件，但是人类还是很容易识别的。</li>
+<li>那个比较陌生的手写字体很有挑战性，在“C”和“3”里面还有额外的线条。另外这 个非常小的小写“m”，计算机需要进行额外的训练才能识别。 用下面的代码运行 Tesseract 识别图片:</li>
+</ul>
+<p>tesseract captchaExample.png output</p>
+<p>我们得到的结果 output.txt 是: 4N\，，，C&lt;3</p>
+<h1 id="训练Tesseract-1"><a href="#训练Tesseract-1" class="headerlink" title="训练Tesseract"></a>训练Tesseract</h1><p>要训练 Tesseract 识别一种文字，无论是晦涩难懂的字体还是验证码，你都需要向 Tesseract 提供每个字符不同形式的样本。</p>
+<p>做这个枯燥的工作可能要花好几个小时的时间，你可能更想用这点儿时间找个好看的视频 或电影看看。首先要把大量的验证码样本下载到一个文件夹里。</p>
+<p>下载的样本数量由验证码 的复杂程度决定;我在训练集里一共放了 100 个样本(一共 500 个字符，平均每个字符 8 个样本;a~z 大小写字母加 0~9 数字，一共 62 个字符)，应该足够训练的了。</p>
+<p>提示:建议使用验证码的真实结果给每个样本文件命名(即4MmC3.jpg)。 这样可以帮你 一次性对大量的文件进行快速检查——你可以先把图片调成缩略图模式，然后通过文件名 对比不同的图片。这样在后面的步骤中进行训练效果的检查也会很方便。</p>
+<p>第二步是准确地告诉 Tesseract 一张图片中的每个字符是什么，以及每个字符的具体位置。 这里需要创建一些矩形定位文件(box file)，一个验证码图片生成一个矩形定位文件。一 个图片的矩形定位文件如下所示:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">4</span> <span class="number">15</span> <span class="number">26</span> <span class="number">33</span> <span class="number">55</span> <span class="number">0</span></span><br><span class="line">M <span class="number">38</span> <span class="number">13</span> <span class="number">67</span> <span class="number">45</span> <span class="number">0</span></span><br><span class="line">m <span class="number">79</span> <span class="number">15</span> <span class="number">101</span> <span class="number">26</span> <span class="number">0</span></span><br><span class="line">C <span class="number">111</span> <span class="number">33</span> <span class="number">136</span> <span class="number">60</span> <span class="number">0</span></span><br><span class="line"><span class="number">3</span> <span class="number">147</span> <span class="number">17</span> <span class="number">176</span> <span class="number">45</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p>第一列符号是图片中的每个字符，后面的 4 个数字分别是包围这个字符的最小矩形的坐标 (图片左下角是原点 (0，0)，4 个数字分别对应每个字符的左下角 x 坐标、左下角 y 坐标、右上角 x 坐标和右上角 y 坐标)，最后一个数字“0”表示图片样本的编号。</p>
+<p>显然，手工创建这些图片矩形定位文件很无聊，不过有一些工具可以帮你完成。我很喜欢 在线工具 Tesseract OCR Chopper(<a href="http://pp19dd.com/tesseract-ocr-chopper/)，因为它不需要" target="_blank" rel="noopener">http://pp19dd.com/tesseract-ocr-chopper/)，因为它不需要</a> 安装，也没有其他依赖，只要有浏览器就可以运行，而且用法很简单:上传图片，如果要 增加新矩形就单击“add”按钮，还可以根据需要调整矩形的尺寸，最后把新生成的矩形 定位文件复制到一个新文件里就可以了。</p>
+<p>矩形定位文件必须保存在一个 .box 后缀的文本文件中。和图片文件一样，文本文件也是用 验证码的实际结果命名(例如，4MmC3.box)。另外，这样便于检查 .box 文件的内容和文件的名称，而且按文件名对目录中的文件排序之后，就可以让 .box 文件与对应的图片文件 的实际结果进行对比。</p>
+<p>你还需要创建大约 100 个 .box 文件来保证你有足够的训练数据。因为 Tesseract 会忽略那 些不能读取的文件，所以建议你尽量多做一些矩形定位文件，以保证训练足够充分。如果 你觉得训练的 OCR 结果没有达到你的目标，或者 Tesseract 识别某些字符时总是出错，多 创建一些训练数据然后重新训练将是一个不错的改进方法。</p>
+<p>创建完满载 .box 文件和图片文件的数据文件夹之后，在做进一步分析之前最好备份一下这 个文件夹。虽然在数据上运行训练程序不太可能删除任何数据，但是创建 .box 文件用了你 好几个小时的时间，来之不易，稳妥一点儿总没错。此外，能够抓取一个满是编译数据的 混乱目录，然后再尝试一次，总是好的。</p>
+<p>前面的内容只是对 Tesseract 库强大的字体训练和识别能力的一个简略概述。如果你对 Tesseract 的其他训练方法感兴趣，甚至打算建立自己的验证码训练文件库，或者想和全世 界的 Tesseract 爱好者分享自己对一种新字体的识别成果，推荐阅读 Tesseract 的文档：<a href="https://github.com/tesseract-ocr/tesseract/wiki，加油！" target="_blank" rel="noopener">https://github.com/tesseract-ocr/tesseract/wiki，加油！</a> </p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/15/2018051523/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1775,158 +1945,6 @@ PhantomJS 官方参考文档：http://phantomjs.org/documentation
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/12/2018051221/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Mr.Q">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dynamic-Soul">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/12/2018051221/" itemprop="url">糗事百科实例</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-12T21:33:51+08:00">2018-05-12</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="糗事百科实例："><a href="#糗事百科实例：" class="headerlink" title="糗事百科实例："></a>糗事百科实例：</h1><p>爬取糗事百科段子，假设页面的URL是 <a href="http://www.qiushibaike.com/8hr/page/1" target="_blank" rel="noopener">http://www.qiushibaike.com/8hr/page/1</a></p>
-<h2 id="要求："><a href="#要求：" class="headerlink" title="要求："></a>要求：</h2><ol>
-<li><p>使用requests获取页面信息，用XPath / re 做数据提取</p>
-</li>
-<li><p>获取每个帖子里的用户头像链接、用户姓名、段子内容、点赞次数和评论次数</p>
-</li>
-<li><p>保存到 json 文件内</p>
-</li>
-</ol>
-<h2 id="参考代码"><a href="#参考代码" class="headerlink" title="参考代码"></a>参考代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#qiushibaike.py</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#import urllib</span></span><br><span class="line"><span class="comment">#import re</span></span><br><span class="line"><span class="comment">#import chardet</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"></span><br><span class="line">page = <span class="number">1</span></span><br><span class="line">url = <span class="string">'http://www.qiushibaike.com/8hr/page/'</span> + str(page) </span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">'User-Agent'</span>: <span class="string">'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36'</span>,</span><br><span class="line">    <span class="string">'Accept-Language'</span>: <span class="string">'zh-CN,zh;q=0.8'</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    response = requests.get(url, headers=headers)</span><br><span class="line">    resHtml = response.text</span><br><span class="line"></span><br><span class="line">    html = etree.HTML(resHtml)</span><br><span class="line">    result = html.xpath(<span class="string">'//div[contains(@id,"qiushi_tag")]'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> site <span class="keyword">in</span> result:</span><br><span class="line">        item = &#123;&#125;</span><br><span class="line"></span><br><span class="line">        imgUrl = site.xpath(<span class="string">'./div/a/img/@src'</span>)[<span class="number">0</span>].encode(<span class="string">'utf-8'</span>)</span><br><span class="line">        username = site.xpath(<span class="string">'./div/a/@title'</span>)[<span class="number">0</span>].encode(<span class="string">'utf-8'</span>)</span><br><span class="line">        <span class="comment">#username = site.xpath('.//h2')[0].text</span></span><br><span class="line">        content = site.xpath(<span class="string">'.//div[@class="content"]/span'</span>)[<span class="number">0</span>].text.strip().encode(<span class="string">'utf-8'</span>)</span><br><span class="line">        <span class="comment"># 投票次数</span></span><br><span class="line">        vote = site.xpath(<span class="string">'.//i'</span>)[<span class="number">0</span>].text</span><br><span class="line">        <span class="comment">#print site.xpath('.//*[@class="number"]')[0].text</span></span><br><span class="line">        <span class="comment"># 评论信息</span></span><br><span class="line">        comments = site.xpath(<span class="string">'.//i'</span>)[<span class="number">1</span>].text</span><br><span class="line"></span><br><span class="line">        <span class="keyword">print</span> imgUrl, username, content, vote, comments</span><br><span class="line"></span><br><span class="line"><span class="keyword">except</span> Exception, e:</span><br><span class="line">    <span class="keyword">print</span> e</span><br></pre></td></tr></table></figure>
-<h2 id="演示效果"><a href="#演示效果" class="headerlink" title="演示效果"></a>演示效果</h2><img src="/2018/05/12/2018051221/1.jpg">
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1978,7 +1996,7 @@ PhantomJS 官方参考文档：http://phantomjs.org/documentation
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">56</span>
+                    <span class="site-state-item-count">57</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2093,7 +2111,7 @@ PhantomJS 官方参考文档：http://phantomjs.org/documentation
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共68.1k字</span>
+  <span class="post-count">博客全站共69.9k字</span>
 </div>
         
 
