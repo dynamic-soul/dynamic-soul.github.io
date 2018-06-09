@@ -311,6 +311,177 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/09/2018060922/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Q">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dynamic-Soul">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/09/2018060922/" itemprop="url">Python文件操作</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-09T22:00:18+08:00">2018-06-09</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Python文件与函数/" itemprop="url" rel="index"><span itemprop="name">Python文件与函数</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="文件处理流程"><a href="#文件处理流程" class="headerlink" title="文件处理流程"></a>文件处理流程</h1><pre><code>1.打开文件，得到文件句柄并赋值给一个变量
+2.通过句柄对文件进行操作
+3.关闭文件
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">f = open(file=<span class="string">'D:/工作日常/text.txt'</span>,mode=<span class="string">'r'</span>,encoding=<span class="string">'utf-8'</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="打开模式："><a href="#打开模式：" class="headerlink" title="打开模式："></a>打开模式：</h2><p><strong>文件的打开模式 mode</strong><br>r 只读模式，文件不存在时会报错。<br>w 写入模式，文件存在会清空之前的内容，文件不存在则会新建文件。<br>x 写入模式，文件存在会报错，文件不存在则会新建文件。<br>a 追加写入模式，不清空之前的文件，直接将写入的内容添加到后面。<br>b 以二进制模式读写文件，wb,rb,ab。</p>
+<ul>
+<li>可读写模式，r+,w+,x+,a+,这几种模式还遵循了r,w,x,a的基本原则。</li>
+</ul>
+<p><strong>文件的encoding</strong></p>
+<p>根据文件的encoding格式打开文件，windows默认GBK，MAC和linux默认UTF-8</p>
+<p>当使用wb,rb,ab模式读取文件时，不用填写encoding<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 以二进制形式打开文件不需要编码</span></span><br><span class="line">f = open(<span class="string">r"text.txt"</span>, <span class="string">"wb"</span>)</span><br><span class="line">f.write(<span class="string">"路飞\n"</span>.encode())  <span class="comment"># 写入utf-8二进制字节码</span></span><br><span class="line">f.write(<span class="string">"路飞 Yifei Qiao]"</span>.encode())</span><br><span class="line">f.close()</span><br></pre></td></tr></table></figure></p>
+<p>如果文件encoding格式为utf-8，打开encoding格式为GBK则读取文件会报错</p>
+<p><strong>检查文件编码</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> chardet</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">安装模块pip install chardet</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="comment"># 检测文件编码 要以二进制形式读取</span></span><br><span class="line">result = chardet.detect(open(<span class="string">r"text.txt"</span>, <span class="string">"rb"</span>).read())</span><br><span class="line">print(result)</span><br><span class="line"><span class="comment"># &#123;'encoding': 'utf-8', 'confidence': 0.938125, 'language': ''&#125;</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h1><h2 id="基本使用方法"><a href="#基本使用方法" class="headerlink" title="基本使用方法"></a>基本使用方法</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#文件的读取</span></span><br><span class="line">f.read(size)  <span class="comment">#读取文件的内容，将文件的内容以字符串形式返回。</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">size是可选的数值，指定字符串长度，如果没有指定size或者指定为负数，就会读取并返回整个文件。</span></span><br><span class="line"><span class="string">当文件大小为当前机器内存两倍时就会产生问题，反之就尽可能大的size读取和返回数据，如果到了文件末尾，会返回空字符串。</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"></span><br><span class="line">f.readline() <span class="comment">#从文件中读取单独一行。</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">字符串结尾会自动加上一个换行符\n，只有当文件最后没有以换行符结尾时，</span></span><br><span class="line"><span class="string">这一操作才会被忽略，这样返回值就不会有混淆。如果返回空字符串，表示到达率文件末尾，如果是空行，就会描述为\n,一个只有换行符的字符串。</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"></span><br><span class="line">f.readlines() <span class="comment">#一次读取所有，返回一个列表，列表的元素为文件行的内容。</span></span><br><span class="line"><span class="string">'''可以通过列表索引的方式将文件的每一行的内容输出。</span></span><br><span class="line"><span class="string">可以通过for循环迭代输出每一行的信息。</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"></span><br><span class="line">f.flush()</span><br><span class="line"><span class="comment">#把文件从内存buffer里强制刷新到硬盘</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#文件的写入</span></span><br><span class="line">f.write()         <span class="comment">#将要写入的内容以字符串的形式通过write方法写入文件中。</span></span><br><span class="line">f.writelines()  <span class="comment">#括号里必须是由字符串元素组成的序列。</span></span><br><span class="line"></span><br><span class="line">f.close() </span><br><span class="line"><span class="comment">#关闭文件。对一个已经关闭的文件进行操作会报错。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#光标位置</span></span><br><span class="line">f.tell()             <span class="comment">#返回光标在文件中的位置。</span></span><br><span class="line">f.seek(offset,<span class="keyword">from</span>)</span><br><span class="line"><span class="comment">#在文件中移动文件指针，从from(0代表起始位置，1代表当前位置，2代表文件末尾)偏移offset个字节。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#查看文件信息</span></span><br><span class="line">closed         <span class="comment">#查看文件是否已经关闭，返回布尔值。</span></span><br><span class="line">mode         <span class="comment">#返回文件打开模式。</span></span><br><span class="line">name         <span class="comment">#返回文件名。</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#with 形式打开文件，里面的语句执行完后会自动关闭文件</span></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'文件名'</span>,<span class="string">'r'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f.read() </span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"><span class="comment">#读大文件(大于10M以上)</span></span><br><span class="line">f = open(<span class="string">"联系方式.txt"</span>,<span class="string">'r'</span>,encoding=<span class="string">"utf-8"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> f:</span><br><span class="line">    print(line)</span><br><span class="line"></span><br><span class="line">f.close()</span><br></pre></td></tr></table></figure>
+<h2 id="代码举例"><a href="#代码举例" class="headerlink" title="代码举例"></a>代码举例</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># #只读模式</span></span><br><span class="line">f=open(<span class="string">r'new.txt'</span>,encoding=<span class="string">'utf-8'</span>)</span><br><span class="line">print(<span class="string">'====&gt;1'</span>,f.read())</span><br><span class="line">print(<span class="string">'====&gt;2'</span>,f.read())</span><br><span class="line">print(f.read())</span><br><span class="line">print(f.readlines())</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line"><span class="comment">#写模式：文件不存在则创建，文件存在则覆盖原有的</span></span><br><span class="line">f=open(<span class="string">"new.txt"</span>,<span class="string">'w'</span>,encoding=<span class="string">'utf-8'</span>)</span><br><span class="line">f.write(<span class="string">'111\n'</span>)</span><br><span class="line">f.writelines([<span class="string">'2\n'</span>,<span class="string">'3\n'</span>])</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 追加模式：文件不存在则创建，文件存在不会覆盖，写内容是追加的方式写</span></span><br><span class="line">f=open(<span class="string">'new.txt'</span>,<span class="string">'a'</span>,encoding=<span class="string">'utf-8'</span>)</span><br><span class="line">f.write(<span class="string">'123\n'</span>)</span><br><span class="line">f.writelines([<span class="string">'aa\n'</span>,<span class="string">'bb\n'</span>])</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 以二进制形式打开文件不需要编码</span></span><br><span class="line">f = open(<span class="string">r"text.txt"</span>, <span class="string">"wb"</span>)</span><br><span class="line">f.write(<span class="string">"路飞\n"</span>.encode())  <span class="comment"># 写入utf-8二进制字节码</span></span><br><span class="line">f.write(<span class="string">"路飞 Yifei Qiao]"</span>.encode())</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 追加方式进行修改</span></span><br><span class="line">f = open(<span class="string">r"兼职护士联系方式.txt"</span>,<span class="string">'ab'</span>)</span><br><span class="line">f.write(<span class="string">"\n肛娘    北京  167  55  13523230322"</span>.encode(<span class="string">"gbk"</span>))</span><br><span class="line">f.close()</span><br><span class="line"></span><br><span class="line"><span class="comment">#读写方式修改</span></span><br><span class="line">f = open(<span class="string">r"兼职白领学生空姐模特护士联系方式.txt"</span>,<span class="string">'r+'</span>)</span><br><span class="line">f.seek(<span class="number">10</span>)</span><br><span class="line">print(f.tell())</span><br><span class="line">f.write(<span class="string">"[路飞学城 luffycity]"</span>)</span><br><span class="line">f.close()</span><br></pre></td></tr></table></figure>
+<h1 id="文件内光标移动"><a href="#文件内光标移动" class="headerlink" title="文件内光标移动"></a>文件内光标移动</h1><p>一: read(3)：</p>
+<p>　　1. 文件打开方式为文本模式时，代表读取3个字符</p>
+<p>　　2. 文件打开方式为b模式时，代表读取3个字节</p>
+<p>二: 其余的文件内光标移动都是以字节为单位如seek，tell，truncate</p>
+<p>注意：</p>
+<p>　　1. seek有三种移动方式0，1，2，其中1和2必须在b模式下进行，但无论哪种模式，都是以bytes为单位移动的</p>
+<p> 　　   seek控制光标的移动，是以文件开头作为参照的。</p>
+<p>　　　tell当前光标的位置</p>
+<p>　　2. truncate是截断文件，截断必须是写模式，但是不能用w或w+等方式打开，因为那样直接清空文件了，所以truncate要在r+或a或a+等模式下使用</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">readable</span><span class="params">(self, *args, **kwargs)</span>:</span> <span class="comment"># real signature unknown</span></span><br><span class="line">    判断是否可读</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">readline</span><span class="params">(self, *args, **kwargs)</span>:</span> <span class="comment"># real signature unknown</span></span><br><span class="line">    只读一行，遇到\r <span class="keyword">or</span> \n为止</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">seek</span><span class="params">(self, *args, **kwargs)</span>:</span> <span class="comment"># real signature unknown</span></span><br><span class="line">    把操作文件的光标移到指定位置</span><br><span class="line">    *注意seek的长度是按字节算的， 字符编码存每个字符所占的字节长度不一样。</span><br><span class="line">    如“路飞学城” 用gbk存是<span class="number">2</span>个字节一个字，用utf<span class="number">-8</span>就是<span class="number">3</span>个字节，因此以gbk打开时，seek(<span class="number">4</span>) 就把光标切换到了“飞”和“学”两个字中间。</span><br><span class="line">    但如果是utf8,seek(<span class="number">4</span>)会导致，拿到了飞这个字的一部分字节，打印的话会报错，因为处理剩下的文本时发现用utf8处理不了了，因为编码对不上了。少了一个字节</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">seekable</span><span class="params">(self, *args, **kwargs)</span>:</span> <span class="comment"># real signature unknown</span></span><br><span class="line">    判断文件是否可进行seek操作</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">tell</span><span class="params">(self, *args, **kwargs)</span>:</span> <span class="comment"># real signature unknown</span></span><br><span class="line">    返回当前文件操作光标位置 </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">truncate</span><span class="params">(self, *args, **kwargs)</span>:</span> <span class="comment"># real signature unknown</span></span><br><span class="line">    按指定长度截断文件</span><br><span class="line">    *指定长度的话，就从文件开头开始截断指定长度，不指定长度的话，就从当前位置到文件尾部的内容全去掉。</span><br></pre></td></tr></table></figure>
+<h1 id="文件操作案例"><a href="#文件操作案例" class="headerlink" title="文件操作案例"></a>文件操作案例</h1><h2 id="拷贝文件"><a href="#拷贝文件" class="headerlink" title="拷贝文件"></a>拷贝文件</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#利用b模式，编写一个cp工具</span></span><br><span class="line"><span class="comment"># b模式</span></span><br><span class="line">f=open(<span class="string">'1.jpg'</span>,<span class="string">'rb'</span>)</span><br><span class="line">data=f.read()</span><br><span class="line"><span class="comment"># print(data)</span></span><br><span class="line">f=open(<span class="string">'2.jpg'</span>,<span class="string">'wb'</span>)</span><br><span class="line">f.write(data)</span><br><span class="line">print(data)</span><br></pre></td></tr></table></figure>
+<h2 id="文件修改替换（硬盘上修改）"><a href="#文件修改替换（硬盘上修改）" class="headerlink" title="文件修改替换（硬盘上修改）"></a>文件修改替换（硬盘上修改）</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#_*_coding:utf-8_*_</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line">f_name = <span class="string">"联系方式utf8.txt"</span></span><br><span class="line">f_new_name = <span class="string">"%s.new"</span> % f_name</span><br><span class="line"></span><br><span class="line">old_str = <span class="string">"老白"</span></span><br><span class="line">new_str = <span class="string">"[老白 Lao Bai]"</span></span><br><span class="line"></span><br><span class="line">f = open(f_name,<span class="string">'r'</span>,encoding=<span class="string">"utf-8"</span>)</span><br><span class="line">f_new = open(f_new_name,<span class="string">'w'</span>,encoding=<span class="string">"utf-8"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> f: <span class="comment">#读取大文件</span></span><br><span class="line">    <span class="keyword">if</span> old_str <span class="keyword">in</span> line:</span><br><span class="line">        new_line = line.replace(old_str,new_str)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        new_line = line</span><br><span class="line"></span><br><span class="line">    f_new.write(new_line)</span><br><span class="line"></span><br><span class="line">f.close()</span><br><span class="line">f_new.close()</span><br><span class="line"></span><br><span class="line">os.rename(f_new_name,f_name) <span class="comment"># 把新文件名字改成原文件的名字，就把之前的覆盖掉了</span></span><br></pre></td></tr></table></figure>
+<h2 id="文件修改替换（内存中修改）"><a href="#文件修改替换（内存中修改）" class="headerlink" title="文件修改替换（内存中修改）"></a>文件修改替换（内存中修改）</h2><p> 举例1：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">f = open(<span class="string">r"斗罗大陆.txt"</span>, <span class="string">"r+"</span>)</span><br><span class="line">l = f.readlines()</span><br><span class="line">f.seek(<span class="number">0</span>)  <span class="comment"># 指针指向文件开头</span></span><br><span class="line">old_str = <span class="string">"唐三"</span></span><br><span class="line">new_str = <span class="string">""</span></span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> l[<span class="number">0</span>::<span class="number">2</span>]:  <span class="comment"># 只取部分字符</span></span><br><span class="line">     <span class="keyword">if</span> old_str <span class="keyword">in</span> line:</span><br><span class="line">         line = line.replace(old_str,new_str)</span><br><span class="line">     f.write(line+<span class="string">"\n"</span>)</span><br><span class="line">f.truncate()</span><br><span class="line"><span class="comment"># 对文件进行截取，如果文件之前为100M，</span></span><br><span class="line"><span class="comment"># 修改后文件只覆盖了50M，如果不使用truncate不会整体覆盖，只会部分覆盖，后面剩余的50M内容会追加新文件中，修改后的文件大小不变</span></span><br><span class="line"><span class="comment"># 使用truncate后，文件就只有50M,他会把剩余的50M内容从当前write的指针后面进行截取</span></span><br><span class="line">f.close()</span><br></pre></td></tr></table></figure></p>
+<p> 举例2：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">reform.txt</span></span><br><span class="line"><span class="string">大胆点，伟大无比的力量自会来帮助你。——比锡耳王</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">大胆是取得进步所付出的代价。——雨果</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">不怕的人前面才有路。——有岛武信</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">世界是属于勇敢者的。——哥伦布</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">走自己的路，叫别人去说吧。——但丁</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">死是每个人都能做到的，拿出勇气活下去才是勇敢。——罗教·柯迪</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">人的一生中可能犯的错误，就是经常担心犯错误。——哈伯德</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">没有比害怕本身更害怕的了。——培根</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">你怕狼，就别到树林里去。——列宁</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">人生自古谁无死，留取丹心照汗青。——文天祥</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">未完待续……</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">把文件reform.txt中的名人名言，改成“某某说：......”的形式，</span></span><br><span class="line"><span class="string">把文件读入到内存中修改</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line">f = open(<span class="string">r"reform.txt"</span>, <span class="string">"r+"</span>)</span><br><span class="line">l = f.readlines()</span><br><span class="line">f.seek(<span class="number">0</span>)  <span class="comment"># 指针指向文件开头</span></span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> l[::<span class="number">2</span>]:  <span class="comment"># 去掉空行"\n"字符</span></span><br><span class="line">    <span class="comment"># ['大胆点，伟大无比的力量自会来帮助你。', '比锡耳王']</span></span><br><span class="line">    print(line)</span><br><span class="line">    <span class="keyword">if</span> <span class="string">"——"</span> <span class="keyword">in</span> line:</span><br><span class="line">        old_str_li = line[:<span class="number">-1</span>].split(<span class="string">"——"</span>)  <span class="comment"># 去掉每行"\n"字符，按"——"进行分割</span></span><br><span class="line">        new_str = old_str_li[<span class="number">-1</span>]+<span class="string">"说："</span>+old_str_li[<span class="number">0</span>]</span><br><span class="line">        f.write(new_str+<span class="string">"\n\n"</span>)  <span class="comment"># 写入修改内容</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        f.write(line + <span class="string">"\n\n"</span>)  <span class="comment"># 写入以前内容</span></span><br><span class="line">f.truncate()  <span class="comment"># 对文件进行截取，进行整体覆盖</span></span><br><span class="line">f.close()</span><br></pre></td></tr></table></figure>
+<h2 id="Linux文件中字符替换"><a href="#Linux文件中字符替换" class="headerlink" title="Linux文件中字符替换"></a>Linux文件中字符替换</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3 </span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># @Time    : 2018/3/14 10:05</span></span><br><span class="line"><span class="comment"># @Author  : hyang</span></span><br><span class="line"><span class="comment"># @File    : fileStrReplace.py</span></span><br><span class="line"><span class="comment"># @Software: PyCharm</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_arg</span><span class="params">(arg)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    打印参数</span></span><br><span class="line"><span class="string">    :param arg:</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> ind, val <span class="keyword">in</span> enumerate(arg):</span><br><span class="line">        <span class="keyword">if</span> ind == <span class="number">0</span>:</span><br><span class="line">            print(<span class="string">r"------执行%s输入参数为--------"</span>% val)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            print(val, end=<span class="string">","</span>)</span><br><span class="line">    print()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获得系统参数</span></span><br><span class="line">v_arg = sys.argv</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> len(v_arg) != <span class="number">4</span>:</span><br><span class="line">    print_arg(v_arg)</span><br><span class="line">    print(<span class="string">"---参数输入错误--"</span>)</span><br><span class="line">    print(<span class="string">"fileStrReplace.py 文件名 旧字符串 新字符串"</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    f_name = v_arg[<span class="number">1</span>].strip()</span><br><span class="line">    old_str = v_arg[<span class="number">2</span>].strip()  <span class="comment"># 旧字符</span></span><br><span class="line">    new_str = v_arg[<span class="number">3</span>].strip()  <span class="comment"># 替换的新字符</span></span><br><span class="line">    f_new_name = <span class="string">"%s.new"</span> % f_name</span><br><span class="line">    replace_count = <span class="number">0</span>  <span class="comment"># 字符替换次数</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(f_name):</span><br><span class="line">        print(<span class="string">"%s文件不存在"</span> % f_name)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        f_new = open(f_new_name, <span class="string">'w'</span>)</span><br><span class="line">        f = open(f_name, <span class="string">"r"</span>,)</span><br><span class="line">        <span class="keyword">for</span> line <span class="keyword">in</span> f:  <span class="comment"># 读取大文件</span></span><br><span class="line">            <span class="keyword">if</span> old_str <span class="keyword">in</span> line:</span><br><span class="line">                new_line = line.replace(old_str, new_str)  <span class="comment"># 字符替换</span></span><br><span class="line">                replace_count += <span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                new_line = line</span><br><span class="line"></span><br><span class="line">            f_new.write(new_line)  <span class="comment"># 内容写新文件</span></span><br><span class="line"></span><br><span class="line">        f.close()</span><br><span class="line">        f_new.close()</span><br><span class="line">        os.remove(f_name)  <span class="comment"># 删除原始文件</span></span><br><span class="line">        os.rename(f_new_name, f_name) <span class="comment"># 把新文件名字改成原文件的名字，就把之前的覆盖掉了</span></span><br><span class="line">        <span class="keyword">if</span> replace_count == <span class="number">0</span>:</span><br><span class="line">            print(<span class="string">"字符%s不存在"</span> % (old_str))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            print(<span class="string">"文件替换成功,字符%s替换了%s次"</span> % (old_str, replace_count))</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/08/2018060822/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1737,152 +1908,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/30/2018053022/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Mr.Q">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dynamic-Soul">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/30/2018053022/" itemprop="url">将数据保存在MongoDB</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-30T22:25:49+08:00">2018-05-30</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="用Pymongo保存数据"><a href="#用Pymongo保存数据" class="headerlink" title="用Pymongo保存数据"></a>用Pymongo保存数据</h1><p>爬取豆瓣电影top250movie.douban.com/top250的电影数据，并保存在MongoDB中。</p>
-<h2 id="items-py"><a href="#items-py" class="headerlink" title="items.py"></a>items.py</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DoubanspiderItem</span><span class="params">(scrapy.Item)</span>:</span></span><br><span class="line">    <span class="comment"># 电影标题</span></span><br><span class="line">    title = scrapy.Field()</span><br><span class="line">    <span class="comment"># 电影评分</span></span><br><span class="line">    score = scrapy.Field()</span><br><span class="line">    <span class="comment"># 电影信息</span></span><br><span class="line">    content = scrapy.Field()</span><br><span class="line">    <span class="comment"># 简介</span></span><br><span class="line">    info = scrapy.Field()</span><br></pre></td></tr></table></figure>
-<h2 id="spiders-douban-py"><a href="#spiders-douban-py" class="headerlink" title="spiders/douban.py"></a>spiders/douban.py</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scrapy</span><br><span class="line"><span class="keyword">from</span> doubanSpider.items <span class="keyword">import</span> DoubanspiderItem</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DoubanSpider</span><span class="params">(scrapy.Spider)</span>:</span></span><br><span class="line">    name = <span class="string">"douban"</span></span><br><span class="line">    allowed_domains = [<span class="string">"movie.douban.com"</span>]</span><br><span class="line">    start = <span class="number">0</span></span><br><span class="line">    url = <span class="string">'https://movie.douban.com/top250?start='</span></span><br><span class="line">    end = <span class="string">'&amp;filter='</span></span><br><span class="line">    start_urls = [url + str(start) + end]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self, response)</span>:</span></span><br><span class="line"></span><br><span class="line">        item = DoubanspiderItem()</span><br><span class="line"></span><br><span class="line">        movies = response.xpath(<span class="string">"//div[@class=\'info\']"</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> each <span class="keyword">in</span> movies:</span><br><span class="line">            title = each.xpath(<span class="string">'div[@class="hd"]/a/span[@class="title"]/text()'</span>).extract()</span><br><span class="line">            content = each.xpath(<span class="string">'div[@class="bd"]/p/text()'</span>).extract()</span><br><span class="line">            score = each.xpath(<span class="string">'div[@class="bd"]/div[@class="star"]/span[@class="rating_num"]/text()'</span>).extract()</span><br><span class="line">            info = each.xpath(<span class="string">'div[@class="bd"]/p[@class="quote"]/span/text()'</span>).extract()</span><br><span class="line"></span><br><span class="line">            item[<span class="string">'title'</span>] = title[<span class="number">0</span>]</span><br><span class="line">            <span class="comment"># 以;作为分隔，将content列表里所有元素合并成一个新的字符串</span></span><br><span class="line">            item[<span class="string">'content'</span>] = <span class="string">';'</span>.join(content)</span><br><span class="line">            item[<span class="string">'score'</span>] = score[<span class="number">0</span>]</span><br><span class="line">            item[<span class="string">'info'</span>] = info[<span class="number">0</span>]</span><br><span class="line">            <span class="comment"># 提交item</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">yield</span> item</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> self.start &lt;= <span class="number">225</span>:</span><br><span class="line">            self.start += <span class="number">25</span></span><br><span class="line">            <span class="keyword">yield</span> scrapy.Request(self.url + str(self.start) + self.end, callback=self.parse)</span><br></pre></td></tr></table></figure>
-<h2 id="pipelines-py"><a href="#pipelines-py" class="headerlink" title="pipelines.py"></a>pipelines.py</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scrapy.conf <span class="keyword">import</span> settings</span><br><span class="line"><span class="keyword">import</span> pymongo</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DoubanspiderPipeline</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="comment"># 获取setting主机名、端口号和数据库名</span></span><br><span class="line">        host = settings[<span class="string">'MONGODB_HOST'</span>]</span><br><span class="line">        port = settings[<span class="string">'MONGODB_PORT'</span>]</span><br><span class="line">        dbname = settings[<span class="string">'MONGODB_DBNAME'</span>]</span><br><span class="line"></span><br><span class="line">        <span class="comment"># pymongo.MongoClient(host, port) 创建MongoDB链接</span></span><br><span class="line">        client = pymongo.MongoClient(host=host,port=port)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 指向指定的数据库</span></span><br><span class="line">        mdb = client[dbname]</span><br><span class="line">        <span class="comment"># 获取数据库里存放数据的表名</span></span><br><span class="line">        self.post = mdb[settings[<span class="string">'MONGODB_DOCNAME'</span>]]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">process_item</span><span class="params">(self, item, spider)</span>:</span></span><br><span class="line">        data = dict(item)</span><br><span class="line">        <span class="comment"># 向指定的表里添加数据</span></span><br><span class="line">        self.post.insert(data)</span><br><span class="line">        <span class="keyword">return</span> item</span><br></pre></td></tr></table></figure>
-<h2 id="settings-py"><a href="#settings-py" class="headerlink" title="settings.py"></a>settings.py</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">BOT_NAME = <span class="string">'doubanSpider'</span></span><br><span class="line"></span><br><span class="line">SPIDER_MODULES = [<span class="string">'doubanSpider.spiders'</span>]</span><br><span class="line">NEWSPIDER_MODULE = <span class="string">'doubanSpider.spiders'</span></span><br><span class="line"></span><br><span class="line">ITEM_PIPELINES = &#123;</span><br><span class="line">        <span class="string">'doubanSpider.pipelines.DoubanspiderPipeline'</span> : <span class="number">300</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># Crawl responsibly by identifying yourself (and your website) on the user-agent</span></span><br><span class="line">USER_AGENT = <span class="string">'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.116 Safari/537.36'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># MONGODB 主机环回地址127.0.0.1</span></span><br><span class="line">MONGODB_HOST = <span class="string">'127.0.0.1'</span></span><br><span class="line"><span class="comment"># 端口号，默认是27017</span></span><br><span class="line">MONGODB_PORT = <span class="number">27017</span></span><br><span class="line"><span class="comment"># 设置数据库名称</span></span><br><span class="line">MONGODB_DBNAME = <span class="string">'DouBan'</span></span><br><span class="line"><span class="comment"># 存放本次数据的表名称</span></span><br><span class="line">MONGODB_DOCNAME = <span class="string">'DouBanMovies'</span></span><br></pre></td></tr></table></figure>
-<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">启动MongoDB数据库需要两个命令：</span><br><span class="line"></span><br><span class="line">mongod：是mongoDB数据库进程本身</span><br><span class="line">mongo：是命令行shell客户端</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">sudo mongod <span class="comment"># 首先启动数据库服务，再执行Scrapy</span></span><br><span class="line">sudo mongo <span class="comment"># 启动数据库shell</span></span><br><span class="line"></span><br><span class="line">在mongo shell下使用命令:</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看当前数据库</span></span><br><span class="line">&gt; db</span><br><span class="line"></span><br><span class="line"><span class="comment"># 列出所有的数据库</span></span><br><span class="line">&gt; show dbs</span><br><span class="line"></span><br><span class="line"><span class="comment"># 连接DouBan数据库</span></span><br><span class="line">&gt; use DouBan</span><br><span class="line"></span><br><span class="line"><span class="comment"># 列出所有表</span></span><br><span class="line">&gt; show collections</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看表里的数据</span></span><br><span class="line">&gt; db.DouBanMoives.find()</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1934,7 +1959,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">57</span>
+                    <span class="site-state-item-count">58</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1949,7 +1974,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">1</span>
+                      
+                    
+                    <span class="site-state-item-count">2</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -1980,7 +2007,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">9</span>
+                      
+                    
+                    <span class="site-state-item-count">10</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -2049,7 +2078,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共69.9k字</span>
+  <span class="post-count">博客全站共72.7k字</span>
 </div>
         
 
