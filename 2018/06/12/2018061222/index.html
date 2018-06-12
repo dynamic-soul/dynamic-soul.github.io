@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.6" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.0.6">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.0.6" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.0.6',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="列表推导式产生背景现在有个需求，看列表[0, 1, 2, 3, 4, 5, 6, 7, 8, 9],要求你把列表里的每个值加1，你怎么实现？ 第一种方法：12345a = [1,3,4,6,7,7,8,9,11]for ind, val in enumerate(a):    a[ind] += 1print(a) 第二种方法：12a = [1,3,4,6,7,7,8,9,11]print(lis">
+<meta name="keywords" content="Python函数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="列表推导式、生成器和迭代器">
+<meta property="og:url" content="http://yoursite.com/2018/06/12/2018061222/index.html">
+<meta property="og:site_name" content="Dynamic-Soul">
+<meta property="og:description" content="列表推导式产生背景现在有个需求，看列表[0, 1, 2, 3, 4, 5, 6, 7, 8, 9],要求你把列表里的每个值加1，你怎么实现？ 第一种方法：12345a = [1,3,4,6,7,7,8,9,11]for ind, val in enumerate(a):    a[ind] += 1print(a) 第二种方法：12a = [1,3,4,6,7,7,8,9,11]print(lis">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-06-12T14:25:44.831Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="列表推导式、生成器和迭代器">
+<meta name="twitter:description" content="列表推导式产生背景现在有个需求，看列表[0, 1, 2, 3, 4, 5, 6, 7, 8, 9],要求你把列表里的每个值加1，你怎么实现？ 第一种方法：12345a = [1,3,4,6,7,7,8,9,11]for ind, val in enumerate(a):    a[ind] += 1print(a) 第二种方法：12a = [1,3,4,6,7,7,8,9,11]print(lis">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/06/12/2018061222/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>列表推导式、生成器和迭代器 | Dynamic-Soul</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <a href="https://github.com/dynamic-soul"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Dynamic-Soul</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+</li>
+
+      
+
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/12/2018061222/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Q">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dynamic-Soul">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">列表推导式、生成器和迭代器</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-12T22:07:23+08:00">2018-06-12</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Python文件与函数/" itemprop="url" rel="index"><span itemprop="name">Python文件与函数</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="列表推导式"><a href="#列表推导式" class="headerlink" title="列表推导式"></a>列表推导式</h1><h2 id="产生背景"><a href="#产生背景" class="headerlink" title="产生背景"></a>产生背景</h2><p>现在有个需求，看列表[0, 1, 2, 3, 4, 5, 6, 7, 8, 9],要求你把列表里的每个值加1，你怎么实现？</p>
+<p>第一种方法：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a = [<span class="number">1</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">11</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> ind, val <span class="keyword">in</span> enumerate(a):</span><br><span class="line">    a[ind] += <span class="number">1</span></span><br><span class="line">print(a)</span><br></pre></td></tr></table></figure></p>
+<p>第二种方法：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = [<span class="number">1</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">11</span>]</span><br><span class="line">print(list(map(<span class="keyword">lambda</span> x: x+<span class="number">1</span>, a)))</span><br></pre></td></tr></table></figure></p>
+<p><strong>列表推导式：</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = [<span class="number">1</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">11</span>]</span><br><span class="line">print([i+<span class="number">1</span> <span class="keyword">for</span> i <span class="keyword">in</span> a])</span><br></pre></td></tr></table></figure></p>
+<p><strong>使用列表推导式可简化代码。</strong>用法如下</p>
+<p>例一：30以内所有能被3整除的数<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print([i <span class="keyword">for</span> i <span class="keyword">in</span> list(range(<span class="number">31</span>)) <span class="keyword">if</span> i % <span class="number">3</span> == <span class="number">0</span>])</span><br><span class="line"><span class="comment">#使用if 表达式</span></span><br></pre></td></tr></table></figure></p>
+<p>例二：30以内所有能被3整除的数的变为平方，否则乘以2<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用三元表达式</span></span><br><span class="line">print([i*i <span class="keyword">if</span> i % <span class="number">3</span> == <span class="number">0</span> <span class="keyword">else</span> i*<span class="number">2</span> <span class="keyword">for</span> i <span class="keyword">in</span> list(range(<span class="number">31</span>))])</span><br></pre></td></tr></table></figure></p>
+<h2 id="举例："><a href="#举例：" class="headerlink" title="举例："></a>举例：</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">例1:  过滤掉长度小于3的字符串列表，并将剩下的转换成大写字母</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">例2:  求(x,y)其中x是0-5之间的偶数，y是0-5之间的奇数组成的元祖列表</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">例3:  求M中3,6,9组成的列表M = [[1,2,3],[4,5,6],[7,8,9]]</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line">str_li = [<span class="string">'abc'</span>, <span class="string">'cd'</span>, <span class="string">'xy'</span>]</span><br><span class="line">print([x.upper() <span class="keyword">for</span> x <span class="keyword">in</span> str_li <span class="keyword">if</span> len(x) &gt;= <span class="number">3</span>])</span><br><span class="line"></span><br><span class="line">print([(x, y) <span class="keyword">for</span> x <span class="keyword">in</span> list(range(<span class="number">6</span>)) <span class="keyword">if</span> x % <span class="number">2</span> == <span class="number">0</span> <span class="keyword">for</span> y <span class="keyword">in</span> list(range(<span class="number">6</span>)) <span class="keyword">if</span> y % <span class="number">2</span> == <span class="number">1</span>])</span><br><span class="line"></span><br><span class="line">M = [[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>],[<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>],[<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>]]</span><br><span class="line">print([row[<span class="number">2</span>] <span class="keyword">for</span> row <span class="keyword">in</span> M])</span><br></pre></td></tr></table></figure>
+<h2 id="字典推导式"><a href="#字典推导式" class="headerlink" title="字典推导式"></a>字典推导式</h2><p>例一：将一个字典的key和value对调<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mcase = &#123;<span class="string">'a'</span>: <span class="number">10</span>, <span class="string">'b'</span>: <span class="number">34</span>&#125;</span><br><span class="line">print(&#123;mcase[k]: k <span class="keyword">for</span> k <span class="keyword">in</span> mcase&#125;)</span><br></pre></td></tr></table></figure></p>
+<h1 id="生成器"><a href="#生成器" class="headerlink" title="生成器"></a>生成器</h1><p>通过列表生成式，我们可以直接创建一个列表。但是，受到内存限制，列表容量肯定是有限的。而且，创建一个包含100万个元素的列表，不仅占用很大的存储空间，如果我们仅仅需要访问前面几个元素，那后面绝大多数元素占用的空间都白白浪费了。<br>所以，如果列表元素可以按照某种算法推算出来，那我们是否可以在循环的过程中不断推算出后续的元素呢？<br>这样就不必创建完整的list，从而节省大量的空间。在Python中，这种一边循环一边计算的机制，称为生成器：generator。<br>要创建一个generator，有很多种方法。第一种方法很简单，只要把一个列表生成式的[]改成()，就创建了一个generator：</p>
+<p><strong>生成器的创建方式</strong></p>
+<pre><code>1. 类似于列表生成式（）
+2. 函数中使用yield
+</code></pre><p>函数有了yield之后</p>
+<pre><code>1. 函数调用之后就得到了一个生成器，
+2. return 在生成器里，代表生成器的中止，直接报错
+3. yield 返回数据 ，并冻结当前的执行过程 。
+</code></pre><h2 id="类似于列表生成式（）创建"><a href="#类似于列表生成式（）创建" class="headerlink" title="类似于列表生成式（）创建"></a>类似于列表生成式（）创建</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">L = [x * x <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">10</span>)]</span><br><span class="line">gen_L = (x * x <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">10</span>))  <span class="comment"># 生成器存放计算公式</span></span><br><span class="line">print(L)</span><br><span class="line">print(gen_L)</span><br><span class="line">print(next(gen_L))  <span class="comment"># 取值</span></span><br><span class="line">print(next(gen_L))</span><br><span class="line"></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">[0, 1, 4, 9, 16, 25, 36, 49, 64, 81]</span></span><br><span class="line"><span class="string">&lt;generator object &lt;genexpr&gt; at 0x0000000001DFDF10&gt;  generator 就是生成器的意思</span></span><br><span class="line"><span class="string">0</span></span><br><span class="line"><span class="string">1</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure>
+<p>generator保存的是算法，每次调用next(g)就计算出g的下一个元素的值，直到计算到最后一个元素，没有更多的元素时，抛出StopIteration的错误，使用for循环可以解决异常<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">g = (x * x <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">10</span>))</span><br><span class="line"><span class="keyword">for</span> n <span class="keyword">in</span> g:</span><br><span class="line">    print(n)</span><br></pre></td></tr></table></figure></p>
+<p>generator非常强大。如果推算的算法比较复杂，用类似列表生成式的for循环无法实现的时候，还可以用函数来实现。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fib</span><span class="params">(max)</span>:</span></span><br><span class="line">    n, a, b = <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> n &lt; max:</span><br><span class="line">        print(<span class="string">'before yield'</span>)</span><br><span class="line">        <span class="keyword">yield</span> b  <span class="comment"># 把函数的执行过程冻结在这一步，并且把b的值 返回给外面的next()</span></span><br><span class="line">        print(b)</span><br><span class="line">        a, b = b, a + b</span><br><span class="line">        n = n + <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'done'</span></span><br><span class="line"></span><br><span class="line">f = fib(<span class="number">15</span>)  <span class="comment"># turn function into a generator</span></span><br><span class="line">next(f)  <span class="comment"># first time call next()  next 唤醒冻结的函数执行过程，继续执行，直到遇到下一个yield</span></span><br><span class="line">next(f)  <span class="comment"># first time call next()</span></span><br><span class="line"></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">before yield</span></span><br><span class="line"><span class="string">1</span></span><br><span class="line"><span class="string">before yield</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure>
+<p> 注意a, b = b, a + b 相当于</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">a, b = <span class="number">0</span>, <span class="number">1</span></span><br><span class="line">a, b = b, a + b</span><br><span class="line">print(a, b)</span><br><span class="line">a, b = <span class="number">0</span>, <span class="number">1</span></span><br><span class="line">t = a</span><br><span class="line">a = b</span><br><span class="line">b = t + b</span><br><span class="line">print(a, b)</span><br><span class="line"></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">1 1</span></span><br><span class="line"><span class="string">1 1</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure>
+<p>函数方式创建<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">range2</span><span class="params">(n)</span>:</span></span><br><span class="line"></span><br><span class="line">    count = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> count &lt; n :</span><br><span class="line">        print(count)</span><br><span class="line">        stop_flag = <span class="keyword">yield</span> count <span class="comment">#中断并返回</span></span><br><span class="line">        <span class="keyword">return</span> count</span><br><span class="line">        <span class="keyword">if</span> stop_flag == <span class="string">'stop'</span>:</span><br><span class="line">            print(<span class="string">'stop iteration...'</span>)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        count += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">b = range2(<span class="number">5</span>) <span class="comment"># 得到生成器</span></span><br><span class="line">next(b)</span><br><span class="line">next(b)</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">0</span></span><br><span class="line"><span class="string">Traceback (most recent call last):</span></span><br><span class="line"><span class="string">  File "C:/Users/jingjing/PycharmProjects/py3Project/路飞/第二模块/函数练习/生成器.py", line 53, in &lt;module&gt;</span></span><br><span class="line"><span class="string">    next(b)</span></span><br><span class="line"><span class="string">StopIteration: 0</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="生成器常用方法"><a href="#生成器常用方法" class="headerlink" title="生成器常用方法"></a>生成器常用方法</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">next()  <span class="comment"># 唤醒生成器并继续执行</span></span><br><span class="line">send(<span class="string">"stop"</span>) </span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">1. 唤醒并继续执行</span></span><br><span class="line"><span class="string">2. 发送一个信息到生成器内部</span></span><br><span class="line"><span class="string">注意生成器在刚开始，函数没有执行到yield成为挂起状态时，不能调用send("stop") </span></span><br><span class="line"><span class="string">只能send('None')相当于next()使函数执行到yield</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure>
+<h2 id="send使用举例"><a href="#send使用举例" class="headerlink" title="send使用举例"></a>send使用举例</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">range2</span><span class="params">(n)</span>:</span></span><br><span class="line"></span><br><span class="line">    count = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> count &lt; n:</span><br><span class="line">        print(<span class="string">'count'</span>, count)</span><br><span class="line">        count += <span class="number">1</span></span><br><span class="line">        sign = <span class="keyword">yield</span> count  <span class="comment"># return</span></span><br><span class="line">        <span class="keyword">if</span> sign == <span class="string">'stop'</span>:</span><br><span class="line">            print(<span class="string">"---sign"</span>, sign)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        print(<span class="string">'sin...'</span>, sign)</span><br><span class="line">    <span class="keyword">return</span> <span class="number">3333</span></span><br><span class="line"></span><br><span class="line">new_range = range2(<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line">next(new_range)</span><br><span class="line">new_range.send(<span class="keyword">None</span>)</span><br><span class="line">new_range.send(<span class="string">"stop"</span>)</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">count 0</span></span><br><span class="line"><span class="string">sin... None</span></span><br><span class="line"><span class="string">count 1</span></span><br><span class="line"><span class="string">---sign stop</span></span><br><span class="line"><span class="string">Traceback (most recent call last):</span></span><br><span class="line"><span class="string">  File "C:/Users/jingjing/PycharmProjects/py3Project/路飞/第二模块/函数练习/函数生成器.py", line 22, in &lt;module&gt;</span></span><br><span class="line"><span class="string">    new_range.send("stop")</span></span><br><span class="line"><span class="string">StopIteration: 3333</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure>
+<h2 id="生产者与消费者问题"><a href="#生产者与消费者问题" class="headerlink" title="生产者与消费者问题"></a>生产者与消费者问题</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">consume</span><span class="params">(name)</span>:</span></span><br><span class="line">    print(<span class="string">"%s 准备吃包子啦!"</span> % name)</span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        y = <span class="keyword">yield</span></span><br><span class="line">        print(<span class="string">"包子[%s]来了,被[%s]吃了!"</span> % (y, name))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">producer</span><span class="params">(name)</span>:</span></span><br><span class="line">    c = consume(name)</span><br><span class="line">    next(c)  <span class="comment"># 函数执行到yield</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">3</span>):</span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line">        print(<span class="string">"做了&#123;&#125;个包子!"</span>.format(i))</span><br><span class="line">        c.send(i)  <span class="comment"># 把i传到yield</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">producer(<span class="string">'qian'</span>)</span><br><span class="line"></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">qian 准备吃包子啦!</span></span><br><span class="line"><span class="string">做了1个包子!</span></span><br><span class="line"><span class="string">包子[1]来了,被[qian]吃了!</span></span><br><span class="line"><span class="string">做了2个包子!</span></span><br><span class="line"><span class="string">包子[2]来了,被[qian]吃了!</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure>
+<h2 id="日志记录"><a href="#日志记录" class="headerlink" title="日志记录"></a>日志记录</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">logger</span><span class="params">(filename)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    日志方法</span></span><br><span class="line"><span class="string">    :param filename: log filename </span></span><br><span class="line"><span class="string">    :param channel:  输出的目的地，屏幕(terminal)，文件(file)，屏幕+文件(both)</span></span><br><span class="line"><span class="string">    :return: </span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    print(<span class="string">'start logger'</span>)</span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        msg = <span class="keyword">yield</span></span><br><span class="line">        print(<span class="string">"msg"</span>, msg)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">l = logger(<span class="string">'USER.TXT'</span>)</span><br><span class="line">l.__next__()</span><br><span class="line"></span><br><span class="line">l.send(<span class="string">'hi'</span>)</span><br><span class="line">l.send(<span class="string">'hi,file'</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="计算移动平均值"><a href="#计算移动平均值" class="headerlink" title="计算移动平均值"></a>计算移动平均值</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 必须先用next再用send</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">average</span><span class="params">()</span>:</span></span><br><span class="line">    total=<span class="number">0</span> <span class="comment">#总数</span></span><br><span class="line">    day=<span class="number">0</span> <span class="comment">#天数</span></span><br><span class="line">    average=<span class="number">0</span> <span class="comment">#平均数</span></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        day_num = <span class="keyword">yield</span> average   <span class="comment">#average=0</span></span><br><span class="line">        print(<span class="string">'average'</span>, average)</span><br><span class="line">        total += day_num</span><br><span class="line">        day += <span class="number">1</span></span><br><span class="line">        average = total/day</span><br><span class="line">avg=average() <span class="comment">#直接返回生成器</span></span><br><span class="line">next(avg)<span class="comment">#激活生成器，avg.send(None),什么都不传的时候send和next的效果一样</span></span><br><span class="line">print(avg.send(<span class="number">10</span>))</span><br><span class="line">print(avg.send(<span class="number">20</span>))<span class="comment">#send   1.传值 2.next</span></span><br><span class="line">print(avg.send(<span class="number">30</span>))</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">average 0</span></span><br><span class="line"><span class="string">10.0</span></span><br><span class="line"><span class="string">average 10.0</span></span><br><span class="line"><span class="string">15.0</span></span><br><span class="line"><span class="string">average 15.0</span></span><br><span class="line"><span class="string">20.0</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure>
+<h2 id="带装饰器的计算移动平均值"><a href="#带装饰器的计算移动平均值" class="headerlink" title="带装饰器的计算移动平均值"></a>带装饰器的计算移动平均值</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 让装饰器去激活</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">(func)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">inner</span><span class="params">(*args, **kwargs)</span>:</span></span><br><span class="line">        print(<span class="string">'execute wrapper'</span>)</span><br><span class="line">        a = func(*args, **kwargs)</span><br><span class="line">        next(a)</span><br><span class="line">        <span class="keyword">return</span> a</span><br><span class="line">    <span class="keyword">return</span> inner</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@wrapper</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">average</span><span class="params">()</span>:</span></span><br><span class="line">    total=<span class="number">0</span> <span class="comment">#总数</span></span><br><span class="line">    day=<span class="number">0</span> <span class="comment">#天数</span></span><br><span class="line">    average=<span class="number">0</span> <span class="comment">#平均数</span></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        day_num = <span class="keyword">yield</span> average   <span class="comment">#average=0</span></span><br><span class="line">        print(<span class="string">'average'</span>, average)</span><br><span class="line">        total += day_num</span><br><span class="line">        day += <span class="number">1</span></span><br><span class="line">        average = total/day</span><br><span class="line"></span><br><span class="line">avg = average()</span><br><span class="line">print(avg.send(<span class="number">10</span>))</span><br><span class="line">print(avg.send(<span class="number">20</span>))<span class="comment">#send   1.传值 2.next</span></span><br><span class="line">print(avg.send(<span class="number">30</span>))</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">execute wrapper</span></span><br><span class="line"><span class="string">average 0</span></span><br><span class="line"><span class="string">10.0</span></span><br><span class="line"><span class="string">average 10.0</span></span><br><span class="line"><span class="string">15.0</span></span><br><span class="line"><span class="string">average 15.0</span></span><br><span class="line"><span class="string">20.0</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure>
+<h2 id="yield-from"><a href="#yield-from" class="headerlink" title="yield from"></a>yield from</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gen1</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">for</span> c <span class="keyword">in</span> <span class="string">'AB'</span>:</span><br><span class="line">        <span class="keyword">yield</span> c</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">3</span>):</span><br><span class="line">        <span class="keyword">yield</span> i</span><br><span class="line">print(gen1())</span><br><span class="line">print(list(gen1()))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gen2</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">yield</span> <span class="keyword">from</span> <span class="string">'AB'</span>  <span class="comment"># 相当于  for c in 'AB': yield c</span></span><br><span class="line">    <span class="keyword">yield</span> <span class="keyword">from</span> range(<span class="number">3</span>)</span><br><span class="line">print(gen2())</span><br><span class="line">print(list(gen2()))</span><br></pre></td></tr></table></figure>
+<h2 id="处理异常"><a href="#处理异常" class="headerlink" title="处理异常"></a>处理异常</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fib</span><span class="params">(max)</span>:</span></span><br><span class="line">    n, a, b = <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> n &lt; max:</span><br><span class="line">        print(<span class="string">'before yield'</span>)</span><br><span class="line">        <span class="keyword">yield</span> b  <span class="comment"># 把函数的执行过程冻结在这一步，并且把b的值 返回给外面的next()</span></span><br><span class="line">        a, b = b, a + b</span><br><span class="line">        n = n + <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'done'</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">g = fib(<span class="number">6</span>)</span><br><span class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        x = next(g)</span><br><span class="line">        print(<span class="string">'g:'</span>, x)</span><br><span class="line">    <span class="keyword">except</span> StopIteration <span class="keyword">as</span> e:</span><br><span class="line">        print(<span class="string">'Generator return value:'</span>, e.value)</span><br><span class="line">        <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+<h2 id="生成器小结"><a href="#生成器小结" class="headerlink" title="生成器小结"></a>生成器小结</h2><p><strong>生成器的创建方式</strong></p>
+<pre><code>1. 类似于列表生成式（）
+2. 函数中使用yield
+</code></pre><p>优点：节省内存空间<br>函数有了yield之后</p>
+<pre><code>1. 函数调用之后就得到了一个生成器，
+2. return 在生成器里，代表生成器的中止，直接报错
+</code></pre><p>注意<br>    python3 range相当于python2 xrange 生成器<br>    python2 range相当于list<br>yield vs return<br>    return 返回并中止function<br>    yield 返回数据 ，并冻结当前的执行过程 。<br>生成器常用方法<br>    1.next()<br>    2.send(“stop”)<br>“””</p>
+<ol>
+<li>唤醒并继续执行</li>
+<li>发送一个信息到生成器内部<br>注意生成器在刚开始，函数没有执行到yield成为挂起状态时，不能调用send(“stop”)<br>只能send(‘None’)相当于next()使函数执行到yield<br>“””</li>
+</ol>
+<h1 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h1><h2 id="可迭代对象与迭代器"><a href="#可迭代对象与迭代器" class="headerlink" title="可迭代对象与迭代器"></a>可迭代对象与迭代器</h2><p>迭代：可以将某个数据集内的数据“一个挨着一个的取出来”，就叫做迭代。就像for循环一样取值。</p>
+<p>可迭代协议：可以被迭代要满足要求的就叫做可迭代协议。内部实现了<strong>iter</strong>方法</p>
+<p>iterable：可迭代的——对应的标志</p>
+<p>字符串、列表、元组、字典、集合都可以被for循环，说明他们都是可迭代的。</p>
+<p>可以使用isinstance()判断一个对象是否是Iterable对象：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> Iterable</span><br><span class="line">print(isinstance([], Iterable))</span><br><span class="line">print(isinstance(<span class="number">123</span>, Iterable))</span><br><span class="line">print(isinstance(<span class="string">'345'</span>, Iterable))</span><br><span class="line"><span class="comment"># """</span></span><br><span class="line"><span class="comment"># True</span></span><br><span class="line"><span class="comment"># False</span></span><br><span class="line"><span class="comment"># True</span></span><br><span class="line"><span class="comment"># """</span></span><br></pre></td></tr></table></figure>
+<p>而生成器不但可以作用于for循环，还可以被next()函数不断调用并返回下一个值，直到最后抛出StopIteration错误表示无法继续返回下一个值了</p>
+<p>迭代器协议：内部实现了<strong>iter</strong>，<strong>next</strong>方法。</p>
+<p>迭代器的优点：如果用了迭代器，节约内存，方便操作，生成器是一种迭代器（Iterator）。</p>
+<p>可迭代和迭代器的相同点：都可以用for循环</p>
+<p>可迭代和迭代器的不同点：就是迭代器内部多实现了一个<strong>next</strong>方法</p>
+<p>判断迭代器和可迭代的方法：</p>
+<p>第一种：判断内部是不是实现了<strong>next</strong>方法<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">'__next__'</span> <span class="keyword">in</span> dir(range(<span class="number">12</span>)))  <span class="comment">#查看'__next__'是不是在range()方法执行之后内部是否有__next__</span></span><br><span class="line">print(<span class="string">'__iter__'</span> <span class="keyword">in</span> dir(range(<span class="number">12</span>)))  <span class="comment">#查看'__next__'是不是在range()方法执行之后内部是否有__next__</span></span><br></pre></td></tr></table></figure></p>
+<p>第二种：</p>
+<p>　　　　Iterable 判断是不是可迭代对象</p>
+<p>　　　　Iterator 判断是不是迭代器</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> Iterable  </span><br><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> Iterator</span><br><span class="line"></span><br><span class="line"><span class="comment">#比如给一个字符串</span></span><br><span class="line">s=<span class="string">'abc'</span></span><br><span class="line">print(isinstance(s,Iterable))<span class="comment">#isinstance判断类型的</span></span><br><span class="line">print(isinstance(s,Iterator))</span><br></pre></td></tr></table></figure>
+<h2 id="深入了解Iterator对象"><a href="#深入了解Iterator对象" class="headerlink" title="深入了解Iterator对象"></a>深入了解Iterator对象</h2><p>生成器都是Iterator对象，但list、dict、str虽然是Iterable，却不是Iterator。</p>
+<p>把list、dict、str等Iterable变成Iterator可以使用iter()函数：</p>
+<p>你可能会问，为什么list、dict、str等数据类型不是Iterator？</p>
+<p>这是因为Python的Iterator对象表示的是一个数据流，Iterator对象可以被next()函数调用并不断返回下一个数据，</p>
+<p>直到没有数据时抛出StopIteration错误。可以把这个数据流看做是一个有序序列，但我们却不能提前知道序列的长度，</p>
+<p>只能不断通过next()函数实现按需计算下一个数据，所以Iterator的计算是惰性的，只有在需要返回下一个数据时它才会计算。</p>
+<p>Iterator甚至可以表示一个无限大的数据流，例如全体自然数。而使用list是永远不可能存储全体自然数的。</p>
+<h2 id="迭代器小结"><a href="#迭代器小结" class="headerlink" title="迭代器小结"></a>迭代器小结</h2><p>凡是可作用于for循环的对象都是Iterable类型；</p>
+<p>凡是可作用于next()函数的对象都是Iterator类型，它们表示一个惰性计算的序列；</p>
+<p>集合数据类型如list、dict、str等是Iterable但不是Iterator，不过可以通过iter()函数获得一个Iterator对象。</p>
+<p>Python3的for循环本质上就是通过不断调用next()函数实现的，例如：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]:</span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure></p>
+<p>等价于</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 首先获得Iterator对象:</span></span><br><span class="line">iter_object  = iter([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"><span class="comment"># 循环:</span></span><br><span class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="comment"># 获得下一个值:</span></span><br><span class="line">        x = next(iter_object)</span><br><span class="line">    <span class="keyword">except</span> StopIteration:</span><br><span class="line">        <span class="comment"># 遇到StopIteration就退出循环</span></span><br><span class="line">        <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python函数/" rel="tag"># Python函数</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/11/2018061122/" rel="next" title="装饰器">
+                <i class="fa fa-chevron-left"></i> 装饰器
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="Mr.Q" />
+            
+              <p class="site-author-name" itemprop="name">Mr.Q</p>
+              <p class="site-description motion-element" itemprop="description">我希望时间没有流走，世界还停在过去，昏黄的光还照在旧日的路上，我刚刚走过，恰与你们相识。</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">61</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#列表推导式"><span class="nav-number">1.</span> <span class="nav-text">列表推导式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#产生背景"><span class="nav-number">1.1.</span> <span class="nav-text">产生背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#举例："><span class="nav-number">1.2.</span> <span class="nav-text">举例：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字典推导式"><span class="nav-number">1.3.</span> <span class="nav-text">字典推导式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#生成器"><span class="nav-number">2.</span> <span class="nav-text">生成器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#类似于列表生成式（）创建"><span class="nav-number">2.1.</span> <span class="nav-text">类似于列表生成式（）创建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生成器常用方法"><span class="nav-number">2.2.</span> <span class="nav-text">生成器常用方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#send使用举例"><span class="nav-number">2.3.</span> <span class="nav-text">send使用举例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生产者与消费者问题"><span class="nav-number">2.4.</span> <span class="nav-text">生产者与消费者问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#日志记录"><span class="nav-number">2.5.</span> <span class="nav-text">日志记录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#计算移动平均值"><span class="nav-number">2.6.</span> <span class="nav-text">计算移动平均值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#带装饰器的计算移动平均值"><span class="nav-number">2.7.</span> <span class="nav-text">带装饰器的计算移动平均值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#yield-from"><span class="nav-number">2.8.</span> <span class="nav-text">yield from</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#处理异常"><span class="nav-number">2.9.</span> <span class="nav-text">处理异常</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生成器小结"><span class="nav-number">2.10.</span> <span class="nav-text">生成器小结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#迭代器"><span class="nav-number">3.</span> <span class="nav-text">迭代器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#可迭代对象与迭代器"><span class="nav-number">3.1.</span> <span class="nav-text">可迭代对象与迭代器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#深入了解Iterator对象"><span class="nav-number">3.2.</span> <span class="nav-text">深入了解Iterator对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#迭代器小结"><span class="nav-number">3.3.</span> <span class="nav-text">迭代器小结</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mr.Q</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Gemini</a> v6.0.6</div>
+
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共81.2k字</span>
+</div>
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.6"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.0.6"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.6"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.6"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.6"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+</body>
+</html>
