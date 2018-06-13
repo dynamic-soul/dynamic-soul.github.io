@@ -311,6 +311,152 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/01/2018052922/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Q">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dynamic-Soul">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/01/2018052922/" itemprop="url">图片下载器爬虫</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-01T17:53:31+08:00">2018-05-01</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="items-py"><a href="#items-py" class="headerlink" title="items.py"></a>items.py</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CoserItem</span><span class="params">(scrapy.Item)</span>:</span></span><br><span class="line">    url = scrapy.Field()</span><br><span class="line">    name = scrapy.Field()</span><br><span class="line">    info = scrapy.Field()</span><br><span class="line">    image_urls = scrapy.Field()</span><br><span class="line">    images = scrapy.Field()</span><br></pre></td></tr></table></figure>
+<h2 id="spiders-coser-py"><a href="#spiders-coser-py" class="headerlink" title="spiders/coser.py"></a>spiders/coser.py</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> scrapy.selector <span class="keyword">import</span> Selector</span><br><span class="line"><span class="keyword">import</span> scrapy</span><br><span class="line"><span class="keyword">from</span> scrapy.contrib.loader <span class="keyword">import</span> ItemLoader</span><br><span class="line"><span class="keyword">from</span> Cosplay.items <span class="keyword">import</span> CoserItem</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CoserSpider</span><span class="params">(scrapy.Spider)</span>:</span></span><br><span class="line">    name = <span class="string">"coser"</span></span><br><span class="line">    allowed_domains = [<span class="string">"bcy.net"</span>]</span><br><span class="line">    start_urls = (</span><br><span class="line">        <span class="string">'http://bcy.net/cn125101'</span>,</span><br><span class="line">        <span class="string">'http://bcy.net/cn126487'</span>,</span><br><span class="line">        <span class="string">'http://bcy.net/cn126173'</span></span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        sel = Selector(response)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> link <span class="keyword">in</span> sel.xpath(<span class="string">"//ul[@class='js-articles l-works']/li[@class='l-work--big']/article[@class='work work--second-created']/h2[@class='work__title']/a/@href"</span>).extract():</span><br><span class="line">            link = <span class="string">'http://bcy.net%s'</span> % link</span><br><span class="line">            request = scrapy.Request(link, callback=self.parse_item)</span><br><span class="line">            <span class="keyword">yield</span> request</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse_item</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        l = ItemLoader(item=CoserItem(), response=response)</span><br><span class="line">        l.add_xpath(<span class="string">'name'</span>, <span class="string">"//h1[@class='js-post-title']/text()"</span>)</span><br><span class="line">        l.add_xpath(<span class="string">'info'</span>, <span class="string">"//div[@class='post__info']/div[@class='post__type post__info-group']/span/text()"</span>)</span><br><span class="line">        urls = l.get_xpath(<span class="string">'//img[@class="detail_std detail_clickable"]/@src'</span>)</span><br><span class="line">        urls = [url.replace(<span class="string">'/w650'</span>, <span class="string">''</span>) <span class="keyword">for</span> url <span class="keyword">in</span> urls]</span><br><span class="line">        l.add_value(<span class="string">'image_urls'</span>, urls)</span><br><span class="line">        l.add_value(<span class="string">'url'</span>, response.url)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> l.load_item()</span><br></pre></td></tr></table></figure>
+<h2 id="pipelines-py"><a href="#pipelines-py" class="headerlink" title="pipelines.py"></a>pipelines.py</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> Cosplay <span class="keyword">import</span> settings</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ImageDownloadPipeline</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">process_item</span><span class="params">(self, item, spider)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="string">'image_urls'</span> <span class="keyword">in</span> item:</span><br><span class="line">            images = []</span><br><span class="line">            dir_path = <span class="string">'%s/%s'</span> % (settings.IMAGES_STORE, spider.name)</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(dir_path):</span><br><span class="line">                os.makedirs(dir_path)</span><br><span class="line">            <span class="keyword">for</span> image_url <span class="keyword">in</span> item[<span class="string">'image_urls'</span>]:</span><br><span class="line">                us = image_url.split(<span class="string">'/'</span>)[<span class="number">3</span>:]</span><br><span class="line">                image_file_name = <span class="string">'_'</span>.join(us)</span><br><span class="line">                file_path = <span class="string">'%s/%s'</span> % (dir_path, image_file_name)</span><br><span class="line">                images.append(file_path)</span><br><span class="line">                <span class="keyword">if</span> os.path.exists(file_path):</span><br><span class="line">                    <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">                <span class="keyword">with</span> open(file_path, <span class="string">'wb'</span>) <span class="keyword">as</span> handle:</span><br><span class="line">                    response = requests.get(image_url, stream=<span class="keyword">True</span>)</span><br><span class="line">                    <span class="keyword">for</span> block <span class="keyword">in</span> response.iter_content(<span class="number">1024</span>):</span><br><span class="line">                        <span class="keyword">if</span> <span class="keyword">not</span> block:</span><br><span class="line">                            <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">                        handle.write(block)</span><br><span class="line"></span><br><span class="line">            item[<span class="string">'images'</span>] = images</span><br><span class="line">        <span class="keyword">return</span> item</span><br></pre></td></tr></table></figure>
+<h2 id="settings-py"><a href="#settings-py" class="headerlink" title="settings.py"></a>settings.py</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ITEM_PIPELINES = &#123;<span class="string">'Cosplay.pipelines.ImageDownloadPipeline'</span>: <span class="number">1</span>&#125;</span><br><span class="line"></span><br><span class="line">IMAGES_STORE = <span class="string">'../Images'</span></span><br><span class="line"></span><br><span class="line">DOWNLOAD_DELAY = <span class="number">0.25</span>    <span class="comment"># 250 ms of delay</span></span><br></pre></td></tr></table></figure>
+<h2 id="在项目根目录下新建main-py文件-用于调试"><a href="#在项目根目录下新建main-py文件-用于调试" class="headerlink" title="在项目根目录下新建main.py文件,用于调试"></a>在项目根目录下新建main.py文件,用于调试</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scrapy <span class="keyword">import</span> cmdline</span><br><span class="line">cmdline.execute(<span class="string">'scrapy crawl coser'</span>.split())</span><br></pre></td></tr></table></figure>
+<h2 id="执行程序"><a href="#执行程序" class="headerlink" title="执行程序"></a>执行程序</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">py2 main.py</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/18/hello-world/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -499,7 +645,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">61</span>
+                    <span class="site-state-item-count">62</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -620,7 +766,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共81.2k字</span>
+  <span class="post-count">博客全站共82.4k字</span>
 </div>
         
 
