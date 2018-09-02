@@ -311,6 +311,195 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/02/2018090221/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Q">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dynamic-Soul">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/02/2018090221/" itemprop="url">Python进程——理论</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-02T21:15:42+08:00">2018-09-02</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Python网络编程/" itemprop="url" rel="index"><span itemprop="name">Python网络编程</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="进程定义"><a href="#进程定义" class="headerlink" title="进程定义"></a>进程定义</h1><p><strong>程序：</strong></p>
+<p>计算机程序是存储在磁盘上的可执行二进制（或其他类型）文件。<br>只有把它们加载到内存中，并被操作系统调用,它们才会拥有其自己的生命周期。</p>
+<p><strong>进程：</strong></p>
+<p>进程则是表示的一个正在执行的程序。<br>每个进程都拥有自己的地址空间、内存、数据栈<br>以及其他用于跟踪执行的辅助数据，负责执行程序的是CPU</p>
+<h1 id="并发与并行"><a href="#并发与并行" class="headerlink" title="并发与并行"></a>并发与并行</h1><p>并发：单CPU，多进程</p>
+<pre><code>无论是并行还是并发，在用户看来都是&apos;同时&apos;运行的，不管是进程还是线程，都只是一个任务而已，真实干活的是cpu，cpu来做这些任务，而一个cpu同一时刻只能执行一个任务
+
+ 一 并发：是伪并行，即看起来是同时运行。单个cpu+多道技术就可以实现并发，（并行也属于并发）
+</code></pre><p>并行：多CPU（同时运行，只有具有多个cpu才能实现并行）</p>
+<p>并行满足的条件是总进程数量不多于 CPU核心数量！因此，现在PC运行的程序大部分都是轮询调度产生的并行假象</p>
+<p>举例：比如PC有四个核，六个任务，这样同一时间有四个任务被执行，假设分别被分配给了cpu1，cpu2，cpu3，cpu4，</p>
+<p>   一旦任务2遇到I/O就被迫中断执行，此时任务5就拿到cpu1的时间片去执行，这就是单核下的多道技术</p>
+<p>   而一旦任务2的I/O结束了，操作系统会重新调用它(需知进程的调度、分配给哪个cpu运行，由操作系统说了算)，可能被分配给四个cpu中的任意一个去执行</p>
+<p>  所以，现代计算机经常会在同一时间做很多件事，一个用户的PC（无论是单cpu还是多cpu），都可以同时运行多个任务（一个任务可以理解为一个进程）。</p>
+<p>多道技术：内存中同时存入多道（多个）程序，cpu从一个进程快速切换到另外一个，使每个进程各自运行几十或几百毫秒，这样，虽然在某一个瞬间，一个cpu只能执行一个任务，但在1秒内，cpu却可以运行多个进程，这就给人产生了并行的错觉，即伪并发，以此来区分多处理器操作系统的真正硬件并行（多个cpu共享同一个物理内存）</p>
+<h1 id="同步和异步"><a href="#同步和异步" class="headerlink" title="同步和异步"></a>同步和异步</h1><p>同步执行：一个进程在执行某个任务时，另外一个进程必须等待其执行完毕，才能继续执行<br>异步执行：一个进程在执行某个任务时，另外一个进程无需等待其执行完毕，就可以继续执行，当有消息返回时，系统会通知后者进行处理，这样可以提高执行效率</p>
+<h1 id="进程的创建"><a href="#进程的创建" class="headerlink" title="进程的创建"></a>进程的创建</h1><p>但凡是硬件，都需要有操作系统去管理，只要有操作系统，就有进程的概念，就需要有创建进程的方式，一些操作系统只为一个应用程序设计，比如微波炉中的控制器，一旦启动微波炉，所有的进程都已经存在。</p>
+<p>　　而对于通用系统（跑很多应用程序），需要有系统运行过程中创建或撤销进程的能力，主要分为4中形式创建新的进程</p>
+<p>　　1. 系统初始化（查看进程linux中用ps命令，windows中用任务管理器，前台进程负责与用户交互，后台运行的进程与用户无关，运行在后台并且只在需要时才唤醒的进程，称为守护进程，如电子邮件、web页面、新闻、打印）</p>
+<p>　　2. 一个进程在运行过程中开启了子进程（如nginx开启多进程，os.fork,subprocess.Popen等）</p>
+<p>　　3. 用户的交互式请求，而创建一个新进程（如用户双击浏览器）</p>
+<p>　　4. 一个批处理作业的初始化（只在大型机的批处理系统中应用）</p>
+<h1 id="进程的终止"><a href="#进程的终止" class="headerlink" title="进程的终止"></a>进程的终止</h1><ol>
+<li>正常退出（自愿，如用户点击交互式页面的叉号，或程序执行完毕调用发起系统调用正常退出，在linux中用exit，在windows中用ExitProcess）</li>
+</ol>
+<p>　 2. 出错退出（自愿，python a.py中a.py不存在）</p>
+<p>　 3. 严重错误（非自愿，执行非法指令，如引用不存在的内存，1/0等，可以捕捉异常，try…except…）</p>
+<p>　 4. 被其他进程杀死（非自愿，如kill -9）</p>
+<h1 id="进程的层次结构"><a href="#进程的层次结构" class="headerlink" title="进程的层次结构"></a>进程的层次结构</h1><p>无论UNIX还是windows，进程只有一个父进程，不同的是：</p>
+<p>　　1. 在UNIX中所有的进程，都是以init进程为根，组成树形结构。父子进程共同组成一个进程组，这样，当从键盘发出一个信号时，该信号被送给当前与键盘相关的进程组中的所有成员。</p>
+<p>　　2. 在windows中，没有进程层次的概念，所有的进程都是地位相同的，唯一类似于进程层次的暗示，是在创建进程时，父进程得到一个特别的令牌（称为句柄）,该句柄可以用来控制子进程，但是父进程有权把该句柄传给其他子进程，这样就没有层次了。</p>
+<h1 id="进程的状态"><a href="#进程的状态" class="headerlink" title="进程的状态"></a>进程的状态</h1><p>tail -f access.log |grep ‘500’</p>
+<p>　　执行程序tail，开启一个子进程，执行程序grep，开启另外一个子进程，两个进程之间基于管道’|’通讯，将tail的结果作为grep的输入。</p>
+<p>　　进程grep在等待输入（即I/O）时的状态称为阻塞，此时grep命令都无法运行</p>
+<p>　　其实在两种情况下会导致一个进程在逻辑上不能运行，</p>
+<p>　　1. 进程挂起是自身原因，遇到I/O阻塞，便要让出CPU让其他进程去执行，这样保证CPU一直在工作</p>
+<p>　　2. 与进程无关，是操作系统层面，可能会因为一个进程占用时间过多，或者优先级等原因，而调用其他的进程去使用CPU。</p>
+<p>　　因而一个进程由三种状态</p>
+<h2 id="孤儿进程和僵尸进程"><a href="#孤儿进程和僵尸进程" class="headerlink" title="孤儿进程和僵尸进程"></a>孤儿进程和僵尸进程</h2><p>在unix/linux中，正常情况下，子进程是通过父进程创建的，子进程在创建新的进程。子进程的结束和父进程的运行是一个异步过程,即父进程永远无法预测子进程 到底什么时候结束。 </p>
+<p>当一个 进程完成它的工作终止之后，它的父进程需要调用wait()或者waitpid()系统调用取得子进程的终止状态。</p>
+<p>　　孤儿进程：一个父进程退出，而它的一个或多个子进程还在运行，那么那些子进程将成为孤儿进程。孤儿进程将被init进程(进程号为1)所收养，并由init进程对它们完成状态收集工作。</p>
+<p>　　僵尸进程：一个进程使用fork创建子进程，如果子进程退出，而父进程并没有调用wait或waitpid获取子进程的状态信息，那么子进程的进程描述符仍然保存在系统中。这种进程称之为僵尸进程。</p>
+<p>僵尸进程的产生：</p>
+<p>当你运行一个程序时，它会产生一个父进程以及很多子进程。 所有这些子进程都会消耗内核分配给它们的内存和 CPU 资源。这些子进程完成执行后会发送一个 Exit 信号然后死掉。</p>
+<p>这个 Exit 信号需要被父进程所读取。父进程需要随后调用 wait 命令来读取子进程的退出状态，并将子进程从进程表中移除。</p>
+<p>若父进程正确第读取了子进程的 Exit 信号，则子进程会从进程表中删掉。</p>
+<p>但若父进程未能读取到子进程的 Exit 信号，则这个子进程虽然完成执行处于死亡的状态，但也不会从进程表中删掉。</p>
+<h1 id="进程并发的现象"><a href="#进程并发的现象" class="headerlink" title="进程并发的现象"></a>进程并发的现象</h1><p>进程并发的实现在于，硬件中断一个正在运行的进程，把此时进程运行的所有状态保存下来，为此，操作系统维护一张表格，即进程表（process table），每个进程占用一个进程表项（这些表项也称为进程控制块）</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/01/2018090121/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1836,153 +2025,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/05/2018060521/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Mr.Q">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dynamic-Soul">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/06/05/2018060521/" itemprop="url">IT桔子分布式</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-05T21:43:07+08:00">2018-06-05</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>IT桔子是关注IT互联网行业的结构化的公司数据库和商业信息服务提供商，于2013年5月21日上线。</p>
-<pre><code>IT桔子致力于通过信息和数据的生产、聚合、挖掘、加工、处理，帮助目标用户和客户节约时间和金钱、提高效率，以辅助其各类商业行为，包括风险投资、收购、竞争情报、细分行业信息、国外公司产品信息数据服务等。
-
-用于需自行对所发表或采集的内容负责,因所发表或采集的内容引发的一切纠纷、损失，由该内容的发表或采集者承担全部直接或间接(连带)法律责任，IT桔子不承担任何法律责任。
-</code></pre><p>项目采集地址：<a href="http://www.itjuzi.com/company" target="_blank" rel="noopener">http://www.itjuzi.com/company</a></p>
-<p>要求：采集页面下所有创业公司的公司信息，包括以下但不限于：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># items.py</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> scrapy</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CompanyItem</span><span class="params">(scrapy.Item)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 公司id (url数字部分)</span></span><br><span class="line">    info_id = scrapy.Field()</span><br><span class="line">    <span class="comment"># 公司名称</span></span><br><span class="line">    company_name = scrapy.Field()</span><br><span class="line">    <span class="comment"># 公司口号</span></span><br><span class="line">    slogan = scrapy.Field()</span><br><span class="line">    <span class="comment"># 分类</span></span><br><span class="line">    scope = scrapy.Field()</span><br><span class="line">    <span class="comment"># 子分类</span></span><br><span class="line">    sub_scope = scrapy.Field()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 所在城市</span></span><br><span class="line">    city = scrapy.Field()</span><br><span class="line">    <span class="comment"># 所在区域</span></span><br><span class="line">    area = scrapy.Field()</span><br><span class="line">    <span class="comment"># 公司主页</span></span><br><span class="line">    home_page = scrapy.Field()</span><br><span class="line">    <span class="comment"># 公司标签</span></span><br><span class="line">    tags = scrapy.Field()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 公司简介</span></span><br><span class="line">    company_intro = scrapy.Field()</span><br><span class="line">    <span class="comment"># 公司全称：</span></span><br><span class="line">    company_full_name = scrapy.Field()</span><br><span class="line">    <span class="comment"># 成立时间：</span></span><br><span class="line">    found_time = scrapy.Field()</span><br><span class="line">    <span class="comment"># 公司规模：</span></span><br><span class="line">    company_size = scrapy.Field()</span><br><span class="line">    <span class="comment"># 运营状态</span></span><br><span class="line">    company_status = scrapy.Field()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 投资情况列表：包含获投时间、融资阶段、融资金额、投资公司</span></span><br><span class="line">    tz_info = scrapy.Field()</span><br><span class="line">    <span class="comment"># 团队信息列表：包含成员姓名、成员职称、成员介绍</span></span><br><span class="line">    tm_info = scrapy.Field()</span><br><span class="line">    <span class="comment"># 产品信息列表：包含产品名称、产品类型、产品介绍</span></span><br><span class="line">    pdt_info = scrapy.Field()</span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2034,7 +2076,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">63</span>
+                    <span class="site-state-item-count">64</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2051,7 +2093,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">2</span>
+                      
+                    
+                    <span class="site-state-item-count">3</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -2086,7 +2130,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">11</span>
+                      
+                    
+                    <span class="site-state-item-count">12</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -2155,7 +2201,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共84.3k字</span>
+  <span class="post-count">博客全站共86.4k字</span>
 </div>
         
 
