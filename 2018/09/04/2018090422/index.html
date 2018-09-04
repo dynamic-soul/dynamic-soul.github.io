@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.6" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.0.6">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.0.6" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.0.6',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="通信方式进程彼此之间互相隔离，要实现进程间通信（IPC），multiprocessing模块主要通过队列方式 队列：队列类似于一条管道，元素先进先出 需要注意的一点是：队列都是在内存中操作,进程退出,队列清空,另外,队列也是一个阻塞的形态 Queue介绍：创建队列的类（底层就是以管道和锁定的方式实现）： Queue([maxsize]):创建共享的进程队列，Queue是多进程安全的队列， 可以使用">
+<meta name="keywords" content="进程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python进程间通信">
+<meta property="og:url" content="http://yoursite.com/2018/09/04/2018090422/index.html">
+<meta property="og:site_name" content="Dynamic-Soul">
+<meta property="og:description" content="通信方式进程彼此之间互相隔离，要实现进程间通信（IPC），multiprocessing模块主要通过队列方式 队列：队列类似于一条管道，元素先进先出 需要注意的一点是：队列都是在内存中操作,进程退出,队列清空,另外,队列也是一个阻塞的形态 Queue介绍：创建队列的类（底层就是以管道和锁定的方式实现）： Queue([maxsize]):创建共享的进程队列，Queue是多进程安全的队列， 可以使用">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2018/09/04/2018090422/1.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/09/04/2018090422/2.jpg">
+<meta property="og:updated_time" content="2018-09-04T14:15:32.990Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python进程间通信">
+<meta name="twitter:description" content="通信方式进程彼此之间互相隔离，要实现进程间通信（IPC），multiprocessing模块主要通过队列方式 队列：队列类似于一条管道，元素先进先出 需要注意的一点是：队列都是在内存中操作,进程退出,队列清空,另外,队列也是一个阻塞的形态 Queue介绍：创建队列的类（底层就是以管道和锁定的方式实现）： Queue([maxsize]):创建共享的进程队列，Queue是多进程安全的队列， 可以使用">
+<meta name="twitter:image" content="http://yoursite.com/2018/09/04/2018090422/1.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/04/2018090422/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Python进程间通信 | Dynamic-Soul</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <a href="https://github.com/dynamic-soul"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Dynamic-Soul</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+</li>
+
+      
+
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/04/2018090422/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Q">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dynamic-Soul">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Python进程间通信</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-04T22:15:32+08:00">2018-09-04</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Python网络编程/" itemprop="url" rel="index"><span itemprop="name">Python网络编程</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="通信方式"><a href="#通信方式" class="headerlink" title="通信方式"></a>通信方式</h1><p>进程彼此之间互相隔离，要实现进程间通信（IPC），multiprocessing模块主要通过队列方式</p>
+<p>队列：队列类似于一条管道，元素先进先出</p>
+<p>需要注意的一点是：队列都是在内存中操作,进程退出,队列清空,另外,队列也是一个阻塞的形态</p>
+<h1 id="Queue介绍："><a href="#Queue介绍：" class="headerlink" title="Queue介绍："></a>Queue介绍：</h1><p>创建队列的类（底层就是以管道和锁定的方式实现）：</p>
+<p>Queue([maxsize]):创建共享的进程队列，Queue是多进程安全的队列，</p>
+<p>可以使用Queue实现多进程之间的数据传递。maxsize是队列中允许最大项数，省略则无大小限制。</p>
+<h2 id="方法介绍："><a href="#方法介绍：" class="headerlink" title="方法介绍："></a>方法介绍：</h2><p>def put(self, obj, block=True, timeout=None):插入数据到队列中<br>Block值默认为True，代表当队列已满时，会阻塞。如果block为False，则队列满会报异常Queue.Full<br>timeout表示会阻塞到指定时间，直到有剩余的空间供插入，如果时间超时，则报异常Queue.Full</p>
+<p>def get(self, block=True, timeout=None):从队列中取出数据<br>Block值默认为True，代表当队列为空时，会阻塞。如果block为False，则队列空会报异常Queue.Empty<br>timeout表示会等待到指定时间，直到取出数据，如果时间超时，则报异常Queue.Empty</p>
+<p>def empty(self): 判断队列是否为空，如果空返回True<br>def full(self): 判断队列是否已满，如果满返回True<br>def qsize(self): 返回队列的大小</p>
+<h2 id="应用举例："><a href="#应用举例：" class="headerlink" title="应用举例："></a>应用举例：</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process, Manager</span><br><span class="line">q = Manager().Queue(<span class="number">2</span>)</span><br><span class="line">q.put(<span class="number">1</span>)</span><br><span class="line">q.put(<span class="number">2</span>,block=<span class="keyword">False</span>,timeout=<span class="number">2</span>)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">()</span>:</span></span><br><span class="line">    print(q.get())</span><br><span class="line"></span><br><span class="line">p = Process(target=func)</span><br><span class="line">print(<span class="string">"size"</span>,q.qsize())</span><br><span class="line">print(<span class="string">"full"</span>,q.full())</span><br><span class="line">p.start()</span><br><span class="line">p.join()</span><br><span class="line">print(<span class="string">"empty"</span>,q.empty())</span><br><span class="line">print(<span class="string">"get"</span>, q.get())</span><br><span class="line">print(<span class="string">"get"</span>, q.get(block=<span class="keyword">False</span>,timeout=<span class="number">2</span>))</span><br></pre></td></tr></table></figure>
+<p>输出结果<br><img src="/2018/09/04/2018090422/1.jpg"></p>
+<p><strong>生产者和消费者模型</strong></p>
+<p>在并发编程中使用生产者和消费者模式能够解决绝大多数并发问题。该模式通过平衡生产线程和消费线程的工作能力来提高程序的整体处理数据的速度。</p>
+<p><strong>为什么要使用生产者和消费者模式</strong></p>
+<p>在线程世界里，生产者就是生产数据的线程，消费者就是消费数据的线程。在多线程开发当中，如果生产者处理速度很快，而消费者处理速度很慢，那么生产者就必须等待消费者处理完，才能继续生产数据。同样的道理，如果消费者的处理能力大于生产者，那么消费者就必须等待生产者。为了解决这个问题于是引入了生产者和消费者模式。</p>
+<p><strong>什么是生产者消费者模式</strong></p>
+<p>生产者消费者模式是通过一个容器来解决生产者和消费者的强耦合问题。生产者和消费者彼此之间不直接通讯，而通过阻塞队列来进行通讯：</p>
+<p>生产者，只需要往队列里面丢东西（生产者不需要关心消费者）</p>
+<p>消费者，只需要从队列里面拿东西（消费者也不需要关心生产者）</p>
+<p>阻塞队列就相当于一个缓冲区，平衡了生产者和消费者的处理能力。</p>
+<img src="/2018/09/04/2018090422/2.jpg">
+<p>实现方式一：Queue<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process,Manager,active_children</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> queue</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Producer</span><span class="params">(Process)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,queue)</span>:</span></span><br><span class="line">        super().__init__()</span><br><span class="line">        self.queue = queue</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">6</span>):</span><br><span class="line">            r = random.randint(<span class="number">0</span>, <span class="number">99</span>)</span><br><span class="line">            time.sleep(<span class="number">1</span>)</span><br><span class="line">            self.queue.put(r)</span><br><span class="line">            print(<span class="string">"add data&#123;&#125;"</span>.format(r))</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Consumer</span><span class="params">(Process)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,queue)</span>:</span></span><br><span class="line">        super().__init__()</span><br><span class="line">        self.queue = queue</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">          <span class="keyword">if</span> <span class="keyword">not</span> self.queue.empty():</span><br><span class="line">                data = self.queue.get()</span><br><span class="line">                print(<span class="string">"minus data&#123;&#125;"</span>.format(data))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    q = Manager().Queue() <span class="comment"># 创建队列</span></span><br><span class="line">    p = Producer(q)</span><br><span class="line">    c = Consumer(q)</span><br><span class="line">    p.start()</span><br><span class="line">    c.start()</span><br><span class="line">    print(active_children())  <span class="comment"># 查看现有的进程</span></span><br><span class="line">    p.join()</span><br><span class="line">    c.join()</span><br><span class="line">    print(<span class="string">"结束"</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;输出</span><br><span class="line">[&lt;ForkProcess(SyncManager<span class="number">-1</span>, started)&gt;, &lt;Producer(Producer<span class="number">-2</span>, started)&gt;, &lt;Consumer(Consumer<span class="number">-3</span>, started)&gt;]</span><br><span class="line">add data83</span><br><span class="line">minus data83</span><br><span class="line">add data72</span><br><span class="line">minus data72</span><br><span class="line">add data8</span><br><span class="line">minus data8</span><br><span class="line">add data63</span><br><span class="line">minus data63</span><br><span class="line">add data75</span><br><span class="line">minus data75</span><br><span class="line">add data52</span><br><span class="line">minus data52</span><br></pre></td></tr></table></figure></p>
+<p>实现方式二：利用JoinableQueue<br> JoinableQueue([maxsize])：一个Queue对象，但队列允许项目的使用者通知生成者项目已经被成功处理。通知进程是使用共享的信号和条件变量来实现的。<br>     JoinableQueue的实例除了与Queue对象相同的方法之外还具有：<br>     task_done()：使用者使用此方法发出信号，表示get()的返回项目已经被处理。如果调用此方法的次数大于从队列中删除项目的数量，将引发ValueError异常<br>     join():生产者调用此方法进行阻塞，直到队列中所有的项目均被处理。阻塞将持续到队列中的每个项目均调用task_done（）方法为止</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process,JoinableQueue</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_log</span><span class="params">(msg, log_type=<span class="string">"prod"</span>)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> log_type == <span class="string">'prod'</span>:</span><br><span class="line">        print(<span class="string">"\033[32;1m%s\033[0m"</span> %msg)</span><br><span class="line">    <span class="keyword">elif</span> log_type == <span class="string">'con'</span>:</span><br><span class="line">        print(<span class="string">"\033[31;1m%s\033[0m"</span> %msg)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">producer</span><span class="params">(q)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    生产者</span></span><br><span class="line"><span class="string">    :param q: </span></span><br><span class="line"><span class="string">    :return: </span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">        data = random.randint(<span class="number">1</span>,<span class="number">200</span>)</span><br><span class="line">        time.sleep(<span class="number">2</span>)</span><br><span class="line">        q.put(data)  <span class="comment"># 放入队列</span></span><br><span class="line">        msg = <span class="string">"add data &#123;&#125;"</span>.format(data)</span><br><span class="line">        print_log(msg)</span><br><span class="line">    q.join()  <span class="comment"># 生产者调用此方法进行阻塞，直到队列中所有的项目均被处理。</span></span><br><span class="line">    <span class="comment"># 阻塞将持续到队列中的每个项目均调用q.task_done（）方法为止</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">consumer</span><span class="params">(q)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    消费者</span></span><br><span class="line"><span class="string">    :param q: </span></span><br><span class="line"><span class="string">    :return: </span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> q.empty():</span><br><span class="line">            time.sleep(<span class="number">5</span>)</span><br><span class="line">            data = q.get()</span><br><span class="line">            msg = <span class="string">"minus data&#123;&#125;"</span>.format(data)</span><br><span class="line">            print_log(msg,<span class="string">"con"</span>)</span><br><span class="line">            q.task_done()  <span class="comment"># q.get()的返回项目已经被处理</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    q = JoinableQueue()</span><br><span class="line">    prod = Process(target=producer, args=(q,))</span><br><span class="line">    con = Process(target=consumer, args=(q,))</span><br><span class="line">    con.daemon = <span class="keyword">True</span>  <span class="comment"># 设置为守护进程，但是不用担心，producer内调用q.join保证了consumer已经处理完队列中的所有元素</span></span><br><span class="line">    <span class="comment"># 开启进程</span></span><br><span class="line">    prod.start()</span><br><span class="line">    con.start()</span><br><span class="line"></span><br><span class="line">    prod.join()  <span class="comment"># 等待生产和消费完成，主线程结束</span></span><br><span class="line">    print(<span class="string">"结束"</span>)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/进程/" rel="tag"># 进程</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/03/2018090323/" rel="next" title="Python进程——实现">
+                <i class="fa fa-chevron-left"></i> Python进程——实现
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="Mr.Q" />
+            
+              <p class="site-author-name" itemprop="name">Mr.Q</p>
+              <p class="site-description motion-element" itemprop="description">我希望时间没有流走，世界还停在过去，昏黄的光还照在旧日的路上，我刚刚走过，恰与你们相识。</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">66</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">12</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#通信方式"><span class="nav-number">1.</span> <span class="nav-text">通信方式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Queue介绍："><span class="nav-number">2.</span> <span class="nav-text">Queue介绍：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#方法介绍："><span class="nav-number">2.1.</span> <span class="nav-text">方法介绍：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用举例："><span class="nav-number">2.2.</span> <span class="nav-text">应用举例：</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mr.Q</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Gemini</a> v6.0.6</div>
+
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共91.0k字</span>
+</div>
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.6"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.0.6"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.6"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.6"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.6"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+</body>
+</html>
