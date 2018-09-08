@@ -311,6 +311,168 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/11/2018061122/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Q">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dynamic-Soul">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/11/2018061122/" itemprop="url">装饰器</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-11T22:29:20+08:00">2018-06-11</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Python文件与函数/" itemprop="url" rel="index"><span itemprop="name">Python文件与函数</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>给下面的函数加上运行时间</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fib</span><span class="params">(n)</span>:</span></span><br><span class="line">    a, b = <span class="number">0</span>, <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">        print(b)</span><br><span class="line">        a, b = b, a+b</span><br><span class="line">    <span class="keyword">return</span> b</span><br><span class="line"></span><br><span class="line">a = fib(<span class="number">50</span>)</span><br></pre></td></tr></table></figure>
+<p>修改一：改动函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span>  time</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fib</span><span class="params">(n)</span>:</span></span><br><span class="line">    start = time.time()</span><br><span class="line">    a, b = <span class="number">0</span>, <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">        print(b)</span><br><span class="line">        a, b = b, a+b</span><br><span class="line">    print(time.time() - start)</span><br><span class="line">    <span class="keyword">return</span> b</span><br><span class="line"></span><br><span class="line">a = fib(<span class="number">50</span>)</span><br></pre></td></tr></table></figure>
+<p>修改二：不改动函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fib</span><span class="params">(n)</span>:</span></span><br><span class="line">    a, b = <span class="number">0</span>, <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">        print(b)</span><br><span class="line">        a, b = b, a+b</span><br><span class="line">    <span class="keyword">return</span> b</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">(func)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">inner</span><span class="params">(*args, **kwargs)</span>:</span></span><br><span class="line">        start = time.time()</span><br><span class="line">        a = func(*args, **kwargs)</span><br><span class="line">        print(time.time() - start)</span><br><span class="line">        <span class="keyword">return</span> a</span><br><span class="line">    <span class="keyword">return</span> inner  <span class="comment"># 返回函数名</span></span><br><span class="line"></span><br><span class="line">fib = wrapper(fib)</span><br><span class="line">fib(<span class="number">50</span>)</span><br></pre></td></tr></table></figure>
+<p>忙活了这么半天，终于初具规模了！现在已经基本上完美了，唯一碍眼的那句话就是还要在做一次赋值调用。。。</p>
+<h1 id="装饰器"><a href="#装饰器" class="headerlink" title="装饰器"></a>装饰器</h1><p>装饰器的功能：在不修改原函数及其调用方式的情况下对原函数功能进行扩展</p>
+<p>装饰器的本质：就是一个闭包函数</p>
+<p>满足开放封闭原则</p>
+<pre><code>1.对扩展是开放的
+
+2.对修改是封闭的
+</code></pre><p>通过使用装饰器语法糖来解决这个问题！</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">(func)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">inner</span><span class="params">(*args, **kwargs)</span>:</span></span><br><span class="line">        start = time.time()</span><br><span class="line">        a = func(*args, **kwargs)</span><br><span class="line">        print(time.time() - start)</span><br><span class="line">        <span class="keyword">return</span> a</span><br><span class="line">    <span class="keyword">return</span> inner  <span class="comment"># 返回函数名</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@wrapper  # fib = wrapper(fib)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fib</span><span class="params">(n)</span>:</span></span><br><span class="line">    a, b = <span class="number">0</span>, <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">        print(b)</span><br><span class="line">        a, b = b, a+b</span><br><span class="line">    <span class="keyword">return</span> b</span><br><span class="line"></span><br><span class="line">fib(<span class="number">100</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>上面的装饰器已经非常完美了，但是正常我们情况下查看函数的一些信息的方法在此处都会失效</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">(func)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">inner</span><span class="params">(*args, **kwargs)</span>:</span></span><br><span class="line">        start = time.time()</span><br><span class="line">        a = func(*args, **kwargs)</span><br><span class="line">        print(time.time() - start)</span><br><span class="line">        <span class="keyword">return</span> a</span><br><span class="line">    <span class="keyword">return</span> inner  <span class="comment"># 返回函数名</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@wrapper  # fib = wrapper(fib)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fib</span><span class="params">(n)</span>:</span></span><br><span class="line">    a, b = <span class="number">0</span>, <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">        print(b)</span><br><span class="line">        a, b = b, a+b</span><br><span class="line">    <span class="keyword">return</span> b</span><br><span class="line"></span><br><span class="line">fib(<span class="number">100</span>)</span><br><span class="line">print(fib.__doc__)</span><br><span class="line">print(fib.__name__)  <span class="comment"># 返回 inner</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 为了不让他们失效，我们还要在装饰器上加上一点来完善它：</span></span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> wraps</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">(func)</span>:</span></span><br><span class="line"><span class="meta">    @wraps(func)  # 加在最内层函数正上方</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">inner</span><span class="params">(*args, **kwargs)</span>:</span></span><br><span class="line">        start = time.time()</span><br><span class="line">        a = func(*args, **kwargs)</span><br><span class="line">        print(time.time() - start)</span><br><span class="line">        <span class="keyword">return</span> a</span><br><span class="line">    <span class="keyword">return</span> inner  <span class="comment"># 返回函数名</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@wrapper  # fib = wrapper(fib)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fib</span><span class="params">(n)</span>:</span></span><br><span class="line">    a, b = <span class="number">0</span>, <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">        print(b)</span><br><span class="line">        a, b = b, a+b</span><br><span class="line">    <span class="keyword">return</span> b</span><br><span class="line"></span><br><span class="line">fib(<span class="number">100</span>)</span><br><span class="line">print(fib.__doc__)</span><br><span class="line">print(fib.__name__)  <span class="comment"># 返回 fib</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="带参数的装饰器"><a href="#带参数的装饰器" class="headerlink" title="带参数的装饰器"></a>带参数的装饰器</h2><p>带参数的装饰器：就是给装饰器传参</p>
+<p>用处：就是当加了很多装饰器的时候，现在忽然又不想加装饰器了，想把装饰器给去掉了，但是那么多的代码，一个一个的去闲的麻烦，那么，我们可以利用带参数的装饰器去装饰它，这就他就像一个开关一样，要的时候就调用了，不用的时候就去掉了。给装饰器里面传个参数， 那么那个语法糖也要带个括号。在语法糖的括号内传参。在这里，我们可以用三层嵌套，弄一个标识 为去标识。如下面的代码示例<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> wraps</span><br><span class="line">flag = <span class="keyword">False</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">outer</span><span class="params">(flag)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">(func)</span>:</span></span><br><span class="line"><span class="meta">        @wraps(func)  # 加在最内层函数正上方</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">inner</span><span class="params">(*args, **kwargs)</span>:</span></span><br><span class="line">            start = time.time()</span><br><span class="line">            <span class="keyword">if</span> flag:</span><br><span class="line">                print(<span class="string">'执行fib'</span>)</span><br><span class="line">                a = func(*args, **kwargs)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                print(<span class="string">'不执行fib'</span>)</span><br><span class="line">                a = <span class="string">''</span></span><br><span class="line">            print(time.time() - start)</span><br><span class="line">            <span class="keyword">return</span> a</span><br><span class="line">        <span class="keyword">return</span> inner  <span class="comment"># 返回函数名</span></span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">带参数的装饰器执行过程</span></span><br><span class="line"><span class="string">fib = outer(False) (fib)</span></span><br><span class="line"><span class="string">--分解</span></span><br><span class="line"><span class="string">fib_decorator = outer(False)</span></span><br><span class="line"><span class="string">fib = fib_decorator(fib)</span></span><br><span class="line"><span class="string">--分解</span></span><br><span class="line"><span class="string">fib_decorator = outer(False)</span></span><br><span class="line"><span class="string">@fib_decorator</span></span><br><span class="line"><span class="string">def fib(n)</span></span><br><span class="line"><span class="string">所以，带参数的outer函数首先返回一个decorator函数，</span></span><br><span class="line"><span class="string">再让这个decorator函数接收fib并返回新函数：</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="meta">@outer(True)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fib</span><span class="params">(n)</span>:</span></span><br><span class="line">    a, b = <span class="number">0</span>, <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">        print(b)</span><br><span class="line">        a, b = b, a+b</span><br><span class="line">    <span class="keyword">return</span> b</span><br><span class="line"></span><br><span class="line">fib(<span class="number">100</span>)</span><br><span class="line">print(fib.__doc__)</span><br><span class="line">print(fib.__name__)  <span class="comment"># 返回 fib</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="多个装饰器叠加使用"><a href="#多个装饰器叠加使用" class="headerlink" title="多个装饰器叠加使用"></a>多个装饰器叠加使用</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">decorator_a</span><span class="params">(func)</span>:</span></span><br><span class="line">    print(<span class="string">'Get in decorator_a'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">inner_a</span><span class="params">(*args, **kwargs)</span>:</span></span><br><span class="line">        print(<span class="string">'Get in inner_a'</span>)</span><br><span class="line">        <span class="keyword">return</span> func(*args, **kwargs)</span><br><span class="line">    <span class="keyword">return</span> inner_a</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">decorator_b</span><span class="params">(func)</span>:</span></span><br><span class="line">    print(<span class="string">'Get in decorator_b'</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">inner_b</span><span class="params">(*args, **kwargs)</span>:</span></span><br><span class="line">        print(<span class="string">'Get in inner_b'</span>)</span><br><span class="line">        <span class="keyword">return</span> func(*args, **kwargs)</span><br><span class="line">    <span class="keyword">return</span> inner_b</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@decorator_b</span></span><br><span class="line"><span class="meta">@decorator_a</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span><span class="params">(x)</span>:</span></span><br><span class="line">    print(<span class="string">'Get in f'</span>)</span><br><span class="line">    <span class="keyword">return</span> x * <span class="number">2</span></span><br><span class="line"></span><br><span class="line">print(f(<span class="number">1</span>))</span><br></pre></td></tr></table></figure>
+<p>输出结果分析</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">装饰器执行顺序自下而上，内部函数调用顺序自上而下</span></span><br><span class="line"><span class="string">所以输出</span></span><br><span class="line"><span class="string">Get in decorator_a</span></span><br><span class="line"><span class="string">Get in decorator_b</span></span><br><span class="line"><span class="string">Get in inner_b</span></span><br><span class="line"><span class="string">Get in inner_a</span></span><br><span class="line"><span class="string">Get in f</span></span><br><span class="line"><span class="string">2</span></span><br><span class="line"><span class="string">分析</span></span><br><span class="line"><span class="string">当解释器执行下面这段代码时，实际上按照从下到上的顺序已经依次调用了 decorator_a 和 decorator_b ，</span></span><br><span class="line"><span class="string">这是会输出对应的 Get in decorator_a 和 Get in decorator_b 。 </span></span><br><span class="line"><span class="string">这时候 f 已经相当于 decorator_b 里的 inner_b 。但因为 f 并没有被调用，</span></span><br><span class="line"><span class="string">所以 inner_b 并没有调用，依次类推 inner_b 内部的 inner_a 也没有调用，</span></span><br><span class="line"><span class="string">所以 Get in inner_a 和 Get in inner_b 也不会被输出。</span></span><br><span class="line"><span class="string">然后最后一行当我们对 f 传入参数1进行调用时， inner_b 被调用了，</span></span><br><span class="line"><span class="string">它会先打印 Get in inner_b ，然后在 inner_b 内部调用了 inner_a </span></span><br><span class="line"><span class="string">所以会再打印 Get in inner_a, 然后再 inner_a 内部调用的原来的 f,</span></span><br><span class="line"><span class="string">并且将结果作为最终的返回。这时候你该知道为什么输出结果会是那样，</span></span><br><span class="line"><span class="string">以及对装饰器执行顺序实际发生了什么有一定了解了吧。</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure>
+<h2 id="装饰器使用举例"><a href="#装饰器使用举例" class="headerlink" title="装饰器使用举例"></a>装饰器使用举例</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># @Time    : 2018/4/4 22:38</span></span><br><span class="line"><span class="comment"># @Author  : hyang</span></span><br><span class="line"><span class="comment"># @Site    : </span></span><br><span class="line"><span class="comment"># @File    : 装饰器练习.py</span></span><br><span class="line"><span class="comment"># @Software: PyCharm</span></span><br><span class="line"></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">三：编写装饰器，为函数加上认证的功能，即要求认证成功后才能执行函数</span></span><br><span class="line"><span class="string">四：编写装饰器，为多个函数加上认证的功能（用户的账号密码来源于文件），</span></span><br><span class="line"><span class="string">要求登录成功一次，后续的函数都无需再输入用户名和密码</span></span><br><span class="line"><span class="string">提示：从文件中读出字符串形式的字典，可以用eval('&#123;"name":"egon","password":"123"&#125;')转成字典格式</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"></span><br><span class="line">user_data = &#123;</span><br><span class="line">    <span class="string">'user'</span>: <span class="keyword">None</span>,</span><br><span class="line">    <span class="string">'is_authenticated'</span>: <span class="keyword">False</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">login_required</span><span class="params">(func)</span>:</span></span><br><span class="line">    <span class="comment"># 用户认证装饰器</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">inner</span><span class="params">(*args, **kwargs)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> args[<span class="number">0</span>].get(<span class="string">'is_authenticated'</span>):</span><br><span class="line">            print(<span class="string">'User is authenticated'</span>)</span><br><span class="line">            ret = func(*args, **kwargs)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            exit(<span class="string">"User is not authenticated !!!"</span>)</span><br><span class="line">        <span class="keyword">return</span> ret</span><br><span class="line">    <span class="keyword">return</span> inner</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_acct_info</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    get acct_info from USER.TXT</span></span><br><span class="line"><span class="string">    :return: </span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">r'USER.TXT'</span>, <span class="string">'r'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        <span class="keyword">for</span> line <span class="keyword">in</span> f:</span><br><span class="line">            user_dict = eval(line)</span><br><span class="line">            USER_INFO_LI.append(user_dict)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">auth_user</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    认证用户</span></span><br><span class="line"><span class="string">    :return: </span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    count = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> count &lt; <span class="number">3</span>:</span><br><span class="line">        user = input(<span class="string">'user &gt;&gt;&gt; '</span>).strip()</span><br><span class="line">        pwd = input(<span class="string">'pwd &gt;&gt;&gt; '</span>).strip()</span><br><span class="line">        <span class="comment"># print(USER_INFO_LI)</span></span><br><span class="line">        user_flag = <span class="keyword">False</span></span><br><span class="line">        pwd_flag = <span class="keyword">False</span></span><br><span class="line">        <span class="keyword">for</span> item <span class="keyword">in</span> USER_INFO_LI:</span><br><span class="line">            <span class="keyword">if</span> user == item[<span class="string">'name'</span>]:</span><br><span class="line">                user_flag = <span class="keyword">True</span></span><br><span class="line">                <span class="keyword">if</span> user_flag:</span><br><span class="line">                    <span class="keyword">if</span> pwd == item[<span class="string">'password'</span>]:</span><br><span class="line">                        pwd_flag = <span class="keyword">True</span></span><br><span class="line">        <span class="keyword">if</span> user_flag <span class="keyword">and</span> pwd_flag:</span><br><span class="line">            <span class="comment"># 用户认证成功</span></span><br><span class="line">            user_data[<span class="string">'user'</span>] = user</span><br><span class="line">            user_data[<span class="string">'is_authenticated'</span>] = <span class="keyword">True</span></span><br><span class="line">            print(<span class="string">'account login success'</span>)</span><br><span class="line">            <span class="keyword">return</span> user_data</span><br><span class="line">        <span class="keyword">elif</span> user_flag:</span><br><span class="line">            <span class="comment"># 密码不对</span></span><br><span class="line">            print(<span class="string">'pwd is error'</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="comment"># 用户名不存在</span></span><br><span class="line">            print(<span class="string">'user is not  exists'</span>)</span><br><span class="line">        count += <span class="number">1</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        print(<span class="string">"account [%s] too many login attempts"</span> % user)</span><br><span class="line">        exit()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@login_required</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_info</span><span class="params">(p_data)</span>:</span></span><br><span class="line">    print(p_data)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@login_required</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">enter_x</span><span class="params">(p_data)</span>:</span></span><br><span class="line">    print(<span class="string">'enter_x'</span>, p_data[<span class="string">'user'</span>])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@login_required</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">enter_y</span><span class="params">(p_data)</span>:</span></span><br><span class="line">    print(<span class="string">'enter_x'</span>, p_data[<span class="string">'user'</span>])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">logout</span><span class="params">(p_data)</span>:</span></span><br><span class="line">    print(<span class="string">'logout'</span>, p_data[<span class="string">'user'</span>])</span><br><span class="line">    p_data[<span class="string">'is_authenticated'</span>] = <span class="keyword">False</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">interactive</span><span class="params">(p_data)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    interact with user</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">       </span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    menu = <span class="string">"""</span></span><br><span class="line"><span class="string">       ------- menu ---------</span></span><br><span class="line"><span class="string">       1.  账户信息(功能已实现)</span></span><br><span class="line"><span class="string">       2.  进入x(功能已实现)</span></span><br><span class="line"><span class="string">       3.  进入y(功能已实现)</span></span><br><span class="line"><span class="string">       4.  退出程序</span></span><br><span class="line"><span class="string">       """</span></span><br><span class="line">    print(menu)</span><br><span class="line">    menu_dic = &#123;</span><br><span class="line">        <span class="string">'1'</span>: print_info,</span><br><span class="line">        <span class="string">'2'</span>: enter_x,</span><br><span class="line">        <span class="string">'3'</span>: enter_y,</span><br><span class="line">        <span class="string">'4'</span>: logout</span><br><span class="line">       &#125;</span><br><span class="line">    exit_flag = <span class="keyword">False</span></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">not</span> exit_flag:</span><br><span class="line">        user_option = input(<span class="string">"&gt;&gt;:"</span>).strip()</span><br><span class="line">        <span class="keyword">if</span> user_option <span class="keyword">in</span> menu_dic:</span><br><span class="line">            menu_dic[user_option](p_data)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            print(<span class="string">"Option does not exist!"</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    USER_INFO_LI = []</span><br><span class="line">    get_acct_info()</span><br><span class="line">    acc_data = auth_user()</span><br><span class="line">    interactive(acc_data)</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/10/2018061021/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1705,156 +1867,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/31/2018053121/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Mr.Q">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dynamic-Soul">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/31/2018053121/" itemprop="url">三种Scrapy模拟登陆策略</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-31T21:56:11+08:00">2018-05-31</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="注意：模拟登陆时，必须保证settings-py里的-COOKIES-ENABLED-Cookies中间件-处于开启状态"><a href="#注意：模拟登陆时，必须保证settings-py里的-COOKIES-ENABLED-Cookies中间件-处于开启状态" class="headerlink" title="注意：模拟登陆时，必须保证settings.py里的 COOKIES_ENABLED (Cookies中间件) 处于开启状态"></a>注意：模拟登陆时，必须保证settings.py里的 COOKIES_ENABLED (Cookies中间件) 处于开启状态</h1><pre><code>COOKIES_ENABLED = True 或 # COOKIES_ENABLED = False
-</code></pre><h2 id="策略一：直接POST数据（比如需要登陆的账户信息"><a href="#策略一：直接POST数据（比如需要登陆的账户信息" class="headerlink" title="策略一：直接POST数据（比如需要登陆的账户信息)"></a>策略一：直接POST数据（比如需要登陆的账户信息)</h2><p>只要是需要提供post数据的，就可以用这种方法。下面示例里post的数据是账户密码：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> scrapy</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Renren1Spider</span><span class="params">(scrapy.Spider)</span>:</span></span><br><span class="line">    name = <span class="string">"renren1"</span></span><br><span class="line">    allowed_domains = [<span class="string">"renren.com"</span>]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">start_requests</span><span class="params">(self)</span>:</span></span><br><span class="line">        url = <span class="string">'http://www.renren.com/PLogin.do'</span></span><br><span class="line">        <span class="comment"># FormRequest 是Scrapy发送POST请求的方法</span></span><br><span class="line">        <span class="keyword">yield</span> scrapy.FormRequest(</span><br><span class="line">                url = url,</span><br><span class="line">                formdata = &#123;<span class="string">"email"</span> : <span class="string">"mr_mao_hacker@163.com"</span>, <span class="string">"password"</span> : <span class="string">"axxxxxxxe"</span>&#125;,</span><br><span class="line">                callback = self.parse_page)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse_page</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        <span class="keyword">with</span> open(<span class="string">"mao2.html"</span>, <span class="string">"w"</span>) <span class="keyword">as</span> filename:</span><br><span class="line">            filename.write(response.body)</span><br></pre></td></tr></table></figure></p>
-<h2 id="策略二：标准的模拟登陆步骤"><a href="#策略二：标准的模拟登陆步骤" class="headerlink" title="策略二：标准的模拟登陆步骤"></a>策略二：标准的模拟登陆步骤</h2><pre><code>正统模拟登录方法：
-
-   1. 首先发送登录页面的get请求，获取到页面里的登录必须的参数（比如说zhihu登陆界面的 _xsrf）
-
-   2. 然后和账户密码一起post到服务器，登录成功
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> scrapy</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Renren2Spider</span><span class="params">(scrapy.Spider)</span>:</span></span><br><span class="line">    name = <span class="string">"renren2"</span></span><br><span class="line">    allowed_domains = [<span class="string">"renren.com"</span>]</span><br><span class="line">    start_urls = (</span><br><span class="line">        <span class="string">"http://www.renren.com/PLogin.do"</span>,</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 处理start_urls里的登录url的响应内容，提取登陆需要的参数（如果需要的话)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        <span class="comment"># 提取登陆需要的参数</span></span><br><span class="line">        <span class="comment">#_xsrf = response.xpath("//_xsrf").extract()[0]</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 发送请求参数，并调用指定回调函数处理</span></span><br><span class="line">        <span class="keyword">yield</span> scrapy.FormRequest.from_response(</span><br><span class="line">                response,</span><br><span class="line">                formdata = &#123;<span class="string">"email"</span> : <span class="string">"mr_mao_hacker@163.com"</span>, <span class="string">"password"</span> : <span class="string">"axxxxxxxe"</span>&#125;,<span class="comment">#, "_xsrf" = _xsrf&#125;,</span></span><br><span class="line">                callback = self.parse_page</span><br><span class="line">            )</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 获取登录成功状态，访问需要登录后才能访问的页面</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse_page</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        url = <span class="string">"http://www.renren.com/422167102/profile"</span></span><br><span class="line">        <span class="keyword">yield</span> scrapy.Request(url, callback = self.parse_newpage)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 处理响应内容</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse_newpage</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        <span class="keyword">with</span> open(<span class="string">"xiao.html"</span>, <span class="string">"w"</span>) <span class="keyword">as</span> filename:</span><br><span class="line">            filename.write(response.body)</span><br></pre></td></tr></table></figure>
-<h2 id="策略三：直接使用保存登陆状态的Cookie模拟登陆"><a href="#策略三：直接使用保存登陆状态的Cookie模拟登陆" class="headerlink" title="策略三：直接使用保存登陆状态的Cookie模拟登陆"></a>策略三：直接使用保存登陆状态的Cookie模拟登陆</h2><pre><code>如果实在没办法了，可以用这种方法模拟登录，虽然麻烦一点，但是成功率100%
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> scrapy</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RenrenSpider</span><span class="params">(scrapy.Spider)</span>:</span></span><br><span class="line">    name = <span class="string">"renren"</span></span><br><span class="line">    allowed_domains = [<span class="string">"renren.com"</span>]</span><br><span class="line">    start_urls = (</span><br><span class="line">        <span class="string">'http://www.renren.com/111111'</span>,</span><br><span class="line">        <span class="string">'http://www.renren.com/222222'</span>,</span><br><span class="line">        <span class="string">'http://www.renren.com/333333'</span>,</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    cookies = &#123;</span><br><span class="line">    <span class="string">"anonymid"</span> : <span class="string">"ixrna3fysufnwv"</span>,</span><br><span class="line">    <span class="string">"_r01_"</span> : <span class="string">"1"</span>,</span><br><span class="line">    <span class="string">"ap"</span> : <span class="string">"327550029"</span>,</span><br><span class="line">    <span class="string">"JSESSIONID"</span> : <span class="string">"abciwg61A_RvtaRS3GjOv"</span>,</span><br><span class="line">    <span class="string">"depovince"</span> : <span class="string">"GW"</span>,</span><br><span class="line">    <span class="string">"springskin"</span> : <span class="string">"set"</span>,</span><br><span class="line">    <span class="string">"jebe_key"</span> : <span class="string">"f6fb270b-d06d-42e6-8b53-e67c3156aa7e%7Cc13c37f53bca9e1e7132d4b58ce00fa3%7C1484060607478%7C1%7C1486198628950"</span>,</span><br><span class="line">    <span class="string">"t"</span> : <span class="string">"691808127750a83d33704a565d8340ae9"</span>,</span><br><span class="line">    <span class="string">"societyguester"</span> : <span class="string">"691808127750a83d33704a565d8340ae9"</span>,</span><br><span class="line">    <span class="string">"id"</span> : <span class="string">"327550029"</span>,</span><br><span class="line">    <span class="string">"xnsid"</span> : <span class="string">"f42b25cf"</span>,</span><br><span class="line">    <span class="string">"loginfrom"</span> : <span class="string">"syshome"</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 可以重写Spider类的start_requests方法，附带Cookie值，发送POST请求</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">start_requests</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">for</span> url <span class="keyword">in</span> self.start_urls:</span><br><span class="line">            <span class="keyword">yield</span> scrapy.FormRequest(url, cookies = self.cookies, callback = self.parse_page)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 处理响应内容</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse_page</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        <span class="keyword">print</span> <span class="string">"==========="</span> + response.url</span><br><span class="line">        <span class="keyword">with</span> open(<span class="string">"deng.html"</span>, <span class="string">"w"</span>) <span class="keyword">as</span> filename:</span><br><span class="line">            filename.write(response.body)</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1906,7 +1918,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">69</span>
+                    <span class="site-state-item-count">70</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2035,7 +2047,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共97.6k字</span>
+  <span class="post-count">博客全站共99.4k字</span>
 </div>
         
 

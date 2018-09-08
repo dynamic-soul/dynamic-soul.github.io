@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.6" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.0.6">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.0.6" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.0.6',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="进程池与线程池在刚开始学多进程或多线程时，我们迫不及待地基于多进程或多线程实现并发的套接字通信，然而这种实现方式的致命缺陷是：服务的开启的进程数或线程数都会随着并发的客户端数目地增多而增多， 这会对服务端主机带来巨大的压力，甚至于不堪重负而瘫痪，于是我们必须对服务端开启的进程数或线程数加以控制，让机器在一个自己可以承受的范围内运行，这就是进程池或线程池的用途， 例如进程池，就是用来存放进程的池子，">
+<meta name="keywords" content="进程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="进程池与线程池">
+<meta property="og:url" content="http://yoursite.com/2018/09/08/2018090821/index.html">
+<meta property="og:site_name" content="Dynamic-Soul">
+<meta property="og:description" content="进程池与线程池在刚开始学多进程或多线程时，我们迫不及待地基于多进程或多线程实现并发的套接字通信，然而这种实现方式的致命缺陷是：服务的开启的进程数或线程数都会随着并发的客户端数目地增多而增多， 这会对服务端主机带来巨大的压力，甚至于不堪重负而瘫痪，于是我们必须对服务端开启的进程数或线程数加以控制，让机器在一个自己可以承受的范围内运行，这就是进程池或线程池的用途， 例如进程池，就是用来存放进程的池子，">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-09-08T13:26:28.766Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="进程池与线程池">
+<meta name="twitter:description" content="进程池与线程池在刚开始学多进程或多线程时，我们迫不及待地基于多进程或多线程实现并发的套接字通信，然而这种实现方式的致命缺陷是：服务的开启的进程数或线程数都会随着并发的客户端数目地增多而增多， 这会对服务端主机带来巨大的压力，甚至于不堪重负而瘫痪，于是我们必须对服务端开启的进程数或线程数加以控制，让机器在一个自己可以承受的范围内运行，这就是进程池或线程池的用途， 例如进程池，就是用来存放进程的池子，">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/08/2018090821/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>进程池与线程池 | Dynamic-Soul</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <a href="https://github.com/dynamic-soul"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Dynamic-Soul</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+</li>
+
+      
+
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/08/2018090821/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Q">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dynamic-Soul">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">进程池与线程池</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-08T21:26:28+08:00">2018-09-08</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Python网络编程/" itemprop="url" rel="index"><span itemprop="name">Python网络编程</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="进程池与线程池"><a href="#进程池与线程池" class="headerlink" title="进程池与线程池"></a>进程池与线程池</h1><p>在刚开始学多进程或多线程时，我们迫不及待地基于多进程或多线程实现并发的套接字通信，然而这种实现方式的致命缺陷是：服务的开启的进程数或线程数都会随着并发的客户端数目地增多而增多，</p>
+<p>这会对服务端主机带来巨大的压力，甚至于不堪重负而瘫痪，于是我们必须对服务端开启的进程数或线程数加以控制，让机器在一个自己可以承受的范围内运行，这就是进程池或线程池的用途，</p>
+<p>例如进程池，就是用来存放进程的池子，本质还是基于多进程，只不过是对开启进程的数目加上了限制</p>
+<h2 id="Python–concurrent-futures"><a href="#Python–concurrent-futures" class="headerlink" title="Python–concurrent.futures"></a>Python–concurrent.futures</h2><p>1.concurent.future模块是用来创建并行的任务，提供了更高级别的接口，<br>为了异步执行调用<br>2.concurent.future这个模块用起来非常方便，它的接口也封装的非常简单<br>3.concurent.future模块既可以实现进程池，也可以实现线程池<br>4.模块导入进程池和线程池<br>from  concurrent.futures import ProcessPoolExecutor,ThreadPoolExecutor<br>p = ProcessPoolExecutor(max_works)对于进程池如果不写max_works：默认的是cpu的数目<br>p = ThreadPoolExecutor(max_works)对于线程池如果不写max_works：默认的是cpu的数目*5</p>
+<h2 id="基本方法"><a href="#基本方法" class="headerlink" title="基本方法"></a>基本方法</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>、submit(fn, *args, **kwargs)</span><br><span class="line">异步提交任务</span><br><span class="line"> </span><br><span class="line"><span class="number">2</span>、map(func, *iterables, timeout=<span class="keyword">None</span>, chunksize=<span class="number">1</span>)</span><br><span class="line">取代<span class="keyword">for</span>循环submit的操作</span><br><span class="line"> </span><br><span class="line"><span class="number">3</span>、shutdown(wait=<span class="keyword">True</span>)</span><br><span class="line">相当于进程池的pool.close()+pool.join()操作</span><br><span class="line">wait=<span class="keyword">True</span>，等待池内所有任务执行完毕回收完资源后才继续</span><br><span class="line">wait=<span class="keyword">False</span>，立即返回，并不会等待池内的任务执行完毕</span><br><span class="line">但不管wait参数为何值，整个程序都会等到所有任务执行完毕</span><br><span class="line">submit和map必须在shutdown之前</span><br><span class="line"> </span><br><span class="line"><span class="number">4</span>、result(timeout=<span class="keyword">None</span>)</span><br><span class="line">取得结果</span><br><span class="line"> </span><br><span class="line"><span class="number">5</span>、add_done_callback(fn)</span><br><span class="line">回调函数</span><br></pre></td></tr></table></figure>
+<h1 id="进程池"><a href="#进程池" class="headerlink" title="进程池"></a>进程池</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> concurrent.futures <span class="keyword">import</span> ProcessPoolExecutor,ThreadPoolExecutor</span><br><span class="line"><span class="keyword">from</span> threading <span class="keyword">import</span> currentThread</span><br><span class="line"><span class="keyword">import</span> os,time,random</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">task</span><span class="params">(n)</span>:</span></span><br><span class="line">    print(<span class="string">"%s is running "</span> % os.getpid())</span><br><span class="line">    time.sleep(random.randint(<span class="number">1</span>,<span class="number">3</span>))</span><br><span class="line">    <span class="keyword">return</span> n*<span class="number">2</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    start = time.time()</span><br><span class="line">    executor = ProcessPoolExecutor(<span class="number">4</span>)</span><br><span class="line"> </span><br><span class="line">    res = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>):  <span class="comment"># 开启10个任务</span></span><br><span class="line">        future = executor.submit(task,i)  <span class="comment"># 异步提交任务</span></span><br><span class="line">        res.append(future)</span><br><span class="line"> </span><br><span class="line">    executor.shutdown()  <span class="comment"># 等待所有进程执行完毕</span></span><br><span class="line">    print(<span class="string">"++++&gt;"</span>)</span><br><span class="line">    <span class="keyword">for</span> r <span class="keyword">in</span> res:</span><br><span class="line">        print(r.result())  <span class="comment"># 打印结果</span></span><br><span class="line"> </span><br><span class="line">    end = time.time()</span><br><span class="line">    print(end - start)</span><br><span class="line"> </span><br><span class="line">---------------------输出</span><br><span class="line"><span class="number">2464</span> <span class="keyword">is</span> running</span><br><span class="line"><span class="number">9356</span> <span class="keyword">is</span> running</span><br><span class="line"><span class="number">10780</span> <span class="keyword">is</span> running</span><br><span class="line"><span class="number">9180</span> <span class="keyword">is</span> running</span><br><span class="line"><span class="number">2464</span> <span class="keyword">is</span> running</span><br><span class="line"><span class="number">10780</span> <span class="keyword">is</span> running</span><br><span class="line"><span class="number">9180</span> <span class="keyword">is</span> running</span><br><span class="line"><span class="number">9356</span> <span class="keyword">is</span> running</span><br><span class="line"><span class="number">10780</span> <span class="keyword">is</span> running</span><br><span class="line"><span class="number">9180</span> <span class="keyword">is</span> running</span><br><span class="line">++++&gt;</span><br><span class="line"><span class="number">0</span></span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="number">4</span></span><br><span class="line"><span class="number">6</span></span><br><span class="line"><span class="number">8</span></span><br><span class="line"><span class="number">10</span></span><br><span class="line"><span class="number">12</span></span><br><span class="line"><span class="number">14</span></span><br><span class="line"><span class="number">16</span></span><br><span class="line"><span class="number">18</span></span><br><span class="line"><span class="number">6.643380165100098</span></span><br></pre></td></tr></table></figure>
+<h1 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> concurrent.futures <span class="keyword">import</span> ProcessPoolExecutor,ThreadPoolExecutor</span><br><span class="line"><span class="keyword">from</span> threading <span class="keyword">import</span> currentThread</span><br><span class="line"><span class="keyword">import</span> os,time,random</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">task</span><span class="params">(n)</span>:</span></span><br><span class="line">    print(<span class="string">"%s is running "</span> % currentThread().getName())</span><br><span class="line">    time.sleep(random.randint(<span class="number">1</span>,<span class="number">3</span>))</span><br><span class="line">    <span class="keyword">return</span> n*<span class="number">2</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    start = time.time()</span><br><span class="line">    executor = ThreadPoolExecutor(<span class="number">4</span>)  <span class="comment"># 线程池</span></span><br><span class="line"> </span><br><span class="line">    res = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>):  <span class="comment"># 开启10个任务</span></span><br><span class="line">        future = executor.submit(task,i)  <span class="comment"># 异步提交任务</span></span><br><span class="line">        res.append(future)</span><br><span class="line"> </span><br><span class="line">    executor.shutdown()  <span class="comment"># 等待所有线程执行完毕</span></span><br><span class="line">    print(<span class="string">"++++&gt;"</span>)</span><br><span class="line">    <span class="keyword">for</span> r <span class="keyword">in</span> res:</span><br><span class="line">        print(r.result())  <span class="comment"># 打印结果</span></span><br><span class="line"> </span><br><span class="line">    end = time.time()</span><br><span class="line">    print(end - start)</span><br><span class="line"> </span><br><span class="line">------------输出</span><br><span class="line"> </span><br><span class="line">&lt;concurrent.futures.thread.ThreadPoolExecutor object at <span class="number">0x00000000025B0DA0</span>&gt;_0 <span class="keyword">is</span> running</span><br><span class="line">&lt;concurrent.futures.thread.ThreadPoolExecutor object at <span class="number">0x00000000025B0DA0</span>&gt;_1 <span class="keyword">is</span> running</span><br><span class="line">&lt;concurrent.futures.thread.ThreadPoolExecutor object at <span class="number">0x00000000025B0DA0</span>&gt;_2 <span class="keyword">is</span> running</span><br><span class="line">&lt;concurrent.futures.thread.ThreadPoolExecutor object at <span class="number">0x00000000025B0DA0</span>&gt;_3 <span class="keyword">is</span> running</span><br><span class="line">&lt;concurrent.futures.thread.ThreadPoolExecutor object at <span class="number">0x00000000025B0DA0</span>&gt;_3 <span class="keyword">is</span> running</span><br><span class="line">&lt;concurrent.futures.thread.ThreadPoolExecutor object at <span class="number">0x00000000025B0DA0</span>&gt;_1 <span class="keyword">is</span> running</span><br><span class="line">&lt;concurrent.futures.thread.ThreadPoolExecutor object at <span class="number">0x00000000025B0DA0</span>&gt;_0 <span class="keyword">is</span> running</span><br><span class="line">&lt;concurrent.futures.thread.ThreadPoolExecutor object at <span class="number">0x00000000025B0DA0</span>&gt;_2 <span class="keyword">is</span> running</span><br><span class="line">&lt;concurrent.futures.thread.ThreadPoolExecutor object at <span class="number">0x00000000025B0DA0</span>&gt;_3 <span class="keyword">is</span> running</span><br><span class="line">&lt;concurrent.futures.thread.ThreadPoolExecutor object at <span class="number">0x00000000025B0DA0</span>&gt;_1 <span class="keyword">is</span> running</span><br><span class="line">++++&gt;</span><br><span class="line"><span class="number">0</span></span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="number">4</span></span><br><span class="line"><span class="number">6</span></span><br><span class="line"><span class="number">8</span></span><br><span class="line"><span class="number">10</span></span><br><span class="line"><span class="number">12</span></span><br><span class="line"><span class="number">14</span></span><br><span class="line"><span class="number">16</span></span><br><span class="line"><span class="number">18</span></span><br><span class="line"><span class="number">5.002286195755005</span></span><br></pre></td></tr></table></figure>
+<h1 id="回调函数"><a href="#回调函数" class="headerlink" title="回调函数"></a>回调函数</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> concurrent.futures <span class="keyword">import</span> ThreadPoolExecutor</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(url)</span>:</span></span><br><span class="line">    print(<span class="string">'GET &#123;&#125;'</span>.format(url))</span><br><span class="line">    response = requests.get(url)</span><br><span class="line">    time.sleep(<span class="number">2</span>)</span><br><span class="line">    <span class="keyword">if</span> response.status_code == <span class="number">200</span>:  <span class="comment"># 200代表状态：下载成功了</span></span><br><span class="line">        <span class="keyword">return</span> &#123;<span class="string">'url'</span>: url, <span class="string">'content'</span>: response.text&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(res)</span>:</span></span><br><span class="line">    print(<span class="string">'%s parse res is %s'</span> % (res[<span class="string">'url'</span>], len(res[<span class="string">'content'</span>])))</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'%s parse res is %s'</span> % (res[<span class="string">'url'</span>], len(res[<span class="string">'content'</span>]))</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">save</span><span class="params">(res)</span>:</span></span><br><span class="line">    print(<span class="string">'save'</span>, res)</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">task</span><span class="params">(res)</span>:</span></span><br><span class="line">    res = res.result()</span><br><span class="line">    par_res = parse(res)</span><br><span class="line">    save(par_res)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    urls = [</span><br><span class="line">            <span class="string">'http://www.cnblogs.com/linhaifeng'</span>,</span><br><span class="line">            <span class="string">'https://www.python.org'</span>,</span><br><span class="line">            <span class="string">'https://www.openstack.org'</span>,</span><br><span class="line">        ]</span><br><span class="line"> </span><br><span class="line">    pool = ThreadPoolExecutor(<span class="number">2</span>)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> urls:</span><br><span class="line">        pool.submit(get, i).add_done_callback(task)<span class="comment">#这里的回调函数拿到的是一个对象。得</span></span><br><span class="line">        <span class="comment">#  先把返回的res得到一个结果。即在前面加上一个res.result() #谁好了谁去掉回调函数</span></span><br><span class="line">                                <span class="comment"># 回调函数也是一种编程思想。不仅开线程池用，开线程池也用</span></span><br><span class="line">    pool.shutdown()  <span class="comment">#相当于进程池里的close和join</span></span><br><span class="line"> </span><br><span class="line">-------------输出</span><br><span class="line">GET http://www.cnblogs.com/linhaifeng</span><br><span class="line">GET https://www.python.org</span><br><span class="line">http://www.cnblogs.com/linhaifeng parse res <span class="keyword">is</span> <span class="number">17426</span></span><br><span class="line">save http://www.cnblogs.com/linhaifeng parse res <span class="keyword">is</span> <span class="number">17426</span></span><br><span class="line">GET https://www.openstack.org</span><br><span class="line">https://www.python.org parse res <span class="keyword">is</span> <span class="number">48809</span></span><br><span class="line">save https://www.python.org parse res <span class="keyword">is</span> <span class="number">48809</span></span><br><span class="line">https://www.openstack.org parse res <span class="keyword">is</span> <span class="number">60632</span></span><br><span class="line">save https://www.openstack.org parse res <span class="keyword">is</span> <span class="number">60632</span></span><br></pre></td></tr></table></figure>
+<h1 id="map"><a href="#map" class="headerlink" title="map"></a>map</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> concurrent.futures <span class="keyword">import</span> ThreadPoolExecutor</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(url)</span>:</span></span><br><span class="line">    print(<span class="string">'GET &#123;&#125;'</span>.format(url))</span><br><span class="line">    response = requests.get(url)</span><br><span class="line">    time.sleep(<span class="number">2</span>)</span><br><span class="line">    <span class="keyword">if</span> response.status_code == <span class="number">200</span>:  <span class="comment"># 200代表状态：下载成功了</span></span><br><span class="line">        <span class="keyword">return</span> &#123;<span class="string">'url'</span>: url, <span class="string">'content_len'</span>: len(response.text)&#125;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    urls = [</span><br><span class="line">            <span class="string">'http://www.cnblogs.com/linhaifeng'</span>,</span><br><span class="line">            <span class="string">'https://www.python.org'</span>,</span><br><span class="line">            <span class="string">'https://www.openstack.org'</span>,</span><br><span class="line">        ]</span><br><span class="line"> </span><br><span class="line">    pool = ThreadPoolExecutor(<span class="number">2</span>)</span><br><span class="line">    res = pool.map(get, urls) <span class="comment">#map取代了for+submit</span></span><br><span class="line"> </span><br><span class="line">    pool.shutdown()   <span class="comment"># 相当于进程池里的close和join</span></span><br><span class="line">    print(<span class="string">'='</span> * <span class="number">30</span>)</span><br><span class="line">    <span class="keyword">for</span> r <span class="keyword">in</span> res: <span class="comment"># 返回的是一个迭代器</span></span><br><span class="line">        print(r)</span><br><span class="line"> </span><br><span class="line">GET http://www.cnblogs.com/linhaifeng</span><br><span class="line">GET https://www.python.org</span><br><span class="line">GET https://www.openstack.org</span><br><span class="line">&#123;<span class="string">'url'</span>: <span class="string">'http://www.cnblogs.com/linhaifeng'</span>, <span class="string">'content_len'</span>: <span class="number">17426</span>&#125;</span><br><span class="line">&#123;<span class="string">'url'</span>: <span class="string">'https://www.python.org'</span>, <span class="string">'content_len'</span>: <span class="number">48809</span>&#125;</span><br><span class="line">&#123;<span class="string">'url'</span>: <span class="string">'https://www.openstack.org'</span>, <span class="string">'content_len'</span>: <span class="number">60632</span>&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="自定义线程池"><a href="#自定义线程池" class="headerlink" title="自定义线程池"></a>自定义线程池</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> threading <span class="keyword">import</span> Thread, currentThread</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> queue</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyThread</span><span class="params">(Thread)</span>:</span></span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, queue)</span>:</span></span><br><span class="line">        super().__init__()</span><br><span class="line">        self.queue = queue</span><br><span class="line">        self.daemon = <span class="keyword">True</span>  <span class="comment"># 子线程跟着主线程一起退出</span></span><br><span class="line">        self.start()</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">                1、让他始终去运行，</span></span><br><span class="line"><span class="string">                2、去获取queue里面的任务，</span></span><br><span class="line"><span class="string">                 3、然后给任务分配函数去执行（获取任务在执行）</span></span><br><span class="line"><span class="string">                :return:</span></span><br><span class="line"><span class="string">                """</span></span><br><span class="line">        <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">            func, args, kwargs = self.queue.get()  <span class="comment"># 从队列中获取任务</span></span><br><span class="line">            func(*args, **kwargs)</span><br><span class="line">            self.queue.task_done()  <span class="comment"># 计数器  执行完这个任务后  （队列-1操作)</span></span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyPool</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    在任务来到之前，提前创建好线程，等待任务</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, num)</span>:</span>  <span class="comment"># 线程数量</span></span><br><span class="line">        self.num = num</span><br><span class="line">        self.queue = queue.Queue()</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(self.num):</span><br><span class="line">            MyThread(self.queue)</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">submit</span><span class="params">(self, func, args=<span class="params">()</span>, kwargs=&#123;&#125;)</span>:</span></span><br><span class="line">        self.queue.put((func, args, kwargs))</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">join</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.queue.join()  <span class="comment"># 等待队列里面的任务处理完毕</span></span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">task</span><span class="params">(i)</span>:</span></span><br><span class="line">    print(currentThread().getName(), i)</span><br><span class="line">    time.sleep(<span class="number">2</span>)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    start = time.time()</span><br><span class="line">    pool = MyPool(<span class="number">3</span>)  <span class="comment"># 实例化一个线程池</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">4</span>):</span><br><span class="line">        pool.submit(task, args=(i,))</span><br><span class="line">    pool.join()</span><br><span class="line">    print(<span class="string">'运行的时间&#123;&#125;秒'</span>.format(time.time() - start))</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/进程/" rel="tag"># 进程</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/07/2018090720/" rel="next" title="互斥锁">
+                <i class="fa fa-chevron-left"></i> 互斥锁
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="Mr.Q" />
+            
+              <p class="site-author-name" itemprop="name">Mr.Q</p>
+              <p class="site-description motion-element" itemprop="description">我希望时间没有流走，世界还停在过去，昏黄的光还照在旧日的路上，我刚刚走过，恰与你们相识。</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">70</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#进程池与线程池"><span class="nav-number">1.</span> <span class="nav-text">进程池与线程池</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Python–concurrent-futures"><span class="nav-number">1.1.</span> <span class="nav-text">Python–concurrent.futures</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本方法"><span class="nav-number">1.2.</span> <span class="nav-text">基本方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#进程池"><span class="nav-number">2.</span> <span class="nav-text">进程池</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#线程池"><span class="nav-number">3.</span> <span class="nav-text">线程池</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#回调函数"><span class="nav-number">4.</span> <span class="nav-text">回调函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#map"><span class="nav-number">5.</span> <span class="nav-text">map</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#自定义线程池"><span class="nav-number">6.</span> <span class="nav-text">自定义线程池</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mr.Q</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Gemini</a> v6.0.6</div>
+
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共99.4k字</span>
+</div>
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.6"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.0.6"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.6"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.6"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.6"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+</body>
+</html>

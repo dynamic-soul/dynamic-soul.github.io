@@ -311,6 +311,151 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/22/2018052222/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Q">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dynamic-Soul">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/22/2018052222/" itemprop="url">源码参考分析：Picklecompat</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-22T21:05:16+08:00">2018-05-22</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="picklecompat-py"><a href="#picklecompat-py" class="headerlink" title="picklecompat.py"></a>picklecompat.py</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"""A pickle wrapper module with protocol=-1 by default."""</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="keyword">import</span> cPickle <span class="keyword">as</span> pickle  <span class="comment"># PY2</span></span><br><span class="line"><span class="keyword">except</span> ImportError:</span><br><span class="line">    <span class="keyword">import</span> pickle</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">loads</span><span class="params">(s)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> pickle.loads(s)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dumps</span><span class="params">(obj)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> pickle.dumps(obj, protocol=<span class="number">-1</span>)</span><br></pre></td></tr></table></figure>
+<p>这里实现了loads和dumps两个函数，其实就是实现了一个序列化器。</p>
+<p>因为redis数据库不能存储复杂对象（key部分只能是字符串，value部分只能是字符串，字符串列表，字符串集合和hash），所以我们存啥都要先串行化成文本才行。</p>
+<p>这里使用的就是python的pickle模块，一个兼容py2和py3的串行化工具。这个serializer主要用于一会的scheduler存reuqest对象。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/22/2018052221/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2006,177 +2151,6 @@ parse() : 解析response，并返回Item或Requests（需指定回调函数）�
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/17/2018051721/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Mr.Q">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dynamic-Soul">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/17/2018051721/" itemprop="url">Scrapy Shell</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-17T21:36:33+08:00">2018-05-17</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Scrapy-Shell"><a href="#Scrapy-Shell" class="headerlink" title="Scrapy Shell"></a>Scrapy Shell</h1><p>Scrapy终端是一个交互终端，我们可以在未启动spider的情况下尝试及调试代码，也可以用来测试XPath或CSS表达式，查看他们的工作方式，方便我们爬取的网页中提取的数据。</p>
-<p>如果安装了 IPython ，Scrapy终端将使用 IPython (替代标准Python终端)。 IPython 终端与其他相比更为强大，提供智能的自动补全，高亮输出，及其他特性。（推荐安装IPython）</p>
-<h2 id="启动Scrapy-Shell"><a href="#启动Scrapy-Shell" class="headerlink" title="启动Scrapy Shell"></a>启动Scrapy Shell</h2><p>进入项目的根目录，执行下列命令来启动shell:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy shell <span class="string">"xxxxxxx"</span></span><br></pre></td></tr></table></figure>
-<p>Scrapy Shell根据下载的页面会自动创建一些方便使用的对象，例如 Response 对象，以及 Selector 对象 (对HTML及XML内容)。</p>
-<ul>
-<li><p>当shell载入后，将得到一个包含response数据的本地 response 变量，输入 response.body将输出response的包体，输出 response.headers 可以看到response的包头。</p>
-</li>
-<li><p>输入 response.selector 时， 将获取到一个response 初始化的类 Selector 的对象，此时可以通过使用 response.selector.xpath()或response.selector.css() 来对 response 进行查询。</p>
-</li>
-<li><p>Scrapy也提供了一些快捷方式, 例如 response.xpath()或response.css()同样可以生效（如之前的案例）。</p>
-</li>
-</ul>
-<h2 id="Selectors选择器"><a href="#Selectors选择器" class="headerlink" title="Selectors选择器"></a>Selectors选择器</h2><p>Scrapy Selectors 内置 XPath 和 CSS Selector 表达式机制</p>
-<p>Selector有四个基本的方法，最常用的还是xpath:</p>
-<ul>
-<li>xpath(): 传入xpath表达式，返回该表达式所对应的所有节点的selector list列表</li>
-<li>extract(): 序列化该节点为Unicode字符串并返回list</li>
-<li>css(): 传入CSS表达式，返回该表达式所对应的所有节点的selector list列表，语法同 BeautifulSoup4</li>
-<li>re(): 根据传入的正则表达式对数据进行提取，返回Unicode字符串list列表</li>
-</ul>
-<h3 id="XPath表达式的例子及对应的含义"><a href="#XPath表达式的例子及对应的含义" class="headerlink" title="XPath表达式的例子及对应的含义:"></a>XPath表达式的例子及对应的含义:</h3><pre><code>/html/head/title: 选择&lt;HTML&gt;文档中 &lt;head&gt; 标签内的 &lt;title&gt; 元素
-/html/head/title/text(): 选择上面提到的 &lt;title&gt; 元素的文字
-//td: 选择所有的 &lt;td&gt; 元素
-//div[@class=&quot;mine&quot;]: 选择所有具有 class=&quot;mine&quot; 属性的 div 元素
-</code></pre><h3 id="尝试Selector"><a href="#尝试Selector" class="headerlink" title="尝试Selector"></a>尝试Selector</h3><p>我们用腾讯社招的网站<a href="http://hr.tencent.com/position.php?&amp;start=0#a举例：" target="_blank" rel="noopener">http://hr.tencent.com/position.php?&amp;start=0#a举例：</a></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启动</span></span><br><span class="line">scrapy shell <span class="string">"http://hr.tencent.com/position.php?&amp;start=0#a"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 返回 xpath选择器对象列表</span></span><br><span class="line">response.xpath(<span class="string">'//title'</span>)</span><br><span class="line">[&lt;Selector xpath=<span class="string">'//title'</span> data=<span class="string">u'&lt;title&gt;\u804c\u4f4d\u641c\u7d22 | \u793e\u4f1a\u62db\u8058 | Tencent \u817e\u8baf\u62db\u8058&lt;/title'</span>&gt;]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 extract()方法返回 Unicode字符串列表</span></span><br><span class="line">response.xpath(<span class="string">'//title'</span>).extract()</span><br><span class="line">[<span class="string">u'&lt;title&gt;\u804c\u4f4d\u641c\u7d22 | \u793e\u4f1a\u62db\u8058 | Tencent \u817e\u8baf\u62db\u8058&lt;/title&gt;'</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印列表第一个元素，终端编码格式显示</span></span><br><span class="line"><span class="keyword">print</span> response.xpath(<span class="string">'//title'</span>).extract()[<span class="number">0</span>]</span><br><span class="line">&lt;title&gt;职位搜索 | 社会招聘 | Tencent 腾讯招聘&lt;/title&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 返回 xpath选择器对象列表</span></span><br><span class="line">response.xpath(<span class="string">'//title/text()'</span>)</span><br><span class="line">&lt;Selector xpath=<span class="string">'//title/text()'</span> data=<span class="string">u'\u804c\u4f4d\u641c\u7d22 | \u793e\u4f1a\u62db\u8058 | Tencent \u817e\u8baf\u62db\u8058'</span>&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 返回列表第一个元素的Unicode字符串</span></span><br><span class="line">response.xpath(<span class="string">'//title/text()'</span>)[<span class="number">0</span>].extract()</span><br><span class="line"><span class="string">u'\u804c\u4f4d\u641c\u7d22 | \u793e\u4f1a\u62db\u8058 | Tencent \u817e\u8baf\u62db\u8058'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 按终端编码格式显示</span></span><br><span class="line"><span class="keyword">print</span> response.xpath(<span class="string">'//title/text()'</span>)[<span class="number">0</span>].extract()</span><br><span class="line">职位搜索 | 社会招聘 | Tencent 腾讯招聘</span><br><span class="line"></span><br><span class="line">response.xpath(<span class="string">'//*[@class="even"]'</span>)</span><br><span class="line">职位名称:</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> site[<span class="number">0</span>].xpath(<span class="string">'./td[1]/a/text()'</span>).extract()[<span class="number">0</span>]</span><br><span class="line">TEG15-运营开发工程师（深圳）</span><br><span class="line">职位名称详情页:</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> site[<span class="number">0</span>].xpath(<span class="string">'./td[1]/a/@href'</span>).extract()[<span class="number">0</span>]</span><br><span class="line">position_detail.php?id=20744&amp;keywords=&amp;tid=0&amp;lid=0</span><br><span class="line">职位类别:</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> site[<span class="number">0</span>].xpath(<span class="string">'./td[2]/text()'</span>).extract()[<span class="number">0</span>]</span><br><span class="line">技术类</span><br></pre></td></tr></table></figure>
-<p>以后做数据提取的时候，可以把现在Scrapy Shell中测试，测试通过后再应用到代码中。</p>
-<p>当然Scrapy Shell作用不仅仅如此，但是不属于我们课程重点，不做详细介绍。</p>
-<p>官方文档：<a href="http://scrapy-chs.readthedocs.io/zh_CN/latest/topics/shell.html" target="_blank" rel="noopener">http://scrapy-chs.readthedocs.io/zh_CN/latest/topics/shell.html</a> </p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2228,7 +2202,7 @@ parse() : 解析response，并返回Item或Requests（需指定回调函数）�
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">69</span>
+                    <span class="site-state-item-count">70</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2357,7 +2331,7 @@ parse() : 解析response，并返回Item或Requests（需指定回调函数）�
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共97.6k字</span>
+  <span class="post-count">博客全站共99.4k字</span>
 </div>
         
 
