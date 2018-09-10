@@ -311,6 +311,167 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/13/2018061321/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Q">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dynamic-Soul">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/13/2018061321/" itemprop="url">匿名函数</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-13T21:17:06+08:00">2018-06-13</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Python文件与函数/" itemprop="url" rel="index"><span itemprop="name">Python文件与函数</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="匿名函数"><a href="#匿名函数" class="headerlink" title="匿名函数"></a>匿名函数</h1><p>匿名函数就是不需要显式的指定函数名。</p>
+<p>关键字lambda表示匿名函数，冒号前面的n表示函数参数，可以有多个参数。</p>
+<p>匿名函数有个限制，就是只能有一个表达式，不用写return，返回值就是该表达式的结果。</p>
+<p>用匿名函数有个好处，因为函数没有名字，不必担心函数名冲突。此外，匿名函数也是一个函数对象，也可以把匿名函数赋值给一个变量，再利用变量来调用该函数：</p>
+<p>有些函数在代码中只用一次，而且函数体比较简单，使用匿名函数可以减少代码量，看起来比较”优雅“<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#这段代码</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calc</span><span class="params">(x,y)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> x**y</span><br><span class="line"></span><br><span class="line"><span class="comment">#换成匿名函数</span></span><br><span class="line">calc = <span class="keyword">lambda</span> x,y:x**y</span><br><span class="line">print(calc(<span class="number">2</span>,<span class="number">5</span>))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calc</span><span class="params">(x,y)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> x &gt; y:</span><br><span class="line">        <span class="keyword">return</span> x*y</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> x / y</span><br><span class="line">    </span><br><span class="line"><span class="comment">#三元运算换成匿名函数</span></span><br><span class="line">calc = <span class="keyword">lambda</span> x,y:x * y <span class="keyword">if</span> x &gt; y <span class="keyword">else</span> x / y</span><br><span class="line">print(calc(<span class="number">2</span>,<span class="number">5</span>))</span><br></pre></td></tr></table></figure></p>
+<h2 id="匿名函数使用场景："><a href="#匿名函数使用场景：" class="headerlink" title="匿名函数使用场景："></a>匿名函数使用场景：</h2><p>主要与其他函数联合使用</p>
+<p><strong>map函数</strong><br>map()函数接收两个参数，一个是函数，一个是Iterable，map将传入的函数依次作用到序列的每个元素，并把结果作为新的Iterator返回</p>
+<p>遍历序列，对序列中每个元素进行函数操作，最终获取新的序列。</p>
+<p>1.求列表[1,2,3,4,5,6,7,8,9],返回一个n*n 的列表</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#一般解决方案</span></span><br><span class="line">li = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>]</span><br><span class="line"><span class="keyword">for</span> ind,val <span class="keyword">in</span> enumerate(li):</span><br><span class="line">    li[ind] = val * val</span><br><span class="line">print(li)</span><br><span class="line"><span class="comment"># [1, 4, 9, 16, 25, 36, 49, 64, 81]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 高级解决方案</span></span><br><span class="line">li = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>]</span><br><span class="line">print(list(map(<span class="keyword">lambda</span> x:x*x,li)))</span><br><span class="line"><span class="comment"># [1, 4, 9, 16, 25, 36, 49, 64, 81]</span></span><br></pre></td></tr></table></figure>
+<p><strong>reduce函数</strong><br>reduce把一个函数作用在一个序列[x1, x2, x3, …]上，这个函数必须接收两个参数，reduce把结果继续和序列的下一个元素做累积计算，其效果就是：</p>
+<p>reduce(func,[1,2,3]) 等同于 func(func(1,2),3)</p>
+<p>对于序列内所有元素进行累计操作<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#接受一个list并利用reduce()求积</span></span><br><span class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> reduce</span><br><span class="line">li = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>]</span><br><span class="line">print(reduce(<span class="keyword">lambda</span> x,y:x * y,li))</span><br><span class="line"><span class="comment"># 结果=1*2*3*4*5*6*7*8*9 = 362880</span></span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">**filter函数**</span><br><span class="line">filter()也接收一个函数和一个序列。和map()不同的是，filter()把传入的函数依次作用于每个元素，然后根据返回值是<span class="keyword">True</span>还是<span class="keyword">False</span>决定保留还是丢弃该元素。</span><br><span class="line"></span><br><span class="line">对于序列中的元素进行筛选，最终获取符合条件的序列</span><br><span class="line">```python</span><br><span class="line"><span class="comment"># 在一个list中，删掉偶数，只保留奇数</span></span><br><span class="line">li = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">15</span>]</span><br><span class="line">print(list(filter(<span class="keyword">lambda</span> x:x % <span class="number">2</span>==<span class="number">1</span>,li)))  <span class="comment"># [1, 5, 9, 15]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 回数是指从左向右读和从右向左读都是一样的数，例如12321，909。请利用filter()筛选出回数</span></span><br><span class="line">li = list(range(<span class="number">1</span>, <span class="number">200</span>))</span><br><span class="line">print(list(filter(<span class="keyword">lambda</span> x:int(str(x))==int(str(x)[::<span class="number">-1</span>]),li)))</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">11</span>, <span class="number">22</span>, <span class="number">33</span>, <span class="number">44</span>, <span class="number">55</span>, <span class="number">66</span>, <span class="number">77</span>, <span class="number">88</span>, <span class="number">99</span>, <span class="number">101</span>, <span class="number">111</span>, <span class="number">121</span>, <span class="number">131</span>, <span class="number">141</span>, <span class="number">151</span>, <span class="number">161</span>, <span class="number">171</span>, <span class="number">181</span>, <span class="number">191</span>]</span><br></pre></td></tr></table></figure></p>
+<p><strong>sorted函数</strong><br>sorted(iterable, /, *, key=None, reverse=False)</p>
+<p>接收一个key函数来实现对可迭代对象进行自定义的排序</p>
+<p>可迭代对象：主要与列表，字符串，元祖，集合和字典</p>
+<p>key：接受一个函数，根据此函数返回的结果，进行排序</p>
+<p>reverse：排序方向，默认为从小到大，reverse=True为逆向</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 对列表按照绝对值进行排序</span></span><br><span class="line">li= [<span class="number">-21</span>, <span class="number">-12</span>, <span class="number">5</span>, <span class="number">9</span>, <span class="number">36</span>]</span><br><span class="line">print(sorted(li, key = <span class="keyword">lambda</span> x:abs(x)))</span><br><span class="line"><span class="comment"># [5, 9, -12, -21, 36]</span></span><br><span class="line"></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">sorted()函数按照keys进行排序，并按照对应关系返回list相应的元素：</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">keys排序结果 =&gt; [5, 9,  12,  21, 36]</span></span><br><span class="line"><span class="string">                |  |    |    |   |</span></span><br><span class="line"><span class="string">最终结果     =&gt; [5, 9, -12, -21, 36]</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure>
+<p>举例使用：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 把下面单词以首字母排序</span></span><br><span class="line">li = [<span class="string">'bad'</span>, <span class="string">'about'</span>, <span class="string">'Zoo'</span>, <span class="string">'Credit'</span>]</span><br><span class="line">print(sorted(li, key = <span class="keyword">lambda</span> x : x[<span class="number">0</span>]))</span><br><span class="line"><span class="comment"># 输出['Credit', 'Zoo', 'about', 'bad']</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">对字符串排序，是按照ASCII的大小比较的，由于'Z' &lt; 'a'，结果，大写字母Z会排在小写字母a的前面。</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 假设我们用一组tuple表示学生名字和成绩：</span></span><br><span class="line"></span><br><span class="line">L = [(<span class="string">'Bob'</span>, <span class="number">75</span>), (<span class="string">'Adam'</span>, <span class="number">92</span>), (<span class="string">'Bart'</span>, <span class="number">66</span>), (<span class="string">'Lisa'</span>, <span class="number">88</span>)]</span><br><span class="line"><span class="comment"># 请用sorted()对上述列表分别按名字排序</span></span><br><span class="line">print(sorted(L, key = <span class="keyword">lambda</span> x : x[<span class="number">0</span>]))</span><br><span class="line"><span class="comment"># 输出[('Adam', 92), ('Bart', 66), ('Bob', 75), ('Lisa', 88)]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 再按成绩从高到低排序</span></span><br><span class="line">print(sorted(L, key = <span class="keyword">lambda</span> x : x[<span class="number">1</span>], reverse=<span class="keyword">True</span>))</span><br><span class="line"><span class="comment"># 输出[('Adam', 92), ('Lisa', 88), ('Bob', 75), ('Bart', 66)]</span></span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/12/2018061222/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1781,153 +1942,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/03/2018060322/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Mr.Q">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dynamic-Soul">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/06/03/2018060322/" itemprop="url">新浪网分类资讯爬虫1</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-03T21:52:20+08:00">2018-06-03</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="新浪网分类资讯爬虫"><a href="#新浪网分类资讯爬虫" class="headerlink" title="新浪网分类资讯爬虫"></a>新浪网分类资讯爬虫</h1><p>思考：如何将已有的Scrapy爬虫项目，改写成scrapy-redis分布式爬虫。</p>
-<p>要求：将所有对应的大类的 标题和urls、小类的 标题和urls、子链接url、文章名以及文章内容，存入Redis数据库。</p>
-<h2 id="以下为原Scrapy爬虫项目源码："><a href="#以下为原Scrapy爬虫项目源码：" class="headerlink" title="以下为原Scrapy爬虫项目源码："></a>以下为原Scrapy爬虫项目源码：</h2><h2 id="items-py"><a href="#items-py" class="headerlink" title="items.py"></a>items.py</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> scrapy</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line">reload(sys)</span><br><span class="line">sys.setdefaultencoding(<span class="string">"utf-8"</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SinaItem</span><span class="params">(scrapy.Item)</span>:</span></span><br><span class="line">    <span class="comment"># 大类的标题 和 url</span></span><br><span class="line">    parentTitle = scrapy.Field()</span><br><span class="line">    parentUrls = scrapy.Field()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 小类的标题 和 子url</span></span><br><span class="line">    subTitle = scrapy.Field()</span><br><span class="line">    subUrls = scrapy.Field()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 小类目录存储路径</span></span><br><span class="line">    subFilename = scrapy.Field()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 小类下的子链接</span></span><br><span class="line">    sonUrls = scrapy.Field()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 文章标题和内容</span></span><br><span class="line">    head = scrapy.Field()</span><br><span class="line">    content = scrapy.Field()</span><br></pre></td></tr></table></figure>
-<h2 id="pipelines-py"><a href="#pipelines-py" class="headerlink" title="pipelines.py"></a>pipelines.py</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> scrapy <span class="keyword">import</span> signals</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line">reload(sys)</span><br><span class="line">sys.setdefaultencoding(<span class="string">"utf-8"</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SinaPipeline</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">process_item</span><span class="params">(self, item, spider)</span>:</span></span><br><span class="line">        sonUrls = item[<span class="string">'sonUrls'</span>]</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 文件名为子链接url中间部分，并将 / 替换为 _，保存为 .txt格式</span></span><br><span class="line">        filename = sonUrls[<span class="number">7</span>:<span class="number">-6</span>].replace(<span class="string">'/'</span>,<span class="string">'_'</span>)</span><br><span class="line">        filename += <span class="string">".txt"</span></span><br><span class="line"></span><br><span class="line">        fp = open(item[<span class="string">'subFilename'</span>]+<span class="string">'/'</span>+filename, <span class="string">'w'</span>)</span><br><span class="line">        fp.write(item[<span class="string">'content'</span>])</span><br><span class="line">        fp.close()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> item</span><br></pre></td></tr></table></figure>
-<h2 id="settings-py"><a href="#settings-py" class="headerlink" title="settings.py"></a>settings.py</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"></span><br><span class="line">BOT_NAME = <span class="string">'Sina'</span></span><br><span class="line"></span><br><span class="line">SPIDER_MODULES = [<span class="string">'Sina.spiders'</span>]</span><br><span class="line">NEWSPIDER_MODULE = <span class="string">'Sina.spiders'</span></span><br><span class="line"></span><br><span class="line">ITEM_PIPELINES = &#123;</span><br><span class="line">    <span class="string">'Sina.pipelines.SinaPipeline'</span>: <span class="number">300</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">LOG_LEVEL = <span class="string">'DEBUG'</span></span><br></pre></td></tr></table></figure>
-<h2 id="spiders-sina-py"><a href="#spiders-sina-py" class="headerlink" title="spiders/sina.py"></a>spiders/sina.py</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> Sina.items <span class="keyword">import</span> SinaItem</span><br><span class="line"><span class="keyword">import</span> scrapy</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line">reload(sys)</span><br><span class="line">sys.setdefaultencoding(<span class="string">"utf-8"</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SinaSpider</span><span class="params">(scrapy.Spider)</span>:</span></span><br><span class="line">    name= <span class="string">"sina"</span></span><br><span class="line">    allowed_domains= [<span class="string">"sina.com.cn"</span>]</span><br><span class="line">    start_urls= [</span><br><span class="line">       <span class="string">"http://news.sina.com.cn/guide/"</span></span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        items= []</span><br><span class="line">        <span class="comment"># 所有大类的url 和 标题</span></span><br><span class="line">        parentUrls = response.xpath(<span class="string">'//div[@id=\"tab01\"]/div/h3/a/@href'</span>).extract()</span><br><span class="line">        parentTitle = response.xpath(<span class="string">"//div[@id=\"tab01\"]/div/h3/a/text()"</span>).extract()</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 所有小类的ur 和 标题</span></span><br><span class="line">        subUrls  = response.xpath(<span class="string">'//div[@id=\"tab01\"]/div/ul/li/a/@href'</span>).extract()</span><br><span class="line">        subTitle = response.xpath(<span class="string">'//div[@id=\"tab01\"]/div/ul/li/a/text()'</span>).extract()</span><br><span class="line"></span><br><span class="line">        <span class="comment">#爬取所有大类</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, len(parentTitle)):</span><br><span class="line">            <span class="comment"># 指定大类目录的路径和目录名</span></span><br><span class="line">            parentFilename = <span class="string">"./Data/"</span> + parentTitle[i]</span><br><span class="line"></span><br><span class="line">            <span class="comment">#如果目录不存在，则创建目录</span></span><br><span class="line">            <span class="keyword">if</span>(<span class="keyword">not</span> os.path.exists(parentFilename)):</span><br><span class="line">                os.makedirs(parentFilename)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># 爬取所有小类</span></span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">0</span>, len(subUrls)):</span><br><span class="line">                item = SinaItem()</span><br><span class="line"></span><br><span class="line">                <span class="comment"># 保存大类的title和urls</span></span><br><span class="line">                item[<span class="string">'parentTitle'</span>] = parentTitle[i]</span><br><span class="line">                item[<span class="string">'parentUrls'</span>] = parentUrls[i]</span><br><span class="line"></span><br><span class="line">                <span class="comment"># 检查小类的url是否以同类别大类url开头，如果是返回True (sports.sina.com.cn 和 sports.sina.com.cn/nba)</span></span><br><span class="line">                if_belong = subUrls[j].startswith(item[<span class="string">'parentUrls'</span>])</span><br><span class="line"></span><br><span class="line">                <span class="comment"># 如果属于本大类，将存储目录放在本大类目录下</span></span><br><span class="line">                <span class="keyword">if</span>(if_belong):</span><br><span class="line">                    subFilename =parentFilename + <span class="string">'/'</span>+ subTitle[j]</span><br><span class="line">                    <span class="comment"># 如果目录不存在，则创建目录</span></span><br><span class="line">                    <span class="keyword">if</span>(<span class="keyword">not</span> os.path.exists(subFilename)):</span><br><span class="line">                        os.makedirs(subFilename)</span><br><span class="line"></span><br><span class="line">                    <span class="comment"># 存储 小类url、title和filename字段数据</span></span><br><span class="line">                    item[<span class="string">'subUrls'</span>] = subUrls[j]</span><br><span class="line">                    item[<span class="string">'subTitle'</span>] =subTitle[j]</span><br><span class="line">                    item[<span class="string">'subFilename'</span>] = subFilename</span><br><span class="line"></span><br><span class="line">                    items.append(item)</span><br><span class="line"></span><br><span class="line">        <span class="comment">#发送每个小类url的Request请求，得到Response连同包含meta数据 一同交给回调函数 second_parse 方法处理</span></span><br><span class="line">        <span class="keyword">for</span> item <span class="keyword">in</span> items:</span><br><span class="line">            <span class="keyword">yield</span> scrapy.Request( url = item[<span class="string">'subUrls'</span>], meta=&#123;<span class="string">'meta_1'</span>: item&#125;, callback=self.second_parse)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#对于返回的小类的url，再进行递归请求</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">second_parse</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        <span class="comment"># 提取每次Response的meta数据</span></span><br><span class="line">        meta_1= response.meta[<span class="string">'meta_1'</span>]</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 取出小类里所有子链接</span></span><br><span class="line">        sonUrls = response.xpath(<span class="string">'//a/@href'</span>).extract()</span><br><span class="line"></span><br><span class="line">        items= []</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, len(sonUrls)):</span><br><span class="line">            <span class="comment"># 检查每个链接是否以大类url开头、以.shtml结尾，如果是返回True</span></span><br><span class="line">            if_belong = sonUrls[i].endswith(<span class="string">'.shtml'</span>) <span class="keyword">and</span> sonUrls[i].startswith(meta_1[<span class="string">'parentUrls'</span>])</span><br><span class="line"></span><br><span class="line">            <span class="comment"># 如果属于本大类，获取字段值放在同一个item下便于传输</span></span><br><span class="line">            <span class="keyword">if</span>(if_belong):</span><br><span class="line">                item = SinaItem()</span><br><span class="line">                item[<span class="string">'parentTitle'</span>] =meta_1[<span class="string">'parentTitle'</span>]</span><br><span class="line">                item[<span class="string">'parentUrls'</span>] =meta_1[<span class="string">'parentUrls'</span>]</span><br><span class="line">                item[<span class="string">'subUrls'</span>] = meta_1[<span class="string">'subUrls'</span>]</span><br><span class="line">                item[<span class="string">'subTitle'</span>] = meta_1[<span class="string">'subTitle'</span>]</span><br><span class="line">                item[<span class="string">'subFilename'</span>] = meta_1[<span class="string">'subFilename'</span>]</span><br><span class="line">                item[<span class="string">'sonUrls'</span>] = sonUrls[i]</span><br><span class="line">                items.append(item)</span><br><span class="line"></span><br><span class="line">        <span class="comment">#发送每个小类下子链接url的Request请求，得到Response后连同包含meta数据 一同交给回调函数 detail_parse 方法处理</span></span><br><span class="line">        <span class="keyword">for</span> item <span class="keyword">in</span> items:</span><br><span class="line">                <span class="keyword">yield</span> scrapy.Request(url=item[<span class="string">'sonUrls'</span>], meta=&#123;<span class="string">'meta_2'</span>:item&#125;, callback = self.detail_parse)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 数据解析方法，获取文章标题和内容</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">detail_parse</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        item = response.meta[<span class="string">'meta_2'</span>]</span><br><span class="line">        content = <span class="string">""</span></span><br><span class="line">        head = response.xpath(<span class="string">'//h1[@id=\"main_title\"]/text()'</span>)</span><br><span class="line">        content_list = response.xpath(<span class="string">'//div[@id=\"artibody\"]/p/text()'</span>).extract()</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 将p标签里的文本内容合并到一起</span></span><br><span class="line">        <span class="keyword">for</span> content_one <span class="keyword">in</span> content_list:</span><br><span class="line">            content += content_one</span><br><span class="line"></span><br><span class="line">        item[<span class="string">'head'</span>]= head</span><br><span class="line">        item[<span class="string">'content'</span>]= content</span><br><span class="line"></span><br><span class="line">        <span class="keyword">yield</span> item</span><br></pre></td></tr></table></figure>
-<h2 id="执行："><a href="#执行：" class="headerlink" title="执行："></a>执行：</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy crawl sina</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1979,7 +1993,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">71</span>
+                    <span class="site-state-item-count">72</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2108,7 +2122,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共100.3k字</span>
+  <span class="post-count">博客全站共101.6k字</span>
 </div>
         
 
