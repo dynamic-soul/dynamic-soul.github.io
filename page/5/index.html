@@ -311,6 +311,229 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/18/2018051821/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Q">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dynamic-Soul">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/18/2018051821/" itemprop="url">CrawlSpiders</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-18T21:53:36+08:00">2018-05-18</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="CrawlSpiders"><a href="#CrawlSpiders" class="headerlink" title="CrawlSpiders"></a>CrawlSpiders</h1><pre><code>通过下面的命令可以快速创建 CrawlSpider模板 的代码：
+
+scrapy genspider -t crawl tencent tencent.com
+</code></pre><p>上一个案例中，我们通过正则表达式，制作了新的url作为Request请求参数，现在我们可以换个花样…</p>
+<pre><code>class scrapy.spiders.CrawlSpider
+</code></pre><p>它是Spider的派生类，Spider类的设计原则是只爬取start_url列表中的网页，而CrawlSpider类定义了一些规则(rule)来提供跟进link的方便的机制，从爬取的网页中获取link并继续爬取的工作更适合。<br><strong>源码参考</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CrawlSpider</span><span class="params">(Spider)</span>:</span></span><br><span class="line">    rules = ()</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, *a, **kw)</span>:</span></span><br><span class="line">        super(CrawlSpider, self).__init__(*a, **kw)</span><br><span class="line">        self._compile_rules()</span><br><span class="line"></span><br><span class="line">    <span class="comment">#首先调用parse()来处理start_urls中返回的response对象</span></span><br><span class="line">    <span class="comment">#parse()则将这些response对象传递给了_parse_response()函数处理，并设置回调函数为parse_start_url()</span></span><br><span class="line">    <span class="comment">#设置了跟进标志位True</span></span><br><span class="line">    <span class="comment">#parse将返回item和跟进了的Request对象    </span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self._parse_response(response, self.parse_start_url, cb_kwargs=&#123;&#125;, follow=<span class="keyword">True</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#处理start_url中返回的response，需要重写</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse_start_url</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> []</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">process_results</span><span class="params">(self, response, results)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> results</span><br><span class="line"></span><br><span class="line">    <span class="comment">#从response中抽取符合任一用户定义'规则'的链接，并构造成Resquest对象返回</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_requests_to_follow</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> isinstance(response, HtmlResponse):</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        seen = set()</span><br><span class="line">        <span class="comment">#抽取之内的所有链接，只要通过任意一个'规则'，即表示合法</span></span><br><span class="line">        <span class="keyword">for</span> n, rule <span class="keyword">in</span> enumerate(self._rules):</span><br><span class="line">            links = [l <span class="keyword">for</span> l <span class="keyword">in</span> rule.link_extractor.extract_links(response) <span class="keyword">if</span> l <span class="keyword">not</span> <span class="keyword">in</span> seen]</span><br><span class="line">            <span class="comment">#使用用户指定的process_links处理每个连接</span></span><br><span class="line">            <span class="keyword">if</span> links <span class="keyword">and</span> rule.process_links:</span><br><span class="line">                links = rule.process_links(links)</span><br><span class="line">            <span class="comment">#将链接加入seen集合，为每个链接生成Request对象，并设置回调函数为_repsonse_downloaded()</span></span><br><span class="line">            <span class="keyword">for</span> link <span class="keyword">in</span> links:</span><br><span class="line">                seen.add(link)</span><br><span class="line">                <span class="comment">#构造Request对象，并将Rule规则中定义的回调函数作为这个Request对象的回调函数</span></span><br><span class="line">                r = Request(url=link.url, callback=self._response_downloaded)</span><br><span class="line">                r.meta.update(rule=n, link_text=link.text)</span><br><span class="line">                <span class="comment">#对每个Request调用process_request()函数。该函数默认为indentify，即不做任何处理，直接返回该Request.</span></span><br><span class="line">                <span class="keyword">yield</span> rule.process_request(r)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#处理通过rule提取出的连接，并返回item以及request</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_response_downloaded</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        rule = self._rules[response.meta[<span class="string">'rule'</span>]]</span><br><span class="line">        <span class="keyword">return</span> self._parse_response(response, rule.callback, rule.cb_kwargs, rule.follow)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#解析response对象，会用callback解析处理他，并返回request或Item对象</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_parse_response</span><span class="params">(self, response, callback, cb_kwargs, follow=True)</span>:</span></span><br><span class="line">        <span class="comment">#首先判断是否设置了回调函数。（该回调函数可能是rule中的解析函数，也可能是 parse_start_url函数）</span></span><br><span class="line">        <span class="comment">#如果设置了回调函数（parse_start_url()），那么首先用parse_start_url()处理response对象，</span></span><br><span class="line">        <span class="comment">#然后再交给process_results处理。返回cb_res的一个列表</span></span><br><span class="line">        <span class="keyword">if</span> callback:</span><br><span class="line">            <span class="comment">#如果是parse调用的，则会解析成Request对象</span></span><br><span class="line">            <span class="comment">#如果是rule callback，则会解析成Item</span></span><br><span class="line">            cb_res = callback(response, **cb_kwargs) <span class="keyword">or</span> ()</span><br><span class="line">            cb_res = self.process_results(response, cb_res)</span><br><span class="line">            <span class="keyword">for</span> requests_or_item <span class="keyword">in</span> iterate_spider_output(cb_res):</span><br><span class="line">                <span class="keyword">yield</span> requests_or_item</span><br><span class="line"></span><br><span class="line">        <span class="comment">#如果需要跟进，那么使用定义的Rule规则提取并返回这些Request对象</span></span><br><span class="line">        <span class="keyword">if</span> follow <span class="keyword">and</span> self._follow_links:</span><br><span class="line">            <span class="comment">#返回每个Request对象</span></span><br><span class="line">            <span class="keyword">for</span> request_or_item <span class="keyword">in</span> self._requests_to_follow(response):</span><br><span class="line">                <span class="keyword">yield</span> request_or_item</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_compile_rules</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">get_method</span><span class="params">(method)</span>:</span></span><br><span class="line">            <span class="keyword">if</span> callable(method):</span><br><span class="line">                <span class="keyword">return</span> method</span><br><span class="line">            <span class="keyword">elif</span> isinstance(method, basestring):</span><br><span class="line">                <span class="keyword">return</span> getattr(self, method, <span class="keyword">None</span>)</span><br><span class="line"></span><br><span class="line">        self._rules = [copy.copy(r) <span class="keyword">for</span> r <span class="keyword">in</span> self.rules]</span><br><span class="line">        <span class="keyword">for</span> rule <span class="keyword">in</span> self._rules:</span><br><span class="line">            rule.callback = get_method(rule.callback)</span><br><span class="line">            rule.process_links = get_method(rule.process_links)</span><br><span class="line">            rule.process_request = get_method(rule.process_request)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">set_crawler</span><span class="params">(self, crawler)</span>:</span></span><br><span class="line">        super(CrawlSpider, self).set_crawler(crawler)</span><br><span class="line">        self._follow_links = crawler.settings.getbool(<span class="string">'CRAWLSPIDER_FOLLOW_LINKS'</span>, <span class="keyword">True</span>)</span><br></pre></td></tr></table></figure></p>
+<p>CrawlSpider继承于Spider类，除了继承过来的属性外（name、allow_domains），还提供了新的属性和方法: </p>
+<h1 id="LinkExtractors"><a href="#LinkExtractors" class="headerlink" title="LinkExtractors"></a>LinkExtractors</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">scrapy</span>.<span class="title">linkextractors</span>.<span class="title">LinkExtractor</span></span></span><br></pre></td></tr></table></figure>
+<p>Link Extractors 的目的很简单: 提取链接｡</p>
+<p>每个LinkExtractor有唯一的公共方法是 extract_links()，它接收一个 Response 对象，并返回一个 scrapy.link.Link 对象。</p>
+<p>Link Extractors要实例化一次，并且 extract_links 方法会根据不同的 response 调用多次提取链接｡<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">scrapy</span>.<span class="title">linkextractors</span>.<span class="title">LinkExtractor</span><span class="params">(</span></span></span><br><span class="line"><span class="class"><span class="params">    allow = <span class="params">()</span>,</span></span></span><br><span class="line"><span class="class"><span class="params">    deny = <span class="params">()</span>,</span></span></span><br><span class="line"><span class="class"><span class="params">    allow_domains = <span class="params">()</span>,</span></span></span><br><span class="line"><span class="class"><span class="params">    deny_domains = <span class="params">()</span>,</span></span></span><br><span class="line"><span class="class"><span class="params">    deny_extensions = None,</span></span></span><br><span class="line"><span class="class"><span class="params">    restrict_xpaths = <span class="params">()</span>,</span></span></span><br><span class="line"><span class="class"><span class="params">    tags = <span class="params">(<span class="string">'a'</span>,<span class="string">'area'</span>)</span>,</span></span></span><br><span class="line"><span class="class"><span class="params">    attrs = <span class="params">(<span class="string">'href'</span>)</span>,</span></span></span><br><span class="line"><span class="class"><span class="params">    canonicalize = True,</span></span></span><br><span class="line"><span class="class"><span class="params">    unique = True,</span></span></span><br><span class="line"><span class="class"><span class="params">    process_value = None</span></span></span><br><span class="line"><span class="class"><span class="params">)</span></span></span><br></pre></td></tr></table></figure></p>
+<p>主要参数：</p>
+<ul>
+<li><p>allow：满足括号中“正则表达式”的值会被提取，如果为空，则全部匹配。</p>
+</li>
+<li><p>deny：与这个正则表达式(或正则表达式列表)不匹配的URL一定不提取。</p>
+</li>
+<li><p>allow_domains：会被提取的链接的domains。</p>
+</li>
+<li><p>deny_domains：一定不会被提取链接的domains。</p>
+</li>
+<li><p>restrict_xpaths：使用xpath表达式，和allow共同作用过滤链接。</p>
+</li>
+</ul>
+<p><strong>rules</strong><br>在rules中包含一个或多个Rule对象，每个Rule对爬取网站的动作定义了特定操作。如果多个rule匹配了相同的链接，则根据规则在本集合中被定义的顺序，第一个会被使用。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">scrapy</span>.<span class="title">spiders</span>.<span class="title">Rule</span><span class="params">(</span></span></span><br><span class="line"><span class="class"><span class="params">        link_extractor, </span></span></span><br><span class="line"><span class="class"><span class="params">        callback = None, </span></span></span><br><span class="line"><span class="class"><span class="params">        cb_kwargs = None, </span></span></span><br><span class="line"><span class="class"><span class="params">        follow = None, </span></span></span><br><span class="line"><span class="class"><span class="params">        process_links = None, </span></span></span><br><span class="line"><span class="class"><span class="params">        process_request = None</span></span></span><br><span class="line"><span class="class"><span class="params">)</span></span></span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><p>link_extractor：是一个Link Extractor对象，用于定义需要提取的链接。</p>
+</li>
+<li><p>callback： 从link_extractor中每获取到链接时，参数所指定的值作为回调函数，该回调函数接受一个response作为其第一个参数。</p>
+<p>   注意：当编写爬虫规则时，避免使用parse作为回调函数。由于CrawlSpider使用parse方法来实现其逻辑，如果覆盖了 parse方法，crawl spider将会运行失败。</p>
+</li>
+<li><p>follow：是一个布尔(boolean)值，指定了根据该规则从response提取的链接是否需要跟进。 如果callback为None，follow 默认设置为True ，否则默认为False。</p>
+</li>
+<li><p>process_links：指定该spider中哪个的函数将会被调用，从link_extractor中获取到链接列表时将会调用该函数。该方法主要用来过滤。</p>
+</li>
+<li><p>process_request：指定该spider中哪个的函数将会被调用， 该规则提取到每个request时都会调用该函数。 (用来过滤request)</p>
+</li>
+</ul>
+<h1 id="爬取规则-Crawling-rules"><a href="#爬取规则-Crawling-rules" class="headerlink" title="爬取规则(Crawling rules)"></a>爬取规则(Crawling rules)</h1><p>继续用腾讯招聘为例，给出配合rule使用CrawlSpider的例子:</p>
+<ol>
+<li><p>首先运行</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy shell <span class="string">"http://hr.tencent.com/position.php?&amp;start=0#a"</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>导入LinkExtractor，创建LinkExtractor实例对象。：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scrapy.linkextractors <span class="keyword">import</span> LinkExtractor</span><br><span class="line"></span><br><span class="line">page_lx = LinkExtractor(allow=(<span class="string">'position.php?&amp;start=\d+'</span>))</span><br></pre></td></tr></table></figure>
+<p>  allow : LinkExtractor对象最重要的参数之一，这是一个正则表达式，必须要匹配这个正则表达式(或正则表达式列表)的URL才会被提取，如果没有给出(或为空), 它会匹配所有的链接｡</p>
+<p>  deny : 用法同allow，只不过与这个正则表达式匹配的URL不会被提取)｡它的优先级高于 allow 的参数，如果没有给出(或None), 将不排除任何链接｡</p>
+</li>
+<li><p>调用LinkExtractor实例的extract_links()方法查询匹配结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">page_lx.extract_links(response)</span><br></pre></td></tr></table></figure>
+<p>没有查到：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[]</span><br></pre></td></tr></table></figure>
+<p>注意转义字符的问题，继续重新匹配：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">page_lx = LinkExtractor(allow=(<span class="string">'position\.php\?&amp;start=\d+'</span>))</span><br><span class="line"><span class="comment"># page_lx = LinkExtractor(allow = ('start=\d+'))</span></span><br><span class="line"></span><br><span class="line">page_lx.extract_links(response)</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<img src="/2018/05/18/2018051821/1.jpg">
+<h1 id="CrawlSpider-版本"><a href="#CrawlSpider-版本" class="headerlink" title="CrawlSpider 版本"></a>CrawlSpider 版本</h1><p>那么，scrapy shell测试完成之后，修改以下代码<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#提取匹配 'http://hr.tencent.com/position.php?&amp;start=\d+'的链接</span></span><br><span class="line">page_lx = LinkExtractor(allow = (<span class="string">'start=\d+'</span>))</span><br><span class="line"></span><br><span class="line">rules = [</span><br><span class="line">    <span class="comment">#提取匹配,并使用spider的parse方法进行分析;并跟进链接(没有callback意味着follow默认为True)</span></span><br><span class="line">    Rule(page_lx, callback = <span class="string">'parse'</span>, follow = <span class="keyword">True</span>)</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
+<p><strong>这么写对吗？</strong></p>
+<p><strong>不对！千万记住 callback 千万不能写 parse，再次强调：由于CrawlSpider使用parse方法来实现其逻辑，如果覆盖了 parse方法，crawl spider将会运行失败。</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#tencent.py</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> scrapy</span><br><span class="line"><span class="keyword">from</span> scrapy.spiders <span class="keyword">import</span> CrawlSpider, Rule</span><br><span class="line"><span class="keyword">from</span> scrapy.linkextractors <span class="keyword">import</span> LinkExtractor</span><br><span class="line"><span class="keyword">from</span> mySpider.items <span class="keyword">import</span> TencentItem</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TencentSpider</span><span class="params">(CrawlSpider)</span>:</span></span><br><span class="line">    name = <span class="string">"tencent"</span></span><br><span class="line">    allowed_domains = [<span class="string">"hr.tencent.com"</span>]</span><br><span class="line">    start_urls = [</span><br><span class="line">        <span class="string">"http://hr.tencent.com/position.php?&amp;start=0#a"</span></span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">    page_lx = LinkExtractor(allow=(<span class="string">"start=\d+"</span>))</span><br><span class="line"></span><br><span class="line">    rules = [</span><br><span class="line">        Rule(page_lx, callback = <span class="string">"parseContent"</span>, follow = <span class="keyword">True</span>)</span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parseContent</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        <span class="keyword">for</span> each <span class="keyword">in</span> response.xpath(<span class="string">'//*[@class="even"]'</span>):</span><br><span class="line">            name = each.xpath(<span class="string">'./td[1]/a/text()'</span>).extract()[<span class="number">0</span>]</span><br><span class="line">            detailLink = each.xpath(<span class="string">'./td[1]/a/@href'</span>).extract()[<span class="number">0</span>]</span><br><span class="line">            positionInfo = each.xpath(<span class="string">'./td[2]/text()'</span>).extract()[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">            peopleNumber = each.xpath(<span class="string">'./td[3]/text()'</span>).extract()[<span class="number">0</span>]</span><br><span class="line">            workLocation = each.xpath(<span class="string">'./td[4]/text()'</span>).extract()[<span class="number">0</span>]</span><br><span class="line">            publishTime = each.xpath(<span class="string">'./td[5]/text()'</span>).extract()[<span class="number">0</span>]</span><br><span class="line">            <span class="comment">#print name, detailLink, catalog,recruitNumber,workLocation,publishTime</span></span><br><span class="line"></span><br><span class="line">            item = TencentItem()</span><br><span class="line">            item[<span class="string">'name'</span>]=name.encode(<span class="string">'utf-8'</span>)</span><br><span class="line">            item[<span class="string">'detailLink'</span>]=detailLink.encode(<span class="string">'utf-8'</span>)</span><br><span class="line">            item[<span class="string">'positionInfo'</span>]=positionInfo.encode(<span class="string">'utf-8'</span>)</span><br><span class="line">            item[<span class="string">'peopleNumber'</span>]=peopleNumber.encode(<span class="string">'utf-8'</span>)</span><br><span class="line">            item[<span class="string">'workLocation'</span>]=workLocation.encode(<span class="string">'utf-8'</span>)</span><br><span class="line">            item[<span class="string">'publishTime'</span>]=publishTime.encode(<span class="string">'utf-8'</span>)</span><br><span class="line"></span><br><span class="line">            <span class="keyword">yield</span> item</span><br><span class="line"></span><br><span class="line">    <span class="comment"># parse() 方法不需要写     </span></span><br><span class="line">    <span class="comment"># def parse(self, response):                                              </span></span><br><span class="line">    <span class="comment">#     pass</span></span><br></pre></td></tr></table></figure></p>
+<p>运行： scrapy crawl tencent</p>
+<h1 id="Logging"><a href="#Logging" class="headerlink" title="Logging"></a>Logging</h1><p>Scrapy提供了log功能，可以通过 logging 模块使用。</p>
+<pre><code>可以修改配置文件settings.py，任意位置添加下面两行，效果会清爽很多。
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">LOG_FILE = <span class="string">"TencentSpider.log"</span></span><br><span class="line">LOG_LEVEL = <span class="string">"INFO"</span></span><br></pre></td></tr></table></figure>
+<p><strong>Log levels</strong></p>
+<ul>
+<li>Scrapy提供5层logging级别:</li>
+<li>CRITICAL - 严重错误(critical)</li>
+<li>ERROR - 一般错误(regular errors)</li>
+<li>WARNING - 警告信息(warning messages)</li>
+<li>INFO - 一般信息(informational messages)</li>
+<li>DEBUG - 调试信息(debugging messages)</li>
+</ul>
+<p><strong>logging设置</strong></p>
+<p>通过在setting.py中进行以下设置可以被用来配置logging:</p>
+<ol>
+<li>LOG_ENABLED 默认: True，启用logging</li>
+<li>LOG_ENCODING 默认: ‘utf-8’，logging使用的编码</li>
+<li>LOG_FILE 默认: None，在当前目录里创建logging输出文件的文件名</li>
+<li>LOG_LEVEL 默认: ‘DEBUG’，log的最低级别</li>
+<li>LOG_STDOUT 默认: False 如果为 True，进程所有的标准输出(及错误)将会被重定向到log中。例如，执行 print “hello” ，其将会在Scrapy log中显示。</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/17/2018051723/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1942,154 +2165,6 @@ mySpider/spiders/ ：存储爬虫代码目录
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/14/2018051423/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Mr.Q">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dynamic-Soul">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/14/2018051423/" itemprop="url">案例三：执行JavaScript语句</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-14T21:13:37+08:00">2018-05-14</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="案例三：执行-JavaScript-语句"><a href="#案例三：执行-JavaScript-语句" class="headerlink" title="案例三：执行 JavaScript 语句"></a>案例三：执行 JavaScript 语句</h1><ul>
-<li><p>1.隐藏百度图片</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"></span><br><span class="line">driver = webdriver.PhantomJS()</span><br><span class="line">driver.get(<span class="string">"https://www.baidu.com/"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 给搜索输入框标红的javascript脚本</span></span><br><span class="line">js = <span class="string">"var q=document.getElementById(\"kw\");q.style.border=\"2px solid red\";"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 调用给搜索输入框标红js脚本</span></span><br><span class="line">driver.execute_script(js)</span><br><span class="line"></span><br><span class="line"><span class="comment">#查看页面快照</span></span><br><span class="line">driver.save_screenshot(<span class="string">"redbaidu.png"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#js隐藏元素，将获取的图片元素隐藏</span></span><br><span class="line">img = driver.find_element_by_xpath(<span class="string">"//*[@id='lg']/img"</span>)</span><br><span class="line">driver.execute_script(<span class="string">'$(arguments[0]).fadeOut()'</span>,img)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 向下滚动到页面底部</span></span><br><span class="line">driver.execute_script(<span class="string">"$('.scroll_top').click(function()&#123;$('html,body').animate(&#123;scrollTop: '0px'&#125;, 800);&#125;);"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#查看页面快照</span></span><br><span class="line">driver.save_screenshot(<span class="string">"nullbaidu.png"</span>)</span><br><span class="line"></span><br><span class="line">driver.quit()</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>2.模拟滚动条滚动到底部</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">driver = webdriver.PhantomJS()</span><br><span class="line">driver.get(<span class="string">"https://movie.douban.com/typerank?type_name=剧情&amp;type=11&amp;interval_id=100:90&amp;action="</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 向下滚动10000像素</span></span><br><span class="line">js = <span class="string">"document.body.scrollTop=10000"</span></span><br><span class="line"><span class="comment">#js="var q=document.documentElement.scrollTop=10000"</span></span><br><span class="line">time.sleep(<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#查看页面快照</span></span><br><span class="line">driver.save_screenshot(<span class="string">"douban.png"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行JS语句</span></span><br><span class="line">driver.execute_script(js)</span><br><span class="line">time.sleep(<span class="number">10</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#查看页面快照</span></span><br><span class="line">driver.save_screenshot(<span class="string">"newdouban.png"</span>)</span><br><span class="line"></span><br><span class="line">driver.quit()</span><br></pre></td></tr></table></figure></li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2141,7 +2216,7 @@ mySpider/spiders/ ：存储爬虫代码目录
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">72</span>
+                    <span class="site-state-item-count">73</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2270,7 +2345,7 @@ mySpider/spiders/ ：存储爬虫代码目录
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共101.6k字</span>
+  <span class="post-count">博客全站共108.6k字</span>
 </div>
         
 

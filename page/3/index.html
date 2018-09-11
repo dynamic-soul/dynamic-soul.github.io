@@ -311,6 +311,151 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/04/2018060422/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Q">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dynamic-Soul">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/04/2018060422/" itemprop="url">改写新浪网分类资讯爬虫2</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-04T22:05:53+08:00">2018-06-04</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="将已有的新浪网分类资讯Scrapy爬虫项目，修改为基于RedisSpider类的scrapy-redis分布式爬虫项目"><a href="#将已有的新浪网分类资讯Scrapy爬虫项目，修改为基于RedisSpider类的scrapy-redis分布式爬虫项目" class="headerlink" title="将已有的新浪网分类资讯Scrapy爬虫项目，修改为基于RedisSpider类的scrapy-redis分布式爬虫项目"></a>将已有的新浪网分类资讯Scrapy爬虫项目，修改为基于RedisSpider类的scrapy-redis分布式爬虫项目</h1><p>注：items数据直接存储在Redis数据库中，这个功能已经由scrapy-redis自行实现。除非单独做额外处理(比如直接存入本地数据库等)，否则不用编写pipelines.py代码。<br>items.py文件</p>
+<h1 id="items-py"><a href="#items-py" class="headerlink" title="items.py"></a>items.py</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> scrapy</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line">reload(sys)</span><br><span class="line">sys.setdefaultencoding(<span class="string">"utf-8"</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SinaItem</span><span class="params">(scrapy.Item)</span>:</span></span><br><span class="line">    <span class="comment"># 大类的标题 和 url</span></span><br><span class="line">    parentTitle = scrapy.Field()</span><br><span class="line">    parentUrls = scrapy.Field()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 小类的标题 和 子url</span></span><br><span class="line">    subTitle = scrapy.Field()</span><br><span class="line">    subUrls = scrapy.Field()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 小类目录存储路径</span></span><br><span class="line">    <span class="comment"># subFilename = scrapy.Field()</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 小类下的子链接</span></span><br><span class="line">    sonUrls = scrapy.Field()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 文章标题和内容</span></span><br><span class="line">    head = scrapy.Field()</span><br><span class="line">    content = scrapy.Field()</span><br></pre></td></tr></table></figure>
+<h1 id="settings-py文件"><a href="#settings-py文件" class="headerlink" title="settings.py文件"></a>settings.py文件</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># settings.py</span></span><br><span class="line"></span><br><span class="line">SPIDER_MODULES = [<span class="string">'Sina.spiders'</span>]</span><br><span class="line">NEWSPIDER_MODULE = <span class="string">'Sina.spiders'</span></span><br><span class="line"></span><br><span class="line">USER_AGENT = <span class="string">'scrapy-redis (+https://github.com/rolando/scrapy-redis)'</span></span><br><span class="line"></span><br><span class="line">DUPEFILTER_CLASS = <span class="string">"scrapy_redis.dupefilter.RFPDupeFilter"</span></span><br><span class="line">SCHEDULER = <span class="string">"scrapy_redis.scheduler.Scheduler"</span></span><br><span class="line">SCHEDULER_PERSIST = <span class="keyword">True</span></span><br><span class="line">SCHEDULER_QUEUE_CLASS = <span class="string">"scrapy_redis.queue.SpiderPriorityQueue"</span></span><br><span class="line"><span class="comment">#SCHEDULER_QUEUE_CLASS = "scrapy_redis.queue.SpiderQueue"</span></span><br><span class="line"><span class="comment">#SCHEDULER_QUEUE_CLASS = "scrapy_redis.queue.SpiderStack"</span></span><br><span class="line"></span><br><span class="line">ITEM_PIPELINES = &#123;</span><br><span class="line"><span class="comment">#    'Sina.pipelines.SinaPipeline': 300,</span></span><br><span class="line">    <span class="string">'scrapy_redis.pipelines.RedisPipeline'</span>: <span class="number">400</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">LOG_LEVEL = <span class="string">'DEBUG'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Introduce an artifical delay to make use of parallelism. to speed up the</span></span><br><span class="line"><span class="comment"># crawl.</span></span><br><span class="line">DOWNLOAD_DELAY = <span class="number">1</span></span><br><span class="line"></span><br><span class="line">REDIS_HOST = <span class="string">"192.168.13.26"</span></span><br><span class="line">REDIS_PORT = <span class="number">6379</span></span><br></pre></td></tr></table></figure>
+<h1 id="spiders-sina-py"><a href="#spiders-sina-py" class="headerlink" title="spiders/sina.py"></a>spiders/sina.py</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># sina.py</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> Sina.items <span class="keyword">import</span> SinaItem</span><br><span class="line"><span class="keyword">from</span> scrapy_redis.spiders <span class="keyword">import</span> RedisSpider</span><br><span class="line"><span class="comment">#from scrapy.spiders import Spider</span></span><br><span class="line"><span class="keyword">import</span> scrapy</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line">reload(sys)</span><br><span class="line">sys.setdefaultencoding(<span class="string">"utf-8"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#class SinaSpider(Spider):</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SinaSpider</span><span class="params">(RedisSpider)</span>:</span></span><br><span class="line">    name= <span class="string">"sina"</span></span><br><span class="line">    redis_key = <span class="string">"sinaspider:start_urls"</span></span><br><span class="line">    <span class="comment">#allowed_domains= ["sina.com.cn"]</span></span><br><span class="line">    <span class="comment">#start_urls= [</span></span><br><span class="line">    <span class="comment">#   "http://news.sina.com.cn/guide/"</span></span><br><span class="line">    <span class="comment">#]#起始urls列表</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, *args, **kwargs)</span>:</span></span><br><span class="line">        domain = kwargs.pop(<span class="string">'domain'</span>, <span class="string">''</span>)</span><br><span class="line">        self.allowed_domains = filter(<span class="keyword">None</span>, domain.split(<span class="string">','</span>))</span><br><span class="line">        super(SinaSpider, self).__init__(*args, **kwargs)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        items= []</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 所有大类的url 和 标题</span></span><br><span class="line">        parentUrls = response.xpath(<span class="string">'//div[@id=\"tab01\"]/div/h3/a/@href'</span>).extract()</span><br><span class="line">        parentTitle = response.xpath(<span class="string">"//div[@id=\"tab01\"]/div/h3/a/text()"</span>).extract()</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 所有小类的ur 和 标题</span></span><br><span class="line">        subUrls  = response.xpath(<span class="string">'//div[@id=\"tab01\"]/div/ul/li/a/@href'</span>).extract()</span><br><span class="line">        subTitle = response.xpath(<span class="string">'//div[@id=\"tab01\"]/div/ul/li/a/text()'</span>).extract()</span><br><span class="line"></span><br><span class="line">        <span class="comment">#爬取所有大类</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, len(parentTitle)):</span><br><span class="line"></span><br><span class="line">            <span class="comment"># 指定大类的路径和目录名</span></span><br><span class="line">            <span class="comment">#parentFilename = "./Data/" + parentTitle[i]</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">#如果目录不存在，则创建目录</span></span><br><span class="line">            <span class="comment">#if(not os.path.exists(parentFilename)):</span></span><br><span class="line">            <span class="comment">#    os.makedirs(parentFilename)</span></span><br><span class="line"></span><br><span class="line">            <span class="comment"># 爬取所有小类</span></span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">0</span>, len(subUrls)):</span><br><span class="line">                item = SinaItem()</span><br><span class="line"></span><br><span class="line">                <span class="comment"># 保存大类的title和urls</span></span><br><span class="line">                item[<span class="string">'parentTitle'</span>] = parentTitle[i]</span><br><span class="line">                item[<span class="string">'parentUrls'</span>] = parentUrls[i]</span><br><span class="line"></span><br><span class="line">                <span class="comment"># 检查小类的url是否以同类别大类url开头，如果是返回True (sports.sina.com.cn 和 sports.sina.com.cn/nba)</span></span><br><span class="line">                if_belong = subUrls[j].startswith(item[<span class="string">'parentUrls'</span>])</span><br><span class="line"></span><br><span class="line">                <span class="comment"># 如果属于本大类，将存储目录放在本大类目录下</span></span><br><span class="line">                <span class="keyword">if</span>(if_belong):</span><br><span class="line">                    <span class="comment">#subFilename =parentFilename + '/'+ subTitle[j]</span></span><br><span class="line"></span><br><span class="line">                    <span class="comment"># 如果目录不存在，则创建目录</span></span><br><span class="line">                    <span class="comment">#if(not os.path.exists(subFilename)):</span></span><br><span class="line">                    <span class="comment">#    os.makedirs(subFilename)</span></span><br><span class="line"></span><br><span class="line">                    <span class="comment"># 存储 小类url、title和filename字段数据</span></span><br><span class="line">                    item[<span class="string">'subUrls'</span>] = subUrls[j]</span><br><span class="line">                    item[<span class="string">'subTitle'</span>] =subTitle[j]</span><br><span class="line">                    <span class="comment">#item['subFilename'] = subFilename</span></span><br><span class="line"></span><br><span class="line">                    items.append(item)</span><br><span class="line"></span><br><span class="line">        <span class="comment">#发送每个小类url的Request请求，得到Response连同包含meta数据 一同交给回调函数 second_parse 方法处理</span></span><br><span class="line">        <span class="keyword">for</span> item <span class="keyword">in</span> items:</span><br><span class="line">            <span class="keyword">yield</span> scrapy.Request( url = item[<span class="string">'subUrls'</span>], meta=&#123;<span class="string">'meta_1'</span>: item&#125;, callback=self.second_parse)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#对于返回的小类的url，再进行递归请求</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">second_parse</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        <span class="comment"># 提取每次Response的meta数据</span></span><br><span class="line">        meta_1= response.meta[<span class="string">'meta_1'</span>]</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 取出小类里所有子链接</span></span><br><span class="line">        sonUrls = response.xpath(<span class="string">'//a/@href'</span>).extract()</span><br><span class="line"></span><br><span class="line">        items= []</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, len(sonUrls)):</span><br><span class="line">            <span class="comment"># 检查每个链接是否以大类url开头、以.shtml结尾，如果是返回True</span></span><br><span class="line">            if_belong = sonUrls[i].endswith(<span class="string">'.shtml'</span>) <span class="keyword">and</span> sonUrls[i].startswith(meta_1[<span class="string">'parentUrls'</span>])</span><br><span class="line"></span><br><span class="line">            <span class="comment"># 如果属于本大类，获取字段值放在同一个item下便于传输</span></span><br><span class="line">            <span class="keyword">if</span>(if_belong):</span><br><span class="line">                item = SinaItem()</span><br><span class="line">                item[<span class="string">'parentTitle'</span>] =meta_1[<span class="string">'parentTitle'</span>]</span><br><span class="line">                item[<span class="string">'parentUrls'</span>] =meta_1[<span class="string">'parentUrls'</span>]</span><br><span class="line">                item[<span class="string">'subUrls'</span>] =meta_1[<span class="string">'subUrls'</span>]</span><br><span class="line">                item[<span class="string">'subTitle'</span>] =meta_1[<span class="string">'subTitle'</span>]</span><br><span class="line">                <span class="comment">#item['subFilename'] = meta_1['subFilename']</span></span><br><span class="line">                item[<span class="string">'sonUrls'</span>] = sonUrls[i]</span><br><span class="line">                items.append(item)</span><br><span class="line"></span><br><span class="line">        <span class="comment">#发送每个小类下子链接url的Request请求，得到Response后连同包含meta数据 一同交给回调函数 detail_parse 方法处理</span></span><br><span class="line">        <span class="keyword">for</span> item <span class="keyword">in</span> items:</span><br><span class="line">                <span class="keyword">yield</span> scrapy.Request(url=item[<span class="string">'sonUrls'</span>], meta=&#123;<span class="string">'meta_2'</span>:item&#125;, callback = self.detail_parse)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 数据解析方法，获取文章标题和内容</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">detail_parse</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        item = response.meta[<span class="string">'meta_2'</span>]</span><br><span class="line">        content = <span class="string">""</span></span><br><span class="line">        head = response.xpath(<span class="string">'//h1[@id=\"main_title\"]/text()'</span>).extract()</span><br><span class="line">        content_list = response.xpath(<span class="string">'//div[@id=\"artibody\"]/p/text()'</span>).extract()</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 将p标签里的文本内容合并到一起</span></span><br><span class="line">        <span class="keyword">for</span> content_one <span class="keyword">in</span> content_list:</span><br><span class="line">            content += content_one</span><br><span class="line"></span><br><span class="line">        item[<span class="string">'head'</span>]= head[<span class="number">0</span>] <span class="keyword">if</span> len(head) &gt; <span class="number">0</span> <span class="keyword">else</span> <span class="string">"NULL"</span></span><br><span class="line"></span><br><span class="line">        item[<span class="string">'content'</span>]= content</span><br><span class="line"></span><br><span class="line">        <span class="keyword">yield</span> item</span><br></pre></td></tr></table></figure>
+<h1 id="执行："><a href="#执行：" class="headerlink" title="执行："></a>执行：</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">slave端：</span><br><span class="line">scrapy runspider sina.py</span><br><span class="line"></span><br><span class="line">Master端：</span><br><span class="line">redis-cli&gt; lpush sinaspider:start_urls http://news.sina.com.cn/guide/</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/03/2018060322/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1673,151 +1818,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/24/2018052421/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Mr.Q">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dynamic-Soul">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/24/2018052421/" itemprop="url">源码参考分析：scheduler.py</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-24T21:02:39+08:00">2018-05-24</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="scheduler-py"><a href="#scheduler-py" class="headerlink" title="scheduler.py"></a>scheduler.py</h1><p>此扩展是对scrapy中自带的scheduler的替代（在settings的SCHEDULER变量中指出），正是利用此扩展实现crawler的分布式调度。其利用的数据结构来自于queue中实现的数据结构。</p>
-<p>scrapy-redis所实现的两种分布式：爬虫分布式以及item处理分布式就是由模块scheduler和模块pipelines实现。上述其它模块作为为二者辅助的功能模块</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> importlib</span><br><span class="line"><span class="keyword">import</span> six</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> scrapy.utils.misc <span class="keyword">import</span> load_object</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> . <span class="keyword">import</span> connection</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># <span class="doctag">TODO:</span> add SCRAPY_JOB support.</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Scheduler</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="string">"""Redis-based scheduler"""</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, server,</span></span></span><br><span class="line"><span class="function"><span class="params">                 persist=False,</span></span></span><br><span class="line"><span class="function"><span class="params">                 flush_on_start=False,</span></span></span><br><span class="line"><span class="function"><span class="params">                 queue_key=<span class="string">'%(spider)s:requests'</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">                 queue_cls=<span class="string">'scrapy_redis.queue.SpiderPriorityQueue'</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">                 dupefilter_key=<span class="string">'%(spider)s:dupefilter'</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">                 dupefilter_cls=<span class="string">'scrapy_redis.dupefilter.RFPDupeFilter'</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">                 idle_before_close=<span class="number">0</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">                 serializer=None)</span>:</span></span><br><span class="line">        <span class="string">"""Initialize scheduler.</span></span><br><span class="line"><span class="string">        Parameters</span></span><br><span class="line"><span class="string">        ----------</span></span><br><span class="line"><span class="string">        server : Redis</span></span><br><span class="line"><span class="string">            The redis server instance.</span></span><br><span class="line"><span class="string">        persist : bool</span></span><br><span class="line"><span class="string">            Whether to flush requests when closing. Default is False.</span></span><br><span class="line"><span class="string">        flush_on_start : bool</span></span><br><span class="line"><span class="string">            Whether to flush requests on start. Default is False.</span></span><br><span class="line"><span class="string">        queue_key : str</span></span><br><span class="line"><span class="string">            Requests queue key.</span></span><br><span class="line"><span class="string">        queue_cls : str</span></span><br><span class="line"><span class="string">            Importable path to the queue class.</span></span><br><span class="line"><span class="string">        dupefilter_key : str</span></span><br><span class="line"><span class="string">            Duplicates filter key.</span></span><br><span class="line"><span class="string">        dupefilter_cls : str</span></span><br><span class="line"><span class="string">            Importable path to the dupefilter class.</span></span><br><span class="line"><span class="string">        idle_before_close : int</span></span><br><span class="line"><span class="string">            Timeout before giving up.</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> idle_before_close &lt; <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">raise</span> TypeError(<span class="string">"idle_before_close cannot be negative"</span>)</span><br><span class="line"></span><br><span class="line">        self.server = server</span><br><span class="line">        self.persist = persist</span><br><span class="line">        self.flush_on_start = flush_on_start</span><br><span class="line">        self.queue_key = queue_key</span><br><span class="line">        self.queue_cls = queue_cls</span><br><span class="line">        self.dupefilter_cls = dupefilter_cls</span><br><span class="line">        self.dupefilter_key = dupefilter_key</span><br><span class="line">        self.idle_before_close = idle_before_close</span><br><span class="line">        self.serializer = serializer</span><br><span class="line">        self.stats = <span class="keyword">None</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__len__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> len(self.queue)</span><br><span class="line"></span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">from_settings</span><span class="params">(cls, settings)</span>:</span></span><br><span class="line">        kwargs = &#123;</span><br><span class="line">            <span class="string">'persist'</span>: settings.getbool(<span class="string">'SCHEDULER_PERSIST'</span>),</span><br><span class="line">            <span class="string">'flush_on_start'</span>: settings.getbool(<span class="string">'SCHEDULER_FLUSH_ON_START'</span>),</span><br><span class="line">            <span class="string">'idle_before_close'</span>: settings.getint(<span class="string">'SCHEDULER_IDLE_BEFORE_CLOSE'</span>),</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment"># If these values are missing, it means we want to use the defaults.</span></span><br><span class="line">        optional = &#123;</span><br><span class="line">            <span class="comment"># <span class="doctag">TODO:</span> Use custom prefixes for this settings to note that are</span></span><br><span class="line">            <span class="comment"># specific to scrapy-redis.</span></span><br><span class="line">            <span class="string">'queue_key'</span>: <span class="string">'SCHEDULER_QUEUE_KEY'</span>,</span><br><span class="line">            <span class="string">'queue_cls'</span>: <span class="string">'SCHEDULER_QUEUE_CLASS'</span>,</span><br><span class="line">            <span class="string">'dupefilter_key'</span>: <span class="string">'SCHEDULER_DUPEFILTER_KEY'</span>,</span><br><span class="line">            <span class="comment"># We use the default setting name to keep compatibility.</span></span><br><span class="line">            <span class="string">'dupefilter_cls'</span>: <span class="string">'DUPEFILTER_CLASS'</span>,</span><br><span class="line">            <span class="string">'serializer'</span>: <span class="string">'SCHEDULER_SERIALIZER'</span>,</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> name, setting_name <span class="keyword">in</span> optional.items():</span><br><span class="line">            val = settings.get(setting_name)</span><br><span class="line">            <span class="keyword">if</span> val:</span><br><span class="line">                kwargs[name] = val</span><br><span class="line"></span><br><span class="line">        <span class="comment"># Support serializer as a path to a module.</span></span><br><span class="line">        <span class="keyword">if</span> isinstance(kwargs.get(<span class="string">'serializer'</span>), six.string_types):</span><br><span class="line">            kwargs[<span class="string">'serializer'</span>] = importlib.import_module(kwargs[<span class="string">'serializer'</span>])</span><br><span class="line"></span><br><span class="line">        server = connection.from_settings(settings)</span><br><span class="line">        <span class="comment"># Ensure the connection is working.</span></span><br><span class="line">        server.ping()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> cls(server=server, **kwargs)</span><br><span class="line"></span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">from_crawler</span><span class="params">(cls, crawler)</span>:</span></span><br><span class="line">        instance = cls.from_settings(crawler.settings)</span><br><span class="line">        <span class="comment"># <span class="doctag">FIXME:</span> for now, stats are only supported from this constructor</span></span><br><span class="line">        instance.stats = crawler.stats</span><br><span class="line">        <span class="keyword">return</span> instance</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">open</span><span class="params">(self, spider)</span>:</span></span><br><span class="line">        self.spider = spider</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            self.queue = load_object(self.queue_cls)(</span><br><span class="line">                server=self.server,</span><br><span class="line">                spider=spider,</span><br><span class="line">                key=self.queue_key % &#123;<span class="string">'spider'</span>: spider.name&#125;,</span><br><span class="line">                serializer=self.serializer,</span><br><span class="line">            )</span><br><span class="line">        <span class="keyword">except</span> TypeError <span class="keyword">as</span> e:</span><br><span class="line">            <span class="keyword">raise</span> ValueError(<span class="string">"Failed to instantiate queue class '%s': %s"</span>,</span><br><span class="line">                             self.queue_cls, e)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            self.df = load_object(self.dupefilter_cls)(</span><br><span class="line">                server=self.server,</span><br><span class="line">                key=self.dupefilter_key % &#123;<span class="string">'spider'</span>: spider.name&#125;,</span><br><span class="line">                debug=spider.settings.getbool(<span class="string">'DUPEFILTER_DEBUG'</span>),</span><br><span class="line">            )</span><br><span class="line">        <span class="keyword">except</span> TypeError <span class="keyword">as</span> e:</span><br><span class="line">            <span class="keyword">raise</span> ValueError(<span class="string">"Failed to instantiate dupefilter class '%s': %s"</span>,</span><br><span class="line">                             self.dupefilter_cls, e)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> self.flush_on_start:</span><br><span class="line">            self.flush()</span><br><span class="line">        <span class="comment"># notice if there are requests already in the queue to resume the crawl</span></span><br><span class="line">        <span class="keyword">if</span> len(self.queue):</span><br><span class="line">            spider.log(<span class="string">"Resuming crawl (%d requests scheduled)"</span> % len(self.queue))</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">close</span><span class="params">(self, reason)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> self.persist:</span><br><span class="line">            self.flush()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">flush</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.df.clear()</span><br><span class="line">        self.queue.clear()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">enqueue_request</span><span class="params">(self, request)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> request.dont_filter <span class="keyword">and</span> self.df.request_seen(request):</span><br><span class="line">            self.df.log(request, self.spider)</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line">        <span class="keyword">if</span> self.stats:</span><br><span class="line">            self.stats.inc_value(<span class="string">'scheduler/enqueued/redis'</span>, spider=self.spider)</span><br><span class="line">        self.queue.push(request)</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">next_request</span><span class="params">(self)</span>:</span></span><br><span class="line">        block_pop_timeout = self.idle_before_close</span><br><span class="line">        request = self.queue.pop(block_pop_timeout)</span><br><span class="line">        <span class="keyword">if</span> request <span class="keyword">and</span> self.stats:</span><br><span class="line">            self.stats.inc_value(<span class="string">'scheduler/dequeued/redis'</span>, spider=self.spider)</span><br><span class="line">        <span class="keyword">return</span> request</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">has_pending_requests</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> len(self) &gt; <span class="number">0</span></span><br></pre></td></tr></table></figure>
-<p>这个文件重写了scheduler类，用来代替scrapy.core.scheduler的原有调度器。其实对原有调度器的逻辑没有很大的改变，主要是使用了redis作为数据存储的媒介，以达到各个爬虫之间的统一调度。 scheduler负责调度各个spider的request请求，scheduler初始化时，通过settings文件读取queue和dupefilters的类型（一般就用上边默认的），配置queue和dupefilters使用的key（一般就是spider name加上queue或者dupefilters，这样对于同一种spider的不同实例，就会使用相同的数据块了）。每当一个request要被调度时，enqueue_request被调用，scheduler使用dupefilters来判断这个url是否重复，如果不重复，就添加到queue的容器中（先进先出，先进后出和优先级都可以，可以在settings中配置）。当调度完成时，next_request被调用，scheduler就通过queue容器的接口，取出一个request，把他发送给相应的spider，让spider进行爬取工作。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1869,7 +1869,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">72</span>
+                    <span class="site-state-item-count">73</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1998,7 +1998,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共101.6k字</span>
+  <span class="post-count">博客全站共108.6k字</span>
 </div>
         
 
