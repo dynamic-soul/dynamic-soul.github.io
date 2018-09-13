@@ -311,6 +311,192 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/13/2018091322/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Q">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dynamic-Soul">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/13/2018091322/" itemprop="url">初识面向对象</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-13T22:11:23+08:00">2018-09-13</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Python面向对象/" itemprop="url" rel="index"><span itemprop="name">Python面向对象</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="面向过程与面向对象"><a href="#面向过程与面向对象" class="headerlink" title="面向过程与面向对象"></a>面向过程与面向对象</h1><p>面向过程就是分析出解决问题所需要的步骤，然后用函数把这些步骤一步一步实现，使用的时候一个一个依次调用就可以了。</p>
+<p><strong>面向过程 = 个人视角</strong></p>
+<p>我要去做大保健，我只需考虑，我有没有钱，去哪家店，怎么去，做什么价位的就可以，你的每一步都要通过程序定义出来，写死了，在这个程序里，<br>你只被设定了去做大保健的功能，你说中途我想去个ktv,那可能会导致整个程序的逻辑都得更改。 用面向过程的方式写代码，那你care的就是整个事情的执行过程<br>面向对象是把构成问题事务分解成各个对象，建立对象的目的不是为了完成一个步骤，而是为了描叙某个事物在整个解决问题的步骤中的行为。</p>
+<p>OOP(Object Oriented Programing）编程是利用“类”和“对象”来创建各种模型来实现对真实世界的描述。</p>
+<p><strong>面向对象 = 上帝视角</strong></p>
+<p>如果你是上帝，你现在要创世纪，把这么多人、动物、山河造出来，上帝光靠自己干，一个一个的造人，多累呀，让你干这个活，你肯定是先造模子，一个男人模子，一个女人模子，剩下的就一个个复制就行啦。这个模子的作用是什么？<br>模子定义了人这个物种所具备的所有特征(或者说，我们把具备这些特征的个体归为人类)。<br>这个世界上所有的东西都是你定义的，你需要用最高效的方式去造世界，最高效的方式就是，先把世界按物种、样貌、有无生命等各种维度分类，<br>然后给每类东西建模型，再让其在不脱离你基本横型定义的框架下，自我繁衍（世界要多姿多彩，所以即使是同一物种，也要有些不一样）</p>
+<h2 id="为什么要用面向对象？"><a href="#为什么要用面向对象？" class="headerlink" title="为什么要用面向对象？"></a>为什么要用面向对象？</h2><pre><code>1.使程序更加容易扩展和易更改，使开发效率变的更高
+2.基于面向对象的程序可以使它人更加容易理解你的代码逻辑，从而使团队开发变得更从容。
+</code></pre><p>#　面向对象介绍<br>学习面向对象过程中会遇到一些名词，我们先解释下</p>
+<h1 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h1><p>类：一个类即是对一类拥有相同属性的对象的抽象、蓝图、原型、模板。在类中定义了这些对象的都具备的属性（variables(data)）、共同的方法</p>
+<p>属性：人类包含很多特征，把这些特征用程序来描述的话，叫做属性，比如年龄、身高、性别、姓名等都叫做属性，一个类中，可以有多个属性</p>
+<p>方法：人类不止有身高、年龄、性别这些属性，还能做好多事情，比如说话、走路、吃饭等，相比较于属性是名词，说话、走路是动词，这些动词用程序来描述就叫做方法。</p>
+<p>实例(对象)：一个对象即是一个类的实例化后实例，一个类必须经过实例化后方可在程序中调用，一个类可以实例化多个对象，每个对象亦可以有不同的属性，就像人类是指所有人，每个人是指具体的对象，人与人之前有共性，亦有不同</p>
+<p>实例化：把一个类转变为一个对象的过程就叫实例化</p>
+<h2 id="面向对象3大特性"><a href="#面向对象3大特性" class="headerlink" title="面向对象3大特性"></a>面向对象3大特性</h2><p>Encapsulation 封装</p>
+<p>在类中对数据的赋值、内部调用对外部用户是透明的，这使类变成了一个胶囊或容器，里面包含着类的数据和方法</p>
+<p>Inheritance 继承</p>
+<p>一个类可以派生出子类，在这个父类里定义的属性、方法自动被子类继承</p>
+<p>Polymorphism 多态</p>
+<p>多态是面向对象的重要特性,简单点说:“一个接口，多种实现”，指一个基类中派生出了不同的子类，且每个子类在继承了同样的方法名的同时又对父类的方法做了不同的实现，这就是同一种事物表现出的多种形态。</p>
+<p>编程其实就是一个将具体世界进行抽象化的过程，多态就是抽象化的一种体现，把一系列具体事物的共同点抽象出来, 再通过这个抽象的事物, 与不同的具体事物进行对话。</p>
+<p>对不同类的对象发出相同的消息将会有不同的行为。比如，你的老板让所有员工在九点钟开始工作, 他只要在九点钟的时候说：“开始工作”即可，而不需要对销售人员说：“开始销售工作”，</p>
+<p>对技术人员说：“开始技术工作”, 因为“员工”是一个抽象的事物, 只要是员工就可以开始工作，他知道这一点就行了。至于每个员工，当然会各司其职，做各自的工作。</p>
+<p>多态允许将子类的对象当作父类的对象使用，某父类型的引用指向其子类型的对象,调用的方法是该子类型的方法。这里引用和调用方法的代码编译前就已经决定了,而引用所指向的对象可以在运行期间动态绑定</p>
+<h2 id="类、属性与方法"><a href="#类、属性与方法" class="headerlink" title="类、属性与方法"></a>类、属性与方法</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span><span class="params">(object)</span>:</span></span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name, age)</span>:</span></span><br><span class="line">        self.name = name</span><br><span class="line">        self.age = age</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">talk</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">"Hello, my name is %s, I'm %s years old!"</span> % (self.name, self.age))</span><br><span class="line"> </span><br><span class="line">p = Person(<span class="string">"luffy"</span>, <span class="number">22</span>)</span><br><span class="line"><span class="comment"># print(p.name, p.age)</span></span><br><span class="line">p.talk() <span class="comment">#注意这里调用并未传递参数</span></span><br><span class="line"> </span><br><span class="line">输出</span><br><span class="line">Hello, my name <span class="keyword">is</span> luffy, I<span class="string">'m 22 years old!</span></span><br></pre></td></tr></table></figure>
+<p>self,就是实例本身！你实例化时python解释器会自动把这个实例本身通过self参数传进去。</p>
+<p>为何p.talk()未传参数不报错，且为何talk方法定义要跟一个self参数？</p>
+<p>我们上面讲到self其实是实例本身， 那p.talk() 其实相当于p.talk(p),你不需要自己把p实例传进去，解释器帮你干了，那为何要在talk定义时加self参数呢？</p>
+<p>是因为，你的talk方法里有调用到实例的属性呀，这些属性又都是绑定在实例上的，你想调用实例属性，就必须要把实例传进去。</p>
+<p><strong>构造方法</strong></p>
+<p><strong>init</strong>(…)被称为 构造方法或初始化方法，在例实例化过程中自动执行，目的是初始化实例的一些属性。每个实例通过<strong>init</strong>初始化的属性都是独有的</p>
+<p>刚才定义的这个类体现了面向对象的第一个基本特性，封装，其实就是使用构造方法将内容封装到某个具体对象中，然后通过对象直接或者self间接获取被封装的内容。</p>
+<p><strong>普通方法</strong></p>
+<p>定义类的一些正常功能，比如人这个类， 可以说话、走路、吃饭等，每个方法其实想当于一个功能或动作</p>
+<p><strong>析构方法(解构方法)</strong></p>
+<p><strong>del</strong>(self)实例在内存中被删除时，会自动执行这个方法，如你在内存里生成了一个人的实例，</p>
+<p>现在他被打死了，那这个人除了自己的实例要被删除外，可能它在实例外产生的一些痕迹也要清除掉，清除的动作就可以写在这个方法里</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span><span class="params">(object)</span>:</span></span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name, age)</span>:</span></span><br><span class="line">        self.name = name</span><br><span class="line">        self.age = age</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">talk</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">"Hello, my name is %s, I'm %s years old!"</span> % (self.name, self.age))</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__del__</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">"running del method, this person must be died."</span>)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">p = Person(<span class="string">"Alex"</span>, <span class="number">22</span>)</span><br><span class="line">p.talk()</span><br><span class="line"> </span><br><span class="line"><span class="keyword">del</span> p</span><br><span class="line"> </span><br><span class="line">print(<span class="string">'--end program--'</span>)</span><br><span class="line">```　</span><br><span class="line">输出结果</span><br><span class="line"></span><br><span class="line">```python</span><br><span class="line">Hello, my name <span class="keyword">is</span> Alex, I<span class="string">'m 22 years old!</span></span><br><span class="line"><span class="string">running del method, this person must be died.</span></span><br><span class="line"><span class="string">--end program--</span></span><br></pre></td></tr></table></figure>
+<h2 id="面向对象设计的优点与缺点"><a href="#面向对象设计的优点与缺点" class="headerlink" title="面向对象设计的优点与缺点"></a>面向对象设计的优点与缺点</h2><p>优点是：</p>
+<p>解决了面向过程可扩展性低的问题，需要强调的是，对于一个软件质量来说，面向对象的程序设计并不代表全部，面向对象的程序设计只是用来解决扩展性问题。</p>
+<p>缺点是：</p>
+<p>编程的复杂度远高于面向过程，不了解面向对象而立即上手并基于它设计程序，极容易出现过度设计的问题，而且在一些扩展性要求低的场景使用面向对象会徒增编程难度，</p>
+<p>比如管理linux系统的shell脚本程序就不适合用面向对象去设计，面向过程反而更加适合。</p>
+<p>应用场景：</p>
+<p>当然是应用于需求经常变化的软件中，一般需求的变化都集中在用户层，互联网应用，企业内部软件，游戏等都是面向对象的程序设计大显身手的好地方。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/11/20180911221/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1840,195 +2026,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/02/2018090221/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Mr.Q">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dynamic-Soul">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/02/2018090221/" itemprop="url">Python进程——理论</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-02T21:15:42+08:00">2018-09-02</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Python网络编程/" itemprop="url" rel="index"><span itemprop="name">Python网络编程</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="进程定义"><a href="#进程定义" class="headerlink" title="进程定义"></a>进程定义</h1><p><strong>程序：</strong></p>
-<p>计算机程序是存储在磁盘上的可执行二进制（或其他类型）文件。<br>只有把它们加载到内存中，并被操作系统调用,它们才会拥有其自己的生命周期。</p>
-<p><strong>进程：</strong></p>
-<p>进程则是表示的一个正在执行的程序。<br>每个进程都拥有自己的地址空间、内存、数据栈<br>以及其他用于跟踪执行的辅助数据，负责执行程序的是CPU</p>
-<h1 id="并发与并行"><a href="#并发与并行" class="headerlink" title="并发与并行"></a>并发与并行</h1><p>并发：单CPU，多进程</p>
-<pre><code>无论是并行还是并发，在用户看来都是&apos;同时&apos;运行的，不管是进程还是线程，都只是一个任务而已，真实干活的是cpu，cpu来做这些任务，而一个cpu同一时刻只能执行一个任务
-
- 一 并发：是伪并行，即看起来是同时运行。单个cpu+多道技术就可以实现并发，（并行也属于并发）
-</code></pre><p>并行：多CPU（同时运行，只有具有多个cpu才能实现并行）</p>
-<p>并行满足的条件是总进程数量不多于 CPU核心数量！因此，现在PC运行的程序大部分都是轮询调度产生的并行假象</p>
-<p>举例：比如PC有四个核，六个任务，这样同一时间有四个任务被执行，假设分别被分配给了cpu1，cpu2，cpu3，cpu4，</p>
-<p>   一旦任务2遇到I/O就被迫中断执行，此时任务5就拿到cpu1的时间片去执行，这就是单核下的多道技术</p>
-<p>   而一旦任务2的I/O结束了，操作系统会重新调用它(需知进程的调度、分配给哪个cpu运行，由操作系统说了算)，可能被分配给四个cpu中的任意一个去执行</p>
-<p>  所以，现代计算机经常会在同一时间做很多件事，一个用户的PC（无论是单cpu还是多cpu），都可以同时运行多个任务（一个任务可以理解为一个进程）。</p>
-<p>多道技术：内存中同时存入多道（多个）程序，cpu从一个进程快速切换到另外一个，使每个进程各自运行几十或几百毫秒，这样，虽然在某一个瞬间，一个cpu只能执行一个任务，但在1秒内，cpu却可以运行多个进程，这就给人产生了并行的错觉，即伪并发，以此来区分多处理器操作系统的真正硬件并行（多个cpu共享同一个物理内存）</p>
-<h1 id="同步和异步"><a href="#同步和异步" class="headerlink" title="同步和异步"></a>同步和异步</h1><p>同步执行：一个进程在执行某个任务时，另外一个进程必须等待其执行完毕，才能继续执行<br>异步执行：一个进程在执行某个任务时，另外一个进程无需等待其执行完毕，就可以继续执行，当有消息返回时，系统会通知后者进行处理，这样可以提高执行效率</p>
-<h1 id="进程的创建"><a href="#进程的创建" class="headerlink" title="进程的创建"></a>进程的创建</h1><p>但凡是硬件，都需要有操作系统去管理，只要有操作系统，就有进程的概念，就需要有创建进程的方式，一些操作系统只为一个应用程序设计，比如微波炉中的控制器，一旦启动微波炉，所有的进程都已经存在。</p>
-<p>　　而对于通用系统（跑很多应用程序），需要有系统运行过程中创建或撤销进程的能力，主要分为4中形式创建新的进程</p>
-<p>　　1. 系统初始化（查看进程linux中用ps命令，windows中用任务管理器，前台进程负责与用户交互，后台运行的进程与用户无关，运行在后台并且只在需要时才唤醒的进程，称为守护进程，如电子邮件、web页面、新闻、打印）</p>
-<p>　　2. 一个进程在运行过程中开启了子进程（如nginx开启多进程，os.fork,subprocess.Popen等）</p>
-<p>　　3. 用户的交互式请求，而创建一个新进程（如用户双击浏览器）</p>
-<p>　　4. 一个批处理作业的初始化（只在大型机的批处理系统中应用）</p>
-<h1 id="进程的终止"><a href="#进程的终止" class="headerlink" title="进程的终止"></a>进程的终止</h1><ol>
-<li>正常退出（自愿，如用户点击交互式页面的叉号，或程序执行完毕调用发起系统调用正常退出，在linux中用exit，在windows中用ExitProcess）</li>
-</ol>
-<p>　 2. 出错退出（自愿，python a.py中a.py不存在）</p>
-<p>　 3. 严重错误（非自愿，执行非法指令，如引用不存在的内存，1/0等，可以捕捉异常，try…except…）</p>
-<p>　 4. 被其他进程杀死（非自愿，如kill -9）</p>
-<h1 id="进程的层次结构"><a href="#进程的层次结构" class="headerlink" title="进程的层次结构"></a>进程的层次结构</h1><p>无论UNIX还是windows，进程只有一个父进程，不同的是：</p>
-<p>　　1. 在UNIX中所有的进程，都是以init进程为根，组成树形结构。父子进程共同组成一个进程组，这样，当从键盘发出一个信号时，该信号被送给当前与键盘相关的进程组中的所有成员。</p>
-<p>　　2. 在windows中，没有进程层次的概念，所有的进程都是地位相同的，唯一类似于进程层次的暗示，是在创建进程时，父进程得到一个特别的令牌（称为句柄）,该句柄可以用来控制子进程，但是父进程有权把该句柄传给其他子进程，这样就没有层次了。</p>
-<h1 id="进程的状态"><a href="#进程的状态" class="headerlink" title="进程的状态"></a>进程的状态</h1><p>tail -f access.log |grep ‘500’</p>
-<p>　　执行程序tail，开启一个子进程，执行程序grep，开启另外一个子进程，两个进程之间基于管道’|’通讯，将tail的结果作为grep的输入。</p>
-<p>　　进程grep在等待输入（即I/O）时的状态称为阻塞，此时grep命令都无法运行</p>
-<p>　　其实在两种情况下会导致一个进程在逻辑上不能运行，</p>
-<p>　　1. 进程挂起是自身原因，遇到I/O阻塞，便要让出CPU让其他进程去执行，这样保证CPU一直在工作</p>
-<p>　　2. 与进程无关，是操作系统层面，可能会因为一个进程占用时间过多，或者优先级等原因，而调用其他的进程去使用CPU。</p>
-<p>　　因而一个进程由三种状态</p>
-<h2 id="孤儿进程和僵尸进程"><a href="#孤儿进程和僵尸进程" class="headerlink" title="孤儿进程和僵尸进程"></a>孤儿进程和僵尸进程</h2><p>在unix/linux中，正常情况下，子进程是通过父进程创建的，子进程在创建新的进程。子进程的结束和父进程的运行是一个异步过程,即父进程永远无法预测子进程 到底什么时候结束。 </p>
-<p>当一个 进程完成它的工作终止之后，它的父进程需要调用wait()或者waitpid()系统调用取得子进程的终止状态。</p>
-<p>　　孤儿进程：一个父进程退出，而它的一个或多个子进程还在运行，那么那些子进程将成为孤儿进程。孤儿进程将被init进程(进程号为1)所收养，并由init进程对它们完成状态收集工作。</p>
-<p>　　僵尸进程：一个进程使用fork创建子进程，如果子进程退出，而父进程并没有调用wait或waitpid获取子进程的状态信息，那么子进程的进程描述符仍然保存在系统中。这种进程称之为僵尸进程。</p>
-<p>僵尸进程的产生：</p>
-<p>当你运行一个程序时，它会产生一个父进程以及很多子进程。 所有这些子进程都会消耗内核分配给它们的内存和 CPU 资源。这些子进程完成执行后会发送一个 Exit 信号然后死掉。</p>
-<p>这个 Exit 信号需要被父进程所读取。父进程需要随后调用 wait 命令来读取子进程的退出状态，并将子进程从进程表中移除。</p>
-<p>若父进程正确第读取了子进程的 Exit 信号，则子进程会从进程表中删掉。</p>
-<p>但若父进程未能读取到子进程的 Exit 信号，则这个子进程虽然完成执行处于死亡的状态，但也不会从进程表中删掉。</p>
-<h1 id="进程并发的现象"><a href="#进程并发的现象" class="headerlink" title="进程并发的现象"></a>进程并发的现象</h1><p>进程并发的实现在于，硬件中断一个正在运行的进程，把此时进程运行的所有状态保存下来，为此，操作系统维护一张表格，即进程表（process table），每个进程占用一个进程表项（这些表项也称为进程控制块）</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2080,7 +2077,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">73</span>
+                    <span class="site-state-item-count">74</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2099,7 +2096,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">3</span>
+                      
+                    
+                    <span class="site-state-item-count">4</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -2140,7 +2139,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">14</span>
+                      
+                    
+                    <span class="site-state-item-count">15</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -2209,7 +2210,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共108.6k字</span>
+  <span class="post-count">博客全站共110.9k字</span>
 </div>
         
 

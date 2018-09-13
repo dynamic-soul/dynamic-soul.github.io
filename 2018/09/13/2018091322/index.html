@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.6" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.0.6">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.0.6" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.0.6',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="面向过程与面向对象面向过程就是分析出解决问题所需要的步骤，然后用函数把这些步骤一步一步实现，使用的时候一个一个依次调用就可以了。 面向过程 = 个人视角 我要去做大保健，我只需考虑，我有没有钱，去哪家店，怎么去，做什么价位的就可以，你的每一步都要通过程序定义出来，写死了，在这个程序里，你只被设定了去做大保健的功能，你说中途我想去个ktv,那可能会导致整个程序的逻辑都得更改。 用面向过程的方式写代码">
+<meta name="keywords" content="面向对象">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初识面向对象">
+<meta property="og:url" content="http://yoursite.com/2018/09/13/2018091322/index.html">
+<meta property="og:site_name" content="Dynamic-Soul">
+<meta property="og:description" content="面向过程与面向对象面向过程就是分析出解决问题所需要的步骤，然后用函数把这些步骤一步一步实现，使用的时候一个一个依次调用就可以了。 面向过程 = 个人视角 我要去做大保健，我只需考虑，我有没有钱，去哪家店，怎么去，做什么价位的就可以，你的每一步都要通过程序定义出来，写死了，在这个程序里，你只被设定了去做大保健的功能，你说中途我想去个ktv,那可能会导致整个程序的逻辑都得更改。 用面向过程的方式写代码">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-09-13T14:11:23.593Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="初识面向对象">
+<meta name="twitter:description" content="面向过程与面向对象面向过程就是分析出解决问题所需要的步骤，然后用函数把这些步骤一步一步实现，使用的时候一个一个依次调用就可以了。 面向过程 = 个人视角 我要去做大保健，我只需考虑，我有没有钱，去哪家店，怎么去，做什么价位的就可以，你的每一步都要通过程序定义出来，写死了，在这个程序里，你只被设定了去做大保健的功能，你说中途我想去个ktv,那可能会导致整个程序的逻辑都得更改。 用面向过程的方式写代码">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/13/2018091322/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>初识面向对象 | Dynamic-Soul</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <a href="https://github.com/dynamic-soul"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Dynamic-Soul</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+</li>
+
+      
+
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/13/2018091322/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Q">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dynamic-Soul">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">初识面向对象</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-13T22:11:23+08:00">2018-09-13</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Python面向对象/" itemprop="url" rel="index"><span itemprop="name">Python面向对象</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="面向过程与面向对象"><a href="#面向过程与面向对象" class="headerlink" title="面向过程与面向对象"></a>面向过程与面向对象</h1><p>面向过程就是分析出解决问题所需要的步骤，然后用函数把这些步骤一步一步实现，使用的时候一个一个依次调用就可以了。</p>
+<p><strong>面向过程 = 个人视角</strong></p>
+<p>我要去做大保健，我只需考虑，我有没有钱，去哪家店，怎么去，做什么价位的就可以，你的每一步都要通过程序定义出来，写死了，在这个程序里，<br>你只被设定了去做大保健的功能，你说中途我想去个ktv,那可能会导致整个程序的逻辑都得更改。 用面向过程的方式写代码，那你care的就是整个事情的执行过程<br>面向对象是把构成问题事务分解成各个对象，建立对象的目的不是为了完成一个步骤，而是为了描叙某个事物在整个解决问题的步骤中的行为。</p>
+<p>OOP(Object Oriented Programing）编程是利用“类”和“对象”来创建各种模型来实现对真实世界的描述。</p>
+<p><strong>面向对象 = 上帝视角</strong></p>
+<p>如果你是上帝，你现在要创世纪，把这么多人、动物、山河造出来，上帝光靠自己干，一个一个的造人，多累呀，让你干这个活，你肯定是先造模子，一个男人模子，一个女人模子，剩下的就一个个复制就行啦。这个模子的作用是什么？<br>模子定义了人这个物种所具备的所有特征(或者说，我们把具备这些特征的个体归为人类)。<br>这个世界上所有的东西都是你定义的，你需要用最高效的方式去造世界，最高效的方式就是，先把世界按物种、样貌、有无生命等各种维度分类，<br>然后给每类东西建模型，再让其在不脱离你基本横型定义的框架下，自我繁衍（世界要多姿多彩，所以即使是同一物种，也要有些不一样）</p>
+<h2 id="为什么要用面向对象？"><a href="#为什么要用面向对象？" class="headerlink" title="为什么要用面向对象？"></a>为什么要用面向对象？</h2><pre><code>1.使程序更加容易扩展和易更改，使开发效率变的更高
+2.基于面向对象的程序可以使它人更加容易理解你的代码逻辑，从而使团队开发变得更从容。
+</code></pre><p>#　面向对象介绍<br>学习面向对象过程中会遇到一些名词，我们先解释下</p>
+<h1 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h1><p>类：一个类即是对一类拥有相同属性的对象的抽象、蓝图、原型、模板。在类中定义了这些对象的都具备的属性（variables(data)）、共同的方法</p>
+<p>属性：人类包含很多特征，把这些特征用程序来描述的话，叫做属性，比如年龄、身高、性别、姓名等都叫做属性，一个类中，可以有多个属性</p>
+<p>方法：人类不止有身高、年龄、性别这些属性，还能做好多事情，比如说话、走路、吃饭等，相比较于属性是名词，说话、走路是动词，这些动词用程序来描述就叫做方法。</p>
+<p>实例(对象)：一个对象即是一个类的实例化后实例，一个类必须经过实例化后方可在程序中调用，一个类可以实例化多个对象，每个对象亦可以有不同的属性，就像人类是指所有人，每个人是指具体的对象，人与人之前有共性，亦有不同</p>
+<p>实例化：把一个类转变为一个对象的过程就叫实例化</p>
+<h2 id="面向对象3大特性"><a href="#面向对象3大特性" class="headerlink" title="面向对象3大特性"></a>面向对象3大特性</h2><p>Encapsulation 封装</p>
+<p>在类中对数据的赋值、内部调用对外部用户是透明的，这使类变成了一个胶囊或容器，里面包含着类的数据和方法</p>
+<p>Inheritance 继承</p>
+<p>一个类可以派生出子类，在这个父类里定义的属性、方法自动被子类继承</p>
+<p>Polymorphism 多态</p>
+<p>多态是面向对象的重要特性,简单点说:“一个接口，多种实现”，指一个基类中派生出了不同的子类，且每个子类在继承了同样的方法名的同时又对父类的方法做了不同的实现，这就是同一种事物表现出的多种形态。</p>
+<p>编程其实就是一个将具体世界进行抽象化的过程，多态就是抽象化的一种体现，把一系列具体事物的共同点抽象出来, 再通过这个抽象的事物, 与不同的具体事物进行对话。</p>
+<p>对不同类的对象发出相同的消息将会有不同的行为。比如，你的老板让所有员工在九点钟开始工作, 他只要在九点钟的时候说：“开始工作”即可，而不需要对销售人员说：“开始销售工作”，</p>
+<p>对技术人员说：“开始技术工作”, 因为“员工”是一个抽象的事物, 只要是员工就可以开始工作，他知道这一点就行了。至于每个员工，当然会各司其职，做各自的工作。</p>
+<p>多态允许将子类的对象当作父类的对象使用，某父类型的引用指向其子类型的对象,调用的方法是该子类型的方法。这里引用和调用方法的代码编译前就已经决定了,而引用所指向的对象可以在运行期间动态绑定</p>
+<h2 id="类、属性与方法"><a href="#类、属性与方法" class="headerlink" title="类、属性与方法"></a>类、属性与方法</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span><span class="params">(object)</span>:</span></span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name, age)</span>:</span></span><br><span class="line">        self.name = name</span><br><span class="line">        self.age = age</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">talk</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">"Hello, my name is %s, I'm %s years old!"</span> % (self.name, self.age))</span><br><span class="line"> </span><br><span class="line">p = Person(<span class="string">"luffy"</span>, <span class="number">22</span>)</span><br><span class="line"><span class="comment"># print(p.name, p.age)</span></span><br><span class="line">p.talk() <span class="comment">#注意这里调用并未传递参数</span></span><br><span class="line"> </span><br><span class="line">输出</span><br><span class="line">Hello, my name <span class="keyword">is</span> luffy, I<span class="string">'m 22 years old!</span></span><br></pre></td></tr></table></figure>
+<p>self,就是实例本身！你实例化时python解释器会自动把这个实例本身通过self参数传进去。</p>
+<p>为何p.talk()未传参数不报错，且为何talk方法定义要跟一个self参数？</p>
+<p>我们上面讲到self其实是实例本身， 那p.talk() 其实相当于p.talk(p),你不需要自己把p实例传进去，解释器帮你干了，那为何要在talk定义时加self参数呢？</p>
+<p>是因为，你的talk方法里有调用到实例的属性呀，这些属性又都是绑定在实例上的，你想调用实例属性，就必须要把实例传进去。</p>
+<p><strong>构造方法</strong></p>
+<p><strong>init</strong>(…)被称为 构造方法或初始化方法，在例实例化过程中自动执行，目的是初始化实例的一些属性。每个实例通过<strong>init</strong>初始化的属性都是独有的</p>
+<p>刚才定义的这个类体现了面向对象的第一个基本特性，封装，其实就是使用构造方法将内容封装到某个具体对象中，然后通过对象直接或者self间接获取被封装的内容。</p>
+<p><strong>普通方法</strong></p>
+<p>定义类的一些正常功能，比如人这个类， 可以说话、走路、吃饭等，每个方法其实想当于一个功能或动作</p>
+<p><strong>析构方法(解构方法)</strong></p>
+<p><strong>del</strong>(self)实例在内存中被删除时，会自动执行这个方法，如你在内存里生成了一个人的实例，</p>
+<p>现在他被打死了，那这个人除了自己的实例要被删除外，可能它在实例外产生的一些痕迹也要清除掉，清除的动作就可以写在这个方法里</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span><span class="params">(object)</span>:</span></span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name, age)</span>:</span></span><br><span class="line">        self.name = name</span><br><span class="line">        self.age = age</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">talk</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">"Hello, my name is %s, I'm %s years old!"</span> % (self.name, self.age))</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__del__</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">"running del method, this person must be died."</span>)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">p = Person(<span class="string">"Alex"</span>, <span class="number">22</span>)</span><br><span class="line">p.talk()</span><br><span class="line"> </span><br><span class="line"><span class="keyword">del</span> p</span><br><span class="line"> </span><br><span class="line">print(<span class="string">'--end program--'</span>)</span><br><span class="line">```　</span><br><span class="line">输出结果</span><br><span class="line"></span><br><span class="line">```python</span><br><span class="line">Hello, my name <span class="keyword">is</span> Alex, I<span class="string">'m 22 years old!</span></span><br><span class="line"><span class="string">running del method, this person must be died.</span></span><br><span class="line"><span class="string">--end program--</span></span><br></pre></td></tr></table></figure>
+<h2 id="面向对象设计的优点与缺点"><a href="#面向对象设计的优点与缺点" class="headerlink" title="面向对象设计的优点与缺点"></a>面向对象设计的优点与缺点</h2><p>优点是：</p>
+<p>解决了面向过程可扩展性低的问题，需要强调的是，对于一个软件质量来说，面向对象的程序设计并不代表全部，面向对象的程序设计只是用来解决扩展性问题。</p>
+<p>缺点是：</p>
+<p>编程的复杂度远高于面向过程，不了解面向对象而立即上手并基于它设计程序，极容易出现过度设计的问题，而且在一些扩展性要求低的场景使用面向对象会徒增编程难度，</p>
+<p>比如管理linux系统的shell脚本程序就不适合用面向对象去设计，面向过程反而更加适合。</p>
+<p>应用场景：</p>
+<p>当然是应用于需求经常变化的软件中，一般需求的变化都集中在用户层，互联网应用，企业内部软件，游戏等都是面向对象的程序设计大显身手的好地方。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/面向对象/" rel="tag"># 面向对象</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/11/20180911221/" rel="next" title="">
+                <i class="fa fa-chevron-left"></i> 
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="Mr.Q" />
+            
+              <p class="site-author-name" itemprop="name">Mr.Q</p>
+              <p class="site-description motion-element" itemprop="description">我希望时间没有流走，世界还停在过去，昏黄的光还照在旧日的路上，我刚刚走过，恰与你们相识。</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">74</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#面向过程与面向对象"><span class="nav-number">1.</span> <span class="nav-text">面向过程与面向对象</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么要用面向对象？"><span class="nav-number">1.1.</span> <span class="nav-text">为什么要用面向对象？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#名词解释"><span class="nav-number">2.</span> <span class="nav-text">名词解释</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#面向对象3大特性"><span class="nav-number">2.1.</span> <span class="nav-text">面向对象3大特性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类、属性与方法"><span class="nav-number">2.2.</span> <span class="nav-text">类、属性与方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#面向对象设计的优点与缺点"><span class="nav-number">2.3.</span> <span class="nav-text">面向对象设计的优点与缺点</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mr.Q</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Gemini</a> v6.0.6</div>
+
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共110.9k字</span>
+</div>
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.6"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.0.6"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.6"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.6"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.6"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+</body>
+</html>
