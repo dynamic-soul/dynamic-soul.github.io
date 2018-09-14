@@ -311,6 +311,175 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/14/2018091421/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Q">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dynamic-Soul">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/14/2018091421/" itemprop="url">面向对象（类与对象）</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-14T21:50:35+08:00">2018-09-14</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Python面向对象/" itemprop="url" rel="index"><span itemprop="name">Python面向对象</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="类与对象"><a href="#类与对象" class="headerlink" title="类与对象"></a>类与对象</h1><ul>
+<li>在现实世界中：肯定是先有对象，再有类</li>
+</ul>
+<p>世界上肯定是先出现各种各样的实际存在的物体，然后随着人类文明的发展，人类站在不同的角度总结出了不同的种类，比如<br>人类、动物类、植物类等概念。也就说，对象是具体的存在，而类仅仅只是一个概念，并不真实存在，比如你无法告诉我人类<br>具体指的是哪一个人</p>
+<ul>
+<li>在程序中：务必保证先定义类，后产生对象</li>
+</ul>
+<p>这与函数的使用是类似的：先定义函数，后调用函数，类也是一样的：在程序中需要先定义类，后调用类。不一样的是：调用函数会执行函数体代码返回的是函数体执行的结果，而调用类会产生对象，返回的是对象</p>
+<h1 id="定义类"><a href="#定义类" class="headerlink" title="定义类"></a>定义类</h1><p>按照上述步骤，我们来定义一个类</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#在Python中程序中的类用class关键字定义，而在程序中特征用变量标识，技能用函数标识，因而类中最常见的无非是：变量和函数的定义</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LuffyStudent</span>:</span></span><br><span class="line">    school=<span class="string">'luffy'</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,name,age)</span>:</span></span><br><span class="line">        self.name = name</span><br><span class="line">        self.age = age</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">learn</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'is learning'</span>)</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">eat</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'%s is eating'</span> %self.name)</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">sleep</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'%s is sleeping'</span> %self.name)</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__del__</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">"running del method, this person must be died."</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 后产生对象</span></span><br><span class="line">stu1=LuffyStudent(<span class="string">'alex'</span>,<span class="number">18</span>)</span><br><span class="line">stu2=LuffyStudent(<span class="string">'li'</span>,<span class="number">28</span>)</span><br><span class="line">stu3=LuffyStudent(<span class="string">'hy'</span>,<span class="number">38</span>)</span><br><span class="line">print(LuffyStudent.__dict__)</span><br><span class="line"> </span><br><span class="line">stu1.eat()</span><br><span class="line">stu2.eat()</span><br><span class="line">stu3.sleep()</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line">print(<span class="string">'--end program--'</span>)</span><br></pre></td></tr></table></figure>
+<p>输出结果</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="string">'__module__'</span>: <span class="string">'__main__'</span>, <span class="string">'school'</span>: <span class="string">'luffy'</span>, <span class="string">'__init__'</span>: &lt;function LuffyStudent.__init__ at <span class="number">0x00000000028CB8C8</span>&gt;, <span class="string">'learn'</span>: &lt;function LuffyStudent.learn at <span class="number">0x000000001272FB70</span>&gt;,&lt;br&gt; <span class="string">'eat'</span>: &lt;function LuffyStudent.eat at <span class="number">0x000000001272FBF8</span>&gt;, <span class="string">'sleep'</span>: &lt;function LuffyStudent.sleep at <span class="number">0x000000001272FC80</span>&gt;, <span class="string">'__del__'</span>: &lt;function LuffyStudent.__del__ at <span class="number">0x000000001272FD08</span>&gt;,&lt;br&gt; <span class="string">'__dict__'</span>: &lt;attribute <span class="string">'__dict__'</span> of <span class="string">'LuffyStudent'</span> objects&gt;, <span class="string">'__weakref__'</span>: &lt;attribute <span class="string">'__weakref__'</span> of <span class="string">'LuffyStudent'</span> objects&gt;, <span class="string">'__doc__'</span>: <span class="keyword">None</span>&#125;</span><br><span class="line">alex <span class="keyword">is</span> eating</span><br><span class="line">li <span class="keyword">is</span> eating</span><br><span class="line">hy <span class="keyword">is</span> sleeping</span><br><span class="line">--end program--</span><br><span class="line">running <span class="keyword">del</span> method, this person must be died.</span><br><span class="line">running <span class="keyword">del</span> method, this person must be died.</span><br><span class="line">running <span class="keyword">del</span> method, this person must be died.</span><br></pre></td></tr></table></figure>
+<p>注意：</p>
+<ul>
+<li><p>类中可以有任意python代码，这些代码在类定义阶段便会执行，因而会产生新的名称空间，用来存放类的变量名与函数名，可以通过LuffyStudent.<strong>dict</strong>查看</p>
+</li>
+<li><p>类中定义的名字，都是类的属性，点是访问属性的语法。</p>
+</li>
+<li><p>对于经典类来说我们可以通过该字典操作类名称空间的名字，但新式类有限制（新式类与经典类的区别我们将在后续章节介绍）</p>
+</li>
+</ul>
+<h1 id="类的使用"><a href="#类的使用" class="headerlink" title="类的使用"></a>类的使用</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">print(LuffyStudent.school)  <span class="comment"># 查</span></span><br><span class="line"><span class="comment"># luffy</span></span><br><span class="line">LuffyStudent.school=<span class="string">'Oldboy'</span> <span class="comment"># 改</span></span><br><span class="line">print(LuffyStudent.school)  <span class="comment"># 查</span></span><br><span class="line"><span class="comment"># Oldboy</span></span><br><span class="line">LuffyStudent.sex=<span class="string">'male'</span> <span class="comment"># 增</span></span><br><span class="line">print(LuffyStudent.sex)</span><br><span class="line"><span class="comment"># male</span></span><br><span class="line"><span class="keyword">del</span> LuffyStudent.sex <span class="comment"># 删</span></span><br><span class="line">print(<span class="string">'--end program--'</span>)</span><br></pre></td></tr></table></figure>
+<h1 id="对象的使用"><a href="#对象的使用" class="headerlink" title="对象的使用"></a>对象的使用</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#执行__init__,stu1.name='alex'，</span></span><br><span class="line"><span class="comment"># 很明显也会产生对象的名称空间可以用stu1.__dict__查看，查看结果为</span></span><br><span class="line">print(stu1.__dict__)</span><br><span class="line"> </span><br><span class="line">print(stu1.name) <span class="comment">#查，等同于stu1.__dict__['name']</span></span><br><span class="line">stu1.name=<span class="string">'王三炮'</span> <span class="comment">#改，等同于stu1.__dict__['name']='王三炮'</span></span><br><span class="line">print(stu1.__dict__)</span><br><span class="line">stu2.course=<span class="string">'python'</span> <span class="comment">#增，等同于stu1.__dict__['course']='python'</span></span><br><span class="line">print(stu2.__dict__)</span><br><span class="line"><span class="keyword">del</span> stu2.course <span class="comment">#删，等同于stu2.__dict__.pop('course')</span></span><br><span class="line">print(stu2.__dict__)</span><br><span class="line"> </span><br><span class="line"><span class="comment">#输出结果：</span></span><br><span class="line"> </span><br><span class="line">alex</span><br><span class="line">&#123;<span class="string">'name'</span>: <span class="string">'王三炮'</span>, <span class="string">'age'</span>: <span class="number">18</span>&#125;</span><br><span class="line">&#123;<span class="string">'name'</span>: <span class="string">'li'</span>, <span class="string">'age'</span>: <span class="number">28</span>, <span class="string">'course'</span>: <span class="string">'python'</span>&#125;</span><br><span class="line">&#123;<span class="string">'name'</span>: <span class="string">'li'</span>, <span class="string">'age'</span>: <span class="number">28</span>&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="补充说明"><a href="#补充说明" class="headerlink" title="补充说明"></a>补充说明</h1><ul>
+<li>站的角度不同，定义出的类是截然不同的；</li>
+<li>现实中的类并不完全等于程序中的类，比如现实中的公司类，在程序中有时需要拆分成部门类，业务类等；</li>
+<li>有时为了编程需求，程序中也可能会定义现实中不存在的类，比如策略类，现实中并不存在，但是在程序中却是一个很常见的类。</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/13/2018091322/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1848,184 +2017,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/03/2018090323/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Mr.Q">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dynamic-Soul">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/03/2018090323/" itemprop="url">Python进程——实现</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-03T23:30:35+08:00">2018-09-03</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Python网络编程/" itemprop="url" rel="index"><span itemprop="name">Python网络编程</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="fork介绍"><a href="#fork介绍" class="headerlink" title="fork介绍"></a>fork介绍</h1><p>Unix/Linux操作系统提供了一个fork()系统调用，它非常特殊。普通的函数调用，调用一次，返回一次，但是fork()调用一次，返回两次，因为操作系统自动把当前进程（称为父进程）复制了一份（称为子进程），然后，分别在父进程和子进程内返回。</p>
-<p>子进程永远返回0，而父进程返回子进程的ID。这样做的理由是，一个父进程可以fork出很多子进程，所以，父进程要记下每个子进程的ID，而子进程只需要调用getppid()就可以拿到父进程的ID。</p>
-<p>Python的os模块封装了常见的系统调用</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line"></span><br><span class="line">    print(<span class="string">'进程 (%s) start...'</span> % os.getpid())</span><br><span class="line">    pid = os.fork()</span><br><span class="line">    <span class="comment"># time.sleep(10)</span></span><br><span class="line">    <span class="keyword">if</span> pid == <span class="number">0</span>:  <span class="comment"># 子进程fork()返回0</span></span><br><span class="line">        print(<span class="string">"子进程&#123;&#125;，父进程&#123;&#125;"</span>.format(os.getpid(), os.getppid()))</span><br><span class="line">    <span class="keyword">else</span>:  <span class="comment"># 父进程fork返回子进程的id</span></span><br><span class="line">        print(<span class="string">"父进程&#123;&#125;,子进程&#123;&#125;"</span>.format(os.getpid(), pid))</span><br><span class="line"></span><br><span class="line">--》》结果</span><br><span class="line">进程 (<span class="number">3130</span>) start...</span><br><span class="line">父进程<span class="number">3130</span>,子进程<span class="number">3131</span></span><br><span class="line">子进程<span class="number">3131</span>，父进程<span class="number">3130</span></span><br></pre></td></tr></table></figure>
-<img src="/2018/09/03/2018090323/1.jpg">
-<h1 id="multiprocessing模块介绍"><a href="#multiprocessing模块介绍" class="headerlink" title="multiprocessing模块介绍"></a>multiprocessing模块介绍</h1><p>python中的多线程无法利用CPU资源，在python中大部分计算密集型任务使用多进程。如果想要充分地使用多核CPU的资源（os.cpu_count()查看）</p>
-<p>python中提供了非常好的多进程包multiprocessing。</p>
-<p>multiprocessing模块用来开启子进程，并在子进程中执行功能（函数），该模块与多线程模块threading的编程接口类似。</p>
-<p>multiprocessing的功能众多：支持子进程、通信和共享数据、执行不同形式的同步，提供了Process、Queue、Pipe、Lock等组件。</p>
-<p> 计算密集型任务：如金融分析，科学计算</p>
-<p><strong>注意</strong></p>
-<p>记住，进程的执行是有操作系统调度的，python执行进程(start)只是向操作系统发信号，告诉操作系统，我要开辟一个进程，由操作系统调度执行。</p>
-<p>同理，python终止进程(terminate)只是向操作系统发信号，告诉操作系统，我要终止一个进程，而不会马上终止，由操作系统调度终止进程。</p>
-<h1 id="Process类的介绍"><a href="#Process类的介绍" class="headerlink" title="Process类的介绍"></a>Process类的介绍</h1><p><strong>1.创建进程的类</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Process([group [, target [, name [, args [, kwargs]]]]])，由该类实例化得到的对象，表示一个子进程中的任务（尚未启动）</span><br><span class="line"></span><br><span class="line">强调：</span><br><span class="line"><span class="number">1.</span> 需要使用关键字的方式来指定参数</span><br><span class="line"><span class="number">2.</span> args指定的为传给target函数的位置参数，是一个元组形式，必须有逗号</span><br></pre></td></tr></table></figure>
-<p><strong>2.参数介绍</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">group参数未使用，值始终为<span class="keyword">None</span></span><br><span class="line"></span><br><span class="line">target表示调用对象，即子进程要执行的任务</span><br><span class="line"></span><br><span class="line">args表示调用对象的位置参数元组，args=(<span class="number">1</span>,<span class="number">2</span>,<span class="string">'al'</span>,)</span><br><span class="line"></span><br><span class="line">kwargs表示调用对象的字典,kwargs=&#123;<span class="string">'name'</span>:<span class="string">'al'</span>,<span class="string">'age'</span>:<span class="number">18</span>&#125;</span><br><span class="line"></span><br><span class="line">name为子进程的名称</span><br></pre></td></tr></table></figure></p>
-<p><strong>3.方法介绍</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">p.start()：启动进程，并调用该子进程中的p.run() </span><br><span class="line">p.run():进程启动时运行的方法，正是它去调用target指定的函数，我们自定义类的类中一定要实现该方法  </span><br><span class="line"></span><br><span class="line">p.terminate():强制终止进程p，不会进行任何清理操作，如果p创建了子进程，该子进程就成了僵尸进程，使用该方法需要特别小心这种情况。</span><br><span class="line">如果p还保存了一个锁那么也将不会被释放，进而导致死锁</span><br><span class="line">p.is_alive():如果p仍然运行，返回<span class="keyword">True</span></span><br><span class="line"></span><br><span class="line">p.join([timeout]):主线程等待p终止（强调：是主线程处于等的状态，而p是处于运行的状态）。timeout是可选的超时时间，</span><br><span class="line">需要强调的是，p.join只能join住start开启的进程，而不能join住run开启的进程</span><br></pre></td></tr></table></figure></p>
-<p><strong>4.属性介绍</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">p.daemon：默认值为<span class="keyword">False</span>，如果设为<span class="keyword">True</span>，代表p为后台运行的守护进程，当p的父进程终止时，p也随之终止，并且设定为<span class="keyword">True</span>后，p不能创建自己的新进程，必须在p.start()之前设置</span><br><span class="line"></span><br><span class="line">p.name:进程的名称</span><br><span class="line"></span><br><span class="line">p.pid：进程的pid</span><br><span class="line"></span><br><span class="line">p.exitcode:进程在运行时为<span class="keyword">None</span>、如果为–N，表示被信号N结束(了解即可)</span><br><span class="line"></span><br><span class="line">p.authkey:进程的身份验证键,默认是由os.urandom()随机生成的<span class="number">32</span>字符的字符串。这个键的用途是为涉及网络连接的底层进程间通信提供安全性，</span><br><span class="line">这类连接只有在具有相同的身份验证键时才能成功（了解即可）</span><br></pre></td></tr></table></figure>
-<h1 id="Prpcess类的应用"><a href="#Prpcess类的应用" class="headerlink" title="Prpcess类的应用"></a>Prpcess类的应用</h1><img src="/2018/09/03/2018090323/2.jpg">
-<p><strong>注意：在windows中Process()必须放到# if <strong>name</strong> == ‘<strong>main</strong>‘:下</strong></p>
-<p>开一个进程和主进程是并发的关系，我start一下就是先告诉操作系统我要开一个进程<br>，然而它不会等待，他会去执行下面的代码，完了他把进程开始后，就开始执行了</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># window创造进程相当于导入，会无线递归创建</span></span><br><span class="line"><span class="comment"># Linux 是把父进程拷贝到子进程</span></span><br><span class="line"><span class="keyword">import</span> multiprocessing</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"></span><br><span class="line">print(<span class="string">'main process start1'</span>)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">'subprocess start'</span>,time.asctime(time.localtime(time.time())))</span><br><span class="line">    time.sleep(<span class="number">3</span>)</span><br><span class="line">    print(<span class="string">'subprocess end'</span>,time.asctime(time.localtime(time.time())))</span><br><span class="line"></span><br><span class="line">print(<span class="string">'main process start2'</span>)</span><br><span class="line">p = multiprocessing.Process(target=func, name=<span class="string">'1号'</span>)</span><br><span class="line">p.start()</span><br><span class="line">print(<span class="string">'main process end'</span>, time.asctime(time.localtime(time.time())),multiprocessing.current_process())</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line">    <span class="comment"># 默认所有进程结束后，程序才结束</span></span><br><span class="line"></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">linux </span></span><br><span class="line"><span class="string">main process start1</span></span><br><span class="line"><span class="string">main process start2</span></span><br><span class="line"><span class="string">main process end Fri Mar 23 00:20:29 2018 &lt;_MainProcess(MainProcess, started)&gt;</span></span><br><span class="line"><span class="string">subprocess start Fri Mar 23 00:20:29 2018</span></span><br><span class="line"><span class="string">subprocess end Fri Mar 23 00:20:32 2018</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">windows</span></span><br><span class="line"><span class="string">Make sure that the main module can be safely </span></span><br><span class="line"><span class="string">imported by a new Python interpreter without causing unintended </span></span><br><span class="line"><span class="string">side effects (such a starting a new process)."</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">main process start1 </span></span><br><span class="line"><span class="string">main process start2</span></span><br><span class="line"><span class="string">main process end Fri Mar 23 00:23:50 2018 &lt;_MainProcess(MainProcess, started)&gt;</span></span><br><span class="line"><span class="string">main process start1 #相当于导入一次该程序，在main函数之前调用进程，会造成无限循环输出导致报错</span></span><br><span class="line"><span class="string">subprocess start Fri Mar 23 00:23:50 2018</span></span><br><span class="line"><span class="string">subprocess end Fri Mar 23 00:23:53 2018</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure>
-<p>strat():方法的功能</p>
-<p>　　1.开启进程<br>　　2.执行功能</p>
-<p><strong>开启进程方法一</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> multiprocessing</span><br><span class="line"><span class="comment"># import threading</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">()</span>:</span></span><br><span class="line">    i = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">10000000</span>):</span><br><span class="line">        i += <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span>  <span class="keyword">True</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    start = time.time()</span><br><span class="line">    p = multiprocessing.Process(target=func)  <span class="comment"># 创建一个子进程</span></span><br><span class="line">    p1 = multiprocessing.Process(target=func)</span><br><span class="line">    p.start()</span><br><span class="line">    p1.start()</span><br><span class="line">    <span class="comment"># p = threading.Thread(target=func)</span></span><br><span class="line">    <span class="comment"># p.start()</span></span><br><span class="line">    func()</span><br><span class="line">    end = time.time()</span><br><span class="line">    print(end - start)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
-<p><strong>开启进程方法二</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">pro</span><span class="params">(Process)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,name)</span>:</span></span><br><span class="line">        super().__init__() <span class="comment"># 必须继承父类的一些属性</span></span><br><span class="line">        self.name = name</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span>  <span class="comment"># 必须得实现一个run方法</span></span><br><span class="line">        print(<span class="string">'%s is work,父进程%s,当前进程%s'</span>%(self.name,os.getppid(),os.getpid()))</span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line">        print(<span class="string">'%s is work end'</span>%self.name)</span><br><span class="line"><span class="keyword">if</span> __name__ ==<span class="string">'__main__'</span>:</span><br><span class="line">    p1 = pro(<span class="string">'al'</span>)</span><br><span class="line">    p2 = pro(<span class="string">'b1'</span>)</span><br><span class="line">    p3 = pro(<span class="string">'c1'</span>)</span><br><span class="line">    p1.start()</span><br><span class="line">    p2.start()</span><br><span class="line">    p3.start()</span><br><span class="line">    print(<span class="string">'主进程'</span>,os.getpid())</span><br><span class="line"></span><br><span class="line">-》》输出</span><br><span class="line">主进程 <span class="number">9116</span></span><br><span class="line">b1 <span class="keyword">is</span> work,父进程<span class="number">9116</span>,当前进程<span class="number">4316</span></span><br><span class="line">al <span class="keyword">is</span> work,父进程<span class="number">9116</span>,当前进程<span class="number">6664</span></span><br><span class="line">c1 <span class="keyword">is</span> work,父进程<span class="number">9116</span>,当前进程<span class="number">10132</span></span><br><span class="line">b1 <span class="keyword">is</span> work end</span><br><span class="line">al <span class="keyword">is</span> work end</span><br><span class="line">c1 <span class="keyword">is</span> work end</span><br></pre></td></tr></table></figure></p>
-<h1 id="使用daemon"><a href="#使用daemon" class="headerlink" title="使用daemon"></a>使用daemon</h1><p>1.守护进程会在主进程代码执行结束后终止<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">My_Process</span><span class="params">(Process)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,name)</span>:</span></span><br><span class="line">        super().__init__() <span class="comment"># 必须继承父类的一些属性</span></span><br><span class="line">        self.name = name</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span>  <span class="comment"># 必须得实现一个run方法</span></span><br><span class="line">        time.sleep(<span class="number">5</span>)</span><br><span class="line">        print(<span class="string">'%s is work end'</span>%self.name)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ ==<span class="string">'__main__'</span>:</span><br><span class="line">    start_time = time.time()</span><br><span class="line">    print(<span class="string">"process start"</span>)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">5</span>):</span><br><span class="line">        t = My_Process(<span class="string">'Process%s'</span> % i)</span><br><span class="line">        <span class="comment"># t.daemon = True</span></span><br><span class="line">        t.start()</span><br><span class="line">    time.sleep(<span class="number">3</span>)</span><br><span class="line">    print(<span class="string">"process end"</span>)</span><br><span class="line">    print(time.time() - start_time)</span><br><span class="line"></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string"> t.daemon = False</span></span><br><span class="line"><span class="string">process start</span></span><br><span class="line"><span class="string">process end  #主进程运行完毕后，程序等待子进程运行完成后结束</span></span><br><span class="line"><span class="string">0.020070791244506836</span></span><br><span class="line"><span class="string">Process0 is work end</span></span><br><span class="line"><span class="string">Process2 is work end</span></span><br><span class="line"><span class="string">Process3 is work end</span></span><br><span class="line"><span class="string">Process4 is work end</span></span><br><span class="line"><span class="string">Process1 is work end</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Process finished with exit code 0</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string"> t.daemon = True</span></span><br><span class="line"><span class="string">process start</span></span><br><span class="line"><span class="string">process end   #主进程运行完毕后，守护进程结束</span></span><br><span class="line"><span class="string">3.014104127883911</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Process finished with exit code 0</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure></p>
-<ol>
-<li>守护进程内无法再开启子进程,否则抛出异常：AssertionError: daemonic processes are not allowed to have children</li>
-</ol>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">task</span><span class="params">(name)</span>:</span></span><br><span class="line">    print(<span class="string">'%s is start'</span> %name)</span><br><span class="line">    time.sleep(random.randrange(<span class="number">1</span>,<span class="number">3</span>))</span><br><span class="line">    print(<span class="string">'%s is end'</span> %name)</span><br><span class="line">    p = Process(target=time.sleep, args=(<span class="number">3</span>,)) <span class="comment">#在守护进程里面开子进程报错</span></span><br><span class="line">    p.start()</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    p=Process(target=task,args=(<span class="string">'egon'</span>,))</span><br><span class="line">    p.daemon=<span class="keyword">True</span> <span class="comment">#一定要在p.start()前设置,设置p为守护进程,禁止p创建子进程,并且父进程代码执行结束,p即终止运行</span></span><br><span class="line"> </span><br><span class="line">    p.start()</span><br><span class="line">    p.join()</span><br><span class="line">    print(<span class="string">'主'</span>) <span class="comment">#只要终端打印出这一行内容，那么守护进程p也就跟着结束掉了</span></span><br><span class="line">-----------</span><br><span class="line"> </span><br><span class="line">egon <span class="keyword">is</span> start</span><br><span class="line">egon <span class="keyword">is</span> end</span><br><span class="line">Process Process<span class="number">-1</span>:</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"C:\Program Files\Python36\lib\multiprocessing\process.py"</span>, line <span class="number">249</span>, <span class="keyword">in</span> _bootstrap</span><br><span class="line">    self.run()</span><br><span class="line">  File <span class="string">"C:\Program Files\Python36\lib\multiprocessing\process.py"</span>, line <span class="number">93</span>, <span class="keyword">in</span> run</span><br><span class="line">    self._target(*self._args, **self._kwargs)</span><br><span class="line">  File <span class="string">"C:\Users\jingjing\PycharmProjects\py3Project\路飞\第四模块课件\01网络编程进阶\01 多进程\05 守护进程.py"</span>, line <span class="number">55</span>, <span class="keyword">in</span> task</span><br><span class="line">    p.start()</span><br><span class="line">  File <span class="string">"C:\Program Files\Python36\lib\multiprocessing\process.py"</span>, line <span class="number">103</span>, <span class="keyword">in</span> start</span><br><span class="line">    <span class="string">'daemonic processes are not allowed to have children'</span></span><br><span class="line">AssertionError: daemonic processes are <span class="keyword">not</span> allowed to have children</span><br></pre></td></tr></table></figure>
-<h1 id="使用terminate"><a href="#使用terminate" class="headerlink" title="使用terminate"></a>使用terminate</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> multiprocessing</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">'subprocess start'</span>,time.asctime(time.localtime(time.time())))</span><br><span class="line">    time.sleep(<span class="number">3</span>)</span><br><span class="line">    print(<span class="string">'subprocess end'</span>,time.asctime(time.localtime(time.time())))</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    p = multiprocessing.Process(target=func, name=<span class="string">'1号'</span>)</span><br><span class="line">    p.start()</span><br><span class="line">    p.terminate() <span class="comment"># 终止进程</span></span><br><span class="line">    time.sleep(<span class="number">5</span>)</span><br><span class="line">    print(p.is_alive()) <span class="comment"># 判断这个进程是否存在</span></span><br><span class="line">    <span class="comment"># 默认所有进程结束后，程序才结束</span></span><br><span class="line">    print(<span class="string">'main process end'</span>, time.asctime(time.localtime(time.time())), multiprocessing.current_process())</span><br><span class="line"></span><br><span class="line">-》》》输出</span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">False  终止进程后is_alive()返回False，没有执行print('subprocess s……</span></span><br><span class="line"><span class="string">main process end Fri Mar 23 17:22:57 2018 &lt;_MainProcess(MainProcess, started)&gt;</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure>
-<h1 id="使用join"><a href="#使用join" class="headerlink" title="使用join"></a>使用join</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> multiprocessing</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">'subprocess start'</span>,time.asctime(time.localtime(time.time())))</span><br><span class="line">    time.sleep(<span class="number">3</span>)</span><br><span class="line">    print(<span class="string">'subprocess end'</span>,time.asctime(time.localtime(time.time())))</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    p = multiprocessing.Process(target=func, name=<span class="string">'1号'</span>)</span><br><span class="line">    p.start()</span><br><span class="line">    p.join() <span class="comment"># 等待子进程完成后，结束主线程</span></span><br><span class="line">    <span class="comment"># 默认所有进程结束后，程序才结束</span></span><br><span class="line">    print(<span class="string">'main process end'</span>, time.asctime(time.localtime(time.time())), multiprocessing.current_process())</span><br><span class="line"></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">不使用join</span></span><br><span class="line"><span class="string"># 主线程调用子线程后直接结束，然后子线程再结束</span></span><br><span class="line"><span class="string">main process end Fri Mar 23 17:34:01 2018 &lt;_MainProcess(MainProcess, started)&gt;</span></span><br><span class="line"><span class="string">subprocess start Fri Mar 23 17:34:01 2018</span></span><br><span class="line"><span class="string">subprocess end Fri Mar 23 17:34:04 2018</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">使用join</span></span><br><span class="line"><span class="string">subprocess start Fri Mar 23 17:30:20 2018</span></span><br><span class="line"><span class="string">subprocess end Fri Mar 23 17:30:23 2018</span></span><br><span class="line"><span class="string"># 等待子进程完成后，结束主线程</span></span><br><span class="line"><span class="string">main process end Fri Mar 23 17:30:23 2018 &lt;_MainProcess(MainProcess, started)&gt;</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure>
-<h1 id="使用多进程实现并发的服务器"><a href="#使用多进程实现并发的服务器" class="headerlink" title="使用多进程实现并发的服务器"></a>使用多进程实现并发的服务器</h1><p><strong>服务器端</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">import</span> multiprocessing</span><br><span class="line">server = socket.socket()</span><br><span class="line">server.bind((<span class="string">'127.0.0.1'</span>, <span class="number">9988</span>))</span><br><span class="line">server.listen(<span class="number">5</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">read_msg</span><span class="params">(conn, addr)</span>:</span></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            data = conn.recv(<span class="number">1024</span>)</span><br><span class="line">            <span class="keyword">if</span> data:  <span class="comment"># 正常接收数据</span></span><br><span class="line">                print(<span class="string">'收到&#123;&#125;:数据&#123;&#125;'</span>.format(addr,data.decode()))</span><br><span class="line">                conn.send(data)</span><br><span class="line">            <span class="keyword">else</span>:  <span class="comment"># 收到空消息，关闭</span></span><br><span class="line">                print(<span class="string">'close:&#123;&#125;'</span>.format(addr))</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">            print(e)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    conn.close()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        print(<span class="string">'-------主进程,等待连接------'</span>)</span><br><span class="line">        conn, addr = server.accept()</span><br><span class="line">        print(<span class="string">'创建一个新的进程，和客户端&#123;&#125;通信'</span>.format(addr))</span><br><span class="line">        client= multiprocessing.Process(target=read_msg, args=(conn, addr))</span><br><span class="line">        <span class="comment"># client = threading.Thread(target=readable, args=((conn, addr)))</span></span><br><span class="line">        <span class="comment"># p.start()</span></span><br><span class="line">        client.start()</span><br><span class="line">    server.close()</span><br></pre></td></tr></table></figure></p>
-<p><strong>客户端</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 客户端</span></span><br><span class="line"><span class="keyword">import</span> socket  <span class="comment"># 导入socket模块</span></span><br><span class="line"></span><br><span class="line">socket_client = socket.socket() <span class="comment"># 创建监听套接字</span></span><br><span class="line">socket_client.connect((<span class="string">'127.0.0.1'</span>, <span class="number">9988</span>))  <span class="comment"># 连接套接字 ,要连接的IP与端口</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="number">1</span>:</span><br><span class="line">       cmd = input(<span class="string">"Please input cmd:"</span>)   <span class="comment"># 与人交互，输入命令</span></span><br><span class="line">       <span class="keyword">if</span> <span class="keyword">not</span> cmd: <span class="keyword">continue</span></span><br><span class="line">       <span class="keyword">elif</span> cmd == <span class="string">'q'</span>:<span class="keyword">break</span></span><br><span class="line">       socket_client.send(cmd.encode(<span class="string">'utf-8'</span>))     <span class="comment"># 把命令发送给服务端</span></span><br><span class="line">       data = socket_client.recv(<span class="number">1024</span>)</span><br><span class="line">       print(<span class="string">'recv'</span>,data)</span><br><span class="line"></span><br><span class="line">socket_client.close()</span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2077,7 +2068,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">74</span>
+                    <span class="site-state-item-count">75</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2210,7 +2201,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共110.9k字</span>
+  <span class="post-count">博客全站共111.8k字</span>
 </div>
         
 
