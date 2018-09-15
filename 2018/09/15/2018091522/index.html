@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.6" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.0.6">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.0.6" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.0.6',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="属性查找类有两种属性：数据属性和函数属性 1、类的数据属性是所有对象共享的 12345678910111213141516171819202122class LuffyStudent:    school=&apos;luffycity&apos;     def learn(self):        print(&apos;is learning&apos;)     def eat(self):        print(&apos;is">
+<meta name="keywords" content="面向对象">
+<meta property="og:type" content="article">
+<meta property="og:title" content="属性查找与绑定方法">
+<meta property="og:url" content="http://yoursite.com/2018/09/15/2018091522/index.html">
+<meta property="og:site_name" content="Dynamic-Soul">
+<meta property="og:description" content="属性查找类有两种属性：数据属性和函数属性 1、类的数据属性是所有对象共享的 12345678910111213141516171819202122class LuffyStudent:    school=&apos;luffycity&apos;     def learn(self):        print(&apos;is learning&apos;)     def eat(self):        print(&apos;is">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-09-15T14:04:09.012Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="属性查找与绑定方法">
+<meta name="twitter:description" content="属性查找类有两种属性：数据属性和函数属性 1、类的数据属性是所有对象共享的 12345678910111213141516171819202122class LuffyStudent:    school=&apos;luffycity&apos;     def learn(self):        print(&apos;is learning&apos;)     def eat(self):        print(&apos;is">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/15/2018091522/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>属性查找与绑定方法 | Dynamic-Soul</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <a href="https://github.com/dynamic-soul"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Dynamic-Soul</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+</li>
+
+      
+
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/15/2018091522/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Q">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dynamic-Soul">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">属性查找与绑定方法</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-15T22:04:08+08:00">2018-09-15</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Python面向对象/" itemprop="url" rel="index"><span itemprop="name">Python面向对象</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="属性查找"><a href="#属性查找" class="headerlink" title="属性查找"></a>属性查找</h1><p>类有两种属性：数据属性和函数属性</p>
+<p>1、类的数据属性是所有对象共享的</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LuffyStudent</span>:</span></span><br><span class="line">    school=<span class="string">'luffycity'</span></span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">learn</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'is learning'</span>)</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">eat</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'is sleeping'</span>)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="comment">#后产生对象</span></span><br><span class="line">stu1=LuffyStudent()</span><br><span class="line">stu2=LuffyStudent()</span><br><span class="line">stu3=LuffyStudent()</span><br><span class="line"> </span><br><span class="line">print(id(stu1.school))</span><br><span class="line">print(id(stu2.school))</span><br><span class="line">print(id(stu3.school))</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 43496496</span></span><br><span class="line"><span class="comment"># 43496496</span></span><br><span class="line"><span class="comment"># 43496496</span></span><br></pre></td></tr></table></figure>
+<p>2、类的函数数据是绑定给对象用的，称为绑定到对象的方法<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#后产生对象</span></span><br><span class="line">stu1=LuffyStudent()</span><br><span class="line">stu2=LuffyStudent()</span><br><span class="line">stu3=LuffyStudent()</span><br><span class="line"><span class="comment">#类的函数属性是绑定给对象使用的,obj.method称为绑定方法,内存地址都不一样</span></span><br><span class="line">print(stu1.learn())</span><br><span class="line">print(stu2.learn())</span><br><span class="line">print(stu3.learn())</span><br><span class="line"> </span><br><span class="line"><span class="comment"># &lt;bound method LuffyStudent.learn of &lt;__main__.LuffyStudent object at 0x00000000127085C0&gt;&gt;</span></span><br><span class="line"><span class="comment"># &lt;bound method LuffyStudent.learn of &lt;__main__.LuffyStudent object at 0x0000000012708518&gt;&gt;</span></span><br><span class="line"><span class="comment"># &lt;bound method LuffyStudent.learn of &lt;__main__.LuffyStudent object at 0x0000000012708630&gt;&gt;</span></span><br><span class="line"><span class="comment">#ps:id是python的实现机制,并不能真实反映内存地址,如果有内存地址,还是以内存地址为准</span></span><br></pre></td></tr></table></figure></p>
+<p>在obj.name会先从obj自己的名称空间里找name，找不到则去类中找，类也找不到就找父类…最后都找不到就抛出异常</p>
+<h1 id="绑定方法"><a href="#绑定方法" class="headerlink" title="绑定方法"></a>绑定方法</h1><p>定义类并实例化出三个对象<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LuffyStudent</span>:</span></span><br><span class="line">    school=<span class="string">'luffy'</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,name,age)</span>:</span></span><br><span class="line">        self.name = name</span><br><span class="line">        self.age = age</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">eat</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'%s is eating'</span> %self.name)</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">sleep</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'%s is sleeping'</span> %self.name)</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__del__</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">"running del method, this person must be died."</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 后产生对象</span></span><br><span class="line">stu1=LuffyStudent(<span class="string">'alex'</span>,<span class="number">18</span>)</span><br><span class="line">stu2=LuffyStudent(<span class="string">'li'</span>,<span class="number">28</span>)</span><br><span class="line">stu3=LuffyStudent(<span class="string">'hy'</span>,<span class="number">38</span>)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">stu1.eat()</span><br><span class="line">stu2.eat()</span><br><span class="line">stu3.eat()</span><br><span class="line"> </span><br><span class="line"><span class="comment"># alex is eating</span></span><br><span class="line"><span class="comment"># li is eating</span></span><br><span class="line"><span class="comment"># hy is eating</span></span><br></pre></td></tr></table></figure></p>
+<p>　强调：绑定到对象的方法的特殊之处在于，绑定给谁就由谁来调用，谁来调用，就会将‘谁’本身当做第一个参数传给方法，即自动传值（方法<strong>init</strong>也是一样的道理）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">stu1.eat() <span class="comment"># 等同于LuffyStudent.eat(stu1)</span></span><br><span class="line">stu2.eat() <span class="comment"># 等同于LuffyStudent.eat(stu1)</span></span><br><span class="line">stu3.eat() <span class="comment"># 等同于LuffyStudent.eat(stu1)</span></span><br></pre></td></tr></table></figure>
+<p>　注意：绑定到对象的方法的这种自动传值的特征，决定了在类中定义的函数都要默认写一个参数self，self可以是任意名字，但是约定俗成地写出self。</p>
+<h1 id="类即类型"><a href="#类即类型" class="headerlink" title="类即类型"></a>类即类型</h1><p>python中一切皆为对象，且python3中类与类型是一个概念，类型就是类</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#类型dict就是类dict</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list</span><br><span class="line">&lt;<span class="class"><span class="keyword">class</span> '<span class="title">list</span>'&gt;</span></span><br><span class="line"><span class="class"> </span></span><br><span class="line">#实例化的到3个对象l1,l2,l3</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>l1=list()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>l2=list()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>l3=list()</span><br><span class="line"> </span><br><span class="line"><span class="comment">#三个对象都有绑定方法append,是相同的功能,但内存地址不同</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>l1.append</span><br><span class="line">&lt;built-<span class="keyword">in</span> method append of list object at <span class="number">0x10b482b48</span>&gt;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>l2.append</span><br><span class="line">&lt;built-<span class="keyword">in</span> method append of list object at <span class="number">0x10b482b88</span>&gt;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>l3.append</span><br><span class="line">&lt;built-<span class="keyword">in</span> method append of list object at <span class="number">0x10b482bc8</span>&gt;</span><br><span class="line"> </span><br><span class="line"><span class="comment">#操作绑定方法l1.append(3),就是在往l1添加3,绝对不会将3添加到l2或l3</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>l1.append(<span class="number">3</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>l1</span><br><span class="line">[<span class="number">3</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>l2</span><br><span class="line">[]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>l3</span><br><span class="line">[]</span><br><span class="line"><span class="comment">#调用类list.append(l3,111)等同于l3.append(111)</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list.append(l3,<span class="number">111</span>) <span class="comment">#l3.append(111)</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>l3</span><br><span class="line">[<span class="number">111</span>]</span><br></pre></td></tr></table></figure>
+<h1 id="数据与功能分离"><a href="#数据与功能分离" class="headerlink" title="数据与功能分离"></a>数据与功能分离</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MySQLHandler</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,host,port,db,charset=<span class="string">'utf8'</span>)</span>:</span></span><br><span class="line">        self.host=host</span><br><span class="line">        self.port=port</span><br><span class="line">        self.db=db</span><br><span class="line">        self.charset=charset</span><br><span class="line">        self.conn=self.connect(self.host,self.port,self.db,self.charset)</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">exc1</span><span class="params">(self,sql)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.conn.execute(sql)</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">exc2</span><span class="params">(self,sql)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.conn.call_proc(sql)</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_connect</span><span class="params">(self,host,port,db,charset)</span>:</span></span><br><span class="line">        print(<span class="string">'connect %s,%s,%s,%s'</span> %(host,port,db,charset))</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">obj=MySQLHandler(<span class="string">'127.0.0.1'</span>,<span class="number">3306</span>,<span class="string">'db1'</span>)</span><br><span class="line">obj.exc1(<span class="string">'select * from tb1;'</span>)</span><br><span class="line">obj.exc2(<span class="string">'mycall'</span>)</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/面向对象/" rel="tag"># 面向对象</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/14/2018091421/" rel="next" title="面向对象（类与对象）">
+                <i class="fa fa-chevron-left"></i> 面向对象（类与对象）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="Mr.Q" />
+            
+              <p class="site-author-name" itemprop="name">Mr.Q</p>
+              <p class="site-description motion-element" itemprop="description">我希望时间没有流走，世界还停在过去，昏黄的光还照在旧日的路上，我刚刚走过，恰与你们相识。</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">76</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">16</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#属性查找"><span class="nav-number">1.</span> <span class="nav-text">属性查找</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#绑定方法"><span class="nav-number">2.</span> <span class="nav-text">绑定方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#类即类型"><span class="nav-number">3.</span> <span class="nav-text">类即类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据与功能分离"><span class="nav-number">4.</span> <span class="nav-text">数据与功能分离</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mr.Q</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Gemini</a> v6.0.6</div>
+
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共112.7k字</span>
+</div>
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.6"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.0.6"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.6"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.6"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.6"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+</body>
+</html>

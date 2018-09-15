@@ -311,6 +311,264 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/20/2018052021/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Q">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dynamic-Soul">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/20/2018052021/" itemprop="url">Settings</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-20T21:04:28+08:00">2018-05-20</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Setting"><a href="#Setting" class="headerlink" title="Setting"></a>Setting</h1><p>Scrapy设置(settings)提供了定制Scrapy组件的方法。可以控制包括核心(core)，插件(extension)，pipeline及spider组件。比如 设置Json Pipeliine、LOG_LEVEL等。</p>
+<p>参考文档：<a href="http://scrapy-chs.readthedocs.io/zh_CN/1.0/topics/settings.html#topics-settings-ref" target="_blank" rel="noopener">http://scrapy-chs.readthedocs.io/zh_CN/1.0/topics/settings.html#topics-settings-ref</a></p>
+<h1 id="内置设置参考手册"><a href="#内置设置参考手册" class="headerlink" title="内置设置参考手册"></a>内置设置参考手册</h1><ul>
+<li><p>BOT_NAME</p>
+<ul>
+<li><p>默认: ‘scrapybot’</p>
+</li>
+<li><p>当您使用 startproject 命令创建项目时其也被自动赋值。</p>
+</li>
+</ul>
+</li>
+<li><p>CONCURRENT_ITEMS</p>
+<ul>
+<li><p>默认: 100</p>
+</li>
+<li><p>Item Processor(即 Item Pipeline) 同时处理(每个response的)item的最大值。</p>
+</li>
+</ul>
+</li>
+<li><p>CONCURRENT_REQUESTS</p>
+<ul>
+<li><p>默认: 16</p>
+</li>
+<li><p>Scrapy downloader 并发请求(concurrent requests)的最大值。</p>
+</li>
+</ul>
+</li>
+<li><p>DEFAULT_REQUEST_HEADERS</p>
+<ul>
+<li><p>默认: 如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line"><span class="string">'Accept'</span>: <span class="string">'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'</span>,</span><br><span class="line"><span class="string">'Accept-Language'</span>: <span class="string">'en'</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Scrapy HTTP Request使用的默认header。</p>
+</li>
+</ul>
+</li>
+<li><p>DEPTH_LIMIT</p>
+<ul>
+<li><p>默认: 0</p>
+</li>
+<li><p>爬取网站最大允许的深度(depth)值。如果为0，则没有限制。</p>
+</li>
+</ul>
+</li>
+<li><p>DOWNLOAD_DELAY</p>
+<ul>
+<li><p>默认: 0</p>
+</li>
+<li><p>下载器在下载同一个网站下一个页面前需要等待的时间。该选项可以用来限制爬取速度， 减轻服务器压力。同时也支持小数:</p>
+</li>
+</ul>
+</li>
+<li><p>DOWNLOAD_DELAY = 0.25 # 250 ms of delay</p>
+<ul>
+<li>默认情况下，Scrapy在两个请求间不等待一个固定的值， 而是使用0.5到1.5之间的一个随机值 * DOWNLOAD_DELAY 的结果作为等待间隔。</li>
+</ul>
+</li>
+<li><p>DOWNLOAD_TIMEOUT</p>
+<ul>
+<li><p>默认: 180</p>
+</li>
+<li><p>下载器超时时间(单位: 秒)。</p>
+</li>
+</ul>
+</li>
+<li><p>ITEM_PIPELINES</p>
+<ul>
+<li><p>默认: {}</p>
+</li>
+<li><p>保存项目中启用的pipeline及其顺序的字典。该字典默认为空，值(value)任意，不过值(value)习惯设置在0-1000范围内，值越小优先级越高。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ITEM_PIPELINES = &#123;</span><br><span class="line"><span class="string">'mySpider.pipelines.SomethingPipeline'</span>: <span class="number">300</span>,</span><br><span class="line"><span class="string">'mySpider.pipelines.ItcastJsonPipeline'</span>: <span class="number">800</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>LOG_ENABLED</p>
+<ul>
+<li><p>默认: True</p>
+</li>
+<li><p>是否启用logging。</p>
+</li>
+</ul>
+</li>
+<li><p>LOG_ENCODING</p>
+<ul>
+<li><p>默认: ‘utf-8’</p>
+</li>
+<li><p>logging使用的编码。</p>
+</li>
+</ul>
+</li>
+<li><p>LOG_LEVEL</p>
+<ul>
+<li><p>默认: ‘DEBUG’</p>
+</li>
+<li><p>log的最低级别。可选的级别有: CRITICAL、 ERROR、WARNING、INFO、DEBUG 。</p>
+</li>
+</ul>
+</li>
+<li><p>USER_AGENT</p>
+<ul>
+<li><p>默认: “Scrapy/VERSION (+<a href="http://scrapy.org)&quot;" target="_blank" rel="noopener">http://scrapy.org)&quot;</a></p>
+</li>
+<li><p>爬取的默认User-Agent，除非被覆盖。</p>
+</li>
+</ul>
+</li>
+<li><p>PROXIES： 代理设置</p>
+<ul>
+<li>示例：<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">    PROXIES = [</span><br><span class="line">      &#123;<span class="string">'ip_port'</span>: <span class="string">'111.11.228.75:80'</span>, <span class="string">'password'</span>: <span class="string">''</span>&#125;,</span><br><span class="line">      &#123;<span class="string">'ip_port'</span>: <span class="string">'120.198.243.22:80'</span>, <span class="string">'password'</span>: <span class="string">''</span>&#125;,</span><br><span class="line">      &#123;<span class="string">'ip_port'</span>: <span class="string">'111.8.60.9:8123'</span>, <span class="string">'password'</span>: <span class="string">''</span>&#125;,</span><br><span class="line">      &#123;<span class="string">'ip_port'</span>: <span class="string">'101.71.27.120:80'</span>, <span class="string">'password'</span>: <span class="string">''</span>&#125;,</span><br><span class="line">      &#123;<span class="string">'ip_port'</span>: <span class="string">'122.96.59.104:80'</span>, <span class="string">'password'</span>: <span class="string">''</span>&#125;,</span><br><span class="line">      &#123;<span class="string">'ip_port'</span>: <span class="string">'122.224.249.122:8088'</span>, <span class="string">'password'</span>:<span class="string">''</span>&#125;,</span><br><span class="line">    ]</span><br><span class="line">`</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>COOKIES_ENABLED = False</p>
+<ul>
+<li>禁用Cookies</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/20/2018052020/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2074,159 +2332,6 @@ mySpider/spiders/ ：存储爬虫代码目录
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/15/2018051523/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Mr.Q">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dynamic-Soul">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/15/2018051523/" itemprop="url">案例：尝试对知乎网验证码进行处理</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-15T21:14:05+08:00">2018-05-15</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="尝试对知乎网验证码进行处理："><a href="#尝试对知乎网验证码进行处理：" class="headerlink" title="尝试对知乎网验证码进行处理："></a>尝试对知乎网验证码进行处理：</h1><p>许多流行的内容管理系统即使加了验证码模块，其众所周知的注册页面也经常会遭到网络 机器人的垃圾注册。</p>
-<p>那么，这些网络机器人究，竟是怎么做的呢?既然我们已经，可以成功地识别出保存在电脑上 的验证码了，那么如何才能实现一个全能的网络机器人呢?</p>
-<p>大多数网站生成的验证码图片都具有以下属性。</p>
-<ul>
-<li>它们是服务器端的程序动态生成的图片。验证码图片的 src 属性可能和普通图片不太一 样，但是可以和其他图片一样进行 下载和处理。</li>
-<li>图片的答案存储在服务器端的数据库里。</li>
-<li>很多验证码都有时间限制，如果你太长时间没解决就会失效。</li>
-<li>常用的处理方法就是，首先把验证码图片下载到硬盘里，清理干净，然后用 Tesseract 处理 图片，最后返回符合网站要求的识别结果。<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> pytesseract</span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">captcha</span><span class="params">(data)</span>:</span></span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">'captcha.jpg'</span>,<span class="string">'wb'</span>) <span class="keyword">as</span> fp:</span><br><span class="line">        fp.write(data)</span><br><span class="line">    time.sleep(<span class="number">1</span>)</span><br><span class="line">    image = Image.open(<span class="string">"captcha.jpg"</span>)</span><br><span class="line">    text = pytesseract.image_to_string(image)</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"机器识别后的验证码为："</span> + text</span><br><span class="line">    command = raw_input(<span class="string">"请输入Y表示同意使用，按其他键自行重新输入："</span>)</span><br><span class="line">    <span class="keyword">if</span> (command == <span class="string">"Y"</span> <span class="keyword">or</span> command == <span class="string">"y"</span>):</span><br><span class="line">        <span class="keyword">return</span> text</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> raw_input(<span class="string">'输入验证码：'</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">zhihuLogin</span><span class="params">(username,password)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 构建一个保存Cookie值的session对象</span></span><br><span class="line">    sessiona = requests.Session()</span><br><span class="line">    headers = &#123;<span class="string">'User-Agent'</span>:<span class="string">'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0'</span>&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 先获取页面信息，找到需要POST的数据（并且已记录当前页面的Cookie）</span></span><br><span class="line">    html = sessiona.get(<span class="string">'https://www.zhihu.com/#signin'</span>, headers=headers).content</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 找到 name 属性值为 _xsrf 的input标签，取出value里的值</span></span><br><span class="line">    _xsrf = BeautifulSoup(html ,<span class="string">'lxml'</span>).find(<span class="string">'input'</span>, attrs=&#123;<span class="string">'name'</span>:<span class="string">'_xsrf'</span>&#125;).get(<span class="string">'value'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 取出验证码，r后面的值是Unix时间戳,time.time()</span></span><br><span class="line">    captcha_url = <span class="string">'https://www.zhihu.com/captcha.gif?r=%d&amp;type=login'</span> % (time.time() * <span class="number">1000</span>)</span><br><span class="line">    response = sessiona.get(captcha_url, headers = headers)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    data = &#123;</span><br><span class="line">        <span class="string">"_xsrf"</span>:_xsrf,</span><br><span class="line">        <span class="string">"email"</span>:username,</span><br><span class="line">        <span class="string">"password"</span>:password,</span><br><span class="line">        <span class="string">"remember_me"</span>:<span class="keyword">True</span>,</span><br><span class="line">        <span class="string">"captcha"</span>: captcha(response.content)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    response = sessiona.post(<span class="string">'https://www.zhihu.com/login/email'</span>, data = data, headers=headers)</span><br><span class="line">    <span class="keyword">print</span> response.text</span><br><span class="line"></span><br><span class="line">    response = sessiona.get(<span class="string">'https://www.zhihu.com/people/maozhaojun/activities'</span>, headers=headers)</span><br><span class="line">    <span class="keyword">print</span> response.text</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    <span class="comment">#username = raw_input("username")</span></span><br><span class="line">    <span class="comment">#password = raw_input("password")</span></span><br><span class="line">    zhihuLogin(<span class="string">'xxxx@qq.com'</span>,<span class="string">'ALAxxxxIME'</span>)</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>值得注意的是，有两种异常情况会导致这个程序运行失败。第一种情况是，如果 Tesseract 从验证码图片中识别的结果不是四个字符(因为训练样本中验证码的所有有效答案都必须 是四个字符)，结果不会被提交，程序失败。第二种情况是虽然识别的结果是四个字符， 被提交到了表单，但是服务器对结果不认可，程序仍然失败。</p>
-<p>在实际运行过程中，第一种 情况发生的可能性大约为 50%，发生时程序不会向表单提交，程序直接结束并提示验证码 识别错误。第二种异常情况发生的概率约为 20%，四个字符都对的概率约是 30%(每个字 母的识别正确率大约是 80%，如果是五个字符都识别，正确的总概率是 32.8%)。 </p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2278,7 +2383,7 @@ mySpider/spiders/ ：存储爬虫代码目录
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">75</span>
+                    <span class="site-state-item-count">76</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2413,7 +2518,7 @@ mySpider/spiders/ ：存储爬虫代码目录
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共111.8k字</span>
+  <span class="post-count">博客全站共112.7k字</span>
 </div>
         
 

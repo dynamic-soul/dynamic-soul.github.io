@@ -311,6 +311,171 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/04/2018090422/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Q">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dynamic-Soul">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/04/2018090422/" itemprop="url">Python进程间通信</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-04T22:15:32+08:00">2018-09-04</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Python网络编程/" itemprop="url" rel="index"><span itemprop="name">Python网络编程</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="通信方式"><a href="#通信方式" class="headerlink" title="通信方式"></a>通信方式</h1><p>进程彼此之间互相隔离，要实现进程间通信（IPC），multiprocessing模块主要通过队列方式</p>
+<p>队列：队列类似于一条管道，元素先进先出</p>
+<p>需要注意的一点是：队列都是在内存中操作,进程退出,队列清空,另外,队列也是一个阻塞的形态</p>
+<h1 id="Queue介绍："><a href="#Queue介绍：" class="headerlink" title="Queue介绍："></a>Queue介绍：</h1><p>创建队列的类（底层就是以管道和锁定的方式实现）：</p>
+<p>Queue([maxsize]):创建共享的进程队列，Queue是多进程安全的队列，</p>
+<p>可以使用Queue实现多进程之间的数据传递。maxsize是队列中允许最大项数，省略则无大小限制。</p>
+<h2 id="方法介绍："><a href="#方法介绍：" class="headerlink" title="方法介绍："></a>方法介绍：</h2><p>def put(self, obj, block=True, timeout=None):插入数据到队列中<br>Block值默认为True，代表当队列已满时，会阻塞。如果block为False，则队列满会报异常Queue.Full<br>timeout表示会阻塞到指定时间，直到有剩余的空间供插入，如果时间超时，则报异常Queue.Full</p>
+<p>def get(self, block=True, timeout=None):从队列中取出数据<br>Block值默认为True，代表当队列为空时，会阻塞。如果block为False，则队列空会报异常Queue.Empty<br>timeout表示会等待到指定时间，直到取出数据，如果时间超时，则报异常Queue.Empty</p>
+<p>def empty(self): 判断队列是否为空，如果空返回True<br>def full(self): 判断队列是否已满，如果满返回True<br>def qsize(self): 返回队列的大小</p>
+<h2 id="应用举例："><a href="#应用举例：" class="headerlink" title="应用举例："></a>应用举例：</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process, Manager</span><br><span class="line">q = Manager().Queue(<span class="number">2</span>)</span><br><span class="line">q.put(<span class="number">1</span>)</span><br><span class="line">q.put(<span class="number">2</span>,block=<span class="keyword">False</span>,timeout=<span class="number">2</span>)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">()</span>:</span></span><br><span class="line">    print(q.get())</span><br><span class="line"></span><br><span class="line">p = Process(target=func)</span><br><span class="line">print(<span class="string">"size"</span>,q.qsize())</span><br><span class="line">print(<span class="string">"full"</span>,q.full())</span><br><span class="line">p.start()</span><br><span class="line">p.join()</span><br><span class="line">print(<span class="string">"empty"</span>,q.empty())</span><br><span class="line">print(<span class="string">"get"</span>, q.get())</span><br><span class="line">print(<span class="string">"get"</span>, q.get(block=<span class="keyword">False</span>,timeout=<span class="number">2</span>))</span><br></pre></td></tr></table></figure>
+<p>输出结果<br><img src="/2018/09/04/2018090422/1.jpg"></p>
+<p><strong>生产者和消费者模型</strong></p>
+<p>在并发编程中使用生产者和消费者模式能够解决绝大多数并发问题。该模式通过平衡生产线程和消费线程的工作能力来提高程序的整体处理数据的速度。</p>
+<p><strong>为什么要使用生产者和消费者模式</strong></p>
+<p>在线程世界里，生产者就是生产数据的线程，消费者就是消费数据的线程。在多线程开发当中，如果生产者处理速度很快，而消费者处理速度很慢，那么生产者就必须等待消费者处理完，才能继续生产数据。同样的道理，如果消费者的处理能力大于生产者，那么消费者就必须等待生产者。为了解决这个问题于是引入了生产者和消费者模式。</p>
+<p><strong>什么是生产者消费者模式</strong></p>
+<p>生产者消费者模式是通过一个容器来解决生产者和消费者的强耦合问题。生产者和消费者彼此之间不直接通讯，而通过阻塞队列来进行通讯：</p>
+<p>生产者，只需要往队列里面丢东西（生产者不需要关心消费者）</p>
+<p>消费者，只需要从队列里面拿东西（消费者也不需要关心生产者）</p>
+<p>阻塞队列就相当于一个缓冲区，平衡了生产者和消费者的处理能力。</p>
+<img src="/2018/09/04/2018090422/2.jpg">
+<p>实现方式一：Queue<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process,Manager,active_children</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> queue</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Producer</span><span class="params">(Process)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,queue)</span>:</span></span><br><span class="line">        super().__init__()</span><br><span class="line">        self.queue = queue</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">6</span>):</span><br><span class="line">            r = random.randint(<span class="number">0</span>, <span class="number">99</span>)</span><br><span class="line">            time.sleep(<span class="number">1</span>)</span><br><span class="line">            self.queue.put(r)</span><br><span class="line">            print(<span class="string">"add data&#123;&#125;"</span>.format(r))</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Consumer</span><span class="params">(Process)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,queue)</span>:</span></span><br><span class="line">        super().__init__()</span><br><span class="line">        self.queue = queue</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">          <span class="keyword">if</span> <span class="keyword">not</span> self.queue.empty():</span><br><span class="line">                data = self.queue.get()</span><br><span class="line">                print(<span class="string">"minus data&#123;&#125;"</span>.format(data))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    q = Manager().Queue() <span class="comment"># 创建队列</span></span><br><span class="line">    p = Producer(q)</span><br><span class="line">    c = Consumer(q)</span><br><span class="line">    p.start()</span><br><span class="line">    c.start()</span><br><span class="line">    print(active_children())  <span class="comment"># 查看现有的进程</span></span><br><span class="line">    p.join()</span><br><span class="line">    c.join()</span><br><span class="line">    print(<span class="string">"结束"</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;输出</span><br><span class="line">[&lt;ForkProcess(SyncManager<span class="number">-1</span>, started)&gt;, &lt;Producer(Producer<span class="number">-2</span>, started)&gt;, &lt;Consumer(Consumer<span class="number">-3</span>, started)&gt;]</span><br><span class="line">add data83</span><br><span class="line">minus data83</span><br><span class="line">add data72</span><br><span class="line">minus data72</span><br><span class="line">add data8</span><br><span class="line">minus data8</span><br><span class="line">add data63</span><br><span class="line">minus data63</span><br><span class="line">add data75</span><br><span class="line">minus data75</span><br><span class="line">add data52</span><br><span class="line">minus data52</span><br></pre></td></tr></table></figure></p>
+<p>实现方式二：利用JoinableQueue<br> JoinableQueue([maxsize])：一个Queue对象，但队列允许项目的使用者通知生成者项目已经被成功处理。通知进程是使用共享的信号和条件变量来实现的。<br>     JoinableQueue的实例除了与Queue对象相同的方法之外还具有：<br>     task_done()：使用者使用此方法发出信号，表示get()的返回项目已经被处理。如果调用此方法的次数大于从队列中删除项目的数量，将引发ValueError异常<br>     join():生产者调用此方法进行阻塞，直到队列中所有的项目均被处理。阻塞将持续到队列中的每个项目均调用task_done（）方法为止</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process,JoinableQueue</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_log</span><span class="params">(msg, log_type=<span class="string">"prod"</span>)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> log_type == <span class="string">'prod'</span>:</span><br><span class="line">        print(<span class="string">"\033[32;1m%s\033[0m"</span> %msg)</span><br><span class="line">    <span class="keyword">elif</span> log_type == <span class="string">'con'</span>:</span><br><span class="line">        print(<span class="string">"\033[31;1m%s\033[0m"</span> %msg)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">producer</span><span class="params">(q)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    生产者</span></span><br><span class="line"><span class="string">    :param q: </span></span><br><span class="line"><span class="string">    :return: </span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">        data = random.randint(<span class="number">1</span>,<span class="number">200</span>)</span><br><span class="line">        time.sleep(<span class="number">2</span>)</span><br><span class="line">        q.put(data)  <span class="comment"># 放入队列</span></span><br><span class="line">        msg = <span class="string">"add data &#123;&#125;"</span>.format(data)</span><br><span class="line">        print_log(msg)</span><br><span class="line">    q.join()  <span class="comment"># 生产者调用此方法进行阻塞，直到队列中所有的项目均被处理。</span></span><br><span class="line">    <span class="comment"># 阻塞将持续到队列中的每个项目均调用q.task_done（）方法为止</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">consumer</span><span class="params">(q)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    消费者</span></span><br><span class="line"><span class="string">    :param q: </span></span><br><span class="line"><span class="string">    :return: </span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> q.empty():</span><br><span class="line">            time.sleep(<span class="number">5</span>)</span><br><span class="line">            data = q.get()</span><br><span class="line">            msg = <span class="string">"minus data&#123;&#125;"</span>.format(data)</span><br><span class="line">            print_log(msg,<span class="string">"con"</span>)</span><br><span class="line">            q.task_done()  <span class="comment"># q.get()的返回项目已经被处理</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    q = JoinableQueue()</span><br><span class="line">    prod = Process(target=producer, args=(q,))</span><br><span class="line">    con = Process(target=consumer, args=(q,))</span><br><span class="line">    con.daemon = <span class="keyword">True</span>  <span class="comment"># 设置为守护进程，但是不用担心，producer内调用q.join保证了consumer已经处理完队列中的所有元素</span></span><br><span class="line">    <span class="comment"># 开启进程</span></span><br><span class="line">    prod.start()</span><br><span class="line">    con.start()</span><br><span class="line"></span><br><span class="line">    prod.join()  <span class="comment"># 等待生产和消费完成，主线程结束</span></span><br><span class="line">    print(<span class="string">"结束"</span>)</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/03/2018090323/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1875,187 +2040,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/07/2018060721/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Mr.Q">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dynamic-Soul">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/06/07/2018060721/" itemprop="url">爬虫与反爬</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-07T21:31:37+08:00">2018-06-07</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="反爬策略"><a href="#反爬策略" class="headerlink" title="反爬策略"></a>反爬策略</h1><h2 id="一：-User-Agent-Referer检测"><a href="#一：-User-Agent-Referer检测" class="headerlink" title="一： User-Agent +Referer检测"></a>一： User-Agent +Referer检测</h2><p>User-Agent 是HTTP协议的中的一个字段， 其作用是描述发出HTTP请求的终端的一些信息。<br>使得服务器能够识别客户使用的操作系统及版本、CPU 类型、浏览器及版本、浏览器渲染引擎、浏览器语言、浏览器插件等。<br>服务器通过这个字段就可以知道访问网站的是什么人。对于不是正常浏览器的用户进行屏蔽。</p>
-<p>解决方案: 伪装浏览器的User-Agent，因为每个浏览器的User-Agent不一样,并且所有<br>的用户都能使用浏览器。所有每次请求的时候条件浏览器的User-Agent，就能解决UA检测</p>
-<p>Referer是header的一部分，当浏览器向web服务器发送请求的时候，一般会带上Referer，</p>
-<p>告诉服务器我是从哪个页面链接过来的。例如有一些图片网站在你请求图片的时候，就会检测</p>
-<p>你的Referer值，如果Referer不符合，不会返回正常的图片。</p>
-<p>解决方案：在检测referer的请求中，携带符合的referer值。</p>
-<p>##　二： js混淆和渲染<br>所谓 JavaScript 混淆，基本就是:</p>
-<pre><code>1.去掉一些实际没有调用的函数。
-
-2.将零散的变量声明合并。
-
-3.逻辑函数的精简。
-
-4.变量名的简化。具体要看不同的压缩工具的考虑优劣。常见的有UglifyJS、JScrambler等工具。
-</code></pre><p>js渲染其实就是对HTML页面的修改。比如有一些网页本身没有返回数据，数据是经过js加载之后添加到HTML当中的。当遇到这种情况的时候，我们要知道爬虫是不会执行JavaScript操作。所以需要用其他的方法处理。</p>
-<p>解决方案：</p>
-<pre><code>1.通过阅读网站js源码，找到关键的代码，并用python实现。
-
-2.通过阅读网站js源码，找到关键的代码，用PyV8,execjs等库直接执行js代码。
-
-3.通过selenium库直接模拟浏览器环境
-</code></pre><h2 id="三：IP限制频次"><a href="#三：IP限制频次" class="headerlink" title="三：IP限制频次"></a>三：IP限制频次</h2><p>WEB系统都是走http协议跟WEB容器连通的，每次请求至少会产生一次客户端与服务器的tcp连接。</p>
-<p>对于服务端来说可以很清楚的查看到，一个ip地址在单位时间内发起的请求。</p>
-<p>当请求数超过一定的值之后，就可判断为非正常的用户请求。</p>
-<p>解决方案：</p>
-<pre><code>1.自行设计ip代理池，通过轮换的方式，每次请求携带不同的代理地址。
-
-2.ADSL动态拨号他有个独有的特点，每拨一次号，就获取一个新的IP。也就是它的IP是不固定的。
-</code></pre><h2 id="四：验证码"><a href="#四：验证码" class="headerlink" title="四：验证码"></a>四：验证码</h2><p>验证码（CAPTCHA）是“Completely Automated PublicTuring test to tell Computers and Humans Apart”（全自动区分计算机和人类的图灵测试）的缩写，是一种区分用户是计算机还是人的公共全自动程序。</p>
-<p>可以防止：恶意破解密码、刷票、论坛灌水，有效防止某个黑客对某一个特定注册用户用特定程序暴力破解方式进行不断的登陆尝试。</p>
-<p>这个问题可以由计算机生成并评判，但是必须只有人类才能解答。由于计算机无法解答</p>
-<p>CAPTCHA的问题，所以回答出问题的用户就可以被认为是人类。</p>
-<p>解决方案:</p>
-<pre><code>1.手动识别验证码
-
-2.pytesseract识别简单的验证码
-
-3.对接打码平台
-
-4.机器学习
-</code></pre>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2107,7 +2091,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">75</span>
+                    <span class="site-state-item-count">76</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2242,7 +2226,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共111.8k字</span>
+  <span class="post-count">博客全站共112.7k字</span>
 </div>
         
 
