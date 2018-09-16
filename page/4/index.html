@@ -311,6 +311,153 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/28/2018052821/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Q">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dynamic-Soul">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/28/2018052821/" itemprop="url">新浪网分类资讯爬虫</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-28T21:19:47+08:00">2018-05-28</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="新浪网分类资讯爬虫"><a href="#新浪网分类资讯爬虫" class="headerlink" title="新浪网分类资讯爬虫"></a>新浪网分类资讯爬虫</h1><p>爬取新浪网导航页所有下所有大类、小类、小类里的子链接，以及子链接页面的新闻内容。</p>
+<h2 id="items-py"><a href="#items-py" class="headerlink" title="items.py"></a>items.py</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scrapy</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line">reload(sys)</span><br><span class="line">sys.setdefaultencoding(<span class="string">"utf-8"</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SinaItem</span><span class="params">(scrapy.Item)</span>:</span></span><br><span class="line">    <span class="comment"># 大类的标题 和 url</span></span><br><span class="line">    parentTitle = scrapy.Field()</span><br><span class="line">    parentUrls = scrapy.Field()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 小类的标题 和 子url</span></span><br><span class="line">    subTitle = scrapy.Field()</span><br><span class="line">    subUrls = scrapy.Field()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 小类目录存储路径</span></span><br><span class="line">    subFilename = scrapy.Field()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 小类下的子链接</span></span><br><span class="line">    sonUrls = scrapy.Field()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 文章标题和内容</span></span><br><span class="line">    head = scrapy.Field()</span><br><span class="line">    content = scrapy.Field()</span><br></pre></td></tr></table></figure>
+<h2 id="spiders-sina-py"><a href="#spiders-sina-py" class="headerlink" title="spiders/sina.py"></a>spiders/sina.py</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> Sina.items <span class="keyword">import</span> SinaItem</span><br><span class="line"><span class="keyword">import</span> scrapy</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line">reload(sys)</span><br><span class="line">sys.setdefaultencoding(<span class="string">"utf-8"</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SinaSpider</span><span class="params">(scrapy.Spider)</span>:</span></span><br><span class="line">    name= <span class="string">"sina"</span></span><br><span class="line">    allowed_domains= [<span class="string">"sina.com.cn"</span>]</span><br><span class="line">    start_urls= [</span><br><span class="line">       <span class="string">"http://news.sina.com.cn/guide/"</span></span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        items= []</span><br><span class="line">        <span class="comment"># 所有大类的url 和 标题</span></span><br><span class="line">        parentUrls = response.xpath(<span class="string">'//div[@id=\"tab01\"]/div/h3/a/@href'</span>).extract()</span><br><span class="line">        parentTitle = response.xpath(<span class="string">"//div[@id=\"tab01\"]/div/h3/a/text()"</span>).extract()</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 所有小类的ur 和 标题</span></span><br><span class="line">        subUrls  = response.xpath(<span class="string">'//div[@id=\"tab01\"]/div/ul/li/a/@href'</span>).extract()</span><br><span class="line">        subTitle = response.xpath(<span class="string">'//div[@id=\"tab01\"]/div/ul/li/a/text()'</span>).extract()</span><br><span class="line"></span><br><span class="line">        <span class="comment">#爬取所有大类</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, len(parentTitle)):</span><br><span class="line">            <span class="comment"># 指定大类目录的路径和目录名</span></span><br><span class="line">            parentFilename = <span class="string">"./Data/"</span> + parentTitle[i]</span><br><span class="line"></span><br><span class="line">            <span class="comment">#如果目录不存在，则创建目录</span></span><br><span class="line">            <span class="keyword">if</span>(<span class="keyword">not</span> os.path.exists(parentFilename)):</span><br><span class="line">                os.makedirs(parentFilename)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># 爬取所有小类</span></span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">0</span>, len(subUrls)):</span><br><span class="line">                item = SinaItem()</span><br><span class="line"></span><br><span class="line">                <span class="comment"># 保存大类的title和urls</span></span><br><span class="line">                item[<span class="string">'parentTitle'</span>] = parentTitle[i]</span><br><span class="line">                item[<span class="string">'parentUrls'</span>] = parentUrls[i]</span><br><span class="line"></span><br><span class="line">                <span class="comment"># 检查小类的url是否以同类别大类url开头，如果是返回True (sports.sina.com.cn 和 sports.sina.com.cn/nba)</span></span><br><span class="line">                if_belong = subUrls[j].startswith(item[<span class="string">'parentUrls'</span>])</span><br><span class="line"></span><br><span class="line">                <span class="comment"># 如果属于本大类，将存储目录放在本大类目录下</span></span><br><span class="line">                <span class="keyword">if</span>(if_belong):</span><br><span class="line">                    subFilename =parentFilename + <span class="string">'/'</span>+ subTitle[j]</span><br><span class="line">                    <span class="comment"># 如果目录不存在，则创建目录</span></span><br><span class="line">                    <span class="keyword">if</span>(<span class="keyword">not</span> os.path.exists(subFilename)):</span><br><span class="line">                        os.makedirs(subFilename)</span><br><span class="line"></span><br><span class="line">                    <span class="comment"># 存储 小类url、title和filename字段数据</span></span><br><span class="line">                    item[<span class="string">'subUrls'</span>] = subUrls[j]</span><br><span class="line">                    item[<span class="string">'subTitle'</span>] =subTitle[j]</span><br><span class="line">                    item[<span class="string">'subFilename'</span>] = subFilename</span><br><span class="line"></span><br><span class="line">                    items.append(item)</span><br><span class="line"></span><br><span class="line">        <span class="comment">#发送每个小类url的Request请求，得到Response连同包含meta数据 一同交给回调函数 second_parse 方法处理</span></span><br><span class="line">        <span class="keyword">for</span> item <span class="keyword">in</span> items:</span><br><span class="line">            <span class="keyword">yield</span> scrapy.Request( url = item[<span class="string">'subUrls'</span>], meta=&#123;<span class="string">'meta_1'</span>: item&#125;, callback=self.second_parse)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#对于返回的小类的url，再进行递归请求</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">second_parse</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        <span class="comment"># 提取每次Response的meta数据</span></span><br><span class="line">        meta_1= response.meta[<span class="string">'meta_1'</span>]</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 取出小类里所有子链接</span></span><br><span class="line">        sonUrls = response.xpath(<span class="string">'//a/@href'</span>).extract()</span><br><span class="line"></span><br><span class="line">        items= []</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, len(sonUrls)):</span><br><span class="line">            <span class="comment"># 检查每个链接是否以大类url开头、以.shtml结尾，如果是返回True</span></span><br><span class="line">            if_belong = sonUrls[i].endswith(<span class="string">'.shtml'</span>) <span class="keyword">and</span> sonUrls[i].startswith(meta_1[<span class="string">'parentUrls'</span>])</span><br><span class="line"></span><br><span class="line">            <span class="comment"># 如果属于本大类，获取字段值放在同一个item下便于传输</span></span><br><span class="line">            <span class="keyword">if</span>(if_belong):</span><br><span class="line">                item = SinaItem()</span><br><span class="line">                item[<span class="string">'parentTitle'</span>] =meta_1[<span class="string">'parentTitle'</span>]</span><br><span class="line">                item[<span class="string">'parentUrls'</span>] =meta_1[<span class="string">'parentUrls'</span>]</span><br><span class="line">                item[<span class="string">'subUrls'</span>] = meta_1[<span class="string">'subUrls'</span>]</span><br><span class="line">                item[<span class="string">'subTitle'</span>] = meta_1[<span class="string">'subTitle'</span>]</span><br><span class="line">                item[<span class="string">'subFilename'</span>] = meta_1[<span class="string">'subFilename'</span>]</span><br><span class="line">                item[<span class="string">'sonUrls'</span>] = sonUrls[i]</span><br><span class="line">                items.append(item)</span><br><span class="line"></span><br><span class="line">        <span class="comment">#发送每个小类下子链接url的Request请求，得到Response后连同包含meta数据 一同交给回调函数 detail_parse 方法处理</span></span><br><span class="line">        <span class="keyword">for</span> item <span class="keyword">in</span> items:</span><br><span class="line">                <span class="keyword">yield</span> scrapy.Request(url=item[<span class="string">'sonUrls'</span>], meta=&#123;<span class="string">'meta_2'</span>:item&#125;, callback = self.detail_parse)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 数据解析方法，获取文章标题和内容</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">detail_parse</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        item = response.meta[<span class="string">'meta_2'</span>]</span><br><span class="line">        content = <span class="string">""</span></span><br><span class="line">        head = response.xpath(<span class="string">'//h1[@id=\"main_title\"]/text()'</span>)</span><br><span class="line">        content_list = response.xpath(<span class="string">'//div[@id=\"artibody\"]/p/text()'</span>).extract()</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 将p标签里的文本内容合并到一起</span></span><br><span class="line">        <span class="keyword">for</span> content_one <span class="keyword">in</span> content_list:</span><br><span class="line">            content += content_one</span><br><span class="line"></span><br><span class="line">        item[<span class="string">'head'</span>]= head</span><br><span class="line">        item[<span class="string">'content'</span>]= content</span><br><span class="line"></span><br><span class="line">        <span class="keyword">yield</span> item</span><br></pre></td></tr></table></figure>
+<h2 id="pipelines-py"><a href="#pipelines-py" class="headerlink" title="pipelines.py"></a>pipelines.py</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scrapy <span class="keyword">import</span> signals</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line">reload(sys)</span><br><span class="line">sys.setdefaultencoding(<span class="string">"utf-8"</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SinaPipeline</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">process_item</span><span class="params">(self, item, spider)</span>:</span></span><br><span class="line">        sonUrls = item[<span class="string">'sonUrls'</span>]</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 文件名为子链接url中间部分，并将 / 替换为 _，保存为 .txt格式</span></span><br><span class="line">        filename = sonUrls[<span class="number">7</span>:<span class="number">-6</span>].replace(<span class="string">'/'</span>,<span class="string">'_'</span>)</span><br><span class="line">        filename += <span class="string">".txt"</span></span><br><span class="line"></span><br><span class="line">        fp = open(item[<span class="string">'subFilename'</span>]+<span class="string">'/'</span>+filename, <span class="string">'w'</span>)</span><br><span class="line">        fp.write(item[<span class="string">'content'</span>])</span><br><span class="line">        fp.close()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> item</span><br></pre></td></tr></table></figure>
+<h2 id="settings-py"><a href="#settings-py" class="headerlink" title="settings.py"></a>settings.py</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">BOT_NAME = <span class="string">'Sina'</span></span><br><span class="line"></span><br><span class="line">SPIDER_MODULES = [<span class="string">'Sina.spiders'</span>]</span><br><span class="line">NEWSPIDER_MODULE = <span class="string">'Sina.spiders'</span></span><br><span class="line"></span><br><span class="line">ITEM_PIPELINES = &#123;</span><br><span class="line">    <span class="string">'Sina.pipelines.SinaPipeline'</span>: <span class="number">300</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">LOG_LEVEL = <span class="string">'DEBUG'</span></span><br></pre></td></tr></table></figure>
+<h2 id="在项目根目录下新建main-py文件-用于调试"><a href="#在项目根目录下新建main-py文件-用于调试" class="headerlink" title="在项目根目录下新建main.py文件,用于调试"></a>在项目根目录下新建main.py文件,用于调试</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scrapy <span class="keyword">import</span> cmdline</span><br><span class="line">cmdline.execute(<span class="string">'scrapy crawl sina'</span>.split())</span><br></pre></td></tr></table></figure>
+<h2 id="执行程序"><a href="#执行程序" class="headerlink" title="执行程序"></a>执行程序</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">py2 main.py</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/27/2018052721/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1605,177 +1752,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/21/2018052120/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Mr.Q">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dynamic-Soul">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/21/2018052120/" itemprop="url">Scrapy 和 scrapy-redis的区别</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-21T20:24:36+08:00">2018-05-21</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Scrapy-和-scrapy-redis的区别"><a href="#Scrapy-和-scrapy-redis的区别" class="headerlink" title="Scrapy 和 scrapy-redis的区别"></a>Scrapy 和 scrapy-redis的区别</h1><p>Scrapy 是一个通用的爬虫框架，但是不支持分布式，Scrapy-redis是为了更方便地实现Scrapy分布式爬取，而提供了一些以redis为基础的组件(仅有组件)。</p>
-<pre><code>pip install scrapy-redis
-</code></pre><p>Scrapy-redis提供了下面四种组件（components）：(四种组件意味着这四个模块都要做相应的修改)</p>
-<ul>
-<li>Scheduler</li>
-<li>Duplication Filter</li>
-<li>Item Pipeline</li>
-<li>Base Spider</li>
-</ul>
-<h1 id="scrapy-redis架构"><a href="#scrapy-redis架构" class="headerlink" title="scrapy-redis架构"></a>scrapy-redis架构</h1><img src="/2018/05/21/2018052120/1.jpg">
-<p>如上图所⽰示，scrapy-redis在scrapy的架构上增加了redis，基于redis的特性拓展了如下组件：<br>Scheduler：</p>
-<p>Scrapy改造了python本来的collection.deque(双向队列)形成了自己的Scrapy queue(<a href="https://github.com/scrapy/queuelib/blob/master/queuelib/queue.py))，但是Scrapy多个spider不能共享待爬取队列Scrapy" target="_blank" rel="noopener">https://github.com/scrapy/queuelib/blob/master/queuelib/queue.py))，但是Scrapy多个spider不能共享待爬取队列Scrapy</a> queue， 即Scrapy本身不支持爬虫分布式，scrapy-redis 的解决是把这个Scrapy queue换成redis数据库（也是指redis队列），从同一个redis-server存放要爬取的request，便能让多个spider去同一个数据库里读取。</p>
-<p>Scrapy中跟“待爬队列”直接相关的就是调度器Scheduler，它负责对新的request进行入列操作（加入Scrapy queue），取出下一个要爬取的request（从Scrapy queue中取出）等操作。它把待爬队列按照优先级建立了一个字典结构，比如：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">       优先级<span class="number">0</span> : 队列<span class="number">0</span></span><br><span class="line">       优先级<span class="number">1</span> : 队列<span class="number">1</span></span><br><span class="line">       优先级<span class="number">2</span> : 队列<span class="number">2</span></span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-<p>然后根据request中的优先级，来决定该入哪个队列，出列时则按优先级较小的优先出列。为了管理这个比较高级的队列字典，Scheduler需要提供一系列的方法。但是原来的Scheduler已经无法使用，所以使用Scrapy-redis的scheduler组件。</p>
-<p><strong>Duplication Filter</strong></p>
-<p>Scrapy中用集合实现这个request去重功能，Scrapy中把已经发送的request指纹放入到一个集合中，把下一个request的指纹拿到集合中比对，如果该指纹存在于集合中，说明这个request发送过了，如果没有则继续操作。这个核心的判重功能是这样实现的：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">request_seen</span><span class="params">(self, request)</span>:</span></span><br><span class="line">       <span class="comment"># self.request_figerprints就是一个指纹集合  </span></span><br><span class="line">       fp = self.request_fingerprint(request)</span><br><span class="line"></span><br><span class="line">       <span class="comment"># 这就是判重的核心操作  </span></span><br><span class="line">       <span class="keyword">if</span> fp <span class="keyword">in</span> self.fingerprints:</span><br><span class="line">           <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">       self.fingerprints.add(fp)</span><br><span class="line">       <span class="keyword">if</span> self.file:</span><br><span class="line">           self.file.write(fp + os.linesep)</span><br></pre></td></tr></table></figure>
-<p>在scrapy-redis中去重是由Duplication Filter组件来实现的，它通过redis的set 不重复的特性，巧妙的实现了Duplication Filter去重。scrapy-redis调度器从引擎接受request，将request的指纹存⼊redis的set检查是否重复，并将不重复的request push写⼊redis的 request queue。</p>
-<p>引擎请求request(Spider发出的）时，调度器从redis的request queue队列⾥里根据优先级pop 出⼀个request 返回给引擎，引擎将此request发给spider处理。<br><strong>Item Pipeline：</strong></p>
-<p>引擎将(Spider返回的)爬取到的Item给Item Pipeline，scrapy-redis 的Item Pipeline将爬取到的 Item 存⼊redis的 items queue。</p>
-<p>修改过Item Pipeline可以很方便的根据 key 从 items queue 提取item，从⽽实现 items processes集群。<br><strong>Base Spider</strong></p>
-<p>不在使用scrapy原有的Spider类，重写的RedisSpider继承了Spider和RedisMixin这两个类，RedisMixin是用来从redis读取url的类。</p>
-<p>当我们生成一个Spider继承RedisSpider时，调用setup_redis函数，这个函数会去连接redis数据库，然后会设置signals(信号)：</p>
-<ul>
-<li><p>一个是当spider空闲时候的signal，会调用spider_idle函数，这个函数调用schedule_next_request函数，保证spider是一直活着的状态，并且抛出DontCloseSpider异常。</p>
-</li>
-<li><p>一个是当抓到一个item时的signal，会调用item_scraped函数，这个函数会调用schedule_next_request函数，获取下一个request。</p>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1827,7 +1803,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">76</span>
+                    <span class="site-state-item-count">77</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1962,7 +1938,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共112.7k字</span>
+  <span class="post-count">博客全站共115.1k字</span>
 </div>
         
 
