@@ -311,6 +311,187 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/12/2018051222/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Q">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dynamic-Soul">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/12/2018051222/" itemprop="url">多线程糗事百科案例</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-12T21:38:03+08:00">2018-05-12</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="多线程糗事百科案例"><a href="#多线程糗事百科案例" class="headerlink" title="多线程糗事百科案例"></a>多线程糗事百科案例</h1><p>案例要求参考上一个糗事百科单进程案例</p>
+<h2 id="Queue（队列对象）"><a href="#Queue（队列对象）" class="headerlink" title="Queue（队列对象）"></a>Queue（队列对象）</h2><p>Queue是python中的标准库，可以直接import Queue引用;队列是线程间最常用的交换数据的形式</p>
+<p>python下多线程的思考</p>
+<p>对于资源，加锁是个重要的环节。因为python原生的list,dict等，都是not thread safe的。而Queue，是线程安全的，因此在满足使用条件下，建议使用队列</p>
+<ol>
+<li><p>初始化： class Queue.Queue(maxsize) FIFO 先进先出</p>
+</li>
+<li><p>包中的常用方法:</p>
+<ul>
+<li><p>Queue.qsize() 返回队列的大小</p>
+</li>
+<li><p>Queue.empty() 如果队列为空，返回True,反之False</p>
+</li>
+<li><p>Queue.full() 如果队列满了，返回True,反之False</p>
+</li>
+<li><p>Queue.full 与 maxsize 大小对应</p>
+</li>
+<li><p>Queue.get([block[, timeout]])获取队列，timeout等待时间</p>
+</li>
+</ul>
+</li>
+<li><p>创建一个“队列”对象</p>
+<ul>
+<li>import Queue</li>
+<li>myqueue = Queue.Queue(maxsize = 10)</li>
+</ul>
+</li>
+<li><p>将一个值放入队列中</p>
+<ul>
+<li>myqueue.put(10)</li>
+</ul>
+</li>
+<li><p>将一个值从队列中取出</p>
+<ul>
+<li>myqueue.get()</li>
+</ul>
+</li>
+</ol>
+<h2 id="多线程示意图"><a href="#多线程示意图" class="headerlink" title="多线程示意图"></a>多线程示意图</h2><img src="/2018/05/12/2018051222/1.jpg">
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"><span class="keyword">from</span> Queue <span class="keyword">import</span> Queue</span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">thread_crawl</span><span class="params">(threading.Thread)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    抓取线程类</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, threadID, q)</span>:</span></span><br><span class="line">        threading.Thread.__init__(self)</span><br><span class="line">        self.threadID = threadID</span><br><span class="line">        self.q = q</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">print</span> <span class="string">"Starting "</span> + self.threadID</span><br><span class="line">        self.qiushi_spider()</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"Exiting "</span>, self.threadID</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">qiushi_spider</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="comment"># page = 1</span></span><br><span class="line">        <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">            <span class="keyword">if</span> self.q.empty():</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                page = self.q.get()</span><br><span class="line">                <span class="keyword">print</span> <span class="string">'qiushi_spider='</span>, self.threadID, <span class="string">',page='</span>, str(page)</span><br><span class="line">                url = <span class="string">'http://www.qiushibaike.com/8hr/page/'</span> + str(page) + <span class="string">'/'</span></span><br><span class="line">                headers = &#123;</span><br><span class="line">                    <span class="string">'User-Agent'</span>: <span class="string">'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36'</span>,</span><br><span class="line">                    <span class="string">'Accept-Language'</span>: <span class="string">'zh-CN,zh;q=0.8'</span>&#125;</span><br><span class="line">                <span class="comment"># 多次尝试失败结束、防止死循环</span></span><br><span class="line">                timeout = <span class="number">4</span></span><br><span class="line">                <span class="keyword">while</span> timeout &gt; <span class="number">0</span>:</span><br><span class="line">                    timeout -= <span class="number">1</span></span><br><span class="line">                    <span class="keyword">try</span>:</span><br><span class="line">                        content = requests.get(url, headers=headers)</span><br><span class="line">                        data_queue.put(content.text)</span><br><span class="line">                        <span class="keyword">break</span></span><br><span class="line">                    <span class="keyword">except</span> Exception, e:</span><br><span class="line">                        <span class="keyword">print</span> <span class="string">'qiushi_spider'</span>, e</span><br><span class="line">                <span class="keyword">if</span> timeout &lt; <span class="number">0</span>:</span><br><span class="line">                    <span class="keyword">print</span> <span class="string">'timeout'</span>, url</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Thread_Parser</span><span class="params">(threading.Thread)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    页面解析类；</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, threadID, queue, lock, f)</span>:</span></span><br><span class="line">        threading.Thread.__init__(self)</span><br><span class="line">        self.threadID = threadID</span><br><span class="line">        self.queue = queue</span><br><span class="line">        self.lock = lock</span><br><span class="line">        self.f = f</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">print</span> <span class="string">'starting '</span>, self.threadID</span><br><span class="line">        <span class="keyword">global</span> total, exitFlag_Parser</span><br><span class="line">        <span class="keyword">while</span> <span class="keyword">not</span> exitFlag_Parser:</span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                <span class="string">'''</span></span><br><span class="line"><span class="string">                调用队列对象的get()方法从队头删除并返回一个项目。可选参数为block，默认为True。</span></span><br><span class="line"><span class="string">                如果队列为空且block为True，get()就使调用线程暂停，直至有项目可用。</span></span><br><span class="line"><span class="string">                如果队列为空且block为False，队列将引发Empty异常。</span></span><br><span class="line"><span class="string">                '''</span></span><br><span class="line">                item = self.queue.get(<span class="keyword">False</span>)</span><br><span class="line">                <span class="keyword">if</span> <span class="keyword">not</span> item:</span><br><span class="line">                    <span class="keyword">pass</span></span><br><span class="line">                self.parse_data(item)</span><br><span class="line">                self.queue.task_done()</span><br><span class="line">                <span class="keyword">print</span> <span class="string">'Thread_Parser='</span>, self.threadID, <span class="string">',total='</span>, total</span><br><span class="line">            <span class="keyword">except</span>:</span><br><span class="line">                <span class="keyword">pass</span></span><br><span class="line">        <span class="keyword">print</span> <span class="string">'Exiting '</span>, self.threadID</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse_data</span><span class="params">(self, item)</span>:</span></span><br><span class="line">        <span class="string">'''</span></span><br><span class="line"><span class="string">        解析网页函数</span></span><br><span class="line"><span class="string">        :param item: 网页内容</span></span><br><span class="line"><span class="string">        :return:</span></span><br><span class="line"><span class="string">        '''</span></span><br><span class="line">        <span class="keyword">global</span> total</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            html = etree.HTML(item)</span><br><span class="line">            result = html.xpath(<span class="string">'//div[contains(@id,"qiushi_tag")]'</span>)</span><br><span class="line">            <span class="keyword">for</span> site <span class="keyword">in</span> result:</span><br><span class="line">                <span class="keyword">try</span>:</span><br><span class="line">                    imgUrl = site.xpath(<span class="string">'.//img/@src'</span>)[<span class="number">0</span>]</span><br><span class="line">                    title = site.xpath(<span class="string">'.//h2'</span>)[<span class="number">0</span>].text</span><br><span class="line">                    content = site.xpath(<span class="string">'.//div[@class="content"]/span'</span>)[<span class="number">0</span>].text.strip()</span><br><span class="line">                    vote = <span class="keyword">None</span></span><br><span class="line">                    comments = <span class="keyword">None</span></span><br><span class="line">                    <span class="keyword">try</span>:</span><br><span class="line">                        vote = site.xpath(<span class="string">'.//i'</span>)[<span class="number">0</span>].text</span><br><span class="line">                        comments = site.xpath(<span class="string">'.//i'</span>)[<span class="number">1</span>].text</span><br><span class="line">                    <span class="keyword">except</span>:</span><br><span class="line">                        <span class="keyword">pass</span></span><br><span class="line">                    result = &#123;</span><br><span class="line">                        <span class="string">'imgUrl'</span>: imgUrl,</span><br><span class="line">                        <span class="string">'title'</span>: title,</span><br><span class="line">                        <span class="string">'content'</span>: content,</span><br><span class="line">                        <span class="string">'vote'</span>: vote,</span><br><span class="line">                        <span class="string">'comments'</span>: comments,</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">with</span> self.lock:</span><br><span class="line">                        <span class="comment"># print 'write %s' % json.dumps(result)</span></span><br><span class="line">                        self.f.write(json.dumps(result, ensure_ascii=<span class="keyword">False</span>).encode(<span class="string">'utf-8'</span>) + <span class="string">"\n"</span>)</span><br><span class="line"></span><br><span class="line">                <span class="keyword">except</span> Exception, e:</span><br><span class="line">                    <span class="keyword">print</span> <span class="string">'site in result'</span>, e</span><br><span class="line">        <span class="keyword">except</span> Exception, e:</span><br><span class="line">            <span class="keyword">print</span> <span class="string">'parse_data'</span>, e</span><br><span class="line">        <span class="keyword">with</span> self.lock:</span><br><span class="line">            total += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">data_queue = Queue()</span><br><span class="line">exitFlag_Parser = <span class="keyword">False</span></span><br><span class="line">lock = threading.Lock()</span><br><span class="line">total = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    output = open(<span class="string">'qiushibaike.json'</span>, <span class="string">'a'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#初始化网页页码page从1-10个页面</span></span><br><span class="line">    pageQueue = Queue(<span class="number">50</span>)</span><br><span class="line">    <span class="keyword">for</span> page <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">11</span>):</span><br><span class="line">        pageQueue.put(page)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#初始化采集线程</span></span><br><span class="line">    crawlthreads = []</span><br><span class="line">    crawlList = [<span class="string">"crawl-1"</span>, <span class="string">"crawl-2"</span>, <span class="string">"crawl-3"</span>]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> threadID <span class="keyword">in</span> crawlList:</span><br><span class="line">        thread = thread_crawl(threadID, pageQueue)</span><br><span class="line">        thread.start()</span><br><span class="line">        crawlthreads.append(thread)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#初始化解析线程parserList</span></span><br><span class="line">    parserthreads = []</span><br><span class="line">    parserList = [<span class="string">"parser-1"</span>, <span class="string">"parser-2"</span>, <span class="string">"parser-3"</span>]</span><br><span class="line">    <span class="comment">#分别启动parserList</span></span><br><span class="line">    <span class="keyword">for</span> threadID <span class="keyword">in</span> parserList:</span><br><span class="line">        thread = Thread_Parser(threadID, data_queue, lock, output)</span><br><span class="line">        thread.start()</span><br><span class="line">        parserthreads.append(thread)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 等待队列清空</span></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">not</span> pageQueue.empty():</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 等待所有线程完成</span></span><br><span class="line">    <span class="keyword">for</span> t <span class="keyword">in</span> crawlthreads:</span><br><span class="line">        t.join()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">not</span> data_queue.empty():</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    <span class="comment"># 通知线程是时候退出</span></span><br><span class="line">    <span class="keyword">global</span> exitFlag_Parser</span><br><span class="line">    exitFlag_Parser = <span class="keyword">True</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> t <span class="keyword">in</span> parserthreads:</span><br><span class="line">        t.join()</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"Exiting Main Thread"</span></span><br><span class="line">    <span class="keyword">with</span> lock:</span><br><span class="line">        output.close()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+<img src="/2018/05/12/2018051222/2.jpg">
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/12/2018051221/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2224,351 +2405,6 @@ lxml python 官方文档：http://lxml.de/index.html
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/05/2018050522/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Mr.Q">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dynamic-Soul">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/05/2018050522/" itemprop="url">urllib2：URLError与HTTPError</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-05T22:39:08+08:00">2018-05-05</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="urllib2-的异常错误处理"><a href="#urllib2-的异常错误处理" class="headerlink" title="urllib2 的异常错误处理"></a>urllib2 的异常错误处理</h1><p>在我们用urlopen或opener.open方法发出一个请求时，如果urlopen或opener.open不能处理这个response，就产生错误。</p>
-<p>这里主要说的是URLError和HTTPError，以及对它们的错误处理。</p>
-<hr>
-<h2 id="URLError"><a href="#URLError" class="headerlink" title="URLError"></a>URLError</h2><p>URLError 产生的原因主要有：</p>
-<pre><code>1. 没有网络连接
-2. 服务器连接失败
-3. 找不到指定的服务器
-</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># urllib2_urlerror.py</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"></span><br><span class="line">requset = urllib2.Request(<span class="string">'http://www.ajkfhafwjqh.com'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    urllib2.urlopen(request, timeout=<span class="number">5</span>)</span><br><span class="line"><span class="keyword">except</span> urllib2.URLError, err:</span><br><span class="line">    <span class="keyword">print</span> err</span><br></pre></td></tr></table></figure>
-<p>运行结果如下：</p>
-<urlopen error="" [errno="" 8]="" nodename="" nor="" servname="" provided,="" or="" not="" known="">
-
-<pre><code>urlopen error，错误代码8，错误原因是没有找到指定的服务器。
-</code></pre><h2 id="HTTPError"><a href="#HTTPError" class="headerlink" title="HTTPError"></a>HTTPError</h2><p>HTTPError是URLError的子类，我们发出一个请求时，服务器上都会对应一个response应答对象，其中它包含一个数字”响应状态码”。</p>
-<p>如果urlopen或opener.open不能处理的，会产生一个HTTPError，对应相应的状态码，HTTP状态码表示HTTP协议所返回的响应的状态。</p>
-<p><strong>注意，urllib2可以为我们处理重定向的页面（也就是3开头的响应码），100-299范围的号码表示成功，所以我们只能看到400-599的错误号码。</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># urllib2_httperror.py</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"></span><br><span class="line">requset = urllib2.Request(<span class="string">'http://blog.baidu.com/itcast'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    urllib2.urlopen(requset)</span><br><span class="line"><span class="keyword">except</span> urllib2.HTTPError, err:</span><br><span class="line">    <span class="keyword">print</span> err.code</span><br><span class="line">    <span class="keyword">print</span> err</span><br></pre></td></tr></table></figure></p>
-<p>运行结果如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">404</span></span><br><span class="line">HTTP Error <span class="number">404</span>: Not Found</span><br></pre></td></tr></table></figure></p>
-<pre><code>HTTP Error，错误代号是404，错误原因是Not Found，说明服务器无法找到被请求的页面。
-
-通常产生这种错误的，要么url不对，要么ip被封。
-</code></pre><h2 id="改进版"><a href="#改进版" class="headerlink" title="改进版"></a>改进版</h2><p>由于HTTPError的父类是URLError，所以父类的异常应当写到子类异常的后面，所以上述的代码可以这么改写：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># urllib2_botherror.py</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"></span><br><span class="line">requset = urllib2.Request(<span class="string">'http://blog.baidu.com/itcast'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    urllib2.urlopen(requset)</span><br><span class="line"></span><br><span class="line"><span class="keyword">except</span> urllib2.HTTPError, err:</span><br><span class="line">    <span class="keyword">print</span> err.code</span><br><span class="line"></span><br><span class="line"><span class="keyword">except</span> urllib2.URLError, err:</span><br><span class="line">    <span class="keyword">print</span> err</span><br><span class="line"></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"Good Job"</span></span><br></pre></td></tr></table></figure></p>
-<p>运行结果如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">404</span></span><br></pre></td></tr></table></figure></p>
-<p><strong>这样我们就可以做到，首先捕获子类的异常，如果子类捕获不到，那么可以捕获父类的异常。</strong></p>
-<h1 id="HTTP响应状态码参考："><a href="#HTTP响应状态码参考：" class="headerlink" title="HTTP响应状态码参考："></a>HTTP响应状态码参考：</h1><pre><code>1xx:信息
-
-100 Continue
-服务器仅接收到部分请求，但是一旦服务器并没有拒绝该请求，客户端应该继续发送其余的请求。
-101 Switching Protocols
-服务器转换协议：服务器将遵从客户的请求转换到另外一种协议。
-
-
-
-2xx:成功
-
-200 OK
-请求成功（其后是对GET和POST请求的应答文档）
-201 Created
-请求被创建完成，同时新的资源被创建。
-202 Accepted
-供处理的请求已被接受，但是处理未完成。
-203 Non-authoritative Information
-文档已经正常地返回，但一些应答头可能不正确，因为使用的是文档的拷贝。
-204 No Content
-没有新文档。浏览器应该继续显示原来的文档。如果用户定期地刷新页面，而Servlet可以确定用户文档足够新，这个状态代码是很有用的。
-205 Reset Content
-没有新文档。但浏览器应该重置它所显示的内容。用来强制浏览器清除表单输入内容。
-206 Partial Content
-客户发送了一个带有Range头的GET请求，服务器完成了它。
-
-
-
-3xx:重定向
-
-300 Multiple Choices
-多重选择。链接列表。用户可以选择某链接到达目的地。最多允许五个地址。
-301 Moved Permanently
-所请求的页面已经转移至新的url。
-302 Moved Temporarily
-所请求的页面已经临时转移至新的url。
-303 See Other
-所请求的页面可在别的url下被找到。
-304 Not Modified
-未按预期修改文档。客户端有缓冲的文档并发出了一个条件性的请求（一般是提供If-Modified-Since头表示客户只想比指定日期更新的文档）。服务器告诉客户，原来缓冲的文档还可以继续使用。
-305 Use Proxy
-客户请求的文档应该通过Location头所指明的代理服务器提取。
-306 Unused
-此代码被用于前一版本。目前已不再使用，但是代码依然被保留。
-307 Temporary Redirect
-被请求的页面已经临时移至新的url。
-
-
-
-4xx:客户端错误
-
-400 Bad Request
-服务器未能理解请求。
-401 Unauthorized
-被请求的页面需要用户名和密码。
-401.1
-登录失败。
-401.2
-服务器配置导致登录失败。
-401.3
-由于 ACL 对资源的限制而未获得授权。
-401.4
-筛选器授权失败。
-401.5
-ISAPI/CGI 应用程序授权失败。
-401.7
-访问被 Web 服务器上的 URL 授权策略拒绝。这个错误代码为 IIS 6.0 所专用。
-402 Payment Required
-此代码尚无法使用。
-403 Forbidden
-对被请求页面的访问被禁止。
-403.1
-执行访问被禁止。
-403.2
-读访问被禁止。
-403.3
-写访问被禁止。
-403.4
-要求 SSL。
-403.5
-要求 SSL 128。
-403.6
-IP 地址被拒绝。
-403.7
-要求客户端证书。
-403.8
-站点访问被拒绝。
-403.9
-用户数过多。
-403.10
-配置无效。
-403.11
-密码更改。
-403.12
-拒绝访问映射表。
-403.13
-客户端证书被吊销。
-403.14
-拒绝目录列表。
-403.15
-超出客户端访问许可。
-403.16
-客户端证书不受信任或无效。
-403.17
-客户端证书已过期或尚未生效。
-403.18
-在当前的应用程序池中不能执行所请求的 URL。这个错误代码为 IIS 6.0 所专用。
-403.19
-不能为这个应用程序池中的客户端执行 CGI。这个错误代码为 IIS 6.0 所专用。
-403.20
-Passport 登录失败。这个错误代码为 IIS 6.0 所专用。
-404 Not Found
-服务器无法找到被请求的页面。
-404.0
-没有找到文件或目录。
-404.1
-无法在所请求的端口上访问 Web 站点。
-404.2
-Web 服务扩展锁定策略阻止本请求。
-404.3
-MIME 映射策略阻止本请求。
-405 Method Not Allowed
-请求中指定的方法不被允许。
-406 Not Acceptable
-服务器生成的响应无法被客户端所接受。
-407 Proxy Authentication Required
-用户必须首先使用代理服务器进行验证，这样请求才会被处理。
-408 Request Timeout
-请求超出了服务器的等待时间。
-409 Conflict
-由于冲突，请求无法被完成。
-410 Gone
-被请求的页面不可用。
-411 Length Required
-&quot;Content-Length&quot; 未被定义。如果无此内容，服务器不会接受请求。
-412 Precondition Failed
-请求中的前提条件被服务器评估为失败。
-413 Request Entity Too Large
-由于所请求的实体的太大，服务器不会接受请求。
-414 Request-url Too Long
-由于url太长，服务器不会接受请求。当post请求被转换为带有很长的查询信息的get请求时，就会发生这种情况。
-415 Unsupported Media Type
-由于媒介类型不被支持，服务器不会接受请求。
-416 Requested Range Not Satisfiable
-服务器不能满足客户在请求中指定的Range头。
-417 Expectation Failed
-执行失败。
-423
-锁定的错误。
-
-
-
-5xx:服务器错误
-
-500 Internal Server Error
-请求未完成。服务器遇到不可预知的情况。
-500.12
-应用程序正忙于在 Web 服务器上重新启动。
-500.13
-Web 服务器太忙。
-500.15
-不允许直接请求 Global.asa。
-500.16
-UNC 授权凭据不正确。这个错误代码为 IIS 6.0 所专用。
-500.18
-URL 授权存储不能打开。这个错误代码为 IIS 6.0 所专用。
-500.100
-内部 ASP 错误。
-501 Not Implemented
-请求未完成。服务器不支持所请求的功能。
-502 Bad Gateway
-请求未完成。服务器从上游服务器收到一个无效的响应。
-502.1
-CGI 应用程序超时。　·
-502.2
-CGI 应用程序出错。
-503 Service Unavailable
-请求未完成。服务器临时过载或当机。
-504 Gateway Timeout
-网关超时。
-505 HTTP Version Not Supported
-服务器不支持请求中指明的HTTP协议版本
-</code></pre></urlopen>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2620,7 +2456,7 @@ CGI 应用程序出错。
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">77</span>
+                    <span class="site-state-item-count">78</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2755,7 +2591,7 @@ CGI 应用程序出错。
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共115.1k字</span>
+  <span class="post-count">博客全站共116.1k字</span>
 </div>
         
 
