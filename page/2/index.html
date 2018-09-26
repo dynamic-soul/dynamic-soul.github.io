@@ -311,6 +311,158 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/15/2018091522/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Q">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dynamic-Soul">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/15/2018091522/" itemprop="url">属性查找与绑定方法</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-15T22:04:08+08:00">2018-09-15</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Python面向对象/" itemprop="url" rel="index"><span itemprop="name">Python面向对象</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="属性查找"><a href="#属性查找" class="headerlink" title="属性查找"></a>属性查找</h1><p>类有两种属性：数据属性和函数属性</p>
+<p>1、类的数据属性是所有对象共享的</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LuffyStudent</span>:</span></span><br><span class="line">    school=<span class="string">'luffycity'</span></span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">learn</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'is learning'</span>)</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">eat</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'is sleeping'</span>)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="comment">#后产生对象</span></span><br><span class="line">stu1=LuffyStudent()</span><br><span class="line">stu2=LuffyStudent()</span><br><span class="line">stu3=LuffyStudent()</span><br><span class="line"> </span><br><span class="line">print(id(stu1.school))</span><br><span class="line">print(id(stu2.school))</span><br><span class="line">print(id(stu3.school))</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 43496496</span></span><br><span class="line"><span class="comment"># 43496496</span></span><br><span class="line"><span class="comment"># 43496496</span></span><br></pre></td></tr></table></figure>
+<p>2、类的函数数据是绑定给对象用的，称为绑定到对象的方法<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#后产生对象</span></span><br><span class="line">stu1=LuffyStudent()</span><br><span class="line">stu2=LuffyStudent()</span><br><span class="line">stu3=LuffyStudent()</span><br><span class="line"><span class="comment">#类的函数属性是绑定给对象使用的,obj.method称为绑定方法,内存地址都不一样</span></span><br><span class="line">print(stu1.learn())</span><br><span class="line">print(stu2.learn())</span><br><span class="line">print(stu3.learn())</span><br><span class="line"> </span><br><span class="line"><span class="comment"># &lt;bound method LuffyStudent.learn of &lt;__main__.LuffyStudent object at 0x00000000127085C0&gt;&gt;</span></span><br><span class="line"><span class="comment"># &lt;bound method LuffyStudent.learn of &lt;__main__.LuffyStudent object at 0x0000000012708518&gt;&gt;</span></span><br><span class="line"><span class="comment"># &lt;bound method LuffyStudent.learn of &lt;__main__.LuffyStudent object at 0x0000000012708630&gt;&gt;</span></span><br><span class="line"><span class="comment">#ps:id是python的实现机制,并不能真实反映内存地址,如果有内存地址,还是以内存地址为准</span></span><br></pre></td></tr></table></figure></p>
+<p>在obj.name会先从obj自己的名称空间里找name，找不到则去类中找，类也找不到就找父类…最后都找不到就抛出异常</p>
+<h1 id="绑定方法"><a href="#绑定方法" class="headerlink" title="绑定方法"></a>绑定方法</h1><p>定义类并实例化出三个对象<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LuffyStudent</span>:</span></span><br><span class="line">    school=<span class="string">'luffy'</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,name,age)</span>:</span></span><br><span class="line">        self.name = name</span><br><span class="line">        self.age = age</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">eat</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'%s is eating'</span> %self.name)</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">sleep</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'%s is sleeping'</span> %self.name)</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__del__</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">"running del method, this person must be died."</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 后产生对象</span></span><br><span class="line">stu1=LuffyStudent(<span class="string">'alex'</span>,<span class="number">18</span>)</span><br><span class="line">stu2=LuffyStudent(<span class="string">'li'</span>,<span class="number">28</span>)</span><br><span class="line">stu3=LuffyStudent(<span class="string">'hy'</span>,<span class="number">38</span>)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">stu1.eat()</span><br><span class="line">stu2.eat()</span><br><span class="line">stu3.eat()</span><br><span class="line"> </span><br><span class="line"><span class="comment"># alex is eating</span></span><br><span class="line"><span class="comment"># li is eating</span></span><br><span class="line"><span class="comment"># hy is eating</span></span><br></pre></td></tr></table></figure></p>
+<p>　强调：绑定到对象的方法的特殊之处在于，绑定给谁就由谁来调用，谁来调用，就会将‘谁’本身当做第一个参数传给方法，即自动传值（方法<strong>init</strong>也是一样的道理）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">stu1.eat() <span class="comment"># 等同于LuffyStudent.eat(stu1)</span></span><br><span class="line">stu2.eat() <span class="comment"># 等同于LuffyStudent.eat(stu1)</span></span><br><span class="line">stu3.eat() <span class="comment"># 等同于LuffyStudent.eat(stu1)</span></span><br></pre></td></tr></table></figure>
+<p>　注意：绑定到对象的方法的这种自动传值的特征，决定了在类中定义的函数都要默认写一个参数self，self可以是任意名字，但是约定俗成地写出self。</p>
+<h1 id="类即类型"><a href="#类即类型" class="headerlink" title="类即类型"></a>类即类型</h1><p>python中一切皆为对象，且python3中类与类型是一个概念，类型就是类</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#类型dict就是类dict</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list</span><br><span class="line">&lt;<span class="class"><span class="keyword">class</span> '<span class="title">list</span>'&gt;</span></span><br><span class="line"><span class="class"> </span></span><br><span class="line">#实例化的到3个对象l1,l2,l3</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>l1=list()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>l2=list()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>l3=list()</span><br><span class="line"> </span><br><span class="line"><span class="comment">#三个对象都有绑定方法append,是相同的功能,但内存地址不同</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>l1.append</span><br><span class="line">&lt;built-<span class="keyword">in</span> method append of list object at <span class="number">0x10b482b48</span>&gt;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>l2.append</span><br><span class="line">&lt;built-<span class="keyword">in</span> method append of list object at <span class="number">0x10b482b88</span>&gt;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>l3.append</span><br><span class="line">&lt;built-<span class="keyword">in</span> method append of list object at <span class="number">0x10b482bc8</span>&gt;</span><br><span class="line"> </span><br><span class="line"><span class="comment">#操作绑定方法l1.append(3),就是在往l1添加3,绝对不会将3添加到l2或l3</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>l1.append(<span class="number">3</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>l1</span><br><span class="line">[<span class="number">3</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>l2</span><br><span class="line">[]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>l3</span><br><span class="line">[]</span><br><span class="line"><span class="comment">#调用类list.append(l3,111)等同于l3.append(111)</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list.append(l3,<span class="number">111</span>) <span class="comment">#l3.append(111)</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>l3</span><br><span class="line">[<span class="number">111</span>]</span><br></pre></td></tr></table></figure>
+<h1 id="数据与功能分离"><a href="#数据与功能分离" class="headerlink" title="数据与功能分离"></a>数据与功能分离</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MySQLHandler</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,host,port,db,charset=<span class="string">'utf8'</span>)</span>:</span></span><br><span class="line">        self.host=host</span><br><span class="line">        self.port=port</span><br><span class="line">        self.db=db</span><br><span class="line">        self.charset=charset</span><br><span class="line">        self.conn=self.connect(self.host,self.port,self.db,self.charset)</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">exc1</span><span class="params">(self,sql)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.conn.execute(sql)</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">exc2</span><span class="params">(self,sql)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.conn.call_proc(sql)</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_connect</span><span class="params">(self,host,port,db,charset)</span>:</span></span><br><span class="line">        print(<span class="string">'connect %s,%s,%s,%s'</span> %(host,port,db,charset))</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">obj=MySQLHandler(<span class="string">'127.0.0.1'</span>,<span class="number">3306</span>,<span class="string">'db1'</span>)</span><br><span class="line">obj.exc1(<span class="string">'select * from tb1;'</span>)</span><br><span class="line">obj.exc2(<span class="string">'mycall'</span>)</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/14/2018091421/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1852,171 +2004,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/04/2018090422/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Mr.Q">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dynamic-Soul">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/04/2018090422/" itemprop="url">Python进程间通信</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-04T22:15:32+08:00">2018-09-04</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Python网络编程/" itemprop="url" rel="index"><span itemprop="name">Python网络编程</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="通信方式"><a href="#通信方式" class="headerlink" title="通信方式"></a>通信方式</h1><p>进程彼此之间互相隔离，要实现进程间通信（IPC），multiprocessing模块主要通过队列方式</p>
-<p>队列：队列类似于一条管道，元素先进先出</p>
-<p>需要注意的一点是：队列都是在内存中操作,进程退出,队列清空,另外,队列也是一个阻塞的形态</p>
-<h1 id="Queue介绍："><a href="#Queue介绍：" class="headerlink" title="Queue介绍："></a>Queue介绍：</h1><p>创建队列的类（底层就是以管道和锁定的方式实现）：</p>
-<p>Queue([maxsize]):创建共享的进程队列，Queue是多进程安全的队列，</p>
-<p>可以使用Queue实现多进程之间的数据传递。maxsize是队列中允许最大项数，省略则无大小限制。</p>
-<h2 id="方法介绍："><a href="#方法介绍：" class="headerlink" title="方法介绍："></a>方法介绍：</h2><p>def put(self, obj, block=True, timeout=None):插入数据到队列中<br>Block值默认为True，代表当队列已满时，会阻塞。如果block为False，则队列满会报异常Queue.Full<br>timeout表示会阻塞到指定时间，直到有剩余的空间供插入，如果时间超时，则报异常Queue.Full</p>
-<p>def get(self, block=True, timeout=None):从队列中取出数据<br>Block值默认为True，代表当队列为空时，会阻塞。如果block为False，则队列空会报异常Queue.Empty<br>timeout表示会等待到指定时间，直到取出数据，如果时间超时，则报异常Queue.Empty</p>
-<p>def empty(self): 判断队列是否为空，如果空返回True<br>def full(self): 判断队列是否已满，如果满返回True<br>def qsize(self): 返回队列的大小</p>
-<h2 id="应用举例："><a href="#应用举例：" class="headerlink" title="应用举例："></a>应用举例：</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process, Manager</span><br><span class="line">q = Manager().Queue(<span class="number">2</span>)</span><br><span class="line">q.put(<span class="number">1</span>)</span><br><span class="line">q.put(<span class="number">2</span>,block=<span class="keyword">False</span>,timeout=<span class="number">2</span>)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">()</span>:</span></span><br><span class="line">    print(q.get())</span><br><span class="line"></span><br><span class="line">p = Process(target=func)</span><br><span class="line">print(<span class="string">"size"</span>,q.qsize())</span><br><span class="line">print(<span class="string">"full"</span>,q.full())</span><br><span class="line">p.start()</span><br><span class="line">p.join()</span><br><span class="line">print(<span class="string">"empty"</span>,q.empty())</span><br><span class="line">print(<span class="string">"get"</span>, q.get())</span><br><span class="line">print(<span class="string">"get"</span>, q.get(block=<span class="keyword">False</span>,timeout=<span class="number">2</span>))</span><br></pre></td></tr></table></figure>
-<p>输出结果<br><img src="/2018/09/04/2018090422/1.jpg"></p>
-<p><strong>生产者和消费者模型</strong></p>
-<p>在并发编程中使用生产者和消费者模式能够解决绝大多数并发问题。该模式通过平衡生产线程和消费线程的工作能力来提高程序的整体处理数据的速度。</p>
-<p><strong>为什么要使用生产者和消费者模式</strong></p>
-<p>在线程世界里，生产者就是生产数据的线程，消费者就是消费数据的线程。在多线程开发当中，如果生产者处理速度很快，而消费者处理速度很慢，那么生产者就必须等待消费者处理完，才能继续生产数据。同样的道理，如果消费者的处理能力大于生产者，那么消费者就必须等待生产者。为了解决这个问题于是引入了生产者和消费者模式。</p>
-<p><strong>什么是生产者消费者模式</strong></p>
-<p>生产者消费者模式是通过一个容器来解决生产者和消费者的强耦合问题。生产者和消费者彼此之间不直接通讯，而通过阻塞队列来进行通讯：</p>
-<p>生产者，只需要往队列里面丢东西（生产者不需要关心消费者）</p>
-<p>消费者，只需要从队列里面拿东西（消费者也不需要关心生产者）</p>
-<p>阻塞队列就相当于一个缓冲区，平衡了生产者和消费者的处理能力。</p>
-<img src="/2018/09/04/2018090422/2.jpg">
-<p>实现方式一：Queue<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process,Manager,active_children</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> queue</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Producer</span><span class="params">(Process)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,queue)</span>:</span></span><br><span class="line">        super().__init__()</span><br><span class="line">        self.queue = queue</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">6</span>):</span><br><span class="line">            r = random.randint(<span class="number">0</span>, <span class="number">99</span>)</span><br><span class="line">            time.sleep(<span class="number">1</span>)</span><br><span class="line">            self.queue.put(r)</span><br><span class="line">            print(<span class="string">"add data&#123;&#125;"</span>.format(r))</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Consumer</span><span class="params">(Process)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,queue)</span>:</span></span><br><span class="line">        super().__init__()</span><br><span class="line">        self.queue = queue</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">          <span class="keyword">if</span> <span class="keyword">not</span> self.queue.empty():</span><br><span class="line">                data = self.queue.get()</span><br><span class="line">                print(<span class="string">"minus data&#123;&#125;"</span>.format(data))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    q = Manager().Queue() <span class="comment"># 创建队列</span></span><br><span class="line">    p = Producer(q)</span><br><span class="line">    c = Consumer(q)</span><br><span class="line">    p.start()</span><br><span class="line">    c.start()</span><br><span class="line">    print(active_children())  <span class="comment"># 查看现有的进程</span></span><br><span class="line">    p.join()</span><br><span class="line">    c.join()</span><br><span class="line">    print(<span class="string">"结束"</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;输出</span><br><span class="line">[&lt;ForkProcess(SyncManager<span class="number">-1</span>, started)&gt;, &lt;Producer(Producer<span class="number">-2</span>, started)&gt;, &lt;Consumer(Consumer<span class="number">-3</span>, started)&gt;]</span><br><span class="line">add data83</span><br><span class="line">minus data83</span><br><span class="line">add data72</span><br><span class="line">minus data72</span><br><span class="line">add data8</span><br><span class="line">minus data8</span><br><span class="line">add data63</span><br><span class="line">minus data63</span><br><span class="line">add data75</span><br><span class="line">minus data75</span><br><span class="line">add data52</span><br><span class="line">minus data52</span><br></pre></td></tr></table></figure></p>
-<p>实现方式二：利用JoinableQueue<br> JoinableQueue([maxsize])：一个Queue对象，但队列允许项目的使用者通知生成者项目已经被成功处理。通知进程是使用共享的信号和条件变量来实现的。<br>     JoinableQueue的实例除了与Queue对象相同的方法之外还具有：<br>     task_done()：使用者使用此方法发出信号，表示get()的返回项目已经被处理。如果调用此方法的次数大于从队列中删除项目的数量，将引发ValueError异常<br>     join():生产者调用此方法进行阻塞，直到队列中所有的项目均被处理。阻塞将持续到队列中的每个项目均调用task_done（）方法为止</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process,JoinableQueue</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_log</span><span class="params">(msg, log_type=<span class="string">"prod"</span>)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> log_type == <span class="string">'prod'</span>:</span><br><span class="line">        print(<span class="string">"\033[32;1m%s\033[0m"</span> %msg)</span><br><span class="line">    <span class="keyword">elif</span> log_type == <span class="string">'con'</span>:</span><br><span class="line">        print(<span class="string">"\033[31;1m%s\033[0m"</span> %msg)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">producer</span><span class="params">(q)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    生产者</span></span><br><span class="line"><span class="string">    :param q: </span></span><br><span class="line"><span class="string">    :return: </span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">        data = random.randint(<span class="number">1</span>,<span class="number">200</span>)</span><br><span class="line">        time.sleep(<span class="number">2</span>)</span><br><span class="line">        q.put(data)  <span class="comment"># 放入队列</span></span><br><span class="line">        msg = <span class="string">"add data &#123;&#125;"</span>.format(data)</span><br><span class="line">        print_log(msg)</span><br><span class="line">    q.join()  <span class="comment"># 生产者调用此方法进行阻塞，直到队列中所有的项目均被处理。</span></span><br><span class="line">    <span class="comment"># 阻塞将持续到队列中的每个项目均调用q.task_done（）方法为止</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">consumer</span><span class="params">(q)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    消费者</span></span><br><span class="line"><span class="string">    :param q: </span></span><br><span class="line"><span class="string">    :return: </span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> q.empty():</span><br><span class="line">            time.sleep(<span class="number">5</span>)</span><br><span class="line">            data = q.get()</span><br><span class="line">            msg = <span class="string">"minus data&#123;&#125;"</span>.format(data)</span><br><span class="line">            print_log(msg,<span class="string">"con"</span>)</span><br><span class="line">            q.task_done()  <span class="comment"># q.get()的返回项目已经被处理</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    q = JoinableQueue()</span><br><span class="line">    prod = Process(target=producer, args=(q,))</span><br><span class="line">    con = Process(target=consumer, args=(q,))</span><br><span class="line">    con.daemon = <span class="keyword">True</span>  <span class="comment"># 设置为守护进程，但是不用担心，producer内调用q.join保证了consumer已经处理完队列中的所有元素</span></span><br><span class="line">    <span class="comment"># 开启进程</span></span><br><span class="line">    prod.start()</span><br><span class="line">    con.start()</span><br><span class="line"></span><br><span class="line">    prod.join()  <span class="comment"># 等待生产和消费完成，主线程结束</span></span><br><span class="line">    print(<span class="string">"结束"</span>)</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2068,7 +2055,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">85</span>
+                    <span class="site-state-item-count">86</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2203,7 +2190,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共129.8k字</span>
+  <span class="post-count">博客全站共131.4k字</span>
 </div>
         
 

@@ -311,6 +311,158 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/26/2018092623/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Q">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dynamic-Soul">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/26/2018092623/" itemprop="url">Python单例模式</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-26T23:24:35+08:00">2018-09-26</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Python面向对象/" itemprop="url" rel="index"><span itemprop="name">Python面向对象</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h1><p><strong>单例模式（Singleton Pattern）</strong>是一种常用的软件设计模式，该模式的主要目的是确保某一个类只有一个实例存在。当你希望在整个系统中，某个类只能出现一个实例时，单例对象就能派上用场。</p>
+<p>比如数据库连接读取配置文件，如果在程序运行期间，有很多地方都需要连接数据库，很多地方都需要创建数据库对象的实例，这就导致系统中存在多个 数据库实例对象，而这样会严重浪费内存资源，事实上，我们希望在程序运行期间只存在一个实例对象。</p>
+<h1 id="实现单例模式的5种方式"><a href="#实现单例模式的5种方式" class="headerlink" title="实现单例模式的5种方式"></a>实现单例模式的5种方式</h1><h2 id="模块方式"><a href="#模块方式" class="headerlink" title="模块方式"></a>模块方式</h2><p>其实，Python 的模块就是天然的单例模式，因为模块在第一次导入时，会生成 .pyc 文件，当第二次导入时，就会直接加载 .pyc 文件，而不会再次执行模块代码。</p>
+<p>因此，我们只需把相关的函数和数据定义在一个模块中，就可以获得一个单例对象了。如果我们真的想要一个单例类，可以考虑这样做：</p>
+<p>mysingleton.py<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Singleton</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">foo</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">single = Singleton()</span><br></pre></td></tr></table></figure></p>
+<p>　将上面的代码保存在文件 mysingleton.py 中，要使用时，直接在其他文件中导入此文件中的对象，这个对象即是单例模式的对象</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> demo.my_singleton <span class="keyword">import</span> single</span><br><span class="line"> </span><br><span class="line">single.foo()</span><br></pre></td></tr></table></figure>
+<h2 id="使用装饰器"><a href="#使用装饰器" class="headerlink" title="使用装饰器"></a>使用装饰器</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Singleton</span><span class="params">(cls)</span>:</span></span><br><span class="line">    _instance = &#123;&#125;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_singleton</span><span class="params">(*args, **kargs)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> cls <span class="keyword">not</span> <span class="keyword">in</span> _instance:</span><br><span class="line">            _instance[cls] = cls(*args, **kargs)</span><br><span class="line">        <span class="keyword">return</span> _instance[cls]</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">return</span> _singleton</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="meta">@Singleton</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, x=<span class="number">0</span>)</span>:</span></span><br><span class="line">        self.x = x</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">a1 = A(<span class="number">2</span>)</span><br><span class="line">a2 = A(<span class="number">3</span>)</span><br><span class="line"> </span><br><span class="line">print(id(a1), id(a2))</span><br><span class="line">　　</span><br><span class="line">```python</span><br><span class="line"><span class="comment">## 使用类</span></span><br><span class="line">```python</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Singleton</span><span class="params">(object)</span>:</span></span><br><span class="line">    __instance = <span class="keyword">None</span></span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        self.x = x</span><br><span class="line">        print(x)</span><br><span class="line"> </span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">my_singleton</span><span class="params">(cls, *args, **kwargs)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> cls.__instance:</span><br><span class="line">            cls.__instance = cls(*args, **kwargs)</span><br><span class="line">        <span class="keyword">return</span> cls.__instance</span><br></pre></td></tr></table></figure>
+<p>如果遇到多线程会出现问题　</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Singleton</span><span class="params">(object)</span>:</span></span><br><span class="line">    __instance = <span class="keyword">None</span></span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        self.x = x</span><br><span class="line">        <span class="keyword">import</span> time</span><br><span class="line">        time.sleep(<span class="number">1</span>)  <span class="comment"># 加入干扰元素，造成多线程出现问题</span></span><br><span class="line"> </span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">my_singleton</span><span class="params">(cls, *args, **kwargs)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> cls.__instance:</span><br><span class="line">            cls.__instance = cls(*args, **kwargs)</span><br><span class="line">        <span class="keyword">return</span> cls.__instance</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">task</span><span class="params">(arg)</span>:</span></span><br><span class="line">    obj = Singleton.my_singleton(arg)</span><br><span class="line">    print(obj)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">    t = threading.Thread(target=task, args=(i,))</span><br><span class="line">    t.start()</span><br><span class="line"> </span><br><span class="line">-------------------</span><br><span class="line">&lt;__main__.Singleton object at <span class="number">0x00000000025D76D8</span>&gt;</span><br><span class="line">&lt;__main__.Singleton object at <span class="number">0x000000000259FF28</span>&gt;</span><br><span class="line">&lt;__main__.Singleton object at <span class="number">0x000000001234A208</span>&gt;</span><br><span class="line">&lt;__main__.Singleton object at <span class="number">0x000000001234A1D0</span>&gt;</span><br><span class="line">&lt;__main__.Singleton object at <span class="number">0x000000001234A438</span>&gt;</span><br><span class="line">&lt;__main__.Singleton object at <span class="number">0x000000001234A630</span>&gt;</span><br><span class="line">&lt;__main__.Singleton object at <span class="number">0x000000001234A828</span>&gt;</span><br><span class="line">&lt;__main__.Singleton object at <span class="number">0x000000001234A978</span>&gt;</span><br><span class="line">&lt;__main__.Singleton object at <span class="number">0x000000001234A748</span>&gt;</span><br><span class="line">&lt;__main__.Singleton object at <span class="number">0x000000001234AAC8</span>&gt;</span><br><span class="line">```　　</span><br><span class="line"></span><br><span class="line">解决方法：加锁！未加锁部分并发执行,加锁部分串行执行,速度降低,但是保证了数据安全</span><br><span class="line">```python</span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Singleton</span><span class="params">(object)</span>:</span></span><br><span class="line">    __instance = <span class="keyword">None</span></span><br><span class="line">    __instance_lock = threading.Lock()</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        self.x = x</span><br><span class="line">        <span class="keyword">import</span> time</span><br><span class="line">        time.sleep(<span class="number">1</span>)  <span class="comment"># 加入干扰元素，造成多线程出现问题</span></span><br><span class="line"> </span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">my_singleton</span><span class="params">(cls, *args, **kwargs)</span>:</span></span><br><span class="line">        <span class="keyword">with</span> cls.__instance_lock:  <span class="comment"># 加锁</span></span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> cls.__instance:</span><br><span class="line">                cls.__instance = cls(*args, **kwargs)</span><br><span class="line">        <span class="keyword">return</span> cls.__instance</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">task</span><span class="params">(arg)</span>:</span></span><br><span class="line">    obj = Singleton.my_singleton(arg)</span><br><span class="line">    print(obj)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">    t = threading.Thread(target=task, args=(i,))</span><br><span class="line">    t.start()</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">----------------------</span><br><span class="line">&lt;__main__.Singleton object at <span class="number">0x000000000259FF28</span>&gt;</span><br><span class="line">&lt;__main__.Singleton object at <span class="number">0x000000000259FF28</span>&gt;</span><br><span class="line">&lt;__main__.Singleton object at <span class="number">0x000000000259FF28</span>&gt;</span><br><span class="line">&lt;__main__.Singleton object at <span class="number">0x000000000259FF28</span>&gt;</span><br><span class="line">&lt;__main__.Singleton object at <span class="number">0x000000000259FF28</span>&gt;</span><br><span class="line">&lt;__main__.Singleton object at <span class="number">0x000000000259FF28</span>&gt;</span><br><span class="line">&lt;__main__.Singleton object at <span class="number">0x000000000259FF28</span>&gt;</span><br><span class="line">&lt;__main__.Singleton object at <span class="number">0x000000000259FF28</span>&gt;</span><br><span class="line">&lt;__main__.Singleton object at <span class="number">0x000000000259FF28</span>&gt;</span><br><span class="line">&lt;__main__.Singleton object at <span class="number">0x000000000259FF28</span>&gt;</span><br><span class="line">```　　</span><br><span class="line"></span><br><span class="line"><span class="comment">## 基于__new__方法实现（推荐使用）</span></span><br><span class="line">当我们实例化一个对象时，是先执行了类的__new__方法（我们没写时，默认调用object.__new__），实例化对象；然后再执行类的__init__方法，对这个对象进行初始化。</span><br><span class="line">```python</span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Singleton</span><span class="params">(object)</span>:</span></span><br><span class="line">    _instance_lock = threading.Lock()</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        self.x = x</span><br><span class="line">        <span class="keyword">import</span> time</span><br><span class="line">        time.sleep(<span class="number">1</span>)  <span class="comment"># 加入干扰元素，造成多线程出现问题</span></span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__new__</span><span class="params">(cls, *args, **kwargs)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> hasattr(cls, <span class="string">'_instance'</span>):</span><br><span class="line">            <span class="keyword">with</span> cls._instance_lock:  <span class="comment"># 加锁</span></span><br><span class="line">                cls._instance = super(Singleton, cls).__new__(cls)</span><br><span class="line">        <span class="keyword">return</span> cls._instance</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">task</span><span class="params">(arg)</span>:</span></span><br><span class="line">    obj = Singleton(arg)</span><br><span class="line">    print(obj)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">    t = threading.Thread(target=task, args=(i,))</span><br><span class="line">    t.start()</span><br><span class="line"> </span><br><span class="line">----------------</span><br><span class="line"> </span><br><span class="line">&lt;__main__.Singleton object at <span class="number">0x000000000257FF60</span>&gt;</span><br><span class="line">&lt;__main__.Singleton object at <span class="number">0x000000000257FF60</span>&gt;</span><br><span class="line">&lt;__main__.Singleton object at <span class="number">0x000000000257FF60</span>&gt;</span><br><span class="line">&lt;__main__.Singleton object at <span class="number">0x000000000257FF60</span>&gt;</span><br><span class="line">&lt;__main__.Singleton object at <span class="number">0x000000000257FF60</span>&gt;</span><br><span class="line">&lt;__main__.Singleton object at <span class="number">0x000000000257FF60</span>&gt;</span><br><span class="line">&lt;__main__.Singleton object at <span class="number">0x000000000257FF60</span>&gt;</span><br><span class="line">&lt;__main__.Singleton object at <span class="number">0x000000000257FF60</span>&gt;</span><br><span class="line">&lt;__main__.Singleton object at <span class="number">0x000000000257FF60</span>&gt;</span><br><span class="line">&lt;__main__.Singleton object at <span class="number">0x000000000257FF60</span>&gt;</span><br><span class="line">　　</span><br><span class="line"></span><br><span class="line"><span class="comment">## 基于metaclass方式实现</span></span><br><span class="line">```python</span><br><span class="line"><span class="number">1.</span>类由type创建，创建类时，type的__init__方法自动执行，类() 执行type的 __call__方法(类的__new__方法,类的__init__方法)</span><br><span class="line"><span class="number">2.</span>对象由类创建，创建对象时，类的__init__方法自动执行，对象()执行类的 __call__ 方法</span><br></pre></td></tr></table></figure>
+<p>　实现单例<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SingletonType</span><span class="params">(type)</span>:</span></span><br><span class="line">    _instance_lock = threading.Lock()</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,class_name,class_bases,class_dic)</span>:</span></span><br><span class="line">        super(SingletonType, self).__init__(class_name,class_bases,class_dic)</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__call__</span><span class="params">(cls, *args, **kwargs)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> hasattr(cls, <span class="string">'_instance'</span>):</span><br><span class="line">            <span class="keyword">with</span> cls._instance_lock:  <span class="comment"># 加锁</span></span><br><span class="line">                cls._instance = super(SingletonType, cls).__call__(*args, **kwargs)</span><br><span class="line">        <span class="keyword">return</span> cls._instance</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">my_singlton</span><span class="params">(metaclass=SingletonType)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,x)</span>:</span></span><br><span class="line">        self.x = x</span><br><span class="line"> </span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">task</span><span class="params">(arg)</span>:</span></span><br><span class="line">    obj = my_singlton(arg)</span><br><span class="line">    print(obj)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">    t = threading.Thread(target=task, args=(i,))</span><br><span class="line">    t.start()</span><br><span class="line"> </span><br><span class="line">--------------------------</span><br><span class="line">&lt;__main__.my_singlton object at <span class="number">0x00000000025CFF60</span>&gt;</span><br><span class="line">&lt;__main__.my_singlton object at <span class="number">0x00000000025CFF60</span>&gt;</span><br><span class="line">&lt;__main__.my_singlton object at <span class="number">0x00000000025CFF60</span>&gt;</span><br><span class="line">&lt;__main__.my_singlton object at <span class="number">0x00000000025CFF60</span>&gt;</span><br><span class="line">&lt;__main__.my_singlton object at <span class="number">0x00000000025CFF60</span>&gt;</span><br><span class="line">&lt;__main__.my_singlton object at <span class="number">0x00000000025CFF60</span>&gt;</span><br><span class="line">&lt;__main__.my_singlton object at <span class="number">0x00000000025CFF60</span>&gt;</span><br><span class="line">&lt;__main__.my_singlton object at <span class="number">0x00000000025CFF60</span>&gt;</span><br><span class="line">&lt;__main__.my_singlton object at <span class="number">0x00000000025CFF60</span>&gt;</span><br><span class="line">&lt;__main__.my_singlton object at <span class="number">0x00000000025CFF60</span>&gt;</span><br><span class="line">　　</span><br><span class="line">```python</span><br><span class="line"><span class="comment">## 单例模式使用</span></span><br><span class="line">　</span><br><span class="line">```python</span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SingletonDB</span><span class="params">(object)</span>:</span></span><br><span class="line">    _instance_lock = threading.Lock()</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,host=<span class="string">'127.0.0.1'</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">            port=<span class="number">3306</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">            user=<span class="string">'root'</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">            password=<span class="string">'root'</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">            database=<span class="string">'testdb'</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">            charset=<span class="string">'utf8'</span>)</span>:</span></span><br><span class="line">        self.host = host</span><br><span class="line">        self.port = port</span><br><span class="line">        self.password = password</span><br><span class="line">        self.user = user</span><br><span class="line">        self.database = database</span><br><span class="line">        self.charset = charset</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__new__</span><span class="params">(cls, *args, **kwargs)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> hasattr(SingletonDB, <span class="string">"_instance"</span>):</span><br><span class="line">            <span class="keyword">with</span> SingletonDB._instance_lock:</span><br><span class="line">                <span class="keyword">if</span> <span class="keyword">not</span> hasattr(SingletonDB, <span class="string">"_instance"</span>):</span><br><span class="line">                    SingletonDB._instance = object.__new__(cls, *args, **kwargs)</span><br><span class="line">        <span class="keyword">return</span> SingletonDB._instance</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">connect</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'connect db'</span>)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">db1 = SingletonDB()</span><br><span class="line">db2 = SingletonDB()</span><br><span class="line"> </span><br><span class="line">print(db1,db2)</span><br><span class="line">db1.connect()</span><br><span class="line">db2.connect()</span><br><span class="line"> </span><br><span class="line">----------------</span><br><span class="line">&lt;__main__.SingletonDB object at <span class="number">0x00000000025E76D8</span>&gt; &lt;__main__.SingletonDB object at <span class="number">0x00000000025E76D8</span>&gt;</span><br><span class="line">connect db</span><br><span class="line">connect db</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/25/2018092521/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1773,158 +1925,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/15/2018091522/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Mr.Q">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dynamic-Soul">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/15/2018091522/" itemprop="url">属性查找与绑定方法</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-15T22:04:08+08:00">2018-09-15</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Python面向对象/" itemprop="url" rel="index"><span itemprop="name">Python面向对象</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="属性查找"><a href="#属性查找" class="headerlink" title="属性查找"></a>属性查找</h1><p>类有两种属性：数据属性和函数属性</p>
-<p>1、类的数据属性是所有对象共享的</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LuffyStudent</span>:</span></span><br><span class="line">    school=<span class="string">'luffycity'</span></span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">learn</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'is learning'</span>)</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">eat</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'is sleeping'</span>)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="comment">#后产生对象</span></span><br><span class="line">stu1=LuffyStudent()</span><br><span class="line">stu2=LuffyStudent()</span><br><span class="line">stu3=LuffyStudent()</span><br><span class="line"> </span><br><span class="line">print(id(stu1.school))</span><br><span class="line">print(id(stu2.school))</span><br><span class="line">print(id(stu3.school))</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 43496496</span></span><br><span class="line"><span class="comment"># 43496496</span></span><br><span class="line"><span class="comment"># 43496496</span></span><br></pre></td></tr></table></figure>
-<p>2、类的函数数据是绑定给对象用的，称为绑定到对象的方法<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#后产生对象</span></span><br><span class="line">stu1=LuffyStudent()</span><br><span class="line">stu2=LuffyStudent()</span><br><span class="line">stu3=LuffyStudent()</span><br><span class="line"><span class="comment">#类的函数属性是绑定给对象使用的,obj.method称为绑定方法,内存地址都不一样</span></span><br><span class="line">print(stu1.learn())</span><br><span class="line">print(stu2.learn())</span><br><span class="line">print(stu3.learn())</span><br><span class="line"> </span><br><span class="line"><span class="comment"># &lt;bound method LuffyStudent.learn of &lt;__main__.LuffyStudent object at 0x00000000127085C0&gt;&gt;</span></span><br><span class="line"><span class="comment"># &lt;bound method LuffyStudent.learn of &lt;__main__.LuffyStudent object at 0x0000000012708518&gt;&gt;</span></span><br><span class="line"><span class="comment"># &lt;bound method LuffyStudent.learn of &lt;__main__.LuffyStudent object at 0x0000000012708630&gt;&gt;</span></span><br><span class="line"><span class="comment">#ps:id是python的实现机制,并不能真实反映内存地址,如果有内存地址,还是以内存地址为准</span></span><br></pre></td></tr></table></figure></p>
-<p>在obj.name会先从obj自己的名称空间里找name，找不到则去类中找，类也找不到就找父类…最后都找不到就抛出异常</p>
-<h1 id="绑定方法"><a href="#绑定方法" class="headerlink" title="绑定方法"></a>绑定方法</h1><p>定义类并实例化出三个对象<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LuffyStudent</span>:</span></span><br><span class="line">    school=<span class="string">'luffy'</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,name,age)</span>:</span></span><br><span class="line">        self.name = name</span><br><span class="line">        self.age = age</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">eat</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'%s is eating'</span> %self.name)</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">sleep</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'%s is sleeping'</span> %self.name)</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__del__</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">"running del method, this person must be died."</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 后产生对象</span></span><br><span class="line">stu1=LuffyStudent(<span class="string">'alex'</span>,<span class="number">18</span>)</span><br><span class="line">stu2=LuffyStudent(<span class="string">'li'</span>,<span class="number">28</span>)</span><br><span class="line">stu3=LuffyStudent(<span class="string">'hy'</span>,<span class="number">38</span>)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">stu1.eat()</span><br><span class="line">stu2.eat()</span><br><span class="line">stu3.eat()</span><br><span class="line"> </span><br><span class="line"><span class="comment"># alex is eating</span></span><br><span class="line"><span class="comment"># li is eating</span></span><br><span class="line"><span class="comment"># hy is eating</span></span><br></pre></td></tr></table></figure></p>
-<p>　强调：绑定到对象的方法的特殊之处在于，绑定给谁就由谁来调用，谁来调用，就会将‘谁’本身当做第一个参数传给方法，即自动传值（方法<strong>init</strong>也是一样的道理）</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">stu1.eat() <span class="comment"># 等同于LuffyStudent.eat(stu1)</span></span><br><span class="line">stu2.eat() <span class="comment"># 等同于LuffyStudent.eat(stu1)</span></span><br><span class="line">stu3.eat() <span class="comment"># 等同于LuffyStudent.eat(stu1)</span></span><br></pre></td></tr></table></figure>
-<p>　注意：绑定到对象的方法的这种自动传值的特征，决定了在类中定义的函数都要默认写一个参数self，self可以是任意名字，但是约定俗成地写出self。</p>
-<h1 id="类即类型"><a href="#类即类型" class="headerlink" title="类即类型"></a>类即类型</h1><p>python中一切皆为对象，且python3中类与类型是一个概念，类型就是类</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#类型dict就是类dict</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list</span><br><span class="line">&lt;<span class="class"><span class="keyword">class</span> '<span class="title">list</span>'&gt;</span></span><br><span class="line"><span class="class"> </span></span><br><span class="line">#实例化的到3个对象l1,l2,l3</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>l1=list()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>l2=list()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>l3=list()</span><br><span class="line"> </span><br><span class="line"><span class="comment">#三个对象都有绑定方法append,是相同的功能,但内存地址不同</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>l1.append</span><br><span class="line">&lt;built-<span class="keyword">in</span> method append of list object at <span class="number">0x10b482b48</span>&gt;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>l2.append</span><br><span class="line">&lt;built-<span class="keyword">in</span> method append of list object at <span class="number">0x10b482b88</span>&gt;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>l3.append</span><br><span class="line">&lt;built-<span class="keyword">in</span> method append of list object at <span class="number">0x10b482bc8</span>&gt;</span><br><span class="line"> </span><br><span class="line"><span class="comment">#操作绑定方法l1.append(3),就是在往l1添加3,绝对不会将3添加到l2或l3</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>l1.append(<span class="number">3</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>l1</span><br><span class="line">[<span class="number">3</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>l2</span><br><span class="line">[]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>l3</span><br><span class="line">[]</span><br><span class="line"><span class="comment">#调用类list.append(l3,111)等同于l3.append(111)</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>list.append(l3,<span class="number">111</span>) <span class="comment">#l3.append(111)</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>l3</span><br><span class="line">[<span class="number">111</span>]</span><br></pre></td></tr></table></figure>
-<h1 id="数据与功能分离"><a href="#数据与功能分离" class="headerlink" title="数据与功能分离"></a>数据与功能分离</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MySQLHandler</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,host,port,db,charset=<span class="string">'utf8'</span>)</span>:</span></span><br><span class="line">        self.host=host</span><br><span class="line">        self.port=port</span><br><span class="line">        self.db=db</span><br><span class="line">        self.charset=charset</span><br><span class="line">        self.conn=self.connect(self.host,self.port,self.db,self.charset)</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">exc1</span><span class="params">(self,sql)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.conn.execute(sql)</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">exc2</span><span class="params">(self,sql)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.conn.call_proc(sql)</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_connect</span><span class="params">(self,host,port,db,charset)</span>:</span></span><br><span class="line">        print(<span class="string">'connect %s,%s,%s,%s'</span> %(host,port,db,charset))</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">obj=MySQLHandler(<span class="string">'127.0.0.1'</span>,<span class="number">3306</span>,<span class="string">'db1'</span>)</span><br><span class="line">obj.exc1(<span class="string">'select * from tb1;'</span>)</span><br><span class="line">obj.exc2(<span class="string">'mycall'</span>)</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1976,7 +1976,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">85</span>
+                    <span class="site-state-item-count">86</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2111,7 +2111,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共129.8k字</span>
+  <span class="post-count">博客全站共131.4k字</span>
 </div>
         
 
