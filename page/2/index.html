@@ -311,6 +311,163 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/17/2018091722/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Q">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dynamic-Soul">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/17/2018091722/" itemprop="url">组合与重用性，抽象类</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-17T22:03:39+08:00">2018-09-17</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Python面向对象/" itemprop="url" rel="index"><span itemprop="name">Python面向对象</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="组合与继承"><a href="#组合与继承" class="headerlink" title="组合与继承"></a>组合与继承</h1><p>1.继承的方式</p>
+<p>通过继承建立了派生类与基类之间的关系，它是一种’是’的关系，比如白马是马，人是动物。</p>
+<p>当类之间有很多相同的功能，提取这些共同的功能做成基类，用继承比较好，比如老师是人，学生是人</p>
+<p>2.组合的方式</p>
+<p>用组合的方式建立了类与组合的类之间的关系，它是一种‘有’的关系,比如教授有生日，教授教python和linux课程，教授有学生s1、s2、s3…</p>
+<p>示例：继承与组合<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">People</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,name,age,sex)</span>:</span></span><br><span class="line">        self.name=name</span><br><span class="line">        self.age=age</span><br><span class="line">        self.sex=sex</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Course</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,name,period,price)</span>:</span></span><br><span class="line">        self.name=name</span><br><span class="line">        self.period=period</span><br><span class="line">        self.price=price</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">tell_info</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'&lt;%s %s %s&gt;'</span> %(self.name,self.period,self.price))</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Teacher</span><span class="params">(People)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,name,age,sex,job_title)</span>:</span></span><br><span class="line">        super().__init__(name,age,sex)</span><br><span class="line">        self.job_title=job_title</span><br><span class="line">        self.course = []</span><br><span class="line">        self.students =[]</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">tell_info</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">for</span> c <span class="keyword">in</span> self.students:</span><br><span class="line">            print(<span class="string">'%s 教学生 %s'</span>%(self.name,c.name))</span><br><span class="line">        <span class="keyword">for</span> s <span class="keyword">in</span> self.course:</span><br><span class="line">            print(<span class="string">'%s 教课程 %s'</span>%(self.name,s.name))</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">(People)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,name,age,sex)</span>:</span></span><br><span class="line">        super().__init__(name,age,sex)</span><br><span class="line">        self.course=[]</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">egon=Teacher(<span class="string">'egon'</span>,<span class="number">18</span>,<span class="string">'male'</span>,<span class="string">'金牌讲师'</span>)</span><br><span class="line">s1=Student(<span class="string">'s1'</span>,<span class="number">18</span>,<span class="string">'female'</span>)</span><br><span class="line"> </span><br><span class="line">python=Course(<span class="string">'python'</span>,<span class="string">'3mons'</span>,<span class="number">3000.0</span>)</span><br><span class="line">linux=Course(<span class="string">'linux'</span>,<span class="string">'4mons'</span>,<span class="number">5000.0</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment">#为老师egon和学生s1添加课程</span></span><br><span class="line">egon.course.append(python)</span><br><span class="line">egon.course.append(linux)</span><br><span class="line">s1.course.append(python)</span><br><span class="line"> </span><br><span class="line"><span class="comment">#为老师egon添加学生s1</span></span><br><span class="line">egon.students.append(s1)</span><br><span class="line"> </span><br><span class="line">egon.tell_info()</span><br><span class="line"> </span><br><span class="line"><span class="comment">#使用</span></span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> egon.course:</span><br><span class="line">   item.tell_info()</span><br><span class="line"> </span><br><span class="line"><span class="comment"># egon 教学生 s1</span></span><br><span class="line"><span class="comment"># egon 教课程 python</span></span><br><span class="line"><span class="comment"># egon 教课程 linux</span></span><br><span class="line"><span class="comment"># &lt;python 3mons 3000.0&gt;</span></span><br><span class="line"><span class="comment"># &lt;linux 4mons 5000.0&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>总结：</p>
+<p>当类之间有显著不同，并且较小的类是较大的类所需要的组件时，用组合比较好</p>
+<h1 id="抽象类"><a href="#抽象类" class="headerlink" title="抽象类"></a>抽象类</h1><h2 id="什么是抽象类"><a href="#什么是抽象类" class="headerlink" title="什么是抽象类"></a>什么是抽象类</h2><p>与java一样，python也有抽象类的概念但是同样需要借助模块实现，抽象类是一个特殊的类，它的特殊之处在于只能被继承，不能被实例化</p>
+<h2 id="为什么要有抽象类"><a href="#为什么要有抽象类" class="headerlink" title="为什么要有抽象类"></a>为什么要有抽象类</h2><p>如果说类是从一堆对象中抽取相同的内容而来的，那么抽象类就是从一堆类中抽取相同的内容而来的，内容包括数据属性和函数属性。</p>
+<p>　 比如我们有香蕉的类，有苹果的类，有桃子的类，从这些类抽取相同的内容就是水果这个抽象的类，你吃水果时，要么是吃一个具体的香蕉，要么是吃一个具体的桃子。。。。。。你永远无法吃到一个叫做水果的东西。</p>
+<p>从设计角度去看，如果类是从现实对象抽象而来的，那么抽象类就是基于类抽象而来的。</p>
+<p>　 从实现角度来看，抽象类与普通类的不同之处在于：抽象类中只能有抽象方法（没有实现功能），该类不能被实例化，只能被继承，且子类必须实现抽象方法。这一点与接口有点类似，但其实是不同的，即将揭晓答案</p>
+<h2 id="在python中实现抽象类"><a href="#在python中实现抽象类" class="headerlink" title="在python中实现抽象类"></a>在python中实现抽象类</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> abc</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span><span class="params">(metaclass=abc.ABCMeta)</span>:</span><span class="comment">#只能被继承，不能被实例化</span></span><br><span class="line"> </span><br><span class="line"><span class="meta">    @abc.abstractmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"> </span><br><span class="line"><span class="meta">    @abc.abstractmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">eat</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Pig</span><span class="params">(Animal)</span>:</span> <span class="comment">#子类继承抽象类，但是必须定义run和eat方法</span></span><br><span class="line">     </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'pig is walking'</span>)</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">eat</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'pig is eating'</span>)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span><span class="params">(Animal)</span>:</span><span class="comment">#子类继承抽象类，但是必须定义run和eat方法</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'dog is walking'</span>)</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">eat</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'dog is eating'</span>)</span><br><span class="line"> </span><br><span class="line">dog = Dog()</span><br><span class="line">dog.run()</span><br><span class="line">dog.eat()</span><br><span class="line"> </span><br><span class="line">pig = Pig()</span><br><span class="line">pig.run()</span><br><span class="line">pig.eat()</span><br><span class="line"> </span><br><span class="line"><span class="comment"># dog is walking</span></span><br><span class="line"><span class="comment"># dog is eating</span></span><br><span class="line"><span class="comment"># pig is walking</span></span><br><span class="line"><span class="comment"># pig is eating</span></span><br></pre></td></tr></table></figure>
+<h2 id="抽象类与接口"><a href="#抽象类与接口" class="headerlink" title="抽象类与接口"></a>抽象类与接口</h2><p>抽象类的本质还是类，指的是一组类的相似性，包括数据属性（如all_type）和函数属性（如eat、run），而接口只强调函数属性的相似性。</p>
+<p>抽象类是一个介于类和接口直接的一个概念，同时具备类和接口的部分特性，可以用来实现归一化设计</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/16/2018091622/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1803,209 +1960,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/06/2018090620/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Mr.Q">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dynamic-Soul">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/06/2018090620/" itemprop="url">Python线程</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-06T20:49:36+08:00">2018-09-06</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Python网络编程/" itemprop="url" rel="index"><span itemprop="name">Python网络编程</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h1><p>线程被称作轻量级进程。与进程类似，不过它们是在同一个进程下执行的。</p>
-<p>并且它们会共享相同的上下文。每一个进程中至少有一个线程。</p>
-<p>顾名思义，线程就是一条流水线工作的过程，一条流水线必须属于一个车间，一个车间的工作过程是一个进程</p>
-<p>所以，进程只是用来把资源集中到一起（进程只是一个资源单位，或者说资源集合），而线程才是cpu上的执行单位。</p>
-<p>　多线程（即多个控制线程）的概念是，在一个进程中存在多个控制线程，多个控制线程共享该进程的地址空间，相当于一个车间内有多条流水线，都共用一个车间的资源。（一个进程里面开多个线程（共享同一个进程里面的内存空间））</p>
-<h1 id="线程和进程的关系"><a href="#线程和进程的关系" class="headerlink" title="线程和进程的关系"></a>线程和进程的关系</h1><p>1.创建线程比进程开销小（开一个进程，里面就有空间了，而线程在进程里面，就没必要在开一个空间了）</p>
-<p>　　如果我们的软件是一个工厂，该工厂有多条流水线，流水线工作需要电源，电源只有一个即cpu（单核cpu）</p>
-<p>　　一个车间就是一个进程，一个车间至少一条流水线（一个进程至少一个线程）创建一个进程，就是创建一个车间（申请空间，在该空间内建至少一条流水线）</p>
-<p>　　而建线程，就只是在一个车间内造一条流水线，无需申请空间，所以创建开销小</p>
-<p>2.多线程一定是在一个进程里面开启的，共享进程里面的资源<br>3.线程启动的速度快<br>4.同一进程下的多个线程共享进程的资源，而多个进程之间内存空间是隔离的</p>
-<h1 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h1><p>多线程指的是，在一个进程中开启多个线程，通过Python解释器调度，简单的讲：如果多个任务共用一块地址空间，那么必须在一个进程内开启多个线程。详细的讲分为4点：</p>
-<p>多线程共享一个进程的地址空间</p>
-<p>线程比进程更轻量级，线程比进程更容易创建可撤销，在许多操作系统中，创建一个线程比创建一个进程要快10-100倍，在有大量线程需要动态和快速修改时，这一特性很有用</p>
-<p>若多个线程都是cpu密集型的，那么并不能获得性能上的增强，但是如果存在大量的计算和大量的I/O处理，拥有多个线程允许这些活动彼此重叠运行，从而会加快程序执行的速度。</p>
-<p>在多cpu系统中，为了最大限度的利用多核，可以开启多个线程，比开进程开销要小的多。（这一条并不适用于python）</p>
-<h1 id="Python-GIL锁（CPython解释器）"><a href="#Python-GIL锁（CPython解释器）" class="headerlink" title="Python GIL锁（CPython解释器）"></a>Python GIL锁（CPython解释器）</h1><p>Python在设计的时候，还没有多核处理器的概念。</p>
-<p>因此，为了设计方便与线程安全，直接设计了一个锁。</p>
-<p>这个锁要求，任何进程中，一次只能有一个线程在执行。</p>
-<p>因此，并不能为多个线程分配多个CPU。所以Python中的线程只能实现并发，而不能实现真正的并行。</p>
-<p>但是Python3中的GIL锁有一个很棒的设计，在遇到阻塞（不是耗时）的时候，会自动切换线程。因此我们可以利用这种机制来有效的避开阻塞~充分利用CPU</p>
-<p><strong>多线程用于IO密集型，如socket，爬虫，web</strong></p>
-<h1 id="Python线程模块的选择"><a href="#Python线程模块的选择" class="headerlink" title="Python线程模块的选择"></a>Python线程模块的选择</h1><p>Python提供了几个用于多线程编程的模块，包括thread、threading和Queue等。thread和threading模块允许程序员创建和管理线程。thread模块提供了基本的线程和锁的支持，threading提供了更高级别、功能更强的线程管理的功能。Queue模块允许用户创建一个可以用于多个线程之间共享数据的队列数据结构。<br>　　避免使用thread模块，因为更高级别的threading模块更为先进，对线程的支持更为完善，而且使用thread模块里的属性有可能会与threading出现冲突；其次低级别的thread模块的同步原语很少(实际上只有一个)，而threading模块则有很多；再者，thread模块中当主线程结束时，所有的线程都会被强制结束掉，没有警告也不会有正常的清除工作，至少threading模块能确保重要的子线程退出后进程才退出。 </p>
-<p>　　thread模块不支持守护线程，当主线程退出时，所有的子线程不论它们是否还在工作，都会被强行退出。而threading模块支持守护线程，守护线程一般是一个等待客户请求的服务器，如果没有客户提出请求它就在那等着，如果设定一个线程为守护线程，就表示这个线程是不重要的，在进程退出的时候，不用等待这个线程退出。</p>
-<h1 id="threading模块"><a href="#threading模块" class="headerlink" title="threading模块"></a>threading模块</h1><h2 id="线程的创建"><a href="#线程的创建" class="headerlink" title="线程的创建"></a>线程的创建</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> threading <span class="keyword">import</span> Thread</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">say</span><span class="params">(name)</span>:</span></span><br><span class="line">    time.sleep(<span class="number">2</span>)</span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    threading.current_thread().name得到当前线程名</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    print(<span class="string">'thread %s %s say hello'</span> % (threading.current_thread().name, name))</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    t = Thread(target=say, name=<span class="string">'一号'</span>, args=(<span class="string">'yang'</span>,))</span><br><span class="line">    t.start()</span><br><span class="line">    print(<span class="string">'主线程'</span>)</span><br><span class="line"></span><br><span class="line">》》输出</span><br><span class="line"></span><br><span class="line">主线程</span><br><span class="line">thread 一号 yang say hello</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> threading <span class="keyword">import</span> Thread</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Say</span><span class="params">(Thread)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,name)</span>:</span></span><br><span class="line">        super().__init__()</span><br><span class="line">        self.name=name</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        time.sleep(<span class="number">2</span>)</span><br><span class="line">        print(<span class="string">'%s say hello'</span> % self.name)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    t = Say(<span class="string">'xx'</span>)</span><br><span class="line">    t.start()</span><br><span class="line">    print(<span class="string">'主线程'</span>)</span><br><span class="line"></span><br><span class="line">》》输出</span><br><span class="line"></span><br><span class="line">主线程</span><br><span class="line">xx say hello</span><br></pre></td></tr></table></figure>
-<h2 id="多进程和多线程"><a href="#多进程和多线程" class="headerlink" title="多进程和多线程"></a>多进程和多线程</h2><p>多线程与多进程的PID</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> threading <span class="keyword">import</span> Thread</span><br><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">work</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">'hello'</span>,os.getpid())</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="comment">#part1:在主进程下开启多个线程,每个线程都跟主进程的pid一样</span></span><br><span class="line">    t1=Thread(target=work)</span><br><span class="line">    t2=Thread(target=work)</span><br><span class="line">    print(<span class="string">'主线程/主进程pid'</span>,os.getpid())</span><br><span class="line">    t1.start()</span><br><span class="line">    t2.start()</span><br><span class="line"></span><br><span class="line">    <span class="comment">#part2:开多个进程,每个进程都有不同的pid</span></span><br><span class="line">    p1=Process(target=work)</span><br><span class="line">    p2=Process(target=work)</span><br><span class="line">    print(<span class="string">'主线程/主进程pid'</span>,os.getpid())</span><br><span class="line">    p1.start()</span><br><span class="line">    p2.start()</span><br><span class="line"></span><br><span class="line">》》</span><br><span class="line">主线程/主进程pid <span class="number">8448</span></span><br><span class="line">hello <span class="number">8448</span></span><br><span class="line">hello <span class="number">8448</span></span><br><span class="line">主线程/主进程pid <span class="number">8448</span></span><br><span class="line">hello <span class="number">8652</span></span><br><span class="line">hello <span class="number">8124</span></span><br></pre></td></tr></table></figure>
-<p>多线程与多进程之间全局变量</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> threading <span class="keyword">import</span> Thread</span><br><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process</span><br><span class="line"><span class="keyword">import</span> multiprocessing</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">work1</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">global</span> n</span><br><span class="line">    n=<span class="number">0</span></span><br><span class="line">    print(<span class="string">'children'</span>, multiprocessing.current_process().name,n)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">work2</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">global</span> n</span><br><span class="line">    n=<span class="number">0</span></span><br><span class="line">    print(<span class="string">'children'</span>, threading.current_thread().name,n)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    n=<span class="number">100</span></span><br><span class="line">    p=Process(target=work1)</span><br><span class="line">    p.start()</span><br><span class="line">    p.join()</span><br><span class="line">    print(<span class="string">'主进程'</span>,n) <span class="comment">#毫无疑问子进程p已经将自己的全局的n改成了0,但改的仅仅是它自己的,查看父进程的n仍然为100</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    n=<span class="number">1</span></span><br><span class="line">    t=Thread(target=work2)</span><br><span class="line">    t.start()</span><br><span class="line">    t.join()</span><br><span class="line">    print(<span class="string">'主线程'</span>,n) <span class="comment"># 查看结果为0,因为同一进程内的线程之间共享进程内的数据</span></span><br><span class="line"></span><br><span class="line">&gt;&gt;</span><br><span class="line"></span><br><span class="line">children Process<span class="number">-1</span> <span class="number">0</span></span><br><span class="line">主进程 <span class="number">100</span></span><br><span class="line">children Thread<span class="number">-1</span> <span class="number">0</span></span><br><span class="line">主线程 <span class="number">0</span></span><br></pre></td></tr></table></figure>
-<h2 id="多线程实现并发服务器"><a href="#多线程实现并发服务器" class="headerlink" title="多线程实现并发服务器"></a>多线程实现并发服务器</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line">server = socket.socket()</span><br><span class="line">server.bind((<span class="string">'127.0.0.1'</span>,<span class="number">9988</span>))</span><br><span class="line">server.listen(<span class="number">5</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">readable</span><span class="params">(conn,addr)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    创建一个新的线程，负责和客户端连接</span></span><br><span class="line"><span class="string">    :param conn: </span></span><br><span class="line"><span class="string">    :param addr: </span></span><br><span class="line"><span class="string">    :return: </span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="comment"># sys.stdin = os.fdopen(0)</span></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        data = conn.recv(<span class="number">1024</span>)</span><br><span class="line">        <span class="keyword">if</span> data: <span class="comment">#</span></span><br><span class="line">            print(<span class="string">'&#123;&#125;:&#123;&#125;'</span>.format(addr,data.decode()))</span><br><span class="line">            <span class="comment"># msg = input("&gt;&gt;&gt;") # 自定义输入 默认子进程会关闭标准输入</span></span><br><span class="line">            <span class="comment">#键盘是需要独占的设备，所以默认子进程关闭了</span></span><br><span class="line">            conn.send(data)</span><br><span class="line">            <span class="comment"># print()</span></span><br><span class="line">        <span class="keyword">else</span>: <span class="comment"># 正常断开，会收到空消息(回车不算空消息)</span></span><br><span class="line">            print(<span class="string">'close&#123;&#125;'</span>.format(addr))</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    conn.close()</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">    print(<span class="string">'-------主线程,等待连接------'</span>)</span><br><span class="line">    conn,addr = server.accept()</span><br><span class="line">    print(<span class="string">'创建一个新的线程，和客户端&#123;&#125;通信'</span>.format(addr))</span><br><span class="line">    client = threading.Thread(target=readable, args=((conn, addr)))</span><br><span class="line">    <span class="comment"># p.start()</span></span><br><span class="line">    client.start()</span><br></pre></td></tr></table></figure>
-<h2 id="Thread类的其他用法"><a href="#Thread类的其他用法" class="headerlink" title="Thread类的其他用法"></a>Thread类的其他用法</h2><p>Thread实例对象的方法</p>
-<ul>
-<li>isAlive(): 返回线程是否活动的。</li>
-<li>getName(): 返回线程名。</li>
-<li>setName(): 设置线程名。</li>
-</ul>
-<p>threading模块提供的一些方法：</p>
-<ul>
-<li>threading.currentThread(): 返回当前的线程变量。</li>
-<li>threading.enumerate(): 返回一个包含正在运行的线程的list。正在运行指线程启动后、结束前，不包括启动前和终止后的线程。</li>
-<li>threading.activeCount(): 返回正在运行的线程数量，与len(threading.enumerate())有相同的结果。</li>
-</ul>
-<p>使用：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> threading <span class="keyword">import</span> Thread</span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Process</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">work</span><span class="params">()</span>:</span></span><br><span class="line">    time.sleep(<span class="number">3</span>)</span><br><span class="line">    print(threading.current_thread().getName())</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="comment">#在主进程下开启线程</span></span><br><span class="line">    t=Thread(target=work)</span><br><span class="line">    t.start()</span><br><span class="line"></span><br><span class="line">    print(threading.current_thread().getName())</span><br><span class="line">    print(threading.current_thread()) <span class="comment">#主线程</span></span><br><span class="line">    print(threading.enumerate()) <span class="comment">#连同主线程在内有两个运行的线程</span></span><br><span class="line">    print(threading.active_count())</span><br><span class="line">    print(<span class="string">'主线程'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    打印结果:</span></span><br><span class="line"><span class="string">    MainThread</span></span><br><span class="line"><span class="string">    &lt;_MainThread(MainThread, started 5888)&gt;</span></span><br><span class="line"><span class="string">    [&lt;_MainThread(MainThread, started 5888)&gt;, &lt;Thread(Thread-1, started 6152)&gt;]</span></span><br><span class="line"><span class="string">    2</span></span><br><span class="line"><span class="string">    主线程</span></span><br><span class="line"><span class="string">    Thread-1</span></span><br><span class="line"><span class="string">    '''</span></span><br></pre></td></tr></table></figure>
-<h2 id="守护线程"><a href="#守护线程" class="headerlink" title="守护线程"></a>守护线程</h2><p><strong>无论是进程还是线程，都遵循：守护xx会等待主xx运行完毕后被销毁。需要强调的是：运行完毕并非终止运行</strong></p>
-<p>1.对主进程来说，运行完毕指的是主进程代码运行完毕<br>2.对主线程来说，运行完毕指的是主线程所在的进程内所有非守护线程统统运行完毕，主线程才算运行完毕</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> threading <span class="keyword">import</span> Thread</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sayhi</span><span class="params">(name)</span>:</span></span><br><span class="line">    time.sleep(<span class="number">2</span>)</span><br><span class="line">    print(<span class="string">'%s say hello'</span> %name)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    t = Thread(target=sayhi, args=(<span class="string">'y'</span>,))</span><br><span class="line">    t.setDaemon(<span class="keyword">True</span>) <span class="comment"># 必须在t.start()之前设置</span></span><br><span class="line">    t.start()</span><br><span class="line">    print(<span class="string">'主线程'</span>)</span><br><span class="line">    print(t.is_alive())</span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    打印结果</span></span><br><span class="line"><span class="string">    主线程</span></span><br><span class="line"><span class="string">    True</span></span><br><span class="line"><span class="string">    '''</span></span><br></pre></td></tr></table></figure>
-<h1 id="线程锁与Queue"><a href="#线程锁与Queue" class="headerlink" title="线程锁与Queue"></a>线程锁与Queue</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> threading <span class="keyword">import</span> Thread</span><br><span class="line"></span><br><span class="line">a = <span class="number">0</span></span><br><span class="line">n = <span class="number">1000000</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">incr</span><span class="params">(n)</span>:</span></span><br><span class="line">    <span class="keyword">global</span> a</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range (n):</span><br><span class="line">        a += <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">decr</span><span class="params">(n)</span>:</span></span><br><span class="line">    <span class="keyword">global</span> a</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range (n):</span><br><span class="line">        a -= <span class="number">1</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="comment"># 开启两个线程</span></span><br><span class="line">    p1 = Thread(target=incr, args=(n, ))</span><br><span class="line">    p2 = Thread(target=decr, args=(n,))</span><br><span class="line">    p1.start()</span><br><span class="line">    p2.start()</span><br><span class="line">    p1.join()</span><br><span class="line">    p2.join()</span><br><span class="line">    print(<span class="string">'程序结束a='</span>, a)</span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    程序结束a= 254080</span></span><br><span class="line"><span class="string">    共享内存间存在竞争问题</span></span><br><span class="line"><span class="string">    """</span></span><br></pre></td></tr></table></figure>
-<h2 id="使用锁来控制共享资源的访问"><a href="#使用锁来控制共享资源的访问" class="headerlink" title="使用锁来控制共享资源的访问"></a>使用锁来控制共享资源的访问</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> threading <span class="keyword">import</span> Thread, Lock</span><br><span class="line"></span><br><span class="line">a = <span class="number">0</span></span><br><span class="line">n = <span class="number">1000000</span></span><br><span class="line">lock = Lock()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">incr</span><span class="params">(n)</span>:</span></span><br><span class="line">    <span class="keyword">global</span> a</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">        lock.acquire()  <span class="comment"># 获得锁</span></span><br><span class="line">        a += <span class="number">1</span></span><br><span class="line">        lock.release()  <span class="comment"># 释放锁</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">decr</span><span class="params">(n)</span>:</span></span><br><span class="line">    <span class="keyword">global</span> a</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">        lock.acquire()  <span class="comment"># 获得锁</span></span><br><span class="line">        a -= <span class="number">1</span></span><br><span class="line">        lock.release()  <span class="comment"># 释放锁</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="comment"># 开启两个线程</span></span><br><span class="line">    p1 = Thread(target=incr, args=(n, ))</span><br><span class="line">    p2 = Thread(target=decr, args=(n,))</span><br><span class="line">    p1.start()</span><br><span class="line">    p2.start()</span><br><span class="line">    p1.join()</span><br><span class="line">    p2.join()</span><br><span class="line">    print(<span class="string">'程序结束a='</span>, a)</span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    程序结束a = 0</span></span><br><span class="line"><span class="string">    使用锁来控制共享资源的访问</span></span><br><span class="line"><span class="string">    """</span></span><br></pre></td></tr></table></figure>
-<p><strong>线程安全或进程安全的队列中已经帮我们实现了锁，因此不需要再使用自己的锁来同步</strong></p>
-<p>queue队列 ：使用import queue，用法与进程Queue一样</p>
-<h2 id="使用queue实现生产者和消费者模型"><a href="#使用queue实现生产者和消费者模型" class="headerlink" title="使用queue实现生产者和消费者模型"></a>使用queue实现生产者和消费者模型</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> threading <span class="keyword">import</span> Thread</span><br><span class="line"><span class="keyword">import</span> queue</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Producer</span><span class="params">(Thread)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, queue)</span>:</span></span><br><span class="line">        super().__init__()</span><br><span class="line">        self.queue = queue</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">5</span>):</span><br><span class="line">            time.sleep(<span class="number">1</span>)</span><br><span class="line">            item = random.randint(<span class="number">1</span>, <span class="number">99</span>)</span><br><span class="line">            self.queue.put(item)</span><br><span class="line">            msg = <span class="string">'Producer %s'</span> % item</span><br><span class="line">            print_log(msg, <span class="string">'prod'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Consumer</span><span class="params">(Thread)</span>:</span></span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, queue)</span>:</span></span><br><span class="line">       super().__init__()</span><br><span class="line">       self.queue = queue</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">       <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">           <span class="keyword">if</span> <span class="keyword">not</span> self.queue.empty():</span><br><span class="line">                item = self.queue.get()</span><br><span class="line">                time.sleep(<span class="number">1</span>)</span><br><span class="line">                msg = <span class="string">'Consumer %s'</span> %item</span><br><span class="line">                print_log(msg,<span class="string">'con'</span>)</span><br><span class="line">                queue.task_done() <span class="comment"># 告诉队列任务执行完毕</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_log</span><span class="params">(msg, log_type=<span class="string">"prod"</span>)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> log_type == <span class="string">'prod'</span>:</span><br><span class="line">        print(<span class="string">"\033[32;1m%s\033[0m"</span> %msg)</span><br><span class="line">    <span class="keyword">elif</span> log_type == <span class="string">'con'</span>:</span><br><span class="line">        print(<span class="string">"\033[31;1m%s\033[0m"</span> %msg)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    queue = queue.Queue()</span><br><span class="line">    <span class="comment"># 开启两个线程</span></span><br><span class="line">    p = Producer(queue)</span><br><span class="line">    c = Consumer(queue)</span><br><span class="line">    p.start()</span><br><span class="line">    c.start()</span><br><span class="line">    p.join()</span><br><span class="line">    c.join()</span><br><span class="line">    print(<span class="string">'程序结束'</span>, )</span><br></pre></td></tr></table></figure>
-<img src="/2018/09/06/2018090620/1.jpg">
-<h1 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h1><img src="/2018/09/06/2018090620/2.jpg">
-<p>主线程：相当于生产者，只管向线程池提交任务。</p>
-<p>并不关心线程池是如何执行任务的。</p>
-<p>因此，并不关心是哪一个线程执行的这个任务。</p>
-<p>线程池：相当于消费者，负责接收任务，</p>
-<p>并将任务分配到一个空闲的线程中去执行。</p>
-<h2 id="线程池的使用"><a href="#线程池的使用" class="headerlink" title="线程池的使用"></a>线程池的使用</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> multiprocessing.pool <span class="keyword">import</span> ThreadPool</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">worker1</span><span class="params">()</span>:</span></span><br><span class="line">    time.sleep(<span class="number">2</span>)</span><br><span class="line">    print(<span class="string">'work1 complete '</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">worker2</span><span class="params">(*args, **kwargs)</span>:</span></span><br><span class="line">    time.sleep(<span class="number">2</span>)</span><br><span class="line">    print(<span class="string">'work2 complete '</span>, args, kwargs)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    pool = ThreadPool(<span class="number">5</span>)</span><br><span class="line">    pool.apply_async(worker1)</span><br><span class="line">    pool.apply_async(worker2,args=(<span class="number">1</span>,<span class="number">2</span>),kwds=&#123;<span class="string">'a'</span>:<span class="number">3</span>,<span class="string">'b'</span>:<span class="number">4</span>&#125;)</span><br><span class="line">    print(<span class="string">'work submit'</span>)</span><br><span class="line">    pool.close()</span><br><span class="line">    pool.join()</span><br><span class="line">    print(<span class="string">'程序结束'</span>)</span><br></pre></td></tr></table></figure>
-<img src="/2018/09/06/2018090620/3.jpg">
-<h2 id="使用线程池，实现并发服务器"><a href="#使用线程池，实现并发服务器" class="headerlink" title="使用线程池，实现并发服务器"></a>使用线程池，实现并发服务器</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> multiprocessing.pool <span class="keyword">import</span> ThreadPool</span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"></span><br><span class="line">server = socket.socket()</span><br><span class="line">server.bind((<span class="string">'127.0.0.1'</span>, <span class="number">9988</span>))</span><br><span class="line">server.listen(<span class="number">6</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">worker</span><span class="params">(conn)</span>:</span></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        recv_data = conn.recv(<span class="number">1024</span>)</span><br><span class="line">        <span class="keyword">if</span> recv_data:</span><br><span class="line">            print(<span class="string">'接收的数据是：%s'</span> % recv_data.decode())</span><br><span class="line">            conn.send(recv_data)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            conn.close()</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    pool = ThreadPool(<span class="number">5</span>)</span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        conn, addr = server.accept()</span><br><span class="line">        print(<span class="string">'Connected by2'</span>, addr)  <span class="comment"># 输出客户端的IP地址</span></span><br><span class="line">        pool.apply_async(worker, args=(conn,))</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2057,7 +2011,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">87</span>
+                    <span class="site-state-item-count">88</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2078,7 +2032,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">4</span>
+                      
+                    
+                    <span class="site-state-item-count">5</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -2123,7 +2079,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">16</span>
+                      
+                    
+                    <span class="site-state-item-count">17</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -2192,7 +2150,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共131.6k字</span>
+  <span class="post-count">博客全站共134.7k字</span>
 </div>
         
 

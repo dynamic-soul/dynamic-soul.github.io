@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.6" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.0.6">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.0.6">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.0.6" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.0.6',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="什么是模块？在计算机程序的开发过程中，随着程序代码越写越多，在一个文件里代码就会越来越长，越来越不容易维护。 为了编写可维护的代码，我们把很多函数分组，分别放到不同的文件里，这样，每个文件包含的代码就相对较少，很多编程语言都采用这种组织代码的方式。 在Python中，一个.py文件就称之为一个模块（Module）。 使用模块有什么好处？1.最大的好处是大大提高了代码的可维护性。其次，编写代码不必从">
+<meta name="keywords" content="模块化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python模块和包">
+<meta property="og:url" content="http://yoursite.com/2018/10/01/2018100122/index.html">
+<meta property="og:site_name" content="Dynamic-Soul">
+<meta property="og:description" content="什么是模块？在计算机程序的开发过程中，随着程序代码越写越多，在一个文件里代码就会越来越长，越来越不容易维护。 为了编写可维护的代码，我们把很多函数分组，分别放到不同的文件里，这样，每个文件包含的代码就相对较少，很多编程语言都采用这种组织代码的方式。 在Python中，一个.py文件就称之为一个模块（Module）。 使用模块有什么好处？1.最大的好处是大大提高了代码的可维护性。其次，编写代码不必从">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2018/10/01/2018100122/1.png">
+<meta property="og:image" content="http://yoursite.com/2018/10/01/2018100122/2.png">
+<meta property="og:image" content="http://yoursite.com/2018/10/01/2018100122/3.png">
+<meta property="og:image" content="http://yoursite.com/2018/10/01/2018100122/4.png">
+<meta property="og:updated_time" content="2018-10-01T14:06:50.281Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python模块和包">
+<meta name="twitter:description" content="什么是模块？在计算机程序的开发过程中，随着程序代码越写越多，在一个文件里代码就会越来越长，越来越不容易维护。 为了编写可维护的代码，我们把很多函数分组，分别放到不同的文件里，这样，每个文件包含的代码就相对较少，很多编程语言都采用这种组织代码的方式。 在Python中，一个.py文件就称之为一个模块（Module）。 使用模块有什么好处？1.最大的好处是大大提高了代码的可维护性。其次，编写代码不必从">
+<meta name="twitter:image" content="http://yoursite.com/2018/10/01/2018100122/1.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/10/01/2018100122/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Python模块和包 | Dynamic-Soul</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <a href="https://github.com/dynamic-soul"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> 
+
+<div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Dynamic-Soul</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+          
+  <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+</li>
+
+      
+        
+        
+          
+  <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+</li>
+
+      
+
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/01/2018100122/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Q">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dynamic-Soul">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Python模块和包</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-01T22:06:50+08:00">2018-10-01</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/模块化/" itemprop="url" rel="index"><span itemprop="name">模块化</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="什么是模块？"><a href="#什么是模块？" class="headerlink" title="什么是模块？"></a>什么是模块？</h1><p>在计算机程序的开发过程中，随着程序代码越写越多，在一个文件里代码就会越来越长，越来越不容易维护。</p>
+<p>为了编写可维护的代码，我们把很多函数分组，分别放到不同的文件里，这样，每个文件包含的代码就相对较少，很多编程语言都采用这种组织代码的方式。</p>
+<p>在Python中，一个.py文件就称之为一个模块（Module）。</p>
+<h2 id="使用模块有什么好处？"><a href="#使用模块有什么好处？" class="headerlink" title="使用模块有什么好处？"></a>使用模块有什么好处？</h2><pre><code>1.最大的好处是大大提高了代码的可维护性。其次，编写代码不必从零开始。当一个模块编写完毕，就可以被其他地方引用。
+</code></pre><p>　　      我们在编写程序的时候，也经常引用其他模块，包括Python内置的模块和来自第三方的模块。</p>
+<p>　　   2.使用模块还可以避免函数名和变量名冲突。每个模块有独立的命名空间，</p>
+<pre><code>因此相同名字的函数和变量完全可以分别存在不同的模块中。
+
+所以，我们自己在编写模块时，不必考虑名字会与其他模块冲突
+</code></pre><h2 id="模块分类"><a href="#模块分类" class="headerlink" title="模块分类"></a>模块分类</h2><p>模块分为三种：</p>
+<ul>
+<li>内置标准模块（又称标准库）执行help(‘modules’)查看所有python自带模块列表</li>
+<li>第三方开源模块，可通过pip install 模块名 联网安装</li>
+<li>自定义模块</li>
+</ul>
+<h1 id="模块调用"><a href="#模块调用" class="headerlink" title="模块调用"></a>模块调用</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> module</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> module <span class="keyword">import</span> xx</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> module.xx.xx <span class="keyword">import</span> xx <span class="keyword">as</span> rename  </span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> module.xx.xx <span class="keyword">import</span> *</span><br></pre></td></tr></table></figure>
+<p>1.import….</p>
+<p>一个py文件就可以作为一个模块</p>
+<p>模块的导入：直接导入文件的名字，不需要带着后缀</p>
+<p>模块中的函数调用：模块名.函数名（）</p>
+<p>导入模块的时候做了三件事：1.首先开辟了一个新的命名空间my_moudle</p>
+<p>　　　　　　　　　　　　　   2.执行了my_moudle内的代码</p>
+<p>　　　　　　　　　　　　　  3.将my_moudle里面的名字和命名空间绑定在一起了</p>
+<p>注意：模块在一个程序中只会被导入一次，不会重复导入（为了节约资源）那么，如何实现模块在程序中只会被导入一次呢？</p>
+<p>当导入一个文件之后，会将模块存储在内存中，当再次导入的时候，就会到内存中查看是否导入过这个模块，如果已经导入过了，就不用再导入了。是通过sys里面的module方法<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> sys.modules:  <span class="comment">#查看是否导入过这个模块</span></span><br><span class="line">    print(i)</span><br></pre></td></tr></table></figure></p>
+<p> 2.from …import…（也支持别名）</p>
+<p>这种形式导入啥就能用啥，不导入的一律不能用</p>
+<p>这个被import导入的名字就相当于属于全局变量了<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> xx <span class="keyword">import</span> read1</span><br><span class="line">read1()</span><br><span class="line"><span class="keyword">from</span> xx <span class="keyword">import</span> read2</span><br><span class="line">read2()</span><br></pre></td></tr></table></figure></p>
+<p>需要特别强调的一点是：python中的变量赋值不是一种存储操作，而只是一种绑定关系，如下：</p>
+<p> zz.py<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">money = <span class="number">100</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">read_money</span><span class="params">()</span>:</span></span><br><span class="line">    print(money)</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> zz <span class="keyword">import</span> money,read_money</span><br><span class="line">print(<span class="string">'修改前money'</span>, money)</span><br><span class="line">money = <span class="number">200</span>  <span class="comment"># 将当前位置的名字money绑定到了200</span></span><br><span class="line"></span><br><span class="line">print(<span class="string">'修改后money'</span>, money)  <span class="comment"># 打印当前的名字</span></span><br><span class="line"></span><br><span class="line">read_money()   <span class="comment"># 读取zz.py中的名字money, 仍然为100</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">修改前money 100</span></span><br><span class="line"><span class="string">修改后money 200</span></span><br><span class="line"><span class="string">100</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure>
+<p>from…import *</p>
+<p>*与all一起用的，首先会把模块中的所有不是‘_’开头的内容导入进来</p>
+<p>可以通过<strong>all</strong>来控制导入的内容，但是只和*有关</p>
+<p><em>和<strong>all</strong>配合：<strong>all</strong>[‘read1’,’read2’]，all里面导入什么，</em>里面就有什么，如果不用all，就都导入进来了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> zz <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> zz <span class="keyword">import</span> _x</span><br><span class="line"></span><br><span class="line">print(read_money)</span><br><span class="line">print(_x)</span><br><span class="line">print(money)</span><br><span class="line"></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">&lt;function read_money at 0x00000000029A6598&gt;</span></span><br><span class="line"><span class="string">2</span></span><br><span class="line"><span class="string">100</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure>
+<p>3.模块搜索路径</p>
+<p>模块的查找顺序是：内存中已经加载的模块-&gt;内置模块-&gt;sys.path路径中包含的模块</p>
+<p>lib里面放的是内置模块</p>
+<p>扩展模块一般在site-packages中</p>
+<p>sys.path：注意：搜索时按照sys.path中从左到右的顺序查找，位于前的优先被查找，sys.path中还可能包含.zip归档文件和.egg文件，python会把.zip归档文件当成一个目录去处理</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line">print(sys.path)</span><br><span class="line">[<span class="string">''</span>, <span class="string">'/Library/Frameworks/Python.framework/Versions/3.6/lib/python36.zip'</span>, </span><br><span class="line"><span class="string">'/Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6'</span>, </span><br><span class="line"><span class="string">'/Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/lib-dynload'</span>, </span><br><span class="line"><span class="string">'/Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/site-packages'</span>]</span><br></pre></td></tr></table></figure>
+<p>python解释器会按照列表顺序去依次到每个目录下去匹配你要导入的模块名，只要在一个目录下匹配到了该模块名，就立刻导入，不再继续往后找。</p>
+<p>注意列表第一个元素为空，即代表当前目录，所以你自己定义的模块在当前目录会被优先导入。</p>
+<p>千万不要自己定义这些你熟悉的模块或关键字啊啥的作为自己的模块名</p>
+<p>比如你导入模块os ,你的文件名就不能叫os.py</p>
+<p>4.编译python文件</p>
+<p>为了提高加载模块的速度，强调：提高的是加载速度而绝非运行速度。python解释器会在<strong>pycache</strong>目录中下缓存每个模块编译后的版本，</p>
+<p>格式为：module.version.pyc。通常会包含python的版本号。</p>
+<p>1.以pyc为后缀的就为编译文件</p>
+<p>2.编译pyc文件的时候，只有在导入文件的时候才做（就是作为一个模块的时候他才去编译）</p>
+<h2 id="开源模块安装、使用"><a href="#开源模块安装、使用" class="headerlink" title="开源模块安装、使用"></a>开源模块安装、使用</h2><p><a href="https://pypi.python.org/pypi" target="_blank" rel="noopener">https://pypi.python.org/pypi</a> 是python的开源模块库，截止2017年9.30日 ，已经收录了118170个来自全世界python开发者贡献的模块,</p>
+<p>几乎涵盖了你想用python做的任何事情。 事实上每个python开发者，只要注册一个账号就可以往这个平台上传你自己的模块，这样全世界的开发者都可以容易的下载并使用你的模块。</p>
+<p>那如何从这个平台上下载代码呢？</p>
+<p>1.直接在上面这个页面上点download,下载后，解压并进入目录，执行以下命令完成安装<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">编译源码    python setup.py build</span><br><span class="line">安装源码    python setup.py install</span><br></pre></td></tr></table></figure></p>
+<p>2.直接通过pip安装<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install paramiko <span class="comment">#paramiko 是模块名</span></span><br></pre></td></tr></table></figure></p>
+<p>pip命令会自动下载模块包并完成安装。</p>
+<p>软件一般会被自动安装你python安装目录的这个子目录里<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/your_python_install_path/<span class="number">3.6</span>/lib/python3<span class="number">.6</span>/site-packages</span><br></pre></td></tr></table></figure></p>
+<p>pip命令默认会连接在国外的python官方服务器下载，速度比较慢，你还可以使用国内的豆瓣源，数据会定期同步国外官网，速度快好多<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pip install -i http://pypi.douban.com/simple/ alex_sayhi --trusted-host pypi.douban.com   <span class="comment">#alex_sayhi是模块名</span></span><br></pre></td></tr></table></figure></p>
+<p>使用</p>
+<p>下载后，直接导入使用就可以，跟自带的模块调用方法无差，演示一个连接linux执行命令的模块</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> paramiko</span><br><span class="line"></span><br><span class="line">ssh = paramiko.SSHClient()</span><br><span class="line">ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())</span><br><span class="line">ssh.connect(<span class="string">'192.168.1.108'</span>, <span class="number">22</span>, <span class="string">'aa'</span>, <span class="string">'123'</span>)</span><br><span class="line"></span><br><span class="line">stdin, stdout, stderr = ssh.exec_command(<span class="string">'df'</span>)</span><br><span class="line">print(stdout.read())</span><br><span class="line">ssh.close();</span><br><span class="line"></span><br><span class="line">执行命令 - 通过用户名和密码连接服务器</span><br></pre></td></tr></table></figure>
+<h2 id="开源模块升级"><a href="#开源模块升级" class="headerlink" title="开源模块升级"></a>开源模块升级</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">pip3 install --upgrade prompt_toolkit</span><br><span class="line">```　</span><br><span class="line"></span><br><span class="line"><span class="comment"># 包(Package)</span></span><br><span class="line">当你的模块文件越来越多，就需要对模块文件进行划分，比如把负责跟数据库交互的都放一个文件夹，把与页面交互相关的放一个文件夹，</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">像上面这样，一个文件夹管理多个模块文件，这个文件夹就被称为包</span><br><span class="line"></span><br><span class="line">包是目录级的（文件夹级），文件夹是用来组成py文件（包的本质就是一个包含__init__.py文件的目录）</span><br><span class="line"></span><br><span class="line">强调：</span><br><span class="line"></span><br><span class="line">　　<span class="number">1.</span> 在python3中，即使包下没有__init__.py文件，<span class="keyword">import</span> 包仍然不会报错，而在python2中，包下一定要有该文件，否则<span class="keyword">import</span> 包报错</span><br><span class="line"></span><br><span class="line">　　<span class="number">2.</span> 创建包的目的不是为了运行，而是被导入使用，记住，包只是模块的一种形式而已，包即模块</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">那不同包之间的模块互相导入呢？</span><br><span class="line"></span><br><span class="line">crm/views.py内容</span><br><span class="line"></span><br><span class="line">```python</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sayhi</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">'hello world!'</span>)</span><br></pre></td></tr></table></figure>
+<p>通过manage.py调用<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> crm <span class="keyword">import</span> views</span><br><span class="line"></span><br><span class="line">views.sayhi()</span><br></pre></td></tr></table></figure></p>
+<p>执行manage.py (注意这里用python2)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">python manage.py</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"manage.py"</span>, line <span class="number">6</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    <span class="keyword">from</span> crm <span class="keyword">import</span> views</span><br><span class="line">ImportError: No module named crm</span><br></pre></td></tr></table></figure>
+<p>竟然说找不到模块，为什么呢？</p>
+<p>包就是文件夹，但该文件夹下必须存在 <strong>init</strong>.py 文件, 该文件的内容可以为空。<strong>int</strong>.py用于标识当前文件夹是一个包。</p>
+<p>在crm目录下创建一个空文件<strong>int</strong>.py ，再执行一次就可以了<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ touch crm/__init__.py <span class="comment">#创建一个空文件</span></span><br><span class="line">python manage.py </span><br><span class="line">hello world!</span><br></pre></td></tr></table></figure></p>
+<p>注意，在python3里，即使目录下没<strong>int</strong>.py文件也能创建成功，猜应该是解释器优化所致，但创建包还是要记得加上这个文件吧。</p>
+<h2 id="跨模块导入"><a href="#跨模块导入" class="headerlink" title="跨模块导入"></a>跨模块导入</h2><p>目录结构如下</p>
+<p>根据上面的结构，如何实现在crm/views.py里导入proj/settings.py模块？</p>
+<p>直接导入的话，会报错，说找不到模块</p>
+<p>是因为路径找不到，proj/settings.py 相当于是crm/views.py的父亲(crm)的兄弟(proj)的儿子(settings.py)，settings.py算是views.py的表弟啦，</p>
+<p>在views.py里只能导入同级别兄弟模块代码，或者子级别包里的模块，根本不知道表弟表哥的存在。这可怎么办呢？</p>
+<p>答案是添加环境变量，把父亲级的路径添加到sys.path中，就可以了，这样导入 就相当于从父亲级开始找模块了。</p>
+<p>crm/views.py中添加环境变量</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys ,os</span><br><span class="line"></span><br><span class="line">BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) <span class="comment">#__file__的是打印当前被执行的模块.py文件相对路径，注意是相对路径</span></span><br><span class="line">print(BASE_DIR)</span><br><span class="line"></span><br><span class="line">sys.path.append(BASE_DIR)  </span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> proj <span class="keyword">import</span> settings</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sayhi</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">'hello world!'</span>)</span><br><span class="line"></span><br><span class="line">print(settings.DATABASES)</span><br></pre></td></tr></table></figure>
+<p>*注意；此时在proj/settings.py写上import urls会有问题么？</p>
+<p>为什么呢？ 因为现在的程序入口是views.py , 你在settings.py导入import urls,其实相当于在crm目录找urls.py,而不是proj目录，</p>
+<p>若想正常导入，要改成如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">DATABASES= &#123;</span><br><span class="line">    <span class="string">'host'</span>:<span class="string">'localhost'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> proj <span class="keyword">import</span> urls  <span class="comment">#proj这一层目录已经添加到sys.path里，可以直接找到</span></span><br><span class="line">print(<span class="string">'in proj/settings.py'</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="绝对导入-amp-相对导入"><a href="#绝对导入-amp-相对导入" class="headerlink" title="绝对导入&amp;相对导入"></a>绝对导入&amp;相对导入</h2><p>在linux里可以通过cd ..回到上一层目录 ，cd ../.. 往上回2层，这个..就是指相对路径，在python里，导入也可以通过..</p>
+<p>例如：</p>
+<img src="/2018/10/01/2018100122/1.png">
+<img src="/2018/10/01/2018100122/2.png">
+<p>其实这两个错误的原因归根结底是一样的：在涉及到相对导入时，package所对应的文件夹必须正确的被python解释器视作package，而不是普通文件夹。否则由于不被视作package，无法利用package之间的嵌套关系实现python中包的相对导入。</p>
+<p>文件夹被python解释器视作package需要满足两个条件：</p>
+<p>文件夹中必须有<strong>init</strong>.py文件，该文件可以为空，但必须存在该文件。<br>不能作为顶层模块来执行该文件夹中的py文件（即不能作为主函数的入口）。<br>所以这个问题的解决办法就是，既然你在views.py里执行了相对导入，那就不要把views.py当作入口程序，可以通过上一级的manage.py调用views.py</p>
+<img src="/2018/10/01/2018100122/3.png">
+<p>但把from ..proj import settings 改成from . import models 后却执行成功了，为什么呢？</p>
+<p>from .. import models会报错的原因是，这句代码会把manage.py所在的这一层视作package,</p>
+<p>但实际上它不是，因为package不能是顶层入口代码，若想不出错，只能把manage.py往上再移一层。</p>
+<img src="/2018/10/01/2018100122/4.png">
+<p>一般在项目中经常使用的相对导入只有</p>
+<p> from . import models （相对于从当前目录导入）</p>
+<p><strong>有的事情总是还要继续，选择个方向确实重要，适合的事情和预想的会有偏差，希望可以有顺利的事情发生</strong></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/模块化/" rel="tag"># 模块化</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/27/2018092722/" rel="next" title="Python with 用法举例">
+                <i class="fa fa-chevron-left"></i> Python with 用法举例
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="Mr.Q" />
+            
+              <p class="site-author-name" itemprop="name">Mr.Q</p>
+              <p class="site-description motion-element" itemprop="description">我希望时间没有流走，世界还停在过去，昏黄的光还照在旧日的路上，我刚刚走过，恰与你们相识。</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">88</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">17</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是模块？"><span class="nav-number">1.</span> <span class="nav-text">什么是模块？</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用模块有什么好处？"><span class="nav-number">1.1.</span> <span class="nav-text">使用模块有什么好处？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模块分类"><span class="nav-number">1.2.</span> <span class="nav-text">模块分类</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#模块调用"><span class="nav-number">2.</span> <span class="nav-text">模块调用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#开源模块安装、使用"><span class="nav-number">2.1.</span> <span class="nav-text">开源模块安装、使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开源模块升级"><span class="nav-number">2.2.</span> <span class="nav-text">开源模块升级</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#跨模块导入"><span class="nav-number">2.3.</span> <span class="nav-text">跨模块导入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#绝对导入-amp-相对导入"><span class="nav-number">2.4.</span> <span class="nav-text">绝对导入&amp;相对导入</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mr.Q</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Gemini</a> v6.0.6</div>
+
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共134.7k字</span>
+</div>
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.6"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.0.6"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.0.6"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.6"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.6"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.6"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+</body>
+</html>

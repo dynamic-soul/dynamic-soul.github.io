@@ -311,6 +311,244 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/01/2018100122/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Q">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dynamic-Soul">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/01/2018100122/" itemprop="url">Python模块和包</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-01T22:06:50+08:00">2018-10-01</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/模块化/" itemprop="url" rel="index"><span itemprop="name">模块化</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="什么是模块？"><a href="#什么是模块？" class="headerlink" title="什么是模块？"></a>什么是模块？</h1><p>在计算机程序的开发过程中，随着程序代码越写越多，在一个文件里代码就会越来越长，越来越不容易维护。</p>
+<p>为了编写可维护的代码，我们把很多函数分组，分别放到不同的文件里，这样，每个文件包含的代码就相对较少，很多编程语言都采用这种组织代码的方式。</p>
+<p>在Python中，一个.py文件就称之为一个模块（Module）。</p>
+<h2 id="使用模块有什么好处？"><a href="#使用模块有什么好处？" class="headerlink" title="使用模块有什么好处？"></a>使用模块有什么好处？</h2><pre><code>1.最大的好处是大大提高了代码的可维护性。其次，编写代码不必从零开始。当一个模块编写完毕，就可以被其他地方引用。
+</code></pre><p>　　      我们在编写程序的时候，也经常引用其他模块，包括Python内置的模块和来自第三方的模块。</p>
+<p>　　   2.使用模块还可以避免函数名和变量名冲突。每个模块有独立的命名空间，</p>
+<pre><code>因此相同名字的函数和变量完全可以分别存在不同的模块中。
+
+所以，我们自己在编写模块时，不必考虑名字会与其他模块冲突
+</code></pre><h2 id="模块分类"><a href="#模块分类" class="headerlink" title="模块分类"></a>模块分类</h2><p>模块分为三种：</p>
+<ul>
+<li>内置标准模块（又称标准库）执行help(‘modules’)查看所有python自带模块列表</li>
+<li>第三方开源模块，可通过pip install 模块名 联网安装</li>
+<li>自定义模块</li>
+</ul>
+<h1 id="模块调用"><a href="#模块调用" class="headerlink" title="模块调用"></a>模块调用</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> module</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> module <span class="keyword">import</span> xx</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> module.xx.xx <span class="keyword">import</span> xx <span class="keyword">as</span> rename  </span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> module.xx.xx <span class="keyword">import</span> *</span><br></pre></td></tr></table></figure>
+<p>1.import….</p>
+<p>一个py文件就可以作为一个模块</p>
+<p>模块的导入：直接导入文件的名字，不需要带着后缀</p>
+<p>模块中的函数调用：模块名.函数名（）</p>
+<p>导入模块的时候做了三件事：1.首先开辟了一个新的命名空间my_moudle</p>
+<p>　　　　　　　　　　　　　   2.执行了my_moudle内的代码</p>
+<p>　　　　　　　　　　　　　  3.将my_moudle里面的名字和命名空间绑定在一起了</p>
+<p>注意：模块在一个程序中只会被导入一次，不会重复导入（为了节约资源）那么，如何实现模块在程序中只会被导入一次呢？</p>
+<p>当导入一个文件之后，会将模块存储在内存中，当再次导入的时候，就会到内存中查看是否导入过这个模块，如果已经导入过了，就不用再导入了。是通过sys里面的module方法<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> sys.modules:  <span class="comment">#查看是否导入过这个模块</span></span><br><span class="line">    print(i)</span><br></pre></td></tr></table></figure></p>
+<p> 2.from …import…（也支持别名）</p>
+<p>这种形式导入啥就能用啥，不导入的一律不能用</p>
+<p>这个被import导入的名字就相当于属于全局变量了<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> xx <span class="keyword">import</span> read1</span><br><span class="line">read1()</span><br><span class="line"><span class="keyword">from</span> xx <span class="keyword">import</span> read2</span><br><span class="line">read2()</span><br></pre></td></tr></table></figure></p>
+<p>需要特别强调的一点是：python中的变量赋值不是一种存储操作，而只是一种绑定关系，如下：</p>
+<p> zz.py<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">money = <span class="number">100</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">read_money</span><span class="params">()</span>:</span></span><br><span class="line">    print(money)</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> zz <span class="keyword">import</span> money,read_money</span><br><span class="line">print(<span class="string">'修改前money'</span>, money)</span><br><span class="line">money = <span class="number">200</span>  <span class="comment"># 将当前位置的名字money绑定到了200</span></span><br><span class="line"></span><br><span class="line">print(<span class="string">'修改后money'</span>, money)  <span class="comment"># 打印当前的名字</span></span><br><span class="line"></span><br><span class="line">read_money()   <span class="comment"># 读取zz.py中的名字money, 仍然为100</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">修改前money 100</span></span><br><span class="line"><span class="string">修改后money 200</span></span><br><span class="line"><span class="string">100</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure>
+<p>from…import *</p>
+<p>*与all一起用的，首先会把模块中的所有不是‘_’开头的内容导入进来</p>
+<p>可以通过<strong>all</strong>来控制导入的内容，但是只和*有关</p>
+<p><em>和<strong>all</strong>配合：<strong>all</strong>[‘read1’,’read2’]，all里面导入什么，</em>里面就有什么，如果不用all，就都导入进来了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> zz <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> zz <span class="keyword">import</span> _x</span><br><span class="line"></span><br><span class="line">print(read_money)</span><br><span class="line">print(_x)</span><br><span class="line">print(money)</span><br><span class="line"></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">&lt;function read_money at 0x00000000029A6598&gt;</span></span><br><span class="line"><span class="string">2</span></span><br><span class="line"><span class="string">100</span></span><br><span class="line"><span class="string">"""</span></span><br></pre></td></tr></table></figure>
+<p>3.模块搜索路径</p>
+<p>模块的查找顺序是：内存中已经加载的模块-&gt;内置模块-&gt;sys.path路径中包含的模块</p>
+<p>lib里面放的是内置模块</p>
+<p>扩展模块一般在site-packages中</p>
+<p>sys.path：注意：搜索时按照sys.path中从左到右的顺序查找，位于前的优先被查找，sys.path中还可能包含.zip归档文件和.egg文件，python会把.zip归档文件当成一个目录去处理</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line">print(sys.path)</span><br><span class="line">[<span class="string">''</span>, <span class="string">'/Library/Frameworks/Python.framework/Versions/3.6/lib/python36.zip'</span>, </span><br><span class="line"><span class="string">'/Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6'</span>, </span><br><span class="line"><span class="string">'/Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/lib-dynload'</span>, </span><br><span class="line"><span class="string">'/Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/site-packages'</span>]</span><br></pre></td></tr></table></figure>
+<p>python解释器会按照列表顺序去依次到每个目录下去匹配你要导入的模块名，只要在一个目录下匹配到了该模块名，就立刻导入，不再继续往后找。</p>
+<p>注意列表第一个元素为空，即代表当前目录，所以你自己定义的模块在当前目录会被优先导入。</p>
+<p>千万不要自己定义这些你熟悉的模块或关键字啊啥的作为自己的模块名</p>
+<p>比如你导入模块os ,你的文件名就不能叫os.py</p>
+<p>4.编译python文件</p>
+<p>为了提高加载模块的速度，强调：提高的是加载速度而绝非运行速度。python解释器会在<strong>pycache</strong>目录中下缓存每个模块编译后的版本，</p>
+<p>格式为：module.version.pyc。通常会包含python的版本号。</p>
+<p>1.以pyc为后缀的就为编译文件</p>
+<p>2.编译pyc文件的时候，只有在导入文件的时候才做（就是作为一个模块的时候他才去编译）</p>
+<h2 id="开源模块安装、使用"><a href="#开源模块安装、使用" class="headerlink" title="开源模块安装、使用"></a>开源模块安装、使用</h2><p><a href="https://pypi.python.org/pypi" target="_blank" rel="noopener">https://pypi.python.org/pypi</a> 是python的开源模块库，截止2017年9.30日 ，已经收录了118170个来自全世界python开发者贡献的模块,</p>
+<p>几乎涵盖了你想用python做的任何事情。 事实上每个python开发者，只要注册一个账号就可以往这个平台上传你自己的模块，这样全世界的开发者都可以容易的下载并使用你的模块。</p>
+<p>那如何从这个平台上下载代码呢？</p>
+<p>1.直接在上面这个页面上点download,下载后，解压并进入目录，执行以下命令完成安装<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">编译源码    python setup.py build</span><br><span class="line">安装源码    python setup.py install</span><br></pre></td></tr></table></figure></p>
+<p>2.直接通过pip安装<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install paramiko <span class="comment">#paramiko 是模块名</span></span><br></pre></td></tr></table></figure></p>
+<p>pip命令会自动下载模块包并完成安装。</p>
+<p>软件一般会被自动安装你python安装目录的这个子目录里<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/your_python_install_path/<span class="number">3.6</span>/lib/python3<span class="number">.6</span>/site-packages</span><br></pre></td></tr></table></figure></p>
+<p>pip命令默认会连接在国外的python官方服务器下载，速度比较慢，你还可以使用国内的豆瓣源，数据会定期同步国外官网，速度快好多<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pip install -i http://pypi.douban.com/simple/ alex_sayhi --trusted-host pypi.douban.com   <span class="comment">#alex_sayhi是模块名</span></span><br></pre></td></tr></table></figure></p>
+<p>使用</p>
+<p>下载后，直接导入使用就可以，跟自带的模块调用方法无差，演示一个连接linux执行命令的模块</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> paramiko</span><br><span class="line"></span><br><span class="line">ssh = paramiko.SSHClient()</span><br><span class="line">ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())</span><br><span class="line">ssh.connect(<span class="string">'192.168.1.108'</span>, <span class="number">22</span>, <span class="string">'aa'</span>, <span class="string">'123'</span>)</span><br><span class="line"></span><br><span class="line">stdin, stdout, stderr = ssh.exec_command(<span class="string">'df'</span>)</span><br><span class="line">print(stdout.read())</span><br><span class="line">ssh.close();</span><br><span class="line"></span><br><span class="line">执行命令 - 通过用户名和密码连接服务器</span><br></pre></td></tr></table></figure>
+<h2 id="开源模块升级"><a href="#开源模块升级" class="headerlink" title="开源模块升级"></a>开源模块升级</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">pip3 install --upgrade prompt_toolkit</span><br><span class="line">```　</span><br><span class="line"></span><br><span class="line"><span class="comment"># 包(Package)</span></span><br><span class="line">当你的模块文件越来越多，就需要对模块文件进行划分，比如把负责跟数据库交互的都放一个文件夹，把与页面交互相关的放一个文件夹，</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">像上面这样，一个文件夹管理多个模块文件，这个文件夹就被称为包</span><br><span class="line"></span><br><span class="line">包是目录级的（文件夹级），文件夹是用来组成py文件（包的本质就是一个包含__init__.py文件的目录）</span><br><span class="line"></span><br><span class="line">强调：</span><br><span class="line"></span><br><span class="line">　　<span class="number">1.</span> 在python3中，即使包下没有__init__.py文件，<span class="keyword">import</span> 包仍然不会报错，而在python2中，包下一定要有该文件，否则<span class="keyword">import</span> 包报错</span><br><span class="line"></span><br><span class="line">　　<span class="number">2.</span> 创建包的目的不是为了运行，而是被导入使用，记住，包只是模块的一种形式而已，包即模块</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">那不同包之间的模块互相导入呢？</span><br><span class="line"></span><br><span class="line">crm/views.py内容</span><br><span class="line"></span><br><span class="line">```python</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sayhi</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">'hello world!'</span>)</span><br></pre></td></tr></table></figure>
+<p>通过manage.py调用<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> crm <span class="keyword">import</span> views</span><br><span class="line"></span><br><span class="line">views.sayhi()</span><br></pre></td></tr></table></figure></p>
+<p>执行manage.py (注意这里用python2)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">python manage.py</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"manage.py"</span>, line <span class="number">6</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    <span class="keyword">from</span> crm <span class="keyword">import</span> views</span><br><span class="line">ImportError: No module named crm</span><br></pre></td></tr></table></figure>
+<p>竟然说找不到模块，为什么呢？</p>
+<p>包就是文件夹，但该文件夹下必须存在 <strong>init</strong>.py 文件, 该文件的内容可以为空。<strong>int</strong>.py用于标识当前文件夹是一个包。</p>
+<p>在crm目录下创建一个空文件<strong>int</strong>.py ，再执行一次就可以了<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ touch crm/__init__.py <span class="comment">#创建一个空文件</span></span><br><span class="line">python manage.py </span><br><span class="line">hello world!</span><br></pre></td></tr></table></figure></p>
+<p>注意，在python3里，即使目录下没<strong>int</strong>.py文件也能创建成功，猜应该是解释器优化所致，但创建包还是要记得加上这个文件吧。</p>
+<h2 id="跨模块导入"><a href="#跨模块导入" class="headerlink" title="跨模块导入"></a>跨模块导入</h2><p>目录结构如下</p>
+<p>根据上面的结构，如何实现在crm/views.py里导入proj/settings.py模块？</p>
+<p>直接导入的话，会报错，说找不到模块</p>
+<p>是因为路径找不到，proj/settings.py 相当于是crm/views.py的父亲(crm)的兄弟(proj)的儿子(settings.py)，settings.py算是views.py的表弟啦，</p>
+<p>在views.py里只能导入同级别兄弟模块代码，或者子级别包里的模块，根本不知道表弟表哥的存在。这可怎么办呢？</p>
+<p>答案是添加环境变量，把父亲级的路径添加到sys.path中，就可以了，这样导入 就相当于从父亲级开始找模块了。</p>
+<p>crm/views.py中添加环境变量</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys ,os</span><br><span class="line"></span><br><span class="line">BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) <span class="comment">#__file__的是打印当前被执行的模块.py文件相对路径，注意是相对路径</span></span><br><span class="line">print(BASE_DIR)</span><br><span class="line"></span><br><span class="line">sys.path.append(BASE_DIR)  </span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> proj <span class="keyword">import</span> settings</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sayhi</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">'hello world!'</span>)</span><br><span class="line"></span><br><span class="line">print(settings.DATABASES)</span><br></pre></td></tr></table></figure>
+<p>*注意；此时在proj/settings.py写上import urls会有问题么？</p>
+<p>为什么呢？ 因为现在的程序入口是views.py , 你在settings.py导入import urls,其实相当于在crm目录找urls.py,而不是proj目录，</p>
+<p>若想正常导入，要改成如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">DATABASES= &#123;</span><br><span class="line">    <span class="string">'host'</span>:<span class="string">'localhost'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> proj <span class="keyword">import</span> urls  <span class="comment">#proj这一层目录已经添加到sys.path里，可以直接找到</span></span><br><span class="line">print(<span class="string">'in proj/settings.py'</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="绝对导入-amp-相对导入"><a href="#绝对导入-amp-相对导入" class="headerlink" title="绝对导入&amp;相对导入"></a>绝对导入&amp;相对导入</h2><p>在linux里可以通过cd ..回到上一层目录 ，cd ../.. 往上回2层，这个..就是指相对路径，在python里，导入也可以通过..</p>
+<p>例如：</p>
+<img src="/2018/10/01/2018100122/1.png">
+<img src="/2018/10/01/2018100122/2.png">
+<p>其实这两个错误的原因归根结底是一样的：在涉及到相对导入时，package所对应的文件夹必须正确的被python解释器视作package，而不是普通文件夹。否则由于不被视作package，无法利用package之间的嵌套关系实现python中包的相对导入。</p>
+<p>文件夹被python解释器视作package需要满足两个条件：</p>
+<p>文件夹中必须有<strong>init</strong>.py文件，该文件可以为空，但必须存在该文件。<br>不能作为顶层模块来执行该文件夹中的py文件（即不能作为主函数的入口）。<br>所以这个问题的解决办法就是，既然你在views.py里执行了相对导入，那就不要把views.py当作入口程序，可以通过上一级的manage.py调用views.py</p>
+<img src="/2018/10/01/2018100122/3.png">
+<p>但把from ..proj import settings 改成from . import models 后却执行成功了，为什么呢？</p>
+<p>from .. import models会报错的原因是，这句代码会把manage.py所在的这一层视作package,</p>
+<p>但实际上它不是，因为package不能是顶层入口代码，若想不出错，只能把manage.py往上再移一层。</p>
+<img src="/2018/10/01/2018100122/4.png">
+<p>一般在项目中经常使用的相对导入只有</p>
+<p> from . import models （相对于从当前目录导入）</p>
+<p><strong>有的事情总是还要继续，选择个方向确实重要，适合的事情和预想的会有偏差，希望可以有顺利的事情发生</strong></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/27/2018092722/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1730,163 +1968,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/17/2018091722/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Mr.Q">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dynamic-Soul">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/17/2018091722/" itemprop="url">组合与重用性，抽象类</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-17T22:03:39+08:00">2018-09-17</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Python面向对象/" itemprop="url" rel="index"><span itemprop="name">Python面向对象</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="组合与继承"><a href="#组合与继承" class="headerlink" title="组合与继承"></a>组合与继承</h1><p>1.继承的方式</p>
-<p>通过继承建立了派生类与基类之间的关系，它是一种’是’的关系，比如白马是马，人是动物。</p>
-<p>当类之间有很多相同的功能，提取这些共同的功能做成基类，用继承比较好，比如老师是人，学生是人</p>
-<p>2.组合的方式</p>
-<p>用组合的方式建立了类与组合的类之间的关系，它是一种‘有’的关系,比如教授有生日，教授教python和linux课程，教授有学生s1、s2、s3…</p>
-<p>示例：继承与组合<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">People</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,name,age,sex)</span>:</span></span><br><span class="line">        self.name=name</span><br><span class="line">        self.age=age</span><br><span class="line">        self.sex=sex</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Course</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,name,period,price)</span>:</span></span><br><span class="line">        self.name=name</span><br><span class="line">        self.period=period</span><br><span class="line">        self.price=price</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">tell_info</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'&lt;%s %s %s&gt;'</span> %(self.name,self.period,self.price))</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Teacher</span><span class="params">(People)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,name,age,sex,job_title)</span>:</span></span><br><span class="line">        super().__init__(name,age,sex)</span><br><span class="line">        self.job_title=job_title</span><br><span class="line">        self.course = []</span><br><span class="line">        self.students =[]</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">tell_info</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">for</span> c <span class="keyword">in</span> self.students:</span><br><span class="line">            print(<span class="string">'%s 教学生 %s'</span>%(self.name,c.name))</span><br><span class="line">        <span class="keyword">for</span> s <span class="keyword">in</span> self.course:</span><br><span class="line">            print(<span class="string">'%s 教课程 %s'</span>%(self.name,s.name))</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">(People)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,name,age,sex)</span>:</span></span><br><span class="line">        super().__init__(name,age,sex)</span><br><span class="line">        self.course=[]</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">egon=Teacher(<span class="string">'egon'</span>,<span class="number">18</span>,<span class="string">'male'</span>,<span class="string">'金牌讲师'</span>)</span><br><span class="line">s1=Student(<span class="string">'s1'</span>,<span class="number">18</span>,<span class="string">'female'</span>)</span><br><span class="line"> </span><br><span class="line">python=Course(<span class="string">'python'</span>,<span class="string">'3mons'</span>,<span class="number">3000.0</span>)</span><br><span class="line">linux=Course(<span class="string">'linux'</span>,<span class="string">'4mons'</span>,<span class="number">5000.0</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment">#为老师egon和学生s1添加课程</span></span><br><span class="line">egon.course.append(python)</span><br><span class="line">egon.course.append(linux)</span><br><span class="line">s1.course.append(python)</span><br><span class="line"> </span><br><span class="line"><span class="comment">#为老师egon添加学生s1</span></span><br><span class="line">egon.students.append(s1)</span><br><span class="line"> </span><br><span class="line">egon.tell_info()</span><br><span class="line"> </span><br><span class="line"><span class="comment">#使用</span></span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> egon.course:</span><br><span class="line">   item.tell_info()</span><br><span class="line"> </span><br><span class="line"><span class="comment"># egon 教学生 s1</span></span><br><span class="line"><span class="comment"># egon 教课程 python</span></span><br><span class="line"><span class="comment"># egon 教课程 linux</span></span><br><span class="line"><span class="comment"># &lt;python 3mons 3000.0&gt;</span></span><br><span class="line"><span class="comment"># &lt;linux 4mons 5000.0&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>总结：</p>
-<p>当类之间有显著不同，并且较小的类是较大的类所需要的组件时，用组合比较好</p>
-<h1 id="抽象类"><a href="#抽象类" class="headerlink" title="抽象类"></a>抽象类</h1><h2 id="什么是抽象类"><a href="#什么是抽象类" class="headerlink" title="什么是抽象类"></a>什么是抽象类</h2><p>与java一样，python也有抽象类的概念但是同样需要借助模块实现，抽象类是一个特殊的类，它的特殊之处在于只能被继承，不能被实例化</p>
-<h2 id="为什么要有抽象类"><a href="#为什么要有抽象类" class="headerlink" title="为什么要有抽象类"></a>为什么要有抽象类</h2><p>如果说类是从一堆对象中抽取相同的内容而来的，那么抽象类就是从一堆类中抽取相同的内容而来的，内容包括数据属性和函数属性。</p>
-<p>　 比如我们有香蕉的类，有苹果的类，有桃子的类，从这些类抽取相同的内容就是水果这个抽象的类，你吃水果时，要么是吃一个具体的香蕉，要么是吃一个具体的桃子。。。。。。你永远无法吃到一个叫做水果的东西。</p>
-<p>从设计角度去看，如果类是从现实对象抽象而来的，那么抽象类就是基于类抽象而来的。</p>
-<p>　 从实现角度来看，抽象类与普通类的不同之处在于：抽象类中只能有抽象方法（没有实现功能），该类不能被实例化，只能被继承，且子类必须实现抽象方法。这一点与接口有点类似，但其实是不同的，即将揭晓答案</p>
-<h2 id="在python中实现抽象类"><a href="#在python中实现抽象类" class="headerlink" title="在python中实现抽象类"></a>在python中实现抽象类</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> abc</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span><span class="params">(metaclass=abc.ABCMeta)</span>:</span><span class="comment">#只能被继承，不能被实例化</span></span><br><span class="line"> </span><br><span class="line"><span class="meta">    @abc.abstractmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"> </span><br><span class="line"><span class="meta">    @abc.abstractmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">eat</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Pig</span><span class="params">(Animal)</span>:</span> <span class="comment">#子类继承抽象类，但是必须定义run和eat方法</span></span><br><span class="line">     </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'pig is walking'</span>)</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">eat</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'pig is eating'</span>)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span><span class="params">(Animal)</span>:</span><span class="comment">#子类继承抽象类，但是必须定义run和eat方法</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'dog is walking'</span>)</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">eat</span><span class="params">(self)</span>:</span></span><br><span class="line">        print(<span class="string">'dog is eating'</span>)</span><br><span class="line"> </span><br><span class="line">dog = Dog()</span><br><span class="line">dog.run()</span><br><span class="line">dog.eat()</span><br><span class="line"> </span><br><span class="line">pig = Pig()</span><br><span class="line">pig.run()</span><br><span class="line">pig.eat()</span><br><span class="line"> </span><br><span class="line"><span class="comment"># dog is walking</span></span><br><span class="line"><span class="comment"># dog is eating</span></span><br><span class="line"><span class="comment"># pig is walking</span></span><br><span class="line"><span class="comment"># pig is eating</span></span><br></pre></td></tr></table></figure>
-<h2 id="抽象类与接口"><a href="#抽象类与接口" class="headerlink" title="抽象类与接口"></a>抽象类与接口</h2><p>抽象类的本质还是类，指的是一组类的相似性，包括数据属性（如all_type）和函数属性（如eat、run），而接口只强调函数属性的相似性。</p>
-<p>抽象类是一个介于类和接口直接的一个概念，同时具备类和接口的部分特性，可以用来实现归一化设计</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1938,7 +2019,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">87</span>
+                    <span class="site-state-item-count">88</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1959,7 +2040,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">4</span>
+                      
+                    
+                    <span class="site-state-item-count">5</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -2004,7 +2087,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">16</span>
+                      
+                    
+                    <span class="site-state-item-count">17</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -2073,7 +2158,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共131.6k字</span>
+  <span class="post-count">博客全站共134.7k字</span>
 </div>
         
 
