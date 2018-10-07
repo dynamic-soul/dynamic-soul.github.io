@@ -311,6 +311,151 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/22/2018052222/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Q">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dynamic-Soul">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/22/2018052222/" itemprop="url">源码参考分析：Picklecompat</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-22T21:05:16+08:00">2018-05-22</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="picklecompat-py"><a href="#picklecompat-py" class="headerlink" title="picklecompat.py"></a>picklecompat.py</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"""A pickle wrapper module with protocol=-1 by default."""</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="keyword">import</span> cPickle <span class="keyword">as</span> pickle  <span class="comment"># PY2</span></span><br><span class="line"><span class="keyword">except</span> ImportError:</span><br><span class="line">    <span class="keyword">import</span> pickle</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">loads</span><span class="params">(s)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> pickle.loads(s)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dumps</span><span class="params">(obj)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> pickle.dumps(obj, protocol=<span class="number">-1</span>)</span><br></pre></td></tr></table></figure>
+<p>这里实现了loads和dumps两个函数，其实就是实现了一个序列化器。</p>
+<p>因为redis数据库不能存储复杂对象（key部分只能是字符串，value部分只能是字符串，字符串列表，字符串集合和hash），所以我们存啥都要先串行化成文本才行。</p>
+<p>这里使用的就是python的pickle模块，一个兼容py2和py3的串行化工具。这个serializer主要用于一会的scheduler存reuqest对象。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/21/2018052121/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2031,249 +2176,6 @@ parse() : 解析response，并返回Item或Requests（需指定回调函数）�
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/16/2018051622/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Mr.Q">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dynamic-Soul">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/16/2018051622/" itemprop="url">配置安装，入门案例</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-16T21:36:13+08:00">2018-05-16</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Scrapy的安装介绍"><a href="#Scrapy的安装介绍" class="headerlink" title="Scrapy的安装介绍"></a>Scrapy的安装介绍</h1><p>Scrapy框架官方网址：<a href="http://doc.scrapy.org/en/latest" target="_blank" rel="noopener">http://doc.scrapy.org/en/latest</a></p>
-<p>Scrapy中文维护站点：<a href="http://scrapy-chs.readthedocs.io/zh_CN/latest/index.html" target="_blank" rel="noopener">http://scrapy-chs.readthedocs.io/zh_CN/latest/index.html</a></p>
-<h2 id="Windows-安装方式"><a href="#Windows-安装方式" class="headerlink" title="Windows 安装方式"></a>Windows 安装方式</h2><ul>
-<li>Python 2 / 3</li>
-<li>升级pip版本：pip install –upgrade pip</li>
-<li>通过pip 安装 Scrapy 框架pip install Scrapy</li>
-</ul>
-<p>##Ubuntu 需要9.10或以上版本安装方式</p>
-<ul>
-<li>Python 2 / 3</li>
-<li>安装非Python的依赖 sudo apt-get install python-dev python-pip libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev</li>
-<li>通过pip 安装 Scrapy 框架 sudo pip install scrapy</li>
-</ul>
-<p>安装后，只要在命令终端输入 scrapy，提示类似以下结果，代表已经安装成功</p>
-<img src="/2018/05/16/2018051622/1.jpg">
-<p>具体Scrapy安装流程参考：<a href="http://doc.scrapy.org/en/latest/intro/install.html#intro-install-platform-notes" target="_blank" rel="noopener">http://doc.scrapy.org/en/latest/intro/install.html#intro-install-platform-notes</a> 里面有各个平台的安装方法</p>
-<h1 id="入门案例"><a href="#入门案例" class="headerlink" title="入门案例"></a>入门案例</h1><h2 id="学习目标"><a href="#学习目标" class="headerlink" title="学习目标"></a>学习目标</h2><ul>
-<li>创建一个Scrapy项目</li>
-<li>定义提取的结构化数据(Item)</li>
-<li>编写爬取网站的 Spider 并提取出结构化数据(Item)</li>
-<li>编写 Item Pipelines 来存储提取到的Item(即结构化数据)</li>
-</ul>
-<h2 id="一-新建项目-scrapy-startproject"><a href="#一-新建项目-scrapy-startproject" class="headerlink" title="一. 新建项目(scrapy startproject)"></a>一. 新建项目(scrapy startproject)</h2><ul>
-<li>在开始爬取之前，必须创建一个新的Scrapy项目。进入自定义的项目目录中，运行下列命令：</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy startproject mySpider</span><br></pre></td></tr></table></figure>
-<ul>
-<li>其中， mySpider 为项目名称，可以看到将会创建一个 mySpider 文件夹，目录结构大致如下：</li>
-</ul>
-<img src="/2018/05/16/2018051622/2.jpg">
-<p>下面来简单介绍一下各个主要文件的作用：</p>
-<pre><code>scrapy.cfg ：项目的配置文件
-
-mySpider/ ：项目的Python模块，将会从这里引用代码
-
-mySpider/items.py ：项目的目标文件
-
-mySpider/pipelines.py ：项目的管道文件
-
-mySpider/settings.py ：项目的设置文件
-
-mySpider/spiders/ ：存储爬虫代码目录
-</code></pre><h2 id="二、明确目标-mySpider-items-py"><a href="#二、明确目标-mySpider-items-py" class="headerlink" title="二、明确目标(mySpider/items.py)"></a>二、明确目标(mySpider/items.py)</h2><p>我们打算抓取：<a href="http://www.itcast.cn/channel/teacher.shtml" target="_blank" rel="noopener">http://www.itcast.cn/channel/teacher.shtml</a> 网站里的所有讲师的姓名、职称和个人信息。</p>
-<ol>
-<li><p>打开mySpider目录下的items.py</p>
-</li>
-<li><p>Item 定义结构化数据字段，用来保存爬取到的数据，有点像Python中的dict，但是提供了一些额外的保护减少错误。</p>
-</li>
-<li><p>可以通过创建一个 scrapy.Item 类， 并且定义类型为 scrapy.Field的类属性来定义一个Item（可以理解成类似于ORM的映射关系）。</p>
-</li>
-<li><p>接下来，创建一个ItcastItem 类，和构建item模型（model）。</p>
-</li>
-</ol>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scrapy</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ItcastItem</span><span class="params">(scrapy.Item)</span>:</span></span><br><span class="line">    name = scrapy.Field()</span><br><span class="line">    level = scrapy.Field()</span><br><span class="line">    info = scrapy.Field()</span><br></pre></td></tr></table></figure>
-<h2 id="三、制作爬虫-（spiders-itcastSpider-py）"><a href="#三、制作爬虫-（spiders-itcastSpider-py）" class="headerlink" title="三、制作爬虫 （spiders/itcastSpider.py）"></a>三、制作爬虫 （spiders/itcastSpider.py）</h2><p><strong>爬虫功能要分两步：</strong></p>
-<h3 id="1-爬数据"><a href="#1-爬数据" class="headerlink" title="1. 爬数据"></a>1. 爬数据</h3><ul>
-<li><p>在当前目录下输入命令，将在mySpider/spider目录下创建一个名为itcast的爬虫，并指定爬取域的范围：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy genspider itcast <span class="string">"itcast.cn"</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>打开 mySpider/spider目录里的 itcast.py，默认增加了下列代码:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scrapy</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ItcastSpider</span><span class="params">(scrapy.Spider)</span>:</span></span><br><span class="line">    name = <span class="string">"itcast"</span></span><br><span class="line">    allowed_domains = [<span class="string">"itcast.cn"</span>]</span><br><span class="line">    start_urls = (</span><br><span class="line">        <span class="string">'http://www.itcast.cn/'</span>,</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>其实也可以由我们自行创建itcast.py并编写上面的代码，只不过使用命令可以免去编写固定代码的麻烦</p>
-<p>要建立一个Spider， 你必须用scrapy.Spider类创建一个子类，并确定了三个强制的属性 和 一个方法。</p>
-<ul>
-<li><p>name = “” ：这个爬虫的识别名称，必须是唯一的，在不同的爬虫必须定义不同的名字。</p>
-</li>
-<li><p>allow_domains = [] 是搜索的域名范围，也就是爬虫的约束区域，规定爬虫只爬取这个域名下的网页，不存在的URL会被忽略。</p>
-</li>
-<li><p>start_urls = () ：爬取的URL元祖/列表。爬虫从这里开始抓取数据，所以，第一次下载的数据将会从这些urls开始。其他子URL将会从这些起始URL中继承性生成。</p>
-</li>
-<li><p>parse(self, response) ：解析的方法，每个初始URL完成下载后将被调用，调用的时候传入从每一个URL传回的Response对象来作为唯一参数，主要作用如下：</p>
-<ol>
-<li>负责解析返回的网页数据(response.body)，提取结构化数据(生成item)</li>
-<li>生成需要下一页的URL请求。</li>
-</ol>
-</li>
-</ul>
-<p><strong>将start_urls的值修改为需要爬取的第一个url</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">start_urls = (<span class="string">"http://www.itcast.cn/channel/teacher.shtml"</span>,)</span><br></pre></td></tr></table></figure></p>
-<p><strong>修改parse()方法</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self, response)</span>:</span></span><br><span class="line">    filename = <span class="string">"teacher.html"</span></span><br><span class="line">    open(filename, <span class="string">'w'</span>).write(response.body)</span><br></pre></td></tr></table></figure>
-<p>然后运行一下看看，在mySpider目录下执行：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy crawl itcast</span><br></pre></td></tr></table></figure></p>
-<p>是的，就是 itcast，看上面代码，它是 ItcastSpider 类的 name 属性，也就是使用 scrapy genspider命令的唯一爬虫名。</p>
-<p>运行之后，如果打印的日志出现 [scrapy] INFO: Spider closed (finished)，代表执行完成。 之后当前文件夹中就出现了一个 teacher.html 文件，里面就是我们刚刚要爬取的网页的全部源代码信息。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 注意，Python2.x默认编码环境是ASCII，当和取回的数据编码格式不一致时，可能会造成乱码；</span></span><br><span class="line"><span class="comment"># 我们可以指定保存内容的编码格式，一般情况下，我们可以在代码最上方添加：</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">import</span> sys</span><br><span class="line">    reload(sys)</span><br><span class="line">    sys.setdefaultencoding(<span class="string">"utf-8"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 这三行代码是Python2.x里解决中文编码的万能钥匙，经过这么多年的吐槽后Python3学乖了，默认编码是Unicode了...(祝大家早日拥抱Python3)</span></span><br></pre></td></tr></table></figure>
-<h3 id="2-取数据"><a href="#2-取数据" class="headerlink" title="2. 取数据"></a>2. 取数据</h3><ul>
-<li>爬取整个网页完毕，接下来的就是的取过程了<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class="li_txt"&gt;</span><br><span class="line">    &lt;h3&gt;  xxx  &lt;/h3&gt;</span><br><span class="line">    &lt;h4&gt; xxxxx &lt;/h4&gt;</span><br><span class="line">    &lt;p&gt; xxxxxxxx &lt;/p&gt;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p><strong>是不是一目了然？直接上XPath开始提取数据吧。</strong></p>
-<ul>
-<li><p>我们之前在mySpider/items.py 里定义了一个ItcastItem类。 这里引入进来</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> mySpider.items <span class="keyword">import</span> ItcastItem</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>然后将我们得到的数据封装到一个 ItcastItem 对象中，可以保存每个老师的属性：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> mySpider.items <span class="keyword">import</span> ItcastItem</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self, response)</span>:</span></span><br><span class="line">    <span class="comment">#open("teacher.html","wb").write(response.body).close()</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 存放老师信息的集合</span></span><br><span class="line">    items = []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> each <span class="keyword">in</span> response.xpath(<span class="string">"//div[@class='li_txt']"</span>):</span><br><span class="line">        <span class="comment"># 将我们得到的数据封装到一个 `ItcastItem` 对象</span></span><br><span class="line">        item = ItcastItem()</span><br><span class="line">        <span class="comment">#extract()方法返回的都是unicode字符串</span></span><br><span class="line">        name = each.xpath(<span class="string">"h3/text()"</span>).extract()</span><br><span class="line">        title = each.xpath(<span class="string">"h4/text()"</span>).extract()</span><br><span class="line">        info = each.xpath(<span class="string">"p/text()"</span>).extract()</span><br><span class="line"></span><br><span class="line">        <span class="comment">#xpath返回的是包含一个元素的列表</span></span><br><span class="line">        item[<span class="string">'name'</span>] = name[<span class="number">0</span>]</span><br><span class="line">        item[<span class="string">'title'</span>] = title[<span class="number">0</span>]</span><br><span class="line">        item[<span class="string">'info'</span>] = info[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">        items.append(item)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 直接返回最后数据</span></span><br><span class="line">    <span class="keyword">return</span> items</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>我们暂时先不处理管道，后面会详细介绍。</p>
-</li>
-</ul>
-<h2 id="保存数据"><a href="#保存数据" class="headerlink" title="保存数据"></a>保存数据</h2><p><strong>scrapy保存信息的最简单的方法主要有四种，-o 输出指定格式的文件，，命令如下：</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># json格式，默认为Unicode编码</span></span><br><span class="line">scrapy crawl itcast -o teachers.json</span><br><span class="line"></span><br><span class="line"><span class="comment"># json lines格式，默认为Unicode编码</span></span><br><span class="line">scrapy crawl itcast -o teachers.jsonl</span><br><span class="line"></span><br><span class="line"><span class="comment"># csv 逗号表达式，可用Excel打开</span></span><br><span class="line">scrapy crawl itcast -o teachers.csv</span><br><span class="line"></span><br><span class="line"><span class="comment"># xml格式</span></span><br><span class="line">scrapy crawl itcast -o teachers.xml</span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2325,7 +2227,7 @@ mySpider/spiders/ ：存储爬虫代码目录
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">88</span>
+                    <span class="site-state-item-count">89</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2348,7 +2250,9 @@ mySpider/spiders/ ：存储爬虫代码目录
                     
                       
                     
-                    <span class="site-state-item-count">5</span>
+                      
+                    
+                    <span class="site-state-item-count">6</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -2395,7 +2299,9 @@ mySpider/spiders/ ：存储爬虫代码目录
                     
                       
                     
-                    <span class="site-state-item-count">17</span>
+                      
+                    
+                    <span class="site-state-item-count">18</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -2464,7 +2370,7 @@ mySpider/spiders/ ：存储爬虫代码目录
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共134.7k字</span>
+  <span class="post-count">博客全站共134.8k字</span>
 </div>
         
 

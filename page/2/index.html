@@ -311,6 +311,173 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/18/2018091822/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Q">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dynamic-Soul">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/18/2018091822/" itemprop="url">异常处理</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-18T22:35:51+08:00">2018-09-18</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Python面向对象/" itemprop="url" rel="index"><span itemprop="name">Python面向对象</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="什么是异常"><a href="#什么是异常" class="headerlink" title="什么是异常"></a>什么是异常</h1><p>异常就是程序运行时发生错误的信号（在程序出现错误时，则会产生一个异常，若程序没有处理它，则会抛出该异常，程序的运行也随之终止）。</p>
+<p>在python中,错误触发的异常如下</p>
+<img src="/2018/09/18/2018091822/1.png">
+<p>而错误分成两种</p>
+<p>1.语法错误：（这种错误，根本过不了python解释器的语法检测，必须在程序执行前就改正）<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#语法错误示范一</span></span><br><span class="line"><span class="keyword">if</span></span><br><span class="line"><span class="comment">#语法错误示范二</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"><span class="comment">#语法错误示范三</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span></span></span><br><span class="line"><span class="class">    <span class="title">pass</span></span></span><br><span class="line"><span class="class">#语法错误示范四</span></span><br><span class="line"><span class="class"><span class="title">print</span><span class="params">(haha)</span></span></span><br><span class="line"><span class="class">```　　</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class">2.逻辑错误：比如用户输入的不合适等一系列错误</span></span><br><span class="line"><span class="class">```<span class="title">python</span></span></span><br><span class="line"><span class="class">#<span class="title">TypeError</span>:</span>int类型不可迭代</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">3</span>:</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"><span class="comment">#ValueError</span></span><br><span class="line">num=input(<span class="string">"&gt;&gt;: "</span>) <span class="comment">#输入hello</span></span><br><span class="line">int(num)</span><br><span class="line"> </span><br><span class="line"><span class="comment">#NameError</span></span><br><span class="line">aaa</span><br><span class="line"> </span><br><span class="line"><span class="comment">#IndexError</span></span><br><span class="line">l=[<span class="string">'egon'</span>,<span class="string">'aa'</span>]</span><br><span class="line">l[<span class="number">3</span>]</span><br><span class="line"> </span><br><span class="line"><span class="comment">#KeyError</span></span><br><span class="line">dic=&#123;<span class="string">'name'</span>:<span class="string">'egon'</span>&#125;</span><br><span class="line">dic[<span class="string">'age'</span>]</span><br><span class="line"> </span><br><span class="line"><span class="comment">#AttributeError</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span>:</span><span class="keyword">pass</span></span><br><span class="line">Foo.x</span><br><span class="line"> </span><br><span class="line"><span class="comment">#ZeroDivisionError:无法完成计算</span></span><br><span class="line">res1=<span class="number">1</span>/<span class="number">0</span></span><br><span class="line">res2=<span class="number">1</span>+<span class="string">'str</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="异常的种类"><a href="#异常的种类" class="headerlink" title="异常的种类"></a>异常的种类</h1><p>在python中不同的异常可以用不同的类型（python中统一了类与类型，类型即类）去标识，一个异常标识一种错误</p>
+<p>所有错误类型都继承自BaseException</p>
+<p><a href="https://docs.python.org/3/library/exceptions.html#exception-hierarchy" target="_blank" rel="noopener">https://docs.python.org/3/library/exceptions.html#exception-hierarchy</a></p>
+<img src="/2018/09/18/2018091822/2.png">
+<h1 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理"></a>异常处理</h1><p>为了保证程序的健壮性与容错性，即在遇到错误时程序不会崩溃，我们需要对异常进行处理，</p>
+<p><strong>如果错误发生的条件是可预知的，我们需要用if进行处理：在错误发生之前进行预防</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">    age=input(<span class="string">'&gt;&gt;: '</span>).strip()</span><br><span class="line">    <span class="keyword">if</span> age.isdigit(): <span class="comment"># 只有在age为字符串形式的整数时,下列代码才不会出错,该条件是可预知的</span></span><br><span class="line">        age=int(age)</span><br><span class="line">        <span class="keyword">if</span> age &gt; <span class="number">18</span>:</span><br><span class="line">            print(<span class="string">'you are adult'</span>)</span><br><span class="line">            <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+<p><strong>如果错误发生的条件是不可预知的，则需要用到try…except：在错误发生之后进行处理</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sum</span><span class="params">(n)</span>:</span></span><br><span class="line">    c = <span class="number">0</span></span><br><span class="line">    i = <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> i &lt; n+<span class="number">1</span>:</span><br><span class="line">        print(<span class="string">'&#123;&#125; += &#123;&#125;'</span>.format(c, i))</span><br><span class="line">        c += i</span><br><span class="line">        <span class="keyword">yield</span> c</span><br><span class="line">        i += <span class="number">1</span></span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">f = sum(<span class="number">10</span>)</span><br><span class="line"> </span><br><span class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        print(next(f))</span><br><span class="line">    <span class="keyword">except</span> StopIteration <span class="keyword">as</span> e:</span><br><span class="line">        print(<span class="string">'Generator return value:'</span>, e.value)</span><br><span class="line">        <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+<h1 id="try-except…详细用法"><a href="#try-except…详细用法" class="headerlink" title="try..except…详细用法"></a>try..except…详细用法</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    suite1          <span class="comment">#测试语句块</span></span><br><span class="line"><span class="keyword">except</span> exception1:</span><br><span class="line">    suite2          <span class="comment">#如果测试语句suite1中发生exception1异常时执行</span></span><br><span class="line"><span class="keyword">except</span> (exception2,exception3):</span><br><span class="line">    suite3          <span class="comment">#如果测试语句suite1中发生元组中任意异常时执行</span></span><br><span class="line"><span class="keyword">except</span> exception4 <span class="keyword">as</span> reason:    <span class="comment">#as把异常的原因赋值给reason</span></span><br><span class="line">    suite4          <span class="comment">#如果测试语句suite1发生exception4的异常时执行</span></span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    suite5          <span class="comment">#如果测试语句suite1发生异常在所列出的异常之外时执行</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    suite5          <span class="comment">#如果测试语句块suite1中没有发生异常时执行</span></span><br><span class="line"><span class="keyword">finally</span>:</span><br><span class="line">    suit6           <span class="comment">#不管测试语句suite1中又没有发生异常都会执行</span></span><br><span class="line">     </span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">注意：中间的except，else，finally都是可选的,但至少有一个，不然try就没有意义了，根据实际中的需求来选择。</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+<h2 id="1-异常类只能用来处理指定的异常情况，如果非指定异常则无法处理"><a href="#1-异常类只能用来处理指定的异常情况，如果非指定异常则无法处理" class="headerlink" title="1.异常类只能用来处理指定的异常情况，如果非指定异常则无法处理"></a>1.异常类只能用来处理指定的异常情况，如果非指定异常则无法处理</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">s1 = <span class="string">'hello'</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    int(s1)</span><br><span class="line"><span class="keyword">except</span> IndexError <span class="keyword">as</span> e: <span class="comment"># 未捕获到异常，程序直接报错</span></span><br><span class="line">    <span class="keyword">print</span> e</span><br></pre></td></tr></table></figure>
+<h2 id="2-多分支"><a href="#2-多分支" class="headerlink" title="2.多分支"></a>2.多分支</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">s1 = <span class="string">'hello'</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    int(s1)</span><br><span class="line"><span class="keyword">except</span> IndexError <span class="keyword">as</span> e:</span><br><span class="line">    print(e)</span><br><span class="line"><span class="keyword">except</span> KeyError <span class="keyword">as</span> e:</span><br><span class="line">    print(e)</span><br><span class="line"><span class="keyword">except</span> ValueError <span class="keyword">as</span> e:</span><br><span class="line">    print(e)</span><br></pre></td></tr></table></figure>
+<h2 id="3-万能异常Exception"><a href="#3-万能异常Exception" class="headerlink" title="3.万能异常Exception"></a>3.万能异常Exception</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">s1 = <span class="string">'hello'</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    int(s1)</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    print(e)</span><br></pre></td></tr></table></figure>
+<h2 id="4-也可以在多分支后来一个Exception"><a href="#4-也可以在多分支后来一个Exception" class="headerlink" title="4.也可以在多分支后来一个Exception　"></a>4.也可以在多分支后来一个Exception　</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">s1 = <span class="string">'hello'</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    int(s1)</span><br><span class="line"><span class="keyword">except</span> IndexError <span class="keyword">as</span> e:</span><br><span class="line">    print(e)</span><br><span class="line"><span class="keyword">except</span> KeyError <span class="keyword">as</span> e:</span><br><span class="line">    print(e)</span><br><span class="line"><span class="keyword">except</span> ValueError <span class="keyword">as</span> e:</span><br><span class="line">    print(e)</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    print(e)</span><br></pre></td></tr></table></figure>
+<h2 id="5-主动触发异常"><a href="#5-主动触发异常" class="headerlink" title="5.主动触发异常"></a>5.主动触发异常</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="number">10</span></span><br><span class="line"><span class="keyword">if</span> a &lt; <span class="number">18</span>:</span><br><span class="line">    <span class="keyword">raise</span> ValueError(<span class="string">'值错误'</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="6-如果抛出父类异常，在子类不会再获取"><a href="#6-如果抛出父类异常，在子类不会再获取" class="headerlink" title="6.如果抛出父类异常，在子类不会再获取"></a>6.如果抛出父类异常，在子类不会再获取</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#注意：如果抛出父类异常，在子类不会再获取，如下：</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    fun()</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    <span class="keyword">raise</span> Exception</span><br><span class="line"><span class="keyword">except</span> ImportError <span class="keyword">as</span> e:</span><br><span class="line">    <span class="keyword">raise</span> ImportError</span><br><span class="line"><span class="keyword">finally</span>:</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line">     </span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">在上面的例子中，下面的ImportError就不会被抛出，应为ImportError继承Exception，但是可以把Exception放在后面是可以的</span></span><br><span class="line"><span class="string">e可以得到系统给出的报错信息</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+<h2 id="7-自定义异常"><a href="#7-自定义异常" class="headerlink" title="7.自定义异常"></a>7.自定义异常</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyException</span><span class="params">(BaseException)</span>:</span></span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,msg)</span>:</span></span><br><span class="line">        super().__init__()</span><br><span class="line">        self.msg = msg</span><br><span class="line">         </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.msg</span><br><span class="line">   </span><br><span class="line">a =<span class="number">88</span></span><br><span class="line"><span class="keyword">if</span> a&gt;<span class="number">10</span>:</span><br><span class="line">    <span class="keyword">raise</span> MyException(<span class="string">'抛出我的异常'</span>)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Networkerror</span><span class="params">(RuntimeError)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, msg)</span>:</span></span><br><span class="line">        self.msg = msg</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="keyword">raise</span> Networkerror(<span class="string">"Bad hostname"</span>)</span><br><span class="line"><span class="keyword">except</span> Networkerror <span class="keyword">as</span> e:</span><br><span class="line">    print(e)</span><br></pre></td></tr></table></figure>
+<h2 id="8-断言-assert-条件"><a href="#8-断言-assert-条件" class="headerlink" title="8.断言:assert 条件"></a>8.断言:assert 条件</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">测试表示式，其返回值为假，就会触发异常</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">assert</span> <span class="number">1</span>==<span class="number">1</span>     <span class="comment">#没有返回值</span></span><br><span class="line"><span class="keyword">assert</span> <span class="number">1</span>&lt;<span class="number">2</span>       <span class="comment">#没有返回值</span></span><br><span class="line"><span class="keyword">assert</span> <span class="number">1</span>==<span class="number">2</span>     <span class="comment">#返回AssertionError</span></span><br></pre></td></tr></table></figure>
+<h2 id="9-总结异常"><a href="#9-总结异常" class="headerlink" title="9.总结异常"></a>9.总结异常</h2><p>1：把错误处理和真正的工作分开来</p>
+<p>2：代码更易组织，更清晰，复杂的工作任务更容易实现；</p>
+<p>3：毫无疑问，更安全了，不至于由于一些小的疏忽而使程序意外崩溃了；</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/17/2018091722/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1792,174 +1959,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/07/2018090720/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Mr.Q">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dynamic-Soul">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/07/2018090720/" itemprop="url">互斥锁</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-07T20:48:27+08:00">2018-09-07</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Python网络编程/" itemprop="url" rel="index"><span itemprop="name">Python网络编程</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="互斥锁"><a href="#互斥锁" class="headerlink" title="互斥锁"></a>互斥锁</h1><p>当多个线程几乎同时修改某一个共享数据的时候，需要进行同步控制</p>
-<p>线程同步能够保证多个线程安全访问竞争资源，最简单的同步机制是引入互斥锁。</p>
-<p>互斥锁为资源引入一个状态：锁定/非锁定</p>
-<p>某个线程要更改共享数据时，先将其锁定，此时资源的状态为“锁定”，其他线程不能更改；直到该线程释放资源，将资源的状态变成“非锁定”，其他的线程才能再次锁定该资源。互斥锁保证了每次只有一个线程进行写入操作，从而保证了多线程情况下数据的正确性。</p>
-<p>threading模块中定义了Lock类，可以方便的处理锁定：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建锁</span></span><br><span class="line">mutex = threading.Lock()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 锁定</span></span><br><span class="line">mutex.acquire()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 释放</span></span><br><span class="line">mutex.release()</span><br></pre></td></tr></table></figure>
-<p>注意：</p>
-<ul>
-<li>如果这个锁之前是没有上锁的，那么acquire不会堵塞</li>
-<li>如果在调用acquire对这个锁上锁之前 它已经被 其他线程上了锁，那么此时acquire会堵塞，直到这个锁被解锁为止</li>
-</ul>
-<h2 id="使用互斥锁完成2个线程对同一个全局变量各加100万次的操作"><a href="#使用互斥锁完成2个线程对同一个全局变量各加100万次的操作" class="headerlink" title="使用互斥锁完成2个线程对同一个全局变量各加100万次的操作"></a>使用互斥锁完成2个线程对同一个全局变量各加100万次的操作</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">g_num = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test1</span><span class="params">(num)</span>:</span></span><br><span class="line">    <span class="keyword">global</span> g_num</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(num):</span><br><span class="line">        mutex.acquire()  <span class="comment"># 上锁</span></span><br><span class="line">        g_num += <span class="number">1</span></span><br><span class="line">        mutex.release()  <span class="comment"># 解锁</span></span><br><span class="line"></span><br><span class="line">    print(<span class="string">"---test1---g_num=%d"</span>%g_num)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test2</span><span class="params">(num)</span>:</span></span><br><span class="line">    <span class="keyword">global</span> g_num</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(num):</span><br><span class="line">        mutex.acquire()  <span class="comment"># 上锁</span></span><br><span class="line">        g_num += <span class="number">1</span></span><br><span class="line">        mutex.release()  <span class="comment"># 解锁</span></span><br><span class="line"></span><br><span class="line">    print(<span class="string">"---test2---g_num=%d"</span>%g_num)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个互斥锁</span></span><br><span class="line"><span class="comment"># 默认是未上锁的状态</span></span><br><span class="line">mutex = threading.Lock()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建2个线程，让他们各自对g_num加1000000次</span></span><br><span class="line">p1 = threading.Thread(target=test1, args=(<span class="number">1000000</span>,))</span><br><span class="line">p1.start()</span><br><span class="line"></span><br><span class="line">p2 = threading.Thread(target=test2, args=(<span class="number">1000000</span>,))</span><br><span class="line">p2.start()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 等待计算完成</span></span><br><span class="line"><span class="keyword">while</span> len(threading.enumerate()) != <span class="number">1</span>:</span><br><span class="line">    time.sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">print(<span class="string">"2个线程对同一个全局变量操作之后的最终结果是:%s"</span> % g_num)</span><br></pre></td></tr></table></figure>
-<p>运行结果</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">---test1---g_num=<span class="number">1909909</span></span><br><span class="line">---test2---g_num=<span class="number">2000000</span></span><br><span class="line"><span class="number">2</span>个线程对同一个全局变量操作之后的最终结果是:<span class="number">2000000</span></span><br></pre></td></tr></table></figure>
-<p>可以看到最后的结果，加入互斥锁后，其结果与预期相符。</p>
-<h1 id="上锁解锁过程"><a href="#上锁解锁过程" class="headerlink" title="上锁解锁过程"></a>上锁解锁过程</h1><p>当一个线程调用锁的acquire()方法获得锁时，锁就进入“locked”状态。</p>
-<p>每次只有一个线程可以获得锁。如果此时另一个线程试图获得这个锁，该线程就会变为“blocked”状态，称为“阻塞”，直到拥有锁的线程调用锁的release()方法释放锁之后，锁进入“unlocked”状态。</p>
-<p>线程调度程序从处于同步阻塞状态的线程中选择一个来获得锁，并使得该线程进入运行（running）状态。</p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>锁的好处：</p>
-<ul>
-<li>确保了某段关键代码只能由一个线程从头到尾完整地执行</li>
-</ul>
-<p>锁的坏处：</p>
-<ul>
-<li>阻止了多线程并发执行，包含锁的某段代码实际上只能以单线程模式执行，效率就大大地下降了</li>
-<li>由于可以存在多个锁，不同的线程持有不同的锁，并试图获取对方持有的锁时，可能会造成死锁</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2011,7 +2010,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">88</span>
+                    <span class="site-state-item-count">89</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2034,7 +2033,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">5</span>
+                      
+                    
+                    <span class="site-state-item-count">6</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -2081,7 +2082,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">17</span>
+                      
+                    
+                    <span class="site-state-item-count">18</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -2150,7 +2153,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共134.7k字</span>
+  <span class="post-count">博客全站共134.8k字</span>
 </div>
         
 
